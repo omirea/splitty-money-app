@@ -3,49 +3,98 @@ package commons;
 import java.util.Objects;
 
 public class Participant {
-    private String name; /** name of participant **/
-    private String email; /** email of participant **/
-    private String IBAN; /**IBAN of participant **/
-    private String BIC; /** BIC of participant **/
+    private String name; // name of participant
+    private String email; // email of participant
+    private String IBAN; // IBAN of participant
+    private String BIC; // BIC of participant
 
+    /**
+     * constructor for class Participant
+     * @param name name of the participant
+     * @param email email of the participant
+     * @param IBAN IBAN of the participant
+     * @param BIC BIC of the participant
+     */
     public Participant(String name, String email, String IBAN, String BIC){
         this.name=name;
         this.email=email;
         this.IBAN=IBAN;
         this.BIC=BIC;
     }
+
+    /**
+     * method to get the name of a participant
+     * @param name name of the participant
+     * @return name of the participant
+     */
     public String getName(String name){
         return name;
     }
 
+    /**
+     * method to get the email of a participant
+     * @param email email of the participant
+     * @return email of the participant
+     */
     public String getEmail(String email){
         return email;
     }
 
+    /**
+     * method to get the IBAN of a participant
+     * @param IBAN IBAN of the participant
+     * @return IBAN of the participant
+     */
     public String getIBAN(String IBAN){
         return IBAN;
     }
 
+    /**
+     * method to get the BIC of a participant
+     * @param BIC BIC of the participant
+     * @return BIC of the participant
+     */
     public String getBIC(String BIC){
         return BIC;
     }
 
+    /**
+     * method to change the name of a participant
+     * @param newName the new name of the participant
+     */
     public void setName(String newName){
         this.name=newName;
     }
 
+    /**
+     * method to change the email of a participant
+     * @param newEmail the new email of the participant
+     */
     public void setEmail(String newEmail){
         this.email=newEmail;
     }
 
+    /**
+     * method to change the IBAN of a participant
+     * @param newIBAN the new IBAN of the participant
+     */
     public void setIBAN(String newIBAN){
         this.IBAN=newIBAN;
     }
 
+    /**
+     * method to change the BIC of a participant
+     * @param newBIC the new BIC of the participant
+     */
     public void setBIC(String newBIC){
         this.BIC=newBIC;
     }
 
+    /**
+     * method that checks if 2 participants are equal
+     * @param o the participant to compare to
+     * @return true or false if the participants are or not equal
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -53,6 +102,10 @@ public class Participant {
         return Objects.equals(name, that.name) && Objects.equals(email, that.email) && Objects.equals(IBAN, that.IBAN) && Objects.equals(BIC, that.BIC);
     }
 
+    /**
+     * method that created hashcode for a participant
+     * @return hashcode of an object of class participant
+     */
     @Override
     public int hashCode() {
         return Objects.hash(name, email, IBAN, BIC);
