@@ -322,6 +322,6 @@ public class ExpenseTest {
                 Currency.getInstance("BAM"));
 
         expense.removeParticipant(p3);
-        assertEquals(expense.getParticipants(), participants2);
+        assertEquals(expense.getParticipants(), participants);
     }
 }
