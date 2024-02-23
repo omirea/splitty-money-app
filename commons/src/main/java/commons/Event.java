@@ -54,19 +54,17 @@ public class Event {
 
     /**
      * Add method to add a new participant to the list of participants of the event
-     * @param participants ArrayList with participants
      * @param newParticipant Participant object that will be added to the list
      */
-    public void addParticipant(ArrayList<Participant> participants, Participant newParticipant){
+    public void addParticipant(Participant newParticipant){
         participants.add(newParticipant);
     }
 
     /**
      * Remove method to remove a participant from the list of participants of the event
-     * @param participants ArrayList with participants
      * @param participant Participant object that will be added to the list
      */
-    public void removeParticipant(ArrayList<Participant> participants, Participant participant){
+    public void removeParticipant(Participant participant){
         participants.remove(participant);
     }
 
@@ -88,19 +86,17 @@ public class Event {
 
     /**
      * Add method to add a new expense to the list of expenses of the event
-     * @param expenses Arraylist with the expenses
      * @param newExpense Expense object that will be added to the list
      */
-    public void addExpense (ArrayList<Expense> expenses, Expense newExpense){
+    public void addExpense (Expense newExpense){
         expenses.add(newExpense);
     }
 
     /**
      * Remove method to remove an expense from the list of expenses of the event
-     * @param expenses ArrayList with expenses
      * @param expense Expense object that will be removed
      */
-    public void removeExpense(ArrayList<Expense> expenses, Expense expense){
+    public void removeExpense(Expense expense){
         expenses.remove(expense);
     }
 
