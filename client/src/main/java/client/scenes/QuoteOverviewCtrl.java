@@ -33,7 +33,7 @@ import javafx.scene.control.TableView;
 public class QuoteOverviewCtrl implements Initializable {
 
     private final ServerUtils server;
-    private final MainCtrl mainCtrl;
+    private final RefMainCtrl refMainCtrl;
 
     private ObservableList<Quote> data;
 
@@ -47,9 +47,9 @@ public class QuoteOverviewCtrl implements Initializable {
     private TableColumn<Quote, String> colQuote;
 
     @Inject
-    public QuoteOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public QuoteOverviewCtrl(ServerUtils server, RefMainCtrl refMainCtrl) {
         this.server = server;
-        this.mainCtrl = mainCtrl;
+        this.refMainCtrl = refMainCtrl;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class QuoteOverviewCtrl implements Initializable {
     }
 
     public void addQuote() {
-        mainCtrl.showAdd();
+        refMainCtrl.showAdd();
     }
 
     public void refresh() {

@@ -15,20 +15,20 @@
  */
 package client;
 
-import client.scenes.AddQuoteCtrl;
-import client.scenes.MainCtrl;
-import client.scenes.RefMainCtrl;
-import client.scenes.QuoteOverviewCtrl;
-import com.google.inject.Injector;
-import javafx.application.Application;
-import javafx.stage.Stage;
+import static com.google.inject.Guice.createInjector;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import static com.google.inject.Guice.createInjector;
+import com.google.inject.Injector;
 
-public class Main extends Application {
+import client.scenes.AddQuoteCtrl;
+import client.scenes.RefMainCtrl;
+import client.scenes.QuoteOverviewCtrl;
+import javafx.application.Application;
+import javafx.stage.Stage;
+
+public class RefMain extends Application {
 
     private static final Injector INJECTOR = createInjector(new TheirModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
@@ -40,7 +40,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(primaryStage);
+        var overview = FXML.load(QuoteOverviewCtrl.class, "client", "scenes", "QuoteOverview.fxml");
+        var add = FXML.load(AddQuoteCtrl.class, "client", "scenes", "AddQuote.fxml");
+
+        var mainCtrl = INJECTOR.getInstance(RefMainCtrl.class);
+        mainCtrl.initialize(primaryStage, overview, add);
     }
 }
