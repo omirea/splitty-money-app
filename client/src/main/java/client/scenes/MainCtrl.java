@@ -23,35 +23,24 @@ import javafx.util.Pair;
 public class MainCtrl {
 
     private Stage primaryStage;
+    private AddEditParticipant addEditParticipant;
+    private Scene participant;
 
-    private QuoteOverviewCtrl overviewCtrl;
-    private Scene overview;
 
-    private AddQuoteCtrl addCtrl;
-    private Scene add;
-
-    public void initialize(Stage primaryStage, Pair<QuoteOverviewCtrl, Parent> overview,
-            Pair<AddQuoteCtrl, Parent> add) {
+    public void initialize(Stage primaryStage, Pair<AddEditParticipant, Parent> participant) {
         this.primaryStage = primaryStage;
-        this.overviewCtrl = overview.getKey();
-        this.overview = new Scene(overview.getValue());
+        this.addEditParticipant = participant.getKey();
+        this.participant = new Scene(participant.getValue());
 
-        this.addCtrl = add.getKey();
-        this.add = new Scene(add.getValue());
 
-        showOverview();
+        showParticipant();
         primaryStage.show();
     }
 
-    public void showOverview() {
+    public void showParticipant() {
         primaryStage.setTitle("Quotes: Overview");
-        primaryStage.setScene(overview);
-        overviewCtrl.refresh();
+        primaryStage.setScene(participant);
+        //participant.setOnKeyPressed(e -> addCtrl.keyPressed(e));
     }
 
-    public void showAdd() {
-        primaryStage.setTitle("Quotes: Adding Quote");
-        primaryStage.setScene(add);
-        add.setOnKeyPressed(e -> addCtrl.keyPressed(e));
-    }
 }
