@@ -16,6 +16,7 @@
 package client;
 
 import client.scenes.MainCtrl;
+import client.scenes.StartCtrl;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -37,7 +38,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
+        var start = FXML.load(StartCtrl.class, "client", "scenes", "StartScreen.fxml");
+
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(primaryStage);
+        mainCtrl.initialize(primaryStage, start);
     }
 }

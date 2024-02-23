@@ -43,7 +43,7 @@ public class RefMain extends Application {
         var overview = FXML.load(QuoteOverviewCtrl.class, "client", "scenes", "QuoteOverview.fxml");
         var add = FXML.load(AddQuoteCtrl.class, "client", "scenes", "AddQuote.fxml");
 
-        var mainCtrl = INJECTOR.getInstance(RefMainCtrl.class);
-        mainCtrl.initialize(primaryStage, overview, add);
+        var refMainCtrl = INJECTOR.getInstance(RefMainCtrl.class);
+        refMainCtrl.initialize(primaryStage, overview, add);
     }
 }
