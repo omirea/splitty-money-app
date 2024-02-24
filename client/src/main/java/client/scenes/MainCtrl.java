@@ -40,6 +40,7 @@ public class MainCtrl {
         this.overview = new Scene(overview.getValue());
 
         showStartScreen();
+//        showEventOverview();
         primaryStage.show();
     }
 
