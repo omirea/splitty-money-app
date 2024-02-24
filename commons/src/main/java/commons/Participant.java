@@ -106,4 +106,14 @@ public class Participant {
     public int hashCode() {
         return Objects.hash(name, email, IBAN, BIC);
     }
+
+    @Override
+    public String toString() {
+        return "Participant has " +
+                "name: '" + name + '\'' +
+                ", email: '" + email + '\'' +
+                ", IBAN: '" + IBAN + '\'' +
+                ", BIC: '" + BIC + '\'' +
+                ';';
+    }
 }
