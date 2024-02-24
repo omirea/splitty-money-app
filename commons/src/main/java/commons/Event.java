@@ -63,9 +63,11 @@ public class Event {
     /**
      * Remove method to remove a participant from the list of participants of the event
      * @param participant Participant object that will be added to the list
+     * @return Boolean if it was successful or not
      */
-    public void removeParticipant(Participant participant){
-        participants.remove(participant);
+    public Boolean removeParticipant(Participant participant){
+
+        return participants.remove(participant);
     }
 
     /**
@@ -88,16 +90,18 @@ public class Event {
      * Add method to add a new expense to the list of expenses of the event
      * @param newExpense Expense object that will be added to the list
      */
-    public void addExpense (Expense newExpense){
-        expenses.add(newExpense);
+    public void addExpense (Expense newExpense){expenses.add(newExpense);
     }
 
+
     /**
-     * Remove method to remove an expense from the list of expenses of the event
-     * @param expense Expense object that will be removed
+     * Remove method for the list of expenses, to remove an expense in the list
+     * @param expense The expense that is to be removed
+     * @return Boolean if it was successful or not
      */
-    public void removeExpense(Expense expense){
-        expenses.remove(expense);
+    public Boolean removeExpense(Expense expense){
+
+        return expenses.remove(expense);
     }
 
     /**
