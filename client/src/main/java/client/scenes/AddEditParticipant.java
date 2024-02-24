@@ -1,13 +1,16 @@
 package client.scenes;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
+
 
 import javax.inject.Inject;
 import java.awt.event.ActionEvent;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AddEditParticipant {
 
@@ -108,5 +111,22 @@ public class AddEditParticipant {
     @Override
     public int hashCode() {
         return Objects.hash(server, mainCtrl, bicTextField, emailTextField, ibanTextField, nameTextField, okButton, abortButton);
+    }
+
+    public boolean validateEmail(){
+        String regex="^[\\\\w!#$%&'*+/=?`{|}~^-]+(?:\\\\.[\\\\w!#$%&'*+/=?`{|}~^-]+)*" +
+                "@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,6}";
+        Pattern p= Pattern.compile(regex);
+        Matcher m= p.matcher(emailTextField.getText());
+        if(m.find() && m.group().equals(emailTextField.getText())){
+            return true;
+        }else{
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Validate Email");
+            alert.setHeaderText(null);
+            alert.setContentText("Please Enter Valid Email");
+            alert.showAndWait();
+            return false;
+        }
     }
 }
