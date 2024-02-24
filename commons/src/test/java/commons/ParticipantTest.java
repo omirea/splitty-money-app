@@ -106,13 +106,12 @@ public class ParticipantTest {
     @Test
     public void hashCodeTest(){
         Participant p=new Participant("Bob", "bob@gmail.com", "12345", "123");
-        System.out.println(p.hashCode());
         assertEquals(p.hashCode(), -1224606191);
     }
 
     @Test
     public void toStringTest(){
         Participant p=new Participant("Bob", "bob@gmail.com", "12345", "123");
-        assertEquals(p.toString(), "Participant has name: 'Bob', email: 'bob@gmail.com', IBAN: '12345', BIC: '123;");
+        assertEquals(p.toString(), "Participant has name: 'Bob', email: 'bob@gmail.com', IBAN: '12345', BIC: '123';");
     }
 }
