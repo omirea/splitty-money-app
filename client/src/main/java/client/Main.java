@@ -15,6 +15,7 @@
  */
 package client;
 
+import client.scenes.EventOverviewCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.StartCtrl;
 import com.google.inject.Injector;
@@ -39,8 +40,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         var start = FXML.load(StartCtrl.class, "client", "scenes", "StartScreen.fxml");
+        var overview = FXML.load(EventOverviewCtrl.class, "client", "scenes", "EventOverview.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(primaryStage, start);
+        mainCtrl.initialize(primaryStage, start, overview);
     }
 }
