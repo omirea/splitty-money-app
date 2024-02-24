@@ -7,7 +7,7 @@ import javafx.scene.control.TextField;
 
 
 import javax.inject.Inject;
-import java.awt.event.ActionEvent;
+import javafx.event.ActionEvent;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,13 +35,18 @@ public class AddEditParticipant {
         this.mainCtrl=mainCtrl;
     }
     @FXML
-    void abort(ActionEvent event) {
-
+    private void onClickDeleteAll(ActionEvent event) {
+        nameTextField.clear();
+        emailTextField.clear();
+        ibanTextField.clear();
+        bicTextField.clear();
     }
 
     @FXML
-    void ok(ActionEvent event) {
-
+    void onClickOk(ActionEvent event) {
+        if(checkEmpty() && validateEmail() && isIbanValid()){
+        // TODO: Add to database
+        }
     }
 
     public ServerUtils getServer() {
@@ -114,19 +119,90 @@ public class AddEditParticipant {
     }
 
     public boolean validateEmail(){
-        String regex="^[\\\\w!#$%&'*+/=?`{|}~^-]+(?:\\\\.[\\\\w!#$%&'*+/=?`{|}~^-]+)*" +
-                "@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,6}";
+        String regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])" +
+                "|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         Pattern p= Pattern.compile(regex);
-        Matcher m= p.matcher(emailTextField.getText());
-        if(m.find() && m.group().equals(emailTextField.getText())){
+        //System.out.println(emailTextField.getText().trim());
+        Matcher m= p.matcher(emailTextField.getText().trim());
+        if(m.find() && m.group().equals(emailTextField.getText().trim())){
             return true;
         }else{
             Alert alert=new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Validate Email");
             alert.setHeaderText(null);
-            alert.setContentText("Please Enter Valid Email");
+            alert.setContentText("Please Enter A Valid Email");
             alert.showAndWait();
             return false;
         }
+    }
+
+    public boolean checkEmpty(){
+        boolean name= nameTextField.getText().trim().isEmpty();
+        boolean email= emailTextField.getText().trim().isEmpty();
+        boolean iban= ibanTextField.getText().trim().isEmpty();
+        boolean bic= bicTextField.getText().trim().isEmpty();
+
+        if(!(name || email || iban || bic)){
+            return true;
+        }
+        else{
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Empty Field");
+            alert.setHeaderText(null);
+            alert.setContentText("Please Fill All The Fields");
+            alert.showAndWait();
+            return false;
+        }
+
+
+    }
+
+    private boolean isIbanValid() {
+        int IBAN_MIN_SIZE = 15;
+        int IBAN_MAX_SIZE = 34;
+        long IBAN_MAX = 999999999;
+        long IBAN_MODULUS = 97;
+        String trimmed = ibanTextField.getText().trim();
+        //System.out.println(ibanTextField.getText().trim());
+        if (trimmed.length() < IBAN_MIN_SIZE || trimmed.length() > IBAN_MAX_SIZE) {
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Non-valid IBAN");
+            alert.setHeaderText(null);
+            alert.setContentText("Please Enter A Valid IBAN");
+            alert.showAndWait();
+            return false;
+        }
+        String reformat = trimmed.substring(4) + trimmed.substring(0, 4);
+
+        long total = 0;
+        for (int i = 0; i < reformat.length(); i++) {
+            int charValue = Character.getNumericValue(reformat.charAt(i));
+            if (charValue < 0 || charValue > 35) {
+                Alert alert=new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Non-valid IBAN");
+                alert.setHeaderText(null);
+                alert.setContentText("Please Enter A Valid IBAN");
+                alert.showAndWait();
+                return false;
+
+            }
+            total = (charValue > 9 ? total * 100 : total * 10) + charValue;
+            if (total > IBAN_MAX) {
+                total = (total % IBAN_MODULUS);
+            }
+        }
+        if((total % IBAN_MODULUS) == 1){
+            return true;
+        }
+        else{
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Non-valid IBAN");
+            alert.setHeaderText(null);
+            alert.setContentText("Please Enter A Valid IBAN");
+            alert.showAndWait();
+            return false;
+        }
+
+
     }
 }

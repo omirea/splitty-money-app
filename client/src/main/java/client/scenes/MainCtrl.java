@@ -38,7 +38,7 @@ public class MainCtrl {
     }
 
     public void showParticipant() {
-        primaryStage.setTitle("Quotes: Overview");
+        primaryStage.setTitle("Add/Edit Participant");
         primaryStage.setScene(participant);
         //participant.setOnKeyPressed(e -> addCtrl.keyPressed(e));
     }
