@@ -20,11 +20,11 @@ import org.junit.jupiter.api.Test;
 
 public class RefMainCtrlTest {
 
-    private RefMainCtrl sut;
+    private MainCtrl sut;
 
     @BeforeEach
     public void setup() {
-        sut = new RefMainCtrl();
+        sut = new MainCtrl();
     }
 
     @Test
