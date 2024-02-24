@@ -24,37 +24,33 @@ public class Participant {
 
     /**
      * method to get the name of a participant
-     * @param name name of the participant
      * @return name of the participant
      */
-    public String getName(String name){
+    public String getName(){
         return name;
     }
 
     /**
      * method to get the email of a participant
-     * @param email email of the participant
      * @return email of the participant
      */
-    public String getEmail(String email){
+    public String getEmail(){
         return email;
     }
 
     /**
      * method to get the IBAN of a participant
-     * @param IBAN IBAN of the participant
      * @return IBAN of the participant
      */
-    public String getIBAN(String IBAN){
+    public String getIBAN(){
         return IBAN;
     }
 
     /**
      * method to get the BIC of a participant
-     * @param BIC BIC of the participant
      * @return BIC of the participant
      */
-    public String getBIC(String BIC){
+    public String getBIC(){
         return BIC;
     }
 
