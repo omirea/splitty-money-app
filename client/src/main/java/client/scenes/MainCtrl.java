@@ -26,14 +26,21 @@ public class MainCtrl {
     private AddEditParticipant addEditParticipant;
     private Scene participant;
 
+    private StartCtrl startCtrl;
+    private Scene start;
 
-    public void initialize(Stage primaryStage, Pair<AddEditParticipant, Parent> participant) {
+    public void initialize(Stage primaryStage,
+                           Pair<StartCtrl, Parent> start,
+                           Pair<AddEditParticipant, Parent> participant) {
         this.primaryStage = primaryStage;
+        this.startCtrl = start.getKey();
+        this.start = new Scene(start.getValue());
+
         this.addEditParticipant = participant.getKey();
         this.participant = new Scene(participant.getValue());
 
 
-        showParticipant();
+        showStartScreen();
         primaryStage.show();
     }
 
@@ -43,4 +50,9 @@ public class MainCtrl {
         //participant.setOnKeyPressed(e -> addCtrl.keyPressed(e));
     }
 
+    public void showStartScreen() {
+        primaryStage.setTitle("Splitty: Start");
+        primaryStage.setScene(start);
+
+    }
 }

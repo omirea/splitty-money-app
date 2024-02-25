@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="300.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.StartCtrl">
+   <children>
+      <VBox layoutY="10.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Event" />
+            <HBox prefHeight="25.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <TextField fx:id="createEventField">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></TextField>
+                  <Button mnemonicParsing="false" onAction="#onCreateClick" text="create" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </HBox>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Join Event">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Text>
+            <HBox prefHeight="25.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <TextField fx:id="joinEventField" />
+                  <Button mnemonicParsing="false" onAction="#onJoinClick" text="join" />
+               </children>
+            </HBox>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Recently Viewed Events:">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin></Text>
+            <VBox fx:id="recentEventsBox" prefHeight="200.0" prefWidth="100.0" />
+         </children></VBox>
+   </children>
+</AnchorPane>

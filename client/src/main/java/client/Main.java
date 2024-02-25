@@ -17,15 +17,16 @@ package client;
 
 import static com.google.inject.Guice.createInjector;
 
+import client.scenes.MainCtrl;
+import client.scenes.StartCtrl;
+import com.google.inject.Injector;
+import javafx.application.Application;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 
 import client.scenes.AddEditParticipant;
-import com.google.inject.Injector;
-
-import client.scenes.MainCtrl;
-import javafx.application.Application;
-import javafx.stage.Stage;
 
 public class Main extends Application {
 
@@ -37,10 +38,12 @@ public class Main extends Application {
     }
 
     @Override
+
     public void start(Stage stage) throws IOException {
         var participant = FXML.load(AddEditParticipant.class, "client", "scenes", "AddEditParticipant.fxml");
-        var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(stage, participant);
+        var start = FXML.load(StartCtrl.class, "client", "scenes", "StartScreen.fxml");
 
+        var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
+        mainCtrl.initialize(stage, start, participant);
     }
 }
