@@ -23,17 +23,31 @@ import javafx.util.Pair;
 public class MainCtrl {
 
     private Stage primaryStage;
+    private AddEditParticipant addEditParticipant;
+    private Scene participant;
 
     private StartCtrl startCtrl;
     private Scene start;
 
-    public void initialize(Stage primaryStage, Pair<StartCtrl, Parent> start) {
+    public void initialize(Stage primaryStage,
+                           Pair<StartCtrl, Parent> start,
+                           Pair<AddEditParticipant, Parent> participant) {
         this.primaryStage = primaryStage;
         this.startCtrl = start.getKey();
         this.start = new Scene(start.getValue());
 
+        this.addEditParticipant = participant.getKey();
+        this.participant = new Scene(participant.getValue());
+
+
         showStartScreen();
         primaryStage.show();
+    }
+
+    public void showParticipant() {
+        primaryStage.setTitle("Add/Edit Participant");
+        primaryStage.setScene(participant);
+        //participant.setOnKeyPressed(e -> addCtrl.keyPressed(e));
     }
 
     public void showStartScreen() {
