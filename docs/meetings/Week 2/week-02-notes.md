@@ -44,7 +44,7 @@
 >- Good chair, tried to engage with everyone
 >- For next time maybe the discussion should be a bit more structured 
 - Planned meeting duration != actual duration? Where/why did you misestimate? (1 min)
->- meeting lasted for 45 min (we started at 4:35 and ended at 5:20)
+>- Meeting lasted for 45 min (we started at 4:35 and ended at 5:20)
 - Question round: Does anyone have anything to add before the meeting closes? (3 min)
 - Closure (1 min)
 
