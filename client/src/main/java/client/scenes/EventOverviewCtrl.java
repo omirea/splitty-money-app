@@ -4,6 +4,7 @@ import client.utils.RefServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -59,9 +60,12 @@ public class EventOverviewCtrl {
         boolean isFrom = Math.random() > 0.5;
         if (isFrom) {
             fromTab.getChildren().add(re.getNode());
+            System.out.println("added to from");
         } else {
             withTab.getChildren().add(re.getNode());
+            System.out.println("added to with");
         }
+//        HBox allBox =
         allTab.getChildren().add(re.getNode());
 
     }
