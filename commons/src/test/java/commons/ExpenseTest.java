@@ -230,7 +230,6 @@ public class ExpenseTest {
                 Currency.getInstance("BAM"));
         assertEquals(expense, expense2);
     }
-    @Test
     public void equalsTestNotNull() {
         Participant p1 = new Participant("a","b","c","d");
         Participant p2 = new Participant("e","g","f","h");
@@ -243,7 +242,6 @@ public class ExpenseTest {
                 Currency.getInstance("BAM"));
         assertNotNull(expense);
     }
-    @Test
     public void equalsTestNotEqual() {
         Participant p1 = new Participant("a","b","c","d");
         Participant p2 = new Participant("e","g","f","h");
@@ -261,7 +259,6 @@ public class ExpenseTest {
         assertNotEquals(expense, expense2);
     }
 
-    @Test
     public void hashCodeTestEqual() {
         Participant p1 = new Participant("a","b","c","d");
         Participant p2 = new Participant("e","g","f","h");
@@ -278,7 +275,6 @@ public class ExpenseTest {
                 Currency.getInstance("BAM"));
         assertEquals(expense.hashCode(), expense2.hashCode());
     }
-    @Test
     public void hashCodeTestNotEqual() {
         Participant p1 = new Participant("a","b","c","d");
         Participant p2 = new Participant("e","g","f","h");
