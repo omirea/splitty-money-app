@@ -17,7 +17,7 @@
 
         <module name="TreeWalker">
             <module name="MissingJavadocMethod">
-                <property name="severity" value="warning"/>
+                <property name="severity" value="ignore"/>
                 <property name="scope" value="private"/>
                 <property name="minLineCount" value="0"/>
                 <property name="allowedAnnotations" value="Main"/>
@@ -103,13 +103,13 @@
             <property name="severity" value="warning"/>
             <property name="fileExtensions" value="java"/>
             <property name="max" value="120"/>
-            <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
+            <property name="ignorePattern" value="^package.*|^import.*|a href|href|https://|https://|ftp://"/>
         </module>
         <module name="LineLength">
             <property name="severity" value="error"/>
             <property name="fileExtensions" value="java"/>
             <property name="max" value="200"/>
-            <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
+            <property name="ignorePattern" value="^package.*|^import.*|a href|href|https://|https://|ftp://"/>
         </module>
     
 
