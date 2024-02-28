@@ -64,43 +64,44 @@ public class ParticipantTest {
 
     @Test
     public void nullTest(){
-        Participant p=new Participant("Bob", "bob@gmail.com", "12345", "123");
-        assertFalse(p.equals(null));
+        Participant p1=new Participant("Bob", "bob@gmail.com", "12345", "123");
+        Participant p2=null;
+        assertNotEquals(p1, p2);
     }
 
     @Test
     public void equalTest(){
         Participant p1=new Participant("Bob", "bob@gmail.com", "12345", "123");
         Participant p2=new Participant("Bob", "bob@gmail.com", "12345", "123");
-        assertTrue(p1.equals(p2));
+        assertEquals(p1, p2);
     }
 
     @Test
     public void difNameTest(){
         Participant p1=new Participant("Bob", "bob@gmail.com", "12345", "123");
         Participant p2=new Participant("Sasha", "bob@gmail.com", "12345", "123");
-        assertFalse(p1.equals(p2));
+        assertNotEquals(p1, p2);
     }
 
     @Test
     public void difEmailTest(){
         Participant p1=new Participant("Bob", "bob@gmail.com", "12345", "123");
         Participant p2=new Participant("Bob", "sasha@gmail.com", "12345", "123");
-        assertFalse(p1.equals(p2));
+        assertNotEquals(p1, p2);
     }
 
     @Test
     public void difIBANTest(){
         Participant p1=new Participant("Bob", "bob@gmail.com", "12345", "123");
         Participant p2=new Participant("Bob", "bob@gmail.com", "00000", "123");
-        assertFalse(p1.equals(p2));
+        assertNotEquals(p1, p2);
     }
 
     @Test
     public void difBICTest(){
         Participant p1=new Participant("Bob", "bob@gmail.com", "12345", "123");
         Participant p2=new Participant("Bob", "bob@gmail.com", "12345", "000");
-        assertFalse(p1.equals(p2));
+        assertNotEquals(p1, p2);
     }
 
     @Test
