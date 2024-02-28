@@ -73,7 +73,6 @@ class EventTest {
     void setExpensesTest(){
         Participant p1 = new Participant("tom", "123", "23RABO", "45rt6");
         Participant p2 = new Participant("jerry", "345", "34ABN", "op90");
-        Participant p3 = new Participant("cat", "567", "PO23", "ddf34");
         ArrayList<Participant> pl1 = new ArrayList<>(List.of(p1, p2));
         List<Participant> paidFor = new ArrayList<>(List.of(p2));
 
