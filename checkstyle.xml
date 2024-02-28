@@ -103,13 +103,13 @@
             <property name="severity" value="warning"/>
             <property name="fileExtensions" value="java"/>
             <property name="max" value="120"/>
-            <property name="ignorePattern" value="^package.*|^import.*|a href|href|https://|https://|ftp://"/>
+            <property name="ignorePattern" value="^package.*|^import.*|a href|href|https://|ftp://"/>
         </module>
         <module name="LineLength">
             <property name="severity" value="error"/>
             <property name="fileExtensions" value="java"/>
             <property name="max" value="200"/>
-            <property name="ignorePattern" value="^package.*|^import.*|a href|href|https://|https://|ftp://"/>
+            <property name="ignorePattern" value="^package.*|^import.*|a href|href|https://|ftp://"/>
         </module>
     
 
