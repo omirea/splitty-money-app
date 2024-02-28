@@ -15,6 +15,8 @@
  */
 package client;
 
+import static com.google.inject.Guice.createInjector;
+
 import client.scenes.EventOverviewCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.StartCtrl;
@@ -25,7 +27,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import static com.google.inject.Guice.createInjector;
+import client.scenes.AddEditParticipant;
 
 public class Main extends Application {
 
@@ -33,16 +35,16 @@ public class Main extends Application {
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
     public static void main(String[] args) throws URISyntaxException, IOException {
-        launch();
+        launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-
+        var participant = FXML.load(AddEditParticipant.class, "client", "scenes", "AddEditParticipant.fxml");
         var start = FXML.load(StartCtrl.class, "client", "scenes", "StartScreen.fxml");
         var overview = FXML.load(EventOverviewCtrl.class, "client", "scenes", "EventOverview.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(primaryStage, start, overview);
+        mainCtrl.initialize(primaryStage, start, overview, participant);
     }
 }
