@@ -15,6 +15,7 @@
  */
 package client;
 
+import client.scenes.InvitationCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.StartCtrl;
 import client.scenes.AddEditParticipant;
@@ -30,5 +31,6 @@ public class MyModule implements Module {
         binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
         binder.bind(StartCtrl.class).in(Scopes.SINGLETON);
         binder.bind(AddEditParticipant.class).in(Scopes.SINGLETON);
+        binder.bind(InvitationCtrl.class).in(Scopes.SINGLETON);
     }
 }

@@ -26,11 +26,15 @@ public class MainCtrl {
     private AddEditParticipant addEditParticipant;
     private Scene participant;
 
+    private InvitationCtrl invitationCtrl;
+    private Scene invitation;
+
     private StartCtrl startCtrl;
     private Scene start;
 
     public void initialize(Stage primaryStage,
                            Pair<StartCtrl, Parent> start,
+                           Pair<InvitationCtrl, Parent> invitation,
                            Pair<AddEditParticipant, Parent> participant) {
         this.primaryStage = primaryStage;
         this.startCtrl = start.getKey();
@@ -39,16 +43,26 @@ public class MainCtrl {
         this.addEditParticipant = participant.getKey();
         this.participant = new Scene(participant.getValue());
 
+        this.invitationCtrl = invitation.getKey();
+        this.invitation = new Scene(invitation.getValue());
 
-        showStartScreen();
+
+        //showStartScreen();
+        //showParticipant();
+        showInvitation();
         primaryStage.show();
     }
 
     public void showParticipant() {
         primaryStage.setTitle("Add/Edit Participant");
         primaryStage.setScene(participant);
-        //participant.setOnKeyPressed(e -> addCtrl.keyPressed(e));
     }
+
+    public void showInvitation() {
+        primaryStage.setTitle("Send Invites");
+        primaryStage.setScene(invitation);
+    }
+
 
     public void showStartScreen() {
         primaryStage.setTitle("Splitty: Start");
