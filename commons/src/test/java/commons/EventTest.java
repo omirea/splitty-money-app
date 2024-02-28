@@ -121,8 +121,8 @@ class EventTest {
         Event event = new Event(pl1, el1, "Party", "DER45");
         Event event2 = new Event(pl2, el1, "Party", "DER45");
         Event event3 = new Event(pl1, el1, "Party", "DER45");
-        assertFalse(event.equals(event2));
-        assertTrue(event.equals(event3));
+        assertNotEquals(event, event2);
+        assertEquals(event, event3);
     }
 
     @Test
