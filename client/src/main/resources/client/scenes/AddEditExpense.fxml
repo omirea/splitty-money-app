@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddEditExpenseCtrl">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Add Expense" />
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <TextField fx:id="howMuchField" />
+                        <ChoiceBox fx:id="currencyField" prefWidth="150.0" />
+                     </children>
+                  </HBox>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="How much?" GridPane.rowIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="What for?" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Who Paid?" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="When?" GridPane.rowIndex="3" />
+                  <TextField fx:id="whatForField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <DatePicker fx:id="whenField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
+            <CheckBox mnemonicParsing="false" text="Equally between everybody" />
+            <CheckBox fx:id="onlySomePeopleField" mnemonicParsing="false" text="Only some people" />
+            <VBox fx:id="peopleVBoxField" prefHeight="100.0" prefWidth="20.0">
+               <children>
+                  <ListView fx:id="peopleListViewField" />
+               </children>
+            </VBox>
+            <HBox fx:id="tagBarField" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <HBox fx:id="tagBoxField" prefHeight="20.0" prefWidth="200.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                        <Button mnemonicParsing="false" onAction="#onXTagClick" text="X" />
+                     </children>
+                  </HBox>
+                   <TextField fx:id="tagBarEnterField" onAction="#onAddTagClick" />
+               </children>
+            </HBox>
+            <Button mnemonicParsing="false" onAction="#onAbortClick" text="Abort" />
+            <Button mnemonicParsing="false" onAction="#onAddClick" text="Add" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
