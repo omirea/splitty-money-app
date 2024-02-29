@@ -4,7 +4,6 @@ import client.utils.RefServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -14,7 +13,7 @@ public class EventOverviewCtrl {
     private final MainCtrl mainCtrl;
 
     @FXML
-    Text participantsList;
+    Text participantsList, eventTitleText;
     @FXML
     ChoiceBox<String> participantsMenu;
     @FXML
@@ -38,6 +37,7 @@ public class EventOverviewCtrl {
         //will do the following code snippet once implemented:
         //mainCtrl.showAddExpense();
         System.out.println("Adding Expense...");
+        addExpense();
     }
 
     @FXML
@@ -56,6 +56,22 @@ public class EventOverviewCtrl {
         //it would call the method to get the list of expenses from the db
         //assumption is that the right person is filtered
         //and loop the following code:
+        addExpense();
+    }
+
+    @FXML
+    public void onAddClick() {
+        System.out.println("opening add page...[temp]");
+        addParticipant();
+    }
+
+    @FXML
+    public void onEditClick() {
+        System.out.println("opening edit page... [temp]");
+        mainCtrl.showParticipant();
+    }
+
+    private void addExpense() {
         RecentExpense re = new RecentExpense(/*expense*/);
         boolean isFrom = Math.random() > 0.5;
         if (isFrom) {
@@ -67,24 +83,29 @@ public class EventOverviewCtrl {
         }
 //        HBox allBox =
         allTab.getChildren().add(re.getNode());
-
     }
 
-    private void populateParticipants() {
-        StringBuilder pString = new StringBuilder();
+    private void addParticipant() {
+        StringBuilder pString = new StringBuilder(participantsList.getText());
         //it would call the method to get the list of participants from the db
         //and loop through the following code
         String participant = "Person" + (int) (Math.random() * 10);
-        pString.append(participant).append(", ");
+        if (!pString.isEmpty()) {
+            pString.append(", ");
+        }
+        pString.append(participant);
         participantsMenu.getItems().add(participant);
 
         //after the loop:
-        pString.delete(pString.length()-2, pString.length());
         participantsList.setText(pString.toString());
     }
 
+    public void setEventTitleText() {
+        eventTitleText.setText("new title");
+    }
+
     public void refresh() {
-        populateParticipants();
+        addParticipant();
 
     }
 }

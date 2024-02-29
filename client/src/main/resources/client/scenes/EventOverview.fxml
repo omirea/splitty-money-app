@@ -27,7 +27,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="[Event Title]">
+                  <Text fx:id="eventTitleText" strokeType="OUTSIDE" strokeWidth="0.0" text="[Event Title]">
                       <font>
                           <Font name="System Bold" size="12.0" />
                       </font>
@@ -38,12 +38,18 @@
                   <Insets />
                </VBox.margin>
             </GridPane>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Participants">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Text>
-            <Text fx:id="participantsList" strokeType="OUTSIDE" strokeWidth="0.0" text="person1, person2, person 3" />
+            <HBox alignment="CENTER_LEFT" prefHeight="9.0" prefWidth="260.0" spacing="10.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Participants">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <Button mnemonicParsing="false" onAction="#onEditClick" text="edit" />
+                  <Button mnemonicParsing="false" onAction="#onAddClick" text="add" />
+               </children>
+            </HBox>
+            <Text fx:id="participantsList" strokeType="OUTSIDE" strokeWidth="0.0" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Expenses">
                <font>
                   <Font name="System Bold" size="12.0" />
