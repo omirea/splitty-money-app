@@ -15,6 +15,7 @@
  */
 package client;
 
+import client.scenes.AddEditExpenseCtrl;
 import client.scenes.EventOverviewCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.StartCtrl;
@@ -32,5 +33,6 @@ public class MyModule implements Module {
         binder.bind(StartCtrl.class).in(Scopes.SINGLETON);
         binder.bind(EventOverviewCtrl.class).in(Scopes.SINGLETON);
         binder.bind(AddEditParticipant.class).in(Scopes.SINGLETON);
+        binder.bind(AddEditExpenseCtrl.class).in(Scopes.SINGLETON);
     }
 }

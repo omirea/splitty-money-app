@@ -17,6 +17,7 @@ package client;
 
 import static com.google.inject.Guice.createInjector;
 
+import client.scenes.AddEditExpenseCtrl;
 import client.scenes.EventOverviewCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.StartCtrl;
@@ -39,12 +40,14 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+
+    public void start(Stage stage) throws IOException {
         var participant = FXML.load(AddEditParticipant.class, "client", "scenes", "AddEditParticipant.fxml");
         var start = FXML.load(StartCtrl.class, "client", "scenes", "StartScreen.fxml");
+        var expense = FXML.load(AddEditExpenseCtrl.class, "client", "scenes", "AddEditExpense.fxml");
         var overview = FXML.load(EventOverviewCtrl.class, "client", "scenes", "EventOverview.fxml");
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(primaryStage, start, overview, participant);
+        mainCtrl.initialize(stage, start, overview ,participant, expense);
     }
 }
