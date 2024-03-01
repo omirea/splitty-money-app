@@ -72,7 +72,7 @@ public class EventOverviewCtrl {
     }
 
     private void addExpense() {
-        RecentExpense re = new RecentExpense(/*expense*/);
+        RecentExpense re = new RecentExpense();
         boolean isFrom = Math.random() > 0.5;
         if (isFrom) {
             fromTab.getChildren().add(re.getNode());
@@ -81,8 +81,19 @@ public class EventOverviewCtrl {
             withTab.getChildren().add(re.getNode());
             System.out.println("added to with");
         }
-//        HBox allBox =
         allTab.getChildren().add(re.getNode());
+    }
+
+    private void switchTab(VBox tab, RecentExpense re) {
+        if (re.isFrom() && tab == fromTab) {
+            tab.getChildren().add(re.getNode());
+
+        } else if (!re.isFrom() && tab == withTab) {
+            tab.getChildren().add(re.getNode());
+
+        } else {
+            allTab.getChildren().add(re.getNode());
+        }
     }
 
     private void addParticipant() {

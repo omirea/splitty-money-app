@@ -7,18 +7,20 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class RecentExpense {
-    HBox hbox;
     // Event event;
-    Button edit;
+    private HBox hbox;
+    private Button edit;
+    private boolean isFrom;
 
-    public RecentExpense(/*Expense expense*/) {
+    public RecentExpense() {
         // this.expense = expense;
         edit = new Button("edit");
-        edit.setOnAction(e -> editExpense());
+        edit.setOnAction(e -> removeExpense());
         hbox = new HBox();
 
         //placeholder text, will take from expense eventually
         int num = (int) (Math.random() * 10);
+        isFrom = num < 5;
         Text text = new Text("[expense: " + num + "]");
 
         hbox.getChildren().add(text);
@@ -31,8 +33,12 @@ public class RecentExpense {
         return hbox;
     }
 
-    private void editExpense() {
+    private void removeExpense() {
         VBox parent = (VBox) hbox.getParent();
         parent.getChildren().remove(hbox);
+    }
+
+    public boolean isFrom() {
+        return isFrom;
     }
 }
