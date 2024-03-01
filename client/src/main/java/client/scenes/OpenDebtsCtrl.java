@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import javax.inject.Inject;
 import java.util.Objects;
@@ -15,6 +17,9 @@ public class OpenDebtsCtrl {
 
     @FXML
     private Button arrowButton;
+
+    @FXML
+    private HBox hboxContainer;
 
     @FXML
     private Button markButton;
@@ -80,9 +85,8 @@ public class OpenDebtsCtrl {
 
     @FXML
     void openTextField(ActionEvent event) {
-        TextArea txt= new TextArea();
-        txt.setText("aaa");
-
+        TextArea txt= new TextArea("aaa");
+        hboxContainer.getChildren().add(txt);
     }
 
 
