@@ -81,8 +81,8 @@ public class AddEditExpenseCtrl {
 
     /**
      * onAddClick method
-     * @param event
-     * @throws IOException
+     * @param event - click event
+     * @throws IOException - IOException
      */
     @FXML
     public void onAddClick(ActionEvent event) throws IOException {
