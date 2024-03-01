@@ -17,17 +17,13 @@ package client;
 
 import static com.google.inject.Guice.createInjector;
 
-import client.scenes.InvitationCtrl;
-import client.scenes.MainCtrl;
-import client.scenes.StartCtrl;
+import client.scenes.*;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-
-import client.scenes.AddEditParticipant;
 
 public class Main extends Application {
 
@@ -44,7 +40,8 @@ public class Main extends Application {
         var participant = FXML.load(AddEditParticipant.class, "client", "scenes", "AddEditParticipant.fxml");
         var start = FXML.load(StartCtrl.class, "client", "scenes", "StartScreen.fxml");
         var invitation = FXML.load(InvitationCtrl.class, "client", "scenes", "Invitation.fxml");
+        var openDebts = FXML.load(OpenDebtsCtrl.class, "client", "scenes", "OpenDebts.fxml");
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(stage, start, invitation, participant);
+        mainCtrl.initialize(stage, start, invitation, participant, openDebts);
     }
 }

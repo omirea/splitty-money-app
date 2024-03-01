@@ -26,6 +26,9 @@ public class MainCtrl {
     private AddEditParticipant addEditParticipant;
     private Scene participant;
 
+    private OpenDebtsCtrl openDebtsCtrl;
+    private Scene openDebts;
+
     private InvitationCtrl invitationCtrl;
     private Scene invitation;
 
@@ -35,7 +38,8 @@ public class MainCtrl {
     public void initialize(Stage primaryStage,
                            Pair<StartCtrl, Parent> start,
                            Pair<InvitationCtrl, Parent> invitation,
-                           Pair<AddEditParticipant, Parent> participant) {
+                           Pair<AddEditParticipant, Parent> participant,
+                           Pair<OpenDebtsCtrl, Parent> openDebts) {
         this.primaryStage = primaryStage;
         this.startCtrl = start.getKey();
         this.start = new Scene(start.getValue());
@@ -43,19 +47,28 @@ public class MainCtrl {
         this.addEditParticipant = participant.getKey();
         this.participant = new Scene(participant.getValue());
 
+        this.openDebtsCtrl = openDebts.getKey();
+        this.openDebts = new Scene(openDebts.getValue());
+
         this.invitationCtrl = invitation.getKey();
         this.invitation = new Scene(invitation.getValue());
 
 
         //showStartScreen();
         //showParticipant();
-        showInvitation();
+        //showInvitation();
+        showOpenDebts();
         primaryStage.show();
     }
 
     public void showParticipant() {
         primaryStage.setTitle("Add/Edit Participant");
         primaryStage.setScene(participant);
+    }
+
+    public void showOpenDebts() {
+        primaryStage.setTitle("Open Debts");
+        primaryStage.setScene(openDebts);
     }
 
     public void showInvitation() {
