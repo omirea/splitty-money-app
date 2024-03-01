@@ -4,23 +4,30 @@ import client.utils.RefServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+
+import java.util.ArrayList;
 
 public class EventOverviewCtrl {
 
     private final RefServerUtils server;
     private final MainCtrl mainCtrl;
+    private ArrayList<RecentExpense> recentExpenses;
 
     @FXML
     Text participantsList, eventTitleText;
     @FXML
     ChoiceBox<String> participantsMenu;
     @FXML
-    VBox allTab, withTab, fromTab;
+    VBox allBox, withBox, fromBox;
+    @FXML
+    TabPane expensesTabs;
 
     @Inject
     public EventOverviewCtrl(RefServerUtils server, MainCtrl mainCtrl) {
+        recentExpenses = new ArrayList<>();
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
@@ -50,13 +57,13 @@ public class EventOverviewCtrl {
     @FXML
     public void onRefreshClick() {
         System.out.println(participantsMenu.getValue());
-        allTab.getChildren().clear();
-        fromTab.getChildren().clear();
-        withTab.getChildren().clear();
+        allBox.getChildren().clear();
+        fromBox.getChildren().clear();
+        withBox.getChildren().clear();
         //it would call the method to get the list of expenses from the db
         //assumption is that the right person is filtered
         //and loop the following code:
-        addExpense();
+        onTabSwitch();
     }
 
     @FXML
@@ -71,29 +78,36 @@ public class EventOverviewCtrl {
         mainCtrl.showParticipant();
     }
 
-    private void addExpense() {
-        RecentExpense re = new RecentExpense();
-        boolean isFrom = Math.random() > 0.5;
-        if (isFrom) {
-            fromTab.getChildren().add(re.getNode());
-            System.out.println("added to from");
-        } else {
-            withTab.getChildren().add(re.getNode());
-            System.out.println("added to with");
+    @FXML
+    public void onTabSwitch() {
+        int tabIndex = expensesTabs.getSelectionModel().getSelectedIndex();
+        for (RecentExpense re : recentExpenses) {
+            switchTab(tabIndex, re);
         }
-        allTab.getChildren().add(re.getNode());
     }
 
-    private void switchTab(VBox tab, RecentExpense re) {
-        if (re.isFrom() && tab == fromTab) {
-            tab.getChildren().add(re.getNode());
+    private void addExpense() {
+        RecentExpense re = new RecentExpense();
+        recentExpenses.add(re);
+        int tabIndex = expensesTabs.getSelectionModel().getSelectedIndex();
+        switchTab(tabIndex, re);
+    }
 
-        } else if (!re.isFrom() && tab == withTab) {
-            tab.getChildren().add(re.getNode());
+    private void switchTab(int index, RecentExpense re) {
+        if (re.isFrom() && index == 1) {
+            addToTab(fromBox, re);
+
+        } else if (!re.isFrom() && index == 2) {
+            addToTab(withBox, re);
 
         } else {
-            allTab.getChildren().add(re.getNode());
+            addToTab(allBox, re);
         }
+    }
+
+    private void addToTab(VBox box, RecentExpense re) {
+        if (box.getChildren().contains(re.getNode())) return;
+        box.getChildren().add(re.getNode());
     }
 
     private void addParticipant() {
@@ -113,10 +127,5 @@ public class EventOverviewCtrl {
 
     public void setEventTitleText() {
         eventTitleText.setText("new title");
-    }
-
-    public void refresh() {
-        addParticipant();
-
     }
 }

@@ -65,7 +65,6 @@ public class MainCtrl {
     public void showEventOverview(String id) {
         primaryStage.setTitle("Splitty: Event overview");
         primaryStage.setScene(overview);
-        overviewCtrl.refresh();
         overviewCtrl.setEventTitleText();
     }
 }
