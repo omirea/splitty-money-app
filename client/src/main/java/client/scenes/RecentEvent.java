@@ -12,11 +12,11 @@ public class RecentEvent {
     Button link;
     Button remove;
 
-    public RecentEvent() {
+    public RecentEvent(/*Event event*/) {
         // this.event = event;
         link = new Button("Open");
         // might need to put the url from event into the param
-        // link.setOnAction(MainCtrl.ShowEventOverview());
+        // link.setOnAction(mainCtrl.ShowEventOverview(event.getId()));
         remove = new Button("rem");
         remove.setOnAction(e -> removeRecentEvent());
         hbox = new HBox();

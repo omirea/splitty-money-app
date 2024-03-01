@@ -113,5 +113,4 @@
 <!--            <property name="ignorePattern" value="^package.*|^import.*|a href|href|https://|ftp://"/>-->
 <!--        </module>-->
     
-
 </module>

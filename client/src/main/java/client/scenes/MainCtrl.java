@@ -29,12 +29,18 @@ public class MainCtrl {
     private StartCtrl startCtrl;
     private Scene start;
 
-    public void initialize(Stage primaryStage,
-                           Pair<StartCtrl, Parent> start,
+    private EventOverviewCtrl overviewCtrl;
+    private Scene overview;
+
+    public void initialize(Stage primaryStage, Pair<StartCtrl, Parent> start,
+                           Pair<EventOverviewCtrl, Parent> overview,
                            Pair<AddEditParticipant, Parent> participant) {
         this.primaryStage = primaryStage;
         this.startCtrl = start.getKey();
         this.start = new Scene(start.getValue());
+
+        this.overviewCtrl = overview.getKey();
+        this.overview = new Scene(overview.getValue());
 
         this.addEditParticipant = participant.getKey();
         this.participant = new Scene(participant.getValue());
@@ -54,5 +60,11 @@ public class MainCtrl {
         primaryStage.setTitle("Splitty: Start");
         primaryStage.setScene(start);
 
+    }
+
+    public void showEventOverview(String id) {
+        primaryStage.setTitle("Splitty: Event overview");
+        primaryStage.setScene(overview);
+        overviewCtrl.setEventTitleText();
     }
 }
