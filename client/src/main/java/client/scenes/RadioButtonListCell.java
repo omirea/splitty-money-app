@@ -1,16 +1,16 @@
 package client.scenes;
 
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
 import javafx.util.Callback;
 
-public class CheckBoxListCell<T> extends ListCell<T> {
+public class RadioButtonListCell<T> extends ListCell<T> {
 
-    private final CheckBox checkBox = new CheckBox();
+    private final RadioButton radioButton = new RadioButton();
 
-    public CheckBoxListCell() {
-        checkBox.setOnAction(event -> {
+    public RadioButtonListCell() {
+        radioButton.setOnAction(event -> {
             getListView().getSelectionModel().select(getIndex());
         });
     }
@@ -23,11 +23,11 @@ public class CheckBoxListCell<T> extends ListCell<T> {
             setGraphic(null);
         } else {
             setText(item.toString());
-            setGraphic(checkBox);
+            setGraphic(radioButton);
         }
     }
 
     public static <T> Callback<ListView<T>, ListCell<T>> forListView() {
-        return param -> new CheckBoxListCell<>();
+        return param -> new RadioButtonListCell<>();
     }
 }

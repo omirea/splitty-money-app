@@ -5,10 +5,18 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
+import javax.security.auth.callback.ChoiceCallback;
+import java.io.IOException;
+import java.util.Objects;
 
 
 public class AddEditExpenseCtrl {
@@ -16,6 +24,8 @@ public class AddEditExpenseCtrl {
     ObservableList<String> currencyList =
             FXCollections.observableArrayList("EUR", "USD", "GBP");
     // Add expense
+    @FXML
+    private ChoiceBox<String> whoPaidField;
     @FXML
     private TextField whatForField;
     @FXML
@@ -30,27 +40,28 @@ public class AddEditExpenseCtrl {
     private ListView<String> peopleListViewField;
     @FXML
     private VBox peopleVBoxField;
+
     @FXML
-    private CheckBox onlySomePeopleField;
+    private RadioButton onlySomePeopleField;
+    @FXML
+    private RadioButton allPeopleField;
+
 
     // expense type tag bar
-    @FXML
-    private HBox tagBoxField;
-    @FXML
-    private HBox tagBarField;
-
-    @FXML
-    private TextField tagBarEnterField;
-
 //    @FXML
-//    private TagBar tagBarField2;
+//    private HBox tagBoxField;
+//    @FXML
+//    private HBox tagBarField;
+//
+//    @FXML
+//    private TextField tagBarEnterField;
 
     @FXML
     private void initialize() {
         // only some people initialiser
         peopleVBoxField.visibleProperty().bind(onlySomePeopleField.selectedProperty());
         peopleListViewField.setItems(currencyList); // for testing only
-        peopleListViewField.setCellFactory(CheckBoxListCell.forListView());
+        peopleListViewField.setCellFactory(RadioButtonListCell.forListView());
         peopleListViewField.getSelectionModel().getSelectedItems().addListener((ListChangeListener<String>) c -> {
             while (c.next()) {
                 if (c.wasAdded()) {
@@ -66,7 +77,20 @@ public class AddEditExpenseCtrl {
     }
 
     @FXML
-    public void onAddClick() {
+    public void onAddClick(ActionEvent event) throws IOException {
+//        if(whoPaidField.getValue() != null
+        if(whatForField.getText() != null
+                && whenField.getValue() != null
+                && howMuchField.getText() != null &&
+                (allPeopleField.getText() != null
+                        || onlySomePeopleField.getText() != null)) {
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("StartScreen.fxml")));
+            Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+            // TO DO: DATABASE STUFF
+        }
         System.out.println("Add " + whatForField.getText());
         System.out.println("Picked date " + whenField.getValue());
         System.out.println(howMuchField.getText() + " "
@@ -75,7 +99,7 @@ public class AddEditExpenseCtrl {
 
     @FXML
     public void onAbortClick() {
-        // TO DO
+
     }
 
 //    @FXML
@@ -86,7 +110,7 @@ public class AddEditExpenseCtrl {
 //
 //        tagBarField.getChildren().remove(tagBoxField);
 //    }
-
+//
 //    @FXML
 //    public void onAddTagClick() {
 //        String newTagName = tagBarEnterField.getText();
@@ -94,7 +118,6 @@ public class AddEditExpenseCtrl {
 //        if (!newTagName.isEmpty()) {
 //            // Create a new Button for the tag
 //            Button newTagButton = new Button(newTagName);
-//            newTagButton.getStyleClass().add("tag-button"); // Add a CSS class for styling if needed
 //            // Set the action for the delete button in the tag
 //            newTagButton.setOnAction(this::onXTagClick);
 //            // Create a new HBox for the tag
