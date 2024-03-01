@@ -56,12 +56,15 @@ public class AddEditExpenseCtrl {
 //    @FXML
 //    private TextField tagBarEnterField;
 
+    /**
+     * initialise method
+     */
     @FXML
     private void initialize() {
         // only some people initialiser
         peopleVBoxField.visibleProperty().bind(onlySomePeopleField.selectedProperty());
         peopleListViewField.setItems(currencyList); // for testing only
-        peopleListViewField.setCellFactory(RadioButtonListCell.forListView());
+        peopleListViewField.setCellFactory(CheckBoxListCell.forListView());
         peopleListViewField.getSelectionModel().getSelectedItems().addListener((ListChangeListener<String>) c -> {
             while (c.next()) {
                 if (c.wasAdded()) {
@@ -76,6 +79,11 @@ public class AddEditExpenseCtrl {
         currencyField.setItems(currencyList);
     }
 
+    /**
+     * onAddClick method
+     * @param event
+     * @throws IOException
+     */
     @FXML
     public void onAddClick(ActionEvent event) throws IOException {
 //        if(whoPaidField.getValue() != null
@@ -97,6 +105,11 @@ public class AddEditExpenseCtrl {
                 + currencyField.getValue());
     }
 
+    /**
+     * onAbortClick method
+     * @param event - click event
+     * @throws IOException - if class not found
+     */
     @FXML
     public void onAbortClick(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("StartScreen.fxml")));
