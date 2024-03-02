@@ -16,6 +16,11 @@
 package client;
 
 import client.scenes.*;
+import client.scenes.AddEditExpenseCtrl;
+import client.scenes.EventOverviewCtrl;
+import client.scenes.MainCtrl;
+import client.scenes.StartCtrl;
+import client.scenes.AddEditParticipant;
 
 import com.google.inject.Binder;
 import com.google.inject.Module;
@@ -27,8 +32,11 @@ public class MyModule implements Module {
     public void configure(Binder binder) {
         binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
         binder.bind(StartCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(EventOverviewCtrl.class).in(Scopes.SINGLETON);
         binder.bind(AddEditParticipant.class).in(Scopes.SINGLETON);
+        binder.bind(AddEditExpenseCtrl.class).in(Scopes.SINGLETON);
         binder.bind(InvitationCtrl.class).in(Scopes.SINGLETON);
         binder.bind(OpenDebtsCtrl.class).in(Scopes.SINGLETON);
+
     }
 }

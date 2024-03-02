@@ -1,15 +1,15 @@
 package client.scenes;
 
-// import client.utils.RefServerUtils;
-// import com.google.inject.Inject;
+import client.utils.RefServerUtils;
+import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 public class StartCtrl {
 
-//    private final RefServerUtils server;
-//    private final MainCtrl mainCtrl;
+    private final RefServerUtils server;
+    private final MainCtrl mainCtrl;
 
     @FXML
     private TextField createEventField;
@@ -20,11 +20,11 @@ public class StartCtrl {
     @FXML
     private VBox recentEventsBox;
 
-//    @Inject
-//    public StartCtrl(RefServerUtils server, MainCtrl mainCtrl) {
-//        this.server = server;
-//        this.mainCtrl = mainCtrl;
-//    }
+    @Inject
+    public StartCtrl(RefServerUtils server, MainCtrl mainCtrl) {
+        this.server = server;
+        this.mainCtrl = mainCtrl;
+    }
 
     @FXML
     public void onCreateClick() {
@@ -38,6 +38,8 @@ public class StartCtrl {
     public void onJoinClick() {
         System.out.println("Join: " + joinEventField.getText());
         // TODO: connect to database, open new window
+        mainCtrl.showEventOverview(joinEventField.getText());
+
 
     }
 

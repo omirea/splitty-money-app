@@ -32,17 +32,30 @@ public class MainCtrl {
     private InvitationCtrl invitationCtrl;
     private Scene invitation;
 
+    private AddEditExpenseCtrl addEditExpenseCtrl;
+    private Scene expense;
+
+    private EventOverviewCtrl overviewCtrl;
+    private Scene overview;
+
     private StartCtrl startCtrl;
     private Scene start;
 
     public void initialize(Stage primaryStage,
                            Pair<StartCtrl, Parent> start,
+                           Pair<EventOverviewCtrl, Parent> overview,
                            Pair<InvitationCtrl, Parent> invitation,
                            Pair<AddEditParticipant, Parent> participant,
+                           Pair<AddEditExpenseCtrl, Parent> expense,
                            Pair<OpenDebtsCtrl, Parent> openDebts) {
+
+
         this.primaryStage = primaryStage;
         this.startCtrl = start.getKey();
         this.start = new Scene(start.getValue());
+
+        this.overviewCtrl = overview.getKey();
+        this.overview = new Scene(overview.getValue());
 
         this.addEditParticipant = participant.getKey();
         this.participant = new Scene(participant.getValue());
@@ -53,11 +66,19 @@ public class MainCtrl {
         this.invitationCtrl = invitation.getKey();
         this.invitation = new Scene(invitation.getValue());
 
+        this.addEditExpenseCtrl = expense.getKey();
+        this.expense = new Scene(expense.getValue());
+
+        
+
 
         //showStartScreen();
         //showParticipant();
         //showInvitation();
-        showOpenDebts();
+        //showOpenDebts();
+
+        //showStartScreen();
+        //showExpense();
         primaryStage.show();
     }
 
@@ -81,5 +102,15 @@ public class MainCtrl {
         primaryStage.setTitle("Splitty: Start");
         primaryStage.setScene(start);
 
+    }
+    public void showExpense() {
+        primaryStage.setTitle("Add/Edit Expense");
+        primaryStage.setScene(expense);
+    }
+
+    public void showEventOverview(String id) {
+        primaryStage.setTitle("Splitty: Event overview");
+        primaryStage.setScene(overview);
+        overviewCtrl.setEventTitleText();
     }
 }
