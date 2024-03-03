@@ -22,6 +22,7 @@ import client.scenes.MainCtrl;
 import client.scenes.StartCtrl;
 import client.scenes.AddEditParticipant;
 
+
 import com.google.inject.Binder;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
@@ -35,8 +36,8 @@ public class MyModule implements Module {
         binder.bind(EventOverviewCtrl.class).in(Scopes.SINGLETON);
         binder.bind(AddEditParticipant.class).in(Scopes.SINGLETON);
         binder.bind(AddEditExpenseCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(EditParticipantsCtrl.class).in(Scopes.SINGLETON);
         binder.bind(InvitationCtrl.class).in(Scopes.SINGLETON);
         binder.bind(OpenDebtsCtrl.class).in(Scopes.SINGLETON);
-
     }
 }

@@ -23,21 +23,18 @@ import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 public class Main extends Application {
 
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
 
-    public static void main(String[] args) throws URISyntaxException, IOException {
+    public static void main(String[] args) {
         launch(args);
     }
 
     @Override
 
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         var participant = FXML.load(AddEditParticipant.class, "client", "scenes", "AddEditParticipant.fxml");
         var start = FXML.load(StartCtrl.class, "client", "scenes", "StartScreen.fxml");
         var invitation = FXML.load(InvitationCtrl.class, "client", "scenes", "Invitation.fxml");
@@ -45,12 +42,11 @@ public class Main extends Application {
 
         var expense = FXML.load(AddEditExpenseCtrl.class, "client", "scenes", "AddEditExpense.fxml");
         var overview = FXML.load(EventOverviewCtrl.class, "client", "scenes", "EventOverview.fxml");
+        var manageParticipants = FXML.load(EditParticipantsCtrl.class, "client", "scenes", "EditParticipants.fxml");
 
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
-        mainCtrl.initialize(stage, start,overview,invitation,participant,expense,openDebts);
+        mainCtrl.initialize(stage, start, overview, invitation, participant, expense, openDebts, manageParticipants);
 
-
-        //mainCtrl.initialize(stage, start, overview ,participant, expense);
     }
 }
