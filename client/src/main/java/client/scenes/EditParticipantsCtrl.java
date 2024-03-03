@@ -4,8 +4,8 @@ import client.utils.RefServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 
 public class EditParticipantsCtrl {
 
@@ -24,12 +24,12 @@ public class EditParticipantsCtrl {
     @FXML
     public void onCancelClick() {
         System.out.println("Going back to event");
+
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Revert changes?");
         alert.setHeaderText(null);
         alert.setContentText("Are you sure you want to discard the changes?");
         alert.showAndWait();
-//        mainCtrl.showEventOverview("");
         // TODO: open new window
     }
 
@@ -37,6 +37,12 @@ public class EditParticipantsCtrl {
     public void onFinishClick() {
         System.out.println("Complete changes and return to event");
         // TODO: connect to database, open new window
-        
+    }
+
+    @FXML
+    public void addParticipant() {
+        AddedParticipant addedParticipant = new AddedParticipant();
+        HBox hBox = addedParticipant.getNode();
+        displayParticipants.getChildren().add(hBox);
     }
 }
