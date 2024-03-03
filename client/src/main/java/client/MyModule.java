@@ -15,6 +15,7 @@
  */
 package client;
 
+import client.scenes.*;
 import client.scenes.AddEditExpenseCtrl;
 import client.scenes.EventOverviewCtrl;
 import client.scenes.MainCtrl;
@@ -34,5 +35,8 @@ public class MyModule implements Module {
         binder.bind(EventOverviewCtrl.class).in(Scopes.SINGLETON);
         binder.bind(AddEditParticipant.class).in(Scopes.SINGLETON);
         binder.bind(AddEditExpenseCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(InvitationCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(OpenDebtsCtrl.class).in(Scopes.SINGLETON);
+
     }
 }
