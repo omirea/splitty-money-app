@@ -10,22 +10,26 @@ import javafx.scene.text.Text;
 public class AddedParticipant {
     HBox hbox;
     Text name;
-    Button edit;
+    Button rename;
     Button save;
     Button remove;
+    Button edit;
 
     public AddedParticipant() {
         name = new Text("Hello World!");
 
-        edit = new Button("E");
-        edit.setOnAction(e -> editParticipant());
-        remove = new Button("R");
+        rename = new Button("rename");
+        rename.setOnAction(e -> renameParticipant());
+        remove = new Button("delete");
         remove.setOnAction(e -> removeParticipant());
-        save = new Button("S");
+        save = new Button("save");
         save.setOnAction(e -> saveParticipant());
+        edit = new Button("edit");
+        edit.setOnAction(e -> editParticipant());
 
         hbox = new HBox();
         hbox.getChildren().add(name);
+        hbox.getChildren().add(rename);
         hbox.getChildren().add(edit);
         hbox.getChildren().add(remove);
     }
@@ -39,7 +43,7 @@ public class AddedParticipant {
         parent.getChildren().remove(hbox);
     }
 
-    private void editParticipant() {
+    private void renameParticipant() {
         System.out.println("Renaming participant");
 
         Node node = hbox.getChildren().remove(0);
@@ -60,6 +64,10 @@ public class AddedParticipant {
         hbox.getChildren().add(0, name);
 
         hbox.getChildren().remove(1);
-        hbox.getChildren().add(1, edit);
+        hbox.getChildren().add(1, rename);
+    }
+
+    private void editParticipant() {
+        // TODO: navigate to add/edit participant page
     }
 }

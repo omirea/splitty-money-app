@@ -40,9 +40,14 @@ public class EditParticipantsCtrl {
     }
 
     @FXML
-    public void addParticipant() {
+    public void addRandomParticipant() {
         AddedParticipant addedParticipant = new AddedParticipant();
         HBox hBox = addedParticipant.getNode();
         displayParticipants.getChildren().add(hBox);
+    }
+
+    @FXML
+    public void addParticipant() {
+        // TODO: navigate to add/edit participants page
     }
 }
