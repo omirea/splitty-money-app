@@ -35,10 +35,14 @@ public class MainCtrl {
     private EventOverviewCtrl overviewCtrl;
     private Scene overview;
 
+    private EditParticipantsCtrl editParticipantsCtrl;
+    private Scene editParticipants;
+
     public void initialize(Stage primaryStage, Pair<StartCtrl, Parent> start,
                            Pair<EventOverviewCtrl, Parent> overview,
                            Pair<AddEditParticipant, Parent> participant,
-                           Pair<AddEditExpenseCtrl, Parent> expense) {
+                           Pair<AddEditExpenseCtrl, Parent> expense,
+                           Pair<EditParticipantsCtrl, Parent> editParticipants) {
         this.primaryStage = primaryStage;
         this.startCtrl = start.getKey();
         this.start = new Scene(start.getValue());
@@ -52,8 +56,12 @@ public class MainCtrl {
         this.addEditExpenseCtrl = expense.getKey();
         this.expense = new Scene(expense.getValue());
 
+        this.editParticipantsCtrl = editParticipants.getKey();
+        this.editParticipants = new Scene(editParticipants.getValue());
+
 //        showStartScreen();
-        showExpense();
+//        showExpense();
+        showEditParticipants();
         primaryStage.show();
     }
 
@@ -77,5 +85,10 @@ public class MainCtrl {
         primaryStage.setTitle("Splitty: Event overview");
         primaryStage.setScene(overview);
         overviewCtrl.setEventTitleText();
+    }
+
+    public void showEditParticipants() {
+        primaryStage.setTitle("Splitty: Edit Participants");
+        primaryStage.setScene(editParticipants);
     }
 }
