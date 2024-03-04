@@ -1,6 +1,7 @@
 package server;
 
 import commons.Participant;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import server.database.ParticipantRepository;
@@ -33,17 +34,17 @@ public class ParticipantController {
         return "Hello " + id + "!";
     }
 
-//    @GetMapping("/participant")
-//    @ResponseBody
-//    public ResponseEntity<Participant> getParticipantById(@RequestParam("id") long participant_id){
-//        if(participant_id<0)
-//            return ResponseEntity.badRequest().build();
-//        if(!db.existsById(participant_id))
-//            return ResponseEntity.notFound().build();
-//        System.out.println(participant_id);
-//        Participant participant=db.findById(participant_id).get();
-//        return ResponseEntity.ok(participant);
-//    }
+    @GetMapping("/participant")
+    @ResponseBody
+    public ResponseEntity<Participant> getParticipantById(@RequestParam("id") long participant_id){
+        if(participant_id<0)
+            return ResponseEntity.badRequest().build();
+        if(!db.existsById(participant_id))
+            return ResponseEntity.notFound().build();
+        System.out.println(participant_id);
+        Participant participant=db.findById(participant_id).get();
+        return ResponseEntity.ok(participant);
+    }
 
 //    @PostMapping(path = "/participant",
 //            consumes = MediaType.APPLICATION_JSON_VALUE,
