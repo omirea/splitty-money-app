@@ -1,4 +1,4 @@
-package client.scenes;
+package client.nodes;
 
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListCell;

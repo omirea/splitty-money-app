@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.nodes.RecentEvent;
 import client.utils.RefServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
@@ -29,7 +30,7 @@ public class StartCtrl {
     @FXML
     public void onCreateClick() {
         System.out.println("Create" + createEventField.getText());
-        refreshRecentEvents();
+        addEventToBox();
         // TODO: open new window
 
 
@@ -43,7 +44,7 @@ public class StartCtrl {
 
     }
 
-    public void refreshRecentEvents() {
+    public void addEventToBox() {
         RecentEvent re = new RecentEvent();
         recentEventsBox.getChildren().add(re.getNode());
     }
