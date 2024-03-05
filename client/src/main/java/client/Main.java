@@ -42,7 +42,7 @@ public class Main extends Application {
 
         var expense = FXML.load(AddEditExpenseCtrl.class, "client", "scenes", "AddEditExpense.fxml");
         var overview = FXML.load(EventOverviewCtrl.class, "client", "scenes", "EventOverview.fxml");
-        var manageParticipants = FXML.load(EditParticipantsCtrl.class, "client", "scenes", "EditParticipants.fxml");
+        var manageParticipants = FXML.load(ManageParticipantsCtrl.class, "client", "scenes", "EditParticipants.fxml");
 
 
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
