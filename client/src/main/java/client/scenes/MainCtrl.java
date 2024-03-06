@@ -37,7 +37,7 @@ public class MainCtrl {
 
     private EventOverviewCtrl overviewCtrl;
     private Scene overview;
-    private EditParticipantsCtrl editParticipantsCtrl;
+    private ManageParticipantsCtrl manageParticipantsCtrl;
     private Scene editParticipants;
 
     private StartCtrl startCtrl;
@@ -50,7 +50,7 @@ public class MainCtrl {
                            Pair<AddEditParticipant, Parent> participant,
                            Pair<AddEditExpenseCtrl, Parent> expense,
                            Pair<OpenDebtsCtrl, Parent> openDebts,
-                           Pair<EditParticipantsCtrl, Parent> editParticipants) {
+                           Pair<ManageParticipantsCtrl, Parent> editParticipants) {
         this.primaryStage = primaryStage;
         this.startCtrl = start.getKey();
         this.start = new Scene(start.getValue());
@@ -70,7 +70,7 @@ public class MainCtrl {
         this.addEditExpenseCtrl = expense.getKey();
         this.expense = new Scene(expense.getValue());
 
-        this.editParticipantsCtrl = editParticipants.getKey();
+        this.manageParticipantsCtrl = editParticipants.getKey();
         this.editParticipants = new Scene(editParticipants.getValue());
 
 //        showStartScreen();
