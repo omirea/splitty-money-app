@@ -43,6 +43,10 @@ public class MainCtrl {
     private StartCtrl startCtrl;
     private Scene start;
 
+    private Scene logInAdmin;
+
+    private AdminLogInCtrl adminLogInCtrl;
+
     public void initialize(Stage primaryStage,
                            Pair<StartCtrl, Parent> start,
                            Pair<EventOverviewCtrl, Parent> overview,
@@ -73,24 +77,25 @@ public class MainCtrl {
         this.manageParticipantsCtrl = editParticipants.getKey();
         this.editParticipants = new Scene(editParticipants.getValue());
 
-        showStartScreen();
+//        showStartScreen();
 //        showExpense();
 //        showEditParticipants();
+        showAdminLogIn();
         primaryStage.show();
     }
 
     public void showParticipant() {
-        primaryStage.setTitle("Add/Edit Participant");
+        primaryStage.setTitle("Splitty: Add/Edit Participant");
         primaryStage.setScene(participant);
     }
 
     public void showOpenDebts() {
-        primaryStage.setTitle("Open Debts");
+        primaryStage.setTitle("Splitty: Open Debts");
         primaryStage.setScene(openDebts);
     }
 
     public void showInvitation() {
-        primaryStage.setTitle("Send Invites");
+        primaryStage.setTitle("Splitty: Send Invites");
         primaryStage.setScene(invitation);
     }
 
@@ -101,7 +106,7 @@ public class MainCtrl {
 
     }
     public void showExpense() {
-        primaryStage.setTitle("Add/Edit Expense");
+        primaryStage.setTitle("Splitty: Add/Edit Expense");
         primaryStage.setScene(expense);
     }
 
@@ -116,5 +121,8 @@ public class MainCtrl {
         primaryStage.setScene(editParticipants);
     }
 
-    
+    public void showAdminLogIn(){
+        primaryStage.setTitle("Splitty: Admin Log In");
+        primaryStage.setScene(logInAdmin);
+    }
 }

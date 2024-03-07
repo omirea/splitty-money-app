@@ -9,6 +9,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import java.awt.event.ActionEvent;
+
 public class AdminLogInCtrl {
 
     private final ServerUtils server;
@@ -40,10 +42,18 @@ public class AdminLogInCtrl {
         this.mainCtrl = mainCtrl;
     }
 
+    @FXML
     public boolean onClickLogIn(){
         if(checkPassword() && checkEmptyFields() && checkUsername() ){
+            //mainCtrl.showAdminLogIn();
+            // TODO: connect to admin overview events;
             return true;
         } else return false;
+    }
+
+    @FXML
+    public void onClickHome(){
+        mainCtrl.showStartScreen();
     }
 
 
