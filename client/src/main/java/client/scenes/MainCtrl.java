@@ -115,4 +115,6 @@ public class MainCtrl {
         primaryStage.setTitle("Splitty: Edit Participants");
         primaryStage.setScene(editParticipants);
     }
+
+    
 }
