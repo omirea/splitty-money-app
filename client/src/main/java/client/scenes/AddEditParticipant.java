@@ -46,6 +46,7 @@ public class AddEditParticipant {
     void onClickOk(ActionEvent event) {
         if(checkEmpty() && validateEmail() && isIbanValid()){
         // TODO: Add to database
+
         }
     }
 

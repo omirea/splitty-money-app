@@ -36,6 +36,9 @@ public class Event {
         this.invitationID = invitationID;
     }
 
+    public Event() {
+    }
+
     /**
      * Getter for the list of participants
      * @return ArrayList with all participants
