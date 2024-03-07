@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.utils.RefServerUtils;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -9,11 +10,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-import java.awt.event.ActionEvent;
+import javax.inject.Inject;
 
 public class AdminLogInCtrl {
 
-    private final ServerUtils server;
+    private final RefServerUtils server;
     private final MainCtrl mainCtrl;
     @FXML
     private VBox vboxContainer;
@@ -37,7 +38,8 @@ public class AdminLogInCtrl {
     private Button logInButton;
 
 
-    public AdminLogInCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    @Inject
+    public AdminLogInCtrl(RefServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }

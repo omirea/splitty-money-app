@@ -54,8 +54,10 @@ public class MainCtrl {
                            Pair<AddEditParticipantCtrl, Parent> participant,
                            Pair<AddEditExpenseCtrl, Parent> expense,
                            Pair<OpenDebtsCtrl, Parent> openDebts,
-                           Pair<ManageParticipantsCtrl, Parent> editParticipants,
-                           Pair<AdminLogInCtrl, Parent> logInAdminA) {
+                           Pair<ManageParticipantsCtrl, Parent> editParticipants
+        , Pair<AdminLogInCtrl, Parent> logInAdminA
+    ) {
+
         this.primaryStage = primaryStage;
         this.startCtrl = start.getKey();
         this.start = new Scene(start.getValue());
@@ -77,14 +79,14 @@ public class MainCtrl {
 
         this.manageParticipantsCtrl = editParticipants.getKey();
         this.editParticipants = new Scene(editParticipants.getValue());
-
+//
         this.adminLogInCtrl = logInAdminA.getKey();
         this.logInAdmin = new Scene(logInAdminA.getValue());
 
-        showStartScreen();
+//        showStartScreen();
 //        showExpense();
 //        showEditParticipants();
-//        showAdminLogIn();
+        showAdminLogIn();
         primaryStage.show();
     }
 
