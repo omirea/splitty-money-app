@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.nodes.CheckBoxListCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;

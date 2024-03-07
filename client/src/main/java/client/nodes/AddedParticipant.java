@@ -1,4 +1,4 @@
-package client.scenes;
+package client.nodes;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;

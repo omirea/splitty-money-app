@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.nodes.RecentExpense;
 import client.utils.RefServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
@@ -69,7 +70,7 @@ public class EventOverviewCtrl {
     @FXML
     public void onAddClick() {
         System.out.println("opening add page...[temp]");
-        addParticipant();
+        addParticipantToBox();
     }
 
     @FXML
@@ -110,7 +111,7 @@ public class EventOverviewCtrl {
         box.getChildren().add(re.getNode());
     }
 
-    private void addParticipant() {
+    private void addParticipantToBox() {
         StringBuilder pString = new StringBuilder(participantsList.getText());
         //it would call the method to get the list of participants from the db
         //and loop through the following code

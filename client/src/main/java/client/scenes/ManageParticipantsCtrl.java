@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.nodes.AddedParticipant;
 import client.utils.RefServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;

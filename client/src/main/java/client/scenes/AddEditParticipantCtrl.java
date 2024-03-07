@@ -12,7 +12,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AddEditParticipant {
+public class AddEditParticipantCtrl {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -30,7 +30,7 @@ public class AddEditParticipant {
     private Button abortButton;
 
     @Inject
-    public AddEditParticipant(ServerUtils server, MainCtrl mainCtrl){
+    public AddEditParticipantCtrl(ServerUtils server, MainCtrl mainCtrl){
         this.server=server;
         this.mainCtrl=mainCtrl;
     }
@@ -109,7 +109,7 @@ public class AddEditParticipant {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AddEditParticipant that = (AddEditParticipant) o;
+        AddEditParticipantCtrl that = (AddEditParticipantCtrl) o;
         return Objects.equals(server, that.server) && Objects.equals(mainCtrl, that.mainCtrl) && Objects.equals(bicTextField, that.bicTextField) && Objects.equals(emailTextField, that.emailTextField) && Objects.equals(ibanTextField, that.ibanTextField) && Objects.equals(nameTextField, that.nameTextField) && Objects.equals(okButton, that.okButton) && Objects.equals(abortButton, that.abortButton);
     }
 
