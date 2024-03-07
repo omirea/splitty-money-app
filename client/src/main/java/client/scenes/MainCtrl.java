@@ -83,8 +83,11 @@ public class MainCtrl {
         this.adminLogInCtrl = logInAdminA.getKey();
         this.logInAdmin = new Scene(logInAdminA.getValue());
 
-//        showStartScreen();
-//        showExpense();
+
+        showStartScreen();
+        //showEditParticipants();
+        //showOpenDebts();
+       // showExpense();
 //        showEditParticipants();
         showAdminLogIn();
         primaryStage.show();
