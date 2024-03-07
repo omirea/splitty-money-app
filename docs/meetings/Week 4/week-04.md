@@ -4,8 +4,8 @@
 | Time: | 16:45 |
 | Location: | Cubicle 4, Drebbelweg PC Hall 1 |
 | Chair | Filip Nedić |
-| Minute Taker | Ege Yarar |
-| Attendees: | Aayush Gupta, Noe Narayudha Purwanto, Oana Mirea, Noortje Manintveld |
+| Minute Taker | Aayush Gupta |
+| Attendees: | Ege Yarar, Noe Narayudha Purwanto, Oana Mirea, Noortje Manintveld |
 # Agenda Items (8 min)
 - Opening by chair (1 min)
 - Check-in: How is everyone doing? (1 min)

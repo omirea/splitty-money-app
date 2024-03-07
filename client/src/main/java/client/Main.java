@@ -43,8 +43,6 @@ public class Main extends Application {
         var expense = FXML.load(AddEditExpenseCtrl.class, "client", "scenes", "AddEditExpense.fxml");
         var overview = FXML.load(EventOverviewCtrl.class, "client", "scenes", "EventOverview.fxml");
         var manageParticipants = FXML.load(ManageParticipantsCtrl.class, "client", "scenes", "ManageParticipants.fxml");
-
-
         var mainCtrl = INJECTOR.getInstance(MainCtrl.class);
         mainCtrl.initialize(stage, start, overview, invitation, participant, expense, openDebts, manageParticipants);
 
