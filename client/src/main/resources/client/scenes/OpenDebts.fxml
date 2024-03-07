@@ -13,12 +13,21 @@
    <children>
       <VBox layoutX="11.2" layoutY="72.0" prefHeight="200.0" prefWidth="579.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Label text="Your current debts">
-               <font>
-                  <Font name="System Bold" size="27.0" />
-               </font>
-            </Label>
-            <VBox prefHeight="267.0" prefWidth="558.0">
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Your current debts">
+                     <font>
+                        <Font name="System Bold" size="27.0" />
+                     </font>
+                  </Label>
+                  <Button mnemonicParsing="false" text="See closed debts">
+                     <HBox.margin>
+                        <Insets left="210.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <VBox prefHeight="308.0" prefWidth="558.0">
                <children>
                   <HBox prefHeight="18.0" prefWidth="521.0" spacing="100.0">
                      <children>
@@ -36,7 +45,7 @@
             <HBox prefHeight="42.0" prefWidth="558.0">
                <children>
                   <Button fx:id="back" alignment="BASELINE_LEFT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#goBackToEvent" prefHeight="26.0" prefWidth="94.0" text="Back" />
-                  <Button fx:id="payAllDebts" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#onClick" prefHeight="26.0" prefWidth="140.0" text="Pay all debts">
+                  <Button fx:id="payAllDebts" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#areYouSure" prefHeight="26.0" prefWidth="140.0" text="Pay all debts">
                      <HBox.margin>
                         <Insets left="430.0" />
                      </HBox.margin>

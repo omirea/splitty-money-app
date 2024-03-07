@@ -73,6 +73,9 @@ public class MainCtrl {
         this.manageParticipantsCtrl = editParticipants.getKey();
         this.editParticipants = new Scene(editParticipants.getValue());
 
+
+        showStartScreen();
+        //showEditParticipants();
         //showOpenDebts();
        // showExpense();
 //        showEditParticipants();
