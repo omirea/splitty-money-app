@@ -19,7 +19,7 @@ public class ParticipantController {
     @GetMapping("/")
     @ResponseBody
     public String index() {
-        return "Hello participant!";
+        return "Hello guy!";
     }
 
     @GetMapping("/participant/{id}")
