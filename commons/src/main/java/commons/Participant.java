@@ -1,10 +1,8 @@
 package commons;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -12,7 +10,19 @@ public class Participant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Column(name = "p_id")
+    private Long p_id;
+
+    @ManyToOne
+    @JoinColumn(name = "event_id", nullable = false)
+    private Event event_id;
+
+    @OneToMany(mappedBy = "d_id")
+    private List<Debt> debts;
+
+    @OneToOne(mappedBy = "to")
+    private Debt receive;
+
     private String name; // name of participant
     private String email; // email of participant
     private String IBAN; // IBAN of participant

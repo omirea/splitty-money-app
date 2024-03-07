@@ -1,16 +1,26 @@
 package commons;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
+@Entity
+@Table(name = "event")
 public class Event {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long event_id;
     /**
      * Arraylist with all the participants which are part of this event
      */
+    @OneToMany(mappedBy = "event_id")
     private ArrayList<Participant> participants;
     /**
      * Arraylist with all the expenses which are part of this event
      */
+    @OneToMany(mappedBy = "event_id")
     private ArrayList<Expense> expenses;
     /**
      * String with the name of the event
@@ -35,6 +45,8 @@ public class Event {
         this.name = name;
         this.invitationID = invitationID;
     }
+
+    public Event() {}
 
     /**
      * Getter for the list of participants

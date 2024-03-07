@@ -1,12 +1,25 @@
 package commons;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.util.*;
-public class Expense {
-    private Participant whoPaid; // The participant that paid this instance
+@Entity
+@Table(name = "expense")
+ class Expense {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long ex_id;
+
+    @ManyToOne
+    @JoinColumn(name = "event_id", nullable = false)
+    private Event event_id;
+
+    @OneToMany(mappedBy = "d_id")
+    private List<Debt> debts;
     private String description; // Description by the participant
     private double value; // Value of the expense
     private String type; // Type of expense
-    private List<Participant> participants; // list of participant
 
     private LocalDate dateSent; //date the expense is sent
 
@@ -14,31 +27,23 @@ public class Expense {
 
     /**
      * Constructor for expense
-     * @param whoPaid participant that paid the instance
      * @param description description of the participant
      * @param value value of the expense
      * @param type type of the expense
-     * @param participants List of participants involved in the expense
      * @param dateSent date when the request for the expense has been made
      * @param currency currency of the expense
      */
-    public Expense(Participant whoPaid, String description, double value, String type, List<Participant> participants,
+    public Expense(String description, double value, String type,
                    LocalDate dateSent, Currency currency) {
-        this.whoPaid = whoPaid;
         this.description = description;
         this.value = value;
         this.type = type;
-        this.participants = participants;
         this.dateSent = dateSent;
         this.currency = currency;
     }
-    /**
-     * Getter for the person that paid
-     * @return The participant that paid
-     */
-    public Participant getWhoPaid() {
-        return whoPaid;
-    }
+
+    public Expense() {}
+
 
     /**
      * Getter for description
@@ -64,13 +69,6 @@ public class Expense {
         return type;
     }
 
-    /**
-     * Getter for the list of participants
-     * @return A list of participants relevant to the expense
-     */
-    public List<Participant> getParticipants() {
-        return participants;
-    }
 
     /**
      * Getter for the date
@@ -86,13 +84,6 @@ public class Expense {
      */
     public Currency getCurrency() {
         return currency;
-    }
-    /**
-     * Setter for the Participant who has pad
-     * @param whoPaid the person who paid
-     */
-    public void setWhoPaid(Participant whoPaid) {
-        this.whoPaid = whoPaid;
     }
 
     /**
@@ -119,13 +110,6 @@ public class Expense {
         this.type = type;
     }
 
-    /**
-     * Setter for the participants involved
-     * @param participants the participants involved
-     */
-    public void setParticipants(List<Participant> participants) {
-        this.participants = participants;
-    }
 
     /**
      * Setter for the date sent
@@ -155,10 +139,8 @@ public class Expense {
         if (o == null || getClass() != o.getClass()) return false;
         Expense expense = (Expense) o;
         return Double.compare(value, expense.value) == 0 &&
-                Objects.equals(whoPaid, expense.whoPaid) &&
                 Objects.equals(description, expense.description) &&
                 Objects.equals(type, expense.type) &&
-                Objects.equals(participants, expense.participants) &&
                 Objects.equals(dateSent, expense.dateSent) && Objects.equals(currency, expense.currency);
     }
 
@@ -168,22 +150,7 @@ public class Expense {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(whoPaid, description, value, type, participants, dateSent, currency);
+        return Objects.hash(description, value, type, dateSent, currency);
     }
 
-    /**
-     * Adds a participant
-     * @param participant to be added
-     */
-    public void addParticipant(Participant participant) {
-        participants.add(participant);
-    }
-
-    /**
-     * Removes a participant
-     * @param participant to be removed
-     */
-    public void removeParticipant(Participant participant) {
-        participants.remove(participant);
-    }
 }
