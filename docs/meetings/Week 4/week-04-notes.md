@@ -39,7 +39,7 @@
 >- We need to add functionality for splitting expenses between participants.
 >- Will be worked on by Noortje and Oana.
 - Finishing Database: Last steps? (3 min)
->- Participants database has been started, Oana will finish it. THe remainder of the database will be worked on by Aayush, Noe and Filip.
+>- Participants database has been started, Oana will finish it. THe remainder of the database will be worked on by Aayush, Noe, Ege and Filip.
 - Functionality: What to implement this week? (1 min)
 - Functionality: What can we implement at this point? (2 min)
 - Functionalty: Who?, What?, When? (2 min)
