@@ -2,12 +2,10 @@ package client.scenes;
 import client.utils.ServerUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import java.util.Objects;
