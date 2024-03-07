@@ -23,6 +23,11 @@ public class OpenDebtsCtrl {
     @FXML
     private Button markButton;
 
+    @FXML
+    private Button payAllDebts;
+
+    @FXML
+    private Button back;
 
     @Inject
     public OpenDebtsCtrl(ServerUtils server, MainCtrl mainCtrl){
@@ -87,6 +92,8 @@ public class OpenDebtsCtrl {
         TextArea txt= new TextArea("aaa");
         hboxContainer.getChildren().add(txt);
     }
+
+
 
 
 }
