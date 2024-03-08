@@ -13,10 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.Objects;
-
 
 public class AddEditExpenseCtrl {
 
@@ -28,9 +26,9 @@ public class AddEditExpenseCtrl {
     @FXML
     private TextField whatForField;
     @FXML
-    private DatePicker whenField;
-    @FXML
     private TextField howMuchField;
+    @FXML
+    private DatePicker whenField;
     @FXML
     private ChoiceBox<String> currencyField;
 
@@ -39,7 +37,6 @@ public class AddEditExpenseCtrl {
     private ListView<String> peopleListViewField;
     @FXML
     private VBox peopleVBoxField;
-
     @FXML
     private RadioButton onlySomePeopleField;
     @FXML

@@ -79,10 +79,10 @@ public class MainCtrl {
         openDebtsCtrl.getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         closedDebtsCtrl.getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        showStartScreen();
+        //showStartScreen();
         //showEditParticipants();
         //showOpenDebts();
-        //showExpense();
+        showExpense();
         //showEditParticipants();
         //showAdminLogIn();
         primaryStage.show();
