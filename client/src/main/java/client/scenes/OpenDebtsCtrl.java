@@ -3,8 +3,6 @@ package client.scenes;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-
 import javax.inject.Inject;
 import java.util.Objects;
 import java.util.Optional;
