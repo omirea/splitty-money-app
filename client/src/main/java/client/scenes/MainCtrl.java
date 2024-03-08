@@ -73,6 +73,10 @@ public class MainCtrl {
         this.logInAdmin = new Scene(logInAdminA.getValue());
         this.closedDebtsCtrl = closedDebts.getKey();
         this.closedDebts = new Scene(closedDebts.getValue());
+
+        initializeAspectOpenDebts();
+        openDebtsCtrl.getListView().getItems().addAll("Debt 1", "Debt 2", "Debt 3");
+
         showStartScreen();
         //showEditParticipants();
         //showOpenDebts();
