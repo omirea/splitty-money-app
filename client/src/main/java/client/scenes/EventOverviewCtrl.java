@@ -51,7 +51,7 @@ public class EventOverviewCtrl {
     @FXML
     public void onSettleDebtsClick() {
         //will do the following code snippet once implemented:
-        //mainCtrl.showOpenDebts();
+        mainCtrl.showOpenDebts();
         System.out.println("Settling debts...");
     }
 
