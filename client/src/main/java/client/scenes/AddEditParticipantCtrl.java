@@ -27,7 +27,7 @@ public class AddEditParticipantCtrl {
     @FXML
     private Button okButton;
     @FXML
-    private Button abortButton;
+    private Button cancelButton;
 
     @Inject
     public AddEditParticipantCtrl(ServerUtils server, MainCtrl mainCtrl){
@@ -40,12 +40,13 @@ public class AddEditParticipantCtrl {
         emailTextField.clear();
         ibanTextField.clear();
         bicTextField.clear();
+        mainCtrl.showEventOverview("123");
     }
 
     @FXML
     void onClickOk(ActionEvent event) {
         if(checkEmpty() && validateEmail() && isIbanValid()){
-        // TODO: Add to database
+            // TODO: Add to database
         }
     }
 
@@ -97,12 +98,12 @@ public class AddEditParticipantCtrl {
         this.okButton = okButton;
     }
 
-    public Button getAbortButton() {
-        return abortButton;
+    public Button getCancelButton() {
+        return cancelButton;
     }
 
-    public void setAbortButton(Button abortButton) {
-        this.abortButton = abortButton;
+    public void setCancelButton(Button cancelButton) {
+        this.cancelButton = cancelButton;
     }
 
     @Override
@@ -110,12 +111,12 @@ public class AddEditParticipantCtrl {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AddEditParticipantCtrl that = (AddEditParticipantCtrl) o;
-        return Objects.equals(server, that.server) && Objects.equals(mainCtrl, that.mainCtrl) && Objects.equals(bicTextField, that.bicTextField) && Objects.equals(emailTextField, that.emailTextField) && Objects.equals(ibanTextField, that.ibanTextField) && Objects.equals(nameTextField, that.nameTextField) && Objects.equals(okButton, that.okButton) && Objects.equals(abortButton, that.abortButton);
+        return Objects.equals(server, that.server) && Objects.equals(mainCtrl, that.mainCtrl) && Objects.equals(bicTextField, that.bicTextField) && Objects.equals(emailTextField, that.emailTextField) && Objects.equals(ibanTextField, that.ibanTextField) && Objects.equals(nameTextField, that.nameTextField) && Objects.equals(okButton, that.okButton) && Objects.equals(cancelButton, that.cancelButton);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(server, mainCtrl, bicTextField, emailTextField, ibanTextField, nameTextField, okButton, abortButton);
+        return Objects.hash(server, mainCtrl, bicTextField, emailTextField, ibanTextField, nameTextField, okButton, cancelButton);
     }
 
     public boolean validateEmail(){
@@ -153,8 +154,6 @@ public class AddEditParticipantCtrl {
             alert.showAndWait();
             return false;
         }
-
-
     }
 
     private boolean isIbanValid() {
@@ -202,7 +201,5 @@ public class AddEditParticipantCtrl {
             alert.showAndWait();
             return false;
         }
-
-
     }
 }
