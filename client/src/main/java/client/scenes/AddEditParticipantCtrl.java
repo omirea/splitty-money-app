@@ -1,11 +1,10 @@
 package client.scenes;
+
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-
-
 import javax.inject.Inject;
 import javafx.event.ActionEvent;
 import java.util.Objects;
@@ -94,16 +93,8 @@ public class AddEditParticipantCtrl {
         return okButton;
     }
 
-    public void setOkButton(Button okButton) {
-        this.okButton = okButton;
-    }
-
     public Button getCancelButton() {
         return cancelButton;
-    }
-
-    public void setCancelButton(Button cancelButton) {
-        this.cancelButton = cancelButton;
     }
 
     @Override
@@ -119,11 +110,14 @@ public class AddEditParticipantCtrl {
         return Objects.hash(server, mainCtrl, bicTextField, emailTextField, ibanTextField, nameTextField, okButton, cancelButton);
     }
 
+    /**
+     * method to check if the email input is valid
+     * @return true or false if the email is valid
+     */
     public boolean validateEmail(){
         String regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])" +
                 "|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         Pattern p= Pattern.compile(regex);
-        //System.out.println(emailTextField.getText().trim());
         Matcher m= p.matcher(emailTextField.getText().trim());
         if(m.find() && m.group().equals(emailTextField.getText().trim())){
             return true;
@@ -137,25 +131,10 @@ public class AddEditParticipantCtrl {
         }
     }
 
-    public boolean checkEmpty(){
-        boolean name= nameTextField.getText().trim().isEmpty();
-        boolean email= emailTextField.getText().trim().isEmpty();
-        boolean iban= ibanTextField.getText().trim().isEmpty();
-        boolean bic= bicTextField.getText().trim().isEmpty();
-
-        if(!(name || email || iban || bic)){
-            return true;
-        }
-        else{
-            Alert alert=new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Empty Field");
-            alert.setHeaderText(null);
-            alert.setContentText("Please Fill All The Fields");
-            alert.showAndWait();
-            return false;
-        }
-    }
-
+    /**
+     * method to check if IBAN is valid
+     * @return true or false if IBAN is valid
+     */
     private boolean isIbanValid() {
         int IBAN_MIN_SIZE = 15;
         int IBAN_MAX_SIZE = 34;
@@ -198,6 +177,29 @@ public class AddEditParticipantCtrl {
             alert.setTitle("Non-valid IBAN");
             alert.setHeaderText(null);
             alert.setContentText("Please Enter A Valid IBAN");
+            alert.showAndWait();
+            return false;
+        }
+    }
+
+    /**
+     * method to check if any text box is empty
+     * @return true or false if any text boxes are empty
+     */
+    public boolean checkEmpty(){
+        boolean name= nameTextField.getText().trim().isEmpty();
+        boolean email= emailTextField.getText().trim().isEmpty();
+        boolean iban= ibanTextField.getText().trim().isEmpty();
+        boolean bic= bicTextField.getText().trim().isEmpty();
+
+        if(!(name || email || iban || bic)){
+            return true;
+        }
+        else{
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Empty Field");
+            alert.setHeaderText(null);
+            alert.setContentText("Please Fill All The Fields");
             alert.showAndWait();
             return false;
         }

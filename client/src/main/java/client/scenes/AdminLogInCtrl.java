@@ -8,7 +8,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
 import javax.inject.Inject;
 
 public class AdminLogInCtrl {
@@ -36,14 +35,16 @@ public class AdminLogInCtrl {
     @FXML
     private Button logInButton;
 
-
     @Inject
     public AdminLogInCtrl(RefServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
 
-    @FXML
+    /**
+     * method to connect into admin account
+     * @return true or false if login was successful
+     */
     public boolean onClickLogIn(){
         if(checkPassword() && checkEmptyFields() && checkUsername() ){
             //mainCtrl.showAdminLogIn();
@@ -52,12 +53,17 @@ public class AdminLogInCtrl {
         } else return false;
     }
 
-    @FXML
+    /**
+     * method to display the Start Screen
+     */
     public void onClickHome(){
         mainCtrl.showStartScreen();
     }
 
-
+    /**
+     * method to check if the text filled are empty
+     * @return true if the fields are both filled, else false
+     */
     public boolean checkEmptyFields(){
         boolean usernameField = username.getText().trim().isEmpty();
         boolean passwordField = password.getText().trim().isEmpty();
@@ -74,6 +80,10 @@ public class AdminLogInCtrl {
         }
     }
 
+    /**
+     * method to check if the password is correct
+     * @return true if the password is correct, else false
+     */
     public boolean checkPassword(){
         String passwordAdmin = "AdminPassword123!";
         String passwordFromField = password.getText().trim();
@@ -89,6 +99,10 @@ public class AdminLogInCtrl {
         }
     }
 
+    /**
+     * method to check if the username is correct
+     * @return true if the username is correct, else false
+     */
     public boolean checkUsername(){
         String usernameAdmin = "AdminSplitty";
         String usernameFromField = username.getText().trim();
@@ -103,10 +117,4 @@ public class AdminLogInCtrl {
             return false;
         }
     }
-
-
-
-
-
-
 }
