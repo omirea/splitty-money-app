@@ -4,7 +4,6 @@ import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javax.inject.Inject;
-import java.util.Objects;
 import java.util.Optional;
 
 public class OpenDebtsCtrl {
@@ -66,12 +65,21 @@ public class OpenDebtsCtrl {
         }
     }
 
+    /**
+     * method to go back to event page
+     */
     public void goBackToEvent(){
         mainCtrl.showEventOverview("1023");
     }
 
+    /**
+     * method to open closed debts page
+     */
     public void seeClosedDebts(){mainCtrl.showClosedDebts();}
 
+    /**
+     * method to mark all selected debts as paid
+     */
     public void paySelectedDebts(){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Mark selected debts as paid");
@@ -86,26 +94,4 @@ public class OpenDebtsCtrl {
             listView.getItems().removeAll(listView.getSelectionModel().getSelectedItems());
         }
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OpenDebtsCtrl that = (OpenDebtsCtrl) o;
-        return Objects.equals(server, that.server) &&
-                Objects.equals(mainCtrl, that.mainCtrl);
-    }
-
-    @Override
-    public String toString() {
-        return "OpenDebtsCtrl{" +
-                "server=" + server +
-                ", mainCtrl=" + mainCtrl + '}';
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(server, mainCtrl);
-    }
-
 }

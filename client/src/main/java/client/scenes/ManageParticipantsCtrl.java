@@ -22,10 +22,11 @@ public class ManageParticipantsCtrl {
         this.mainCtrl = mainCtrl;
     }
 
-    @FXML
+    /**
+     * method to cancel action
+     */
     public void onCancelClick() {
         System.out.println("Going back to event");
-
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Revert changes?");
         alert.setHeaderText(null);
@@ -37,7 +38,6 @@ public class ManageParticipantsCtrl {
     /**
      * method to open event page
      */
-    @FXML
     public void onFinishClick() {
         System.out.println("Complete changes and return to event");
         // TODO: connect to database, open new window
@@ -46,7 +46,6 @@ public class ManageParticipantsCtrl {
     /**
      * method to add a random participant
      */
-    @FXML
     public void addRandomParticipant() {
         AddedParticipant addedParticipant = new AddedParticipant();
         HBox hBox = addedParticipant.getNode();
@@ -56,7 +55,6 @@ public class ManageParticipantsCtrl {
     /**
      * method to add participant
      */
-    @FXML
     public void addParticipant() {
         // TODO: navigate to add/edit participants page
     }

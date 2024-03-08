@@ -68,13 +68,13 @@ public class MainCtrl {
         this.expense = new Scene(expense.getValue());
         this.manageParticipantsCtrl = editParticipants.getKey();
         this.editParticipants = new Scene(editParticipants.getValue());
-//
         this.adminLogInCtrl = logInAdminA.getKey();
         this.logInAdmin = new Scene(logInAdminA.getValue());
         this.closedDebtsCtrl = closedDebts.getKey();
         this.closedDebts = new Scene(closedDebts.getValue());
 
         initializeAspectOpenDebts();
+        initializeAspectClosedDebts();
         openDebtsCtrl.getListView().getItems().addAll("Debt 1", "Debt 2", "Debt 3");
         openDebtsCtrl.getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         closedDebtsCtrl.getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -92,6 +92,9 @@ public class MainCtrl {
         openDebtsCtrl.getPayAllDebts().setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
     }
 
+    private void initializeAspectClosedDebts() {
+        closedDebtsCtrl.getReopenAllDebts().setStyle("-fx-background-color: #4ccbff");
+    }
     public void showParticipant() {
         primaryStage.setTitle("Splitty: Add/Edit Participant");
         primaryStage.setScene(participant);
