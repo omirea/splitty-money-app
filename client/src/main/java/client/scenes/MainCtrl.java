@@ -17,6 +17,7 @@ package client.scenes;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -135,9 +136,9 @@ public class MainCtrl {
         primaryStage.setScene(closedDebts);
     }
 
-//    public void addItemsToClosedDebts(ListView<String> listView) {
-//        for (String s : listView.getItems()) {
-//            closedDebtsCtrl.getListView().getItems().add(s);
-//        }
-//    }
+    public void addItemsToClosedDebts(ListView<String> listView) {
+        for(String s: listView.getItems())
+            closedDebtsCtrl.getListView().getItems().add(s);
+    }
+
 }

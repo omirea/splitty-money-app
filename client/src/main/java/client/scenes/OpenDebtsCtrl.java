@@ -79,7 +79,7 @@ public class OpenDebtsCtrl {
         alert.setContentText("Are you sure you want to mark all debts as settled?");
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK) {
-            //mainCtrl.addItemsToClosedDebts(this.listView);
+            mainCtrl.addItemsToClosedDebts(this.listView);
             listView.getItems().clear();
         }
     }
