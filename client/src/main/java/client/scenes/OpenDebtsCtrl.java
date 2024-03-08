@@ -1,7 +1,6 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -16,15 +15,6 @@ public class OpenDebtsCtrl {
     private final MainCtrl mainCtrl;
 
     @FXML
-    private Button arrowButton;
-
-    @FXML
-    private HBox hboxContainer;
-
-    @FXML
-    private Button markButton;
-
-    @FXML
     private Button payAllDebts;
 
     @FXML
@@ -32,6 +22,9 @@ public class OpenDebtsCtrl {
 
     @FXML
     private Button seeClosedDebts;
+
+    @FXML
+    private Button selectedDebts;
 
     @FXML
     private ListView<String> listView=new ListView<>();
@@ -50,31 +43,20 @@ public class OpenDebtsCtrl {
         return mainCtrl;
     }
 
-    public Button getArrowButton() {
-        return arrowButton;
-    }
-
-    public void setArrowButton(Button arrowButton) {
-        this.arrowButton = arrowButton;
-    }
-
-    public Button getMarkButton() {
-        return markButton;
-    }
-
     public Button getSeeClosedDebts(){return seeClosedDebts;}
 
-    public void setMarkButton(Button markButton) {
-        this.markButton = markButton;
-    }
+    public Button getBack(){return back;}
+
+    public Button getSelectedDebts(){return selectedDebts;}
 
     public ListView<String> getListView(){return listView;}
+
 
     public Button getPayAllDebts(){return payAllDebts;}
 
     public void areYouSure(){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Select all debts as paid");
+        alert.setTitle("Mark all debts as paid");
         alert.setHeaderText(null);
         alert.setContentText("Are you sure you want to mark all debts as settled?");
         Optional<ButtonType> result=alert.showAndWait();
@@ -90,36 +72,40 @@ public class OpenDebtsCtrl {
 
     public void seeClosedDebts(){mainCtrl.showClosedDebts();}
 
+    public void paySelectedDebts(){
+        Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Mark selected debts as paid");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to mark the selected debts as settled?");
+        Optional<ButtonType> result=alert.showAndWait();
+        if(result.get()==ButtonType.OK) {
+            ListView<String> selected = new ListView<>();
+            for (Object o : listView.getSelectionModel().getSelectedItems())
+                selected.getItems().add((String) o);
+            mainCtrl.addItemsToClosedDebts(selected);
+            listView.getItems().removeAll(listView.getSelectionModel().getSelectedItems());
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OpenDebtsCtrl that = (OpenDebtsCtrl) o;
-        return Objects.equals(server, that.server) && Objects.equals(mainCtrl, that.mainCtrl) && Objects.equals(arrowButton, that.arrowButton) && Objects.equals(markButton, that.markButton);
+        return Objects.equals(server, that.server) &&
+                Objects.equals(mainCtrl, that.mainCtrl);
     }
 
     @Override
     public String toString() {
         return "OpenDebtsCtrl{" +
                 "server=" + server +
-                ", mainCtrl=" + mainCtrl +
-                ", arrowButton=" + arrowButton +
-                ", markButton=" + markButton +
-                '}';
+                ", mainCtrl=" + mainCtrl + '}';
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(server, mainCtrl, arrowButton, markButton);
+        return Objects.hash(server, mainCtrl);
     }
 
-    @FXML
-    void markReceived(ActionEvent event) {
-    }
-
-    @FXML
-    void openTextField(ActionEvent event) {
-        TextArea txt= new TextArea("aaa");
-        hboxContainer.getChildren().add(txt);
-    }
 }
