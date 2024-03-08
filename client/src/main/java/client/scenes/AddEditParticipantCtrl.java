@@ -1,11 +1,10 @@
 package client.scenes;
+
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-
-
 import javax.inject.Inject;
 import javafx.event.ActionEvent;
 import java.util.Objects;
