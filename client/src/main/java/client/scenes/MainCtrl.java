@@ -76,9 +76,9 @@ public class MainCtrl {
         initializeAspectOpenDebts();
         openDebtsCtrl.getListView().getItems().addAll("Debt 1", "Debt 2", "Debt 3");
 
-        //showStartScreen();
+        showStartScreen();
         //showEditParticipants();
-        showOpenDebts();
+        //showOpenDebts();
         //showExpense();
         //showEditParticipants();
         //showAdminLogIn();
