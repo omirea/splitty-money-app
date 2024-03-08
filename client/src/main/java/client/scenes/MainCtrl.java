@@ -18,6 +18,7 @@ package client.scenes;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -75,6 +76,8 @@ public class MainCtrl {
 
         initializeAspectOpenDebts();
         openDebtsCtrl.getListView().getItems().addAll("Debt 1", "Debt 2", "Debt 3");
+        openDebtsCtrl.getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        closedDebtsCtrl.getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         showStartScreen();
         //showEditParticipants();
@@ -87,7 +90,6 @@ public class MainCtrl {
 
     private void initializeAspectOpenDebts() {
         openDebtsCtrl.getPayAllDebts().setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
-
     }
 
     public void showParticipant() {
@@ -141,4 +143,8 @@ public class MainCtrl {
             closedDebtsCtrl.getListView().getItems().add(s);
     }
 
+    public void addItemsToOpenDebts(ListView<String> listView) {
+        for(String s: listView.getItems())
+            openDebtsCtrl.getListView().getItems().add(s);
+    }
 }
