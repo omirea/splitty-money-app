@@ -93,59 +93,96 @@ public class MainCtrl {
     }
 
     private void initializeAspectClosedDebts() {
-        closedDebtsCtrl.getReopenAllDebts().setStyle("-fx-background-color: #4ccbff");
+        closedDebtsCtrl.getReopenAllDebts().setStyle("-fx-background-color: #4dbaff");
     }
+
+    /**
+     * method to show participant page
+     */
     public void showParticipant() {
         primaryStage.setTitle("Splitty: Add/Edit Participant");
         primaryStage.setScene(participant);
     }
 
+    /**
+     * method to show open debts page
+     */
     public void showOpenDebts() {
         primaryStage.setTitle("Splitty: Open Debts");
         primaryStage.setScene(openDebts);
     }
 
+    /**
+     * method to show invitation page
+     */
     public void showInvitation() {
         primaryStage.setTitle("Splitty: Send Invites");
         primaryStage.setScene(invitation);
     }
 
+    /**
+     * method to show start screen page
+     */
     public void showStartScreen() {
         primaryStage.setTitle("Splitty: Start");
         primaryStage.setScene(start);
     }
 
+    /**
+     * method to show expense page
+     */
     public void showExpense() {
         primaryStage.setTitle("Splitty: Add/Edit Expense");
         primaryStage.setScene(expense);
     }
 
+    /**
+     * method to show events page
+     * @param id id of the event
+     */
     public void showEventOverview(String id) {
         primaryStage.setTitle("Splitty: Event overview");
         primaryStage.setScene(overview);
         overviewCtrl.setEventTitleText();
     }
 
+    /**
+     * method to show edit participant page
+     */
     public void showEditParticipants() {
         primaryStage.setTitle("Splitty: Edit Participants");
         primaryStage.setScene(editParticipants);
     }
 
+    /**
+     * method to show admin log in page
+     */
     public void showAdminLogIn() {
         primaryStage.setTitle("Splitty: Admin Log In");
         primaryStage.setScene(logInAdmin);
     }
 
+    /**
+     * method to show closed debts page
+     */
     public void showClosedDebts() {
         primaryStage.setTitle("Closed Debts");
         primaryStage.setScene(closedDebts);
     }
 
+    /**
+     * method to add closed debts to the list view
+     * @param listView list view that needs to be added
+     */
     public void addItemsToClosedDebts(ListView<String> listView) {
         for(String s: listView.getItems())
             closedDebtsCtrl.getListView().getItems().add(s);
     }
 
+    /**
+     * method to add open debts to the list view
+     * @param listView list view that needs to be added
+     */
     public void addItemsToOpenDebts(ListView<String> listView) {
         for(String s: listView.getItems())
             openDebtsCtrl.getListView().getItems().add(s);
