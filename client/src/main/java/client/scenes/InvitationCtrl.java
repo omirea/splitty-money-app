@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javax.inject.Inject;
-import java.util.Objects;
 
 public class InvitationCtrl {
 
