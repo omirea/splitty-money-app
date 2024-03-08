@@ -20,8 +20,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-import javax.swing.text.html.ListView;
-
 public class MainCtrl {
     private Stage primaryStage;
     private AddEditParticipantCtrl addEditParticipantCtrl;
