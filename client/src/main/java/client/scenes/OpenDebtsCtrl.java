@@ -2,13 +2,12 @@ package client.scenes;
 import client.utils.ServerUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 
 import javax.inject.Inject;
 import java.util.Objects;
+import java.util.Optional;
 
 public class OpenDebtsCtrl {
 
@@ -29,6 +28,12 @@ public class OpenDebtsCtrl {
 
     @FXML
     private Button back;
+
+    @FXML
+    private Button seeClosedDebts;
+
+    @FXML
+    private javax.swing.text.html.ListView<String> listView=new ListView<>();
 
     @Inject
     public OpenDebtsCtrl(ServerUtils server, MainCtrl mainCtrl){
@@ -56,21 +61,33 @@ public class OpenDebtsCtrl {
         return markButton;
     }
 
+    public Button getSeeClosedDebts(){return seeClosedDebts;}
+
     public void setMarkButton(Button markButton) {
         this.markButton = markButton;
     }
+
+    public ListView<String> getListView(){return listView;}
+
+    public Button getPayAllDebts(){return payAllDebts;}
 
     public void areYouSure(){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Select all debts as paid");
         alert.setHeaderText(null);
         alert.setContentText("Are you sure you want to mark all debts as settled?");
-        alert.showAndWait();
+        Optional<ButtonType> result=alert.showAndWait();
+        if(result.get()==ButtonType.OK) {
+            mainCtrl.addItemsToClosedDebts(listView);
+            listView.getItems().clear();
+        }
     }
 
     public void goBackToEvent(){
         mainCtrl.showEventOverview("1023");
     }
+
+    public void seeClosedDebts(){mainCtrl.showClosedDebts();}
 
     @Override
     public boolean equals(Object o) {
@@ -104,8 +121,4 @@ public class OpenDebtsCtrl {
         TextArea txt= new TextArea("aaa");
         hboxContainer.getChildren().add(txt);
     }
-
-
-
-
 }

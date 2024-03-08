@@ -20,32 +20,28 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-public class MainCtrl {
+import javax.swing.text.html.ListView;
 
+public class MainCtrl {
     private Stage primaryStage;
     private AddEditParticipantCtrl addEditParticipantCtrl;
     private Scene participant;
-
     private OpenDebtsCtrl openDebtsCtrl;
     private Scene openDebts;
-
     private InvitationCtrl invitationCtrl;
     private Scene invitation;
-
     private AddEditExpenseCtrl addEditExpenseCtrl;
     private Scene expense;
-
     private EventOverviewCtrl overviewCtrl;
     private Scene overview;
     private ManageParticipantsCtrl manageParticipantsCtrl;
     private Scene editParticipants;
-
     private StartCtrl startCtrl;
     private Scene start;
-
     private Scene logInAdmin;
-
     private AdminLogInCtrl adminLogInCtrl;
+    private ClosedDebtsCtrl closedDebtsCtrl;
+    private Scene closedDebts;
 
     public void initialize(Stage primaryStage,
                            Pair<StartCtrl, Parent> start,
@@ -54,40 +50,33 @@ public class MainCtrl {
                            Pair<AddEditParticipantCtrl, Parent> participant,
                            Pair<AddEditExpenseCtrl, Parent> expense,
                            Pair<OpenDebtsCtrl, Parent> openDebts,
-                           Pair<ManageParticipantsCtrl, Parent> editParticipants
-        , Pair<AdminLogInCtrl, Parent> logInAdminA
-    ) {
-
+                           Pair<ManageParticipantsCtrl, Parent> editParticipants,
+                           Pair<AdminLogInCtrl, Parent> logInAdminA,
+                           Pair<ClosedDebtsCtrl, Parent> closedDebts) {
         this.primaryStage = primaryStage;
         this.startCtrl = start.getKey();
         this.start = new Scene(start.getValue());
-
         this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
-
         this.addEditParticipantCtrl = participant.getKey();
         this.participant = new Scene(participant.getValue());
-
         this.openDebtsCtrl = openDebts.getKey();
         this.openDebts = new Scene(openDebts.getValue());
-
         this.invitationCtrl = invitation.getKey();
         this.invitation = new Scene(invitation.getValue());
-
         this.addEditExpenseCtrl = expense.getKey();
         this.expense = new Scene(expense.getValue());
-
         this.manageParticipantsCtrl = editParticipants.getKey();
         this.editParticipants = new Scene(editParticipants.getValue());
 //
         this.adminLogInCtrl = logInAdminA.getKey();
         this.logInAdmin = new Scene(logInAdminA.getValue());
-
-
+        this.closedDebtsCtrl = closedDebts.getKey();
+        this.closedDebts = new Scene(closedDebts.getValue());
         showStartScreen();
         //showEditParticipants();
         //showOpenDebts();
-       // showExpense();
+        // showExpense();
 //        showEditParticipants();
         showAdminLogIn();
         primaryStage.show();
@@ -108,12 +97,11 @@ public class MainCtrl {
         primaryStage.setScene(invitation);
     }
 
-
     public void showStartScreen() {
         primaryStage.setTitle("Splitty: Start");
         primaryStage.setScene(start);
-
     }
+
     public void showExpense() {
         primaryStage.setTitle("Splitty: Add/Edit Expense");
         primaryStage.setScene(expense);
@@ -130,8 +118,19 @@ public class MainCtrl {
         primaryStage.setScene(editParticipants);
     }
 
-    public void showAdminLogIn(){
+    public void showAdminLogIn() {
         primaryStage.setTitle("Splitty: Admin Log In");
         primaryStage.setScene(logInAdmin);
+    }
+
+    public void showClosedDebts() {
+        primaryStage.setTitle("Closed Debts");
+        primaryStage.setScene(closedDebts);
+    }
+
+    public void addItemsToClosedDebts(ListView listView) {
+        for (String s : listView.getItems()) {
+            closedDebtsCtrl.getListView().getItems().add(s);
+        }
     }
 }
