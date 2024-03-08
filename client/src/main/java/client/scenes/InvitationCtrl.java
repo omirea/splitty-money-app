@@ -18,6 +18,9 @@ public class InvitationCtrl {
     @FXML
     private Button sendInvitesButton;
 
+    @FXML
+    private Button back;
+
     @Inject
     public InvitationCtrl(ServerUtils server, MainCtrl mainCtrl){
         this.server=server;
@@ -54,6 +57,12 @@ public class InvitationCtrl {
 
     public void setSendInvitesButton(Button sendInvitesButton) {
         this.sendInvitesButton = sendInvitesButton;
+    }
+
+    public Button getBack(){return back;}
+
+    public void goBackToEvent(){
+        mainCtrl.showEventOverview("123");
     }
     @Override
     public boolean equals(Object o) {

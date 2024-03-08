@@ -36,7 +36,7 @@ public class EventOverviewCtrl {
     @FXML
     public void onSendInvitesClick(){
         //will do the following code snippet once implemented:
-        //mainCtrl.showInvite();
+        mainCtrl.showInvitation();
         System.out.println("Sending Invite...");
     }
 
