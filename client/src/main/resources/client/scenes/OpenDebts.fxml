@@ -20,7 +20,7 @@
                         <Font name="System Bold" size="27.0" />
                      </font>
                   </Label>
-                  <Button mnemonicParsing="false" text="See closed debts">
+                  <Button fx:id="seeClosedDebts" mnemonicParsing="false" onAction="#seeClosedDebts" text="See closed debts">
                      <HBox.margin>
                         <Insets left="210.0" top="5.0" />
                      </HBox.margin>
