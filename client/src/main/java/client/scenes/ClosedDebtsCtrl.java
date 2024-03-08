@@ -3,7 +3,6 @@ package client.scenes;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
 import javax.inject.Inject;
 import java.util.Optional;
 
@@ -29,7 +28,7 @@ public class ClosedDebtsCtrl {
         this.mainCtrl=mainCtrl;
     }
 
-
+    public ListView<String> getListView(){return listView;}
     public void goBackToOpenDebts(){
         mainCtrl.showOpenDebts();
     }
@@ -40,6 +39,9 @@ public class ClosedDebtsCtrl {
 
     public Button getReopenSelectedDebts(){return reopenSelectedDebts;}
 
+    /**
+     * method to reopen all the closed debts
+     */
     public void reopenAllDebts(){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Reopen all debts");
@@ -51,6 +53,9 @@ public class ClosedDebtsCtrl {
         }
     }
 
+    /**
+     * method to reopen only the selected debts
+     */
     public void reopenSelectedDebts(){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Reopen selected debts");
@@ -64,11 +69,4 @@ public class ClosedDebtsCtrl {
             listView.getItems().removeAll(listView.getSelectionModel().getSelectedItems());
         }
     }
-
-    public ListView<String> getListView(){return listView;}
-
-    public void addItemsToListView(String item){
-        this.listView.getItems().add(item);
-    }
-
 }

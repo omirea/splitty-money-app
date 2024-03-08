@@ -49,10 +49,12 @@ public class OpenDebtsCtrl {
 
     public ListView<String> getListView(){return listView;}
 
-
     public Button getPayAllDebts(){return payAllDebts;}
 
-    public void areYouSure(){
+    /**
+     * method to mark all debts as paid
+     */
+    public void markAllDebtsAsPaid(){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Mark all debts as paid");
         alert.setHeaderText(null);

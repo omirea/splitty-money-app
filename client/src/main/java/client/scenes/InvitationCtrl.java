@@ -1,4 +1,5 @@
 package client.scenes;
+
 import client.utils.ServerUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,21 +28,9 @@ public class InvitationCtrl {
         this.mainCtrl=mainCtrl;
     }
 
-    @FXML
-    void sendInvites(ActionEvent event) {
-        String[] email =emailTextField.getText().split("\n");
-        for(String e: email){
-            System.out.println(e);
-        }
-    }
+    public ServerUtils getServer() {return server;}
 
-    public ServerUtils getServer() {
-        return server;
-    }
-
-    public MainCtrl getMainCtrl() {
-        return mainCtrl;
-    }
+    public MainCtrl getMainCtrl() {return mainCtrl;}
 
     public TextArea getEmailTextField() {
         return emailTextField;
@@ -61,20 +50,21 @@ public class InvitationCtrl {
 
     public Button getBack(){return back;}
 
+    /**
+     * method to send invite
+     * @param event to send invite to
+     */
+    public void sendInvites(ActionEvent event) {
+        String[] email =emailTextField.getText().split("\n");
+        for(String e: email){
+            System.out.println(e);
+        }
+    }
+
+    /**
+     * method to go back to event page
+     */
     public void goBackToEvent(){
         mainCtrl.showEventOverview("123");
     }
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        InvitationCtrl that = (InvitationCtrl) o;
-        return Objects.equals(server, that.server) && Objects.equals(mainCtrl, that.mainCtrl) && Objects.equals(emailTextField, that.emailTextField) && Objects.equals(sendInvitesButton, that.sendInvitesButton);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(server, mainCtrl, emailTextField, sendInvitesButton);
-    }
-
 }

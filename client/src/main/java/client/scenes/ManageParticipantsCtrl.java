@@ -34,12 +34,18 @@ public class ManageParticipantsCtrl {
         // TODO: open new window
     }
 
+    /**
+     * method to open event page
+     */
     @FXML
     public void onFinishClick() {
         System.out.println("Complete changes and return to event");
         // TODO: connect to database, open new window
     }
 
+    /**
+     * method to add a random participant
+     */
     @FXML
     public void addRandomParticipant() {
         AddedParticipant addedParticipant = new AddedParticipant();
@@ -47,6 +53,9 @@ public class ManageParticipantsCtrl {
         displayParticipants.getChildren().add(hBox);
     }
 
+    /**
+     * method to add participant
+     */
     @FXML
     public void addParticipant() {
         // TODO: navigate to add/edit participants page
