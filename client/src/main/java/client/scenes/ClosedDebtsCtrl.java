@@ -15,7 +15,7 @@ public class ClosedDebtsCtrl {
     private Button back;
 
     @FXML
-    private ListView<String> listView;
+    private ListView<String> listView=new ListView<>();
 
     @Inject
     public ClosedDebtsCtrl(ServerUtils server,MainCtrl mainCtrl){

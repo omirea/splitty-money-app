@@ -1,4 +1,5 @@
 package client.scenes;
+
 import client.utils.ServerUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,7 +34,7 @@ public class OpenDebtsCtrl {
     private Button seeClosedDebts;
 
     @FXML
-    private javax.swing.text.html.ListView<String> listView=new ListView<>();
+    private ListView<String> listView=new ListView<>();
 
     @Inject
     public OpenDebtsCtrl(ServerUtils server, MainCtrl mainCtrl){
@@ -78,7 +79,7 @@ public class OpenDebtsCtrl {
         alert.setContentText("Are you sure you want to mark all debts as settled?");
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK) {
-            mainCtrl.addItemsToClosedDebts(listView);
+            //mainCtrl.addItemsToClosedDebts(this.listView);
             listView.getItems().clear();
         }
     }

@@ -86,6 +86,11 @@ public class MainCtrl {
         primaryStage.show();
     }
 
+    private void initializeAspectOpenDebts() {
+        openDebtsCtrl.getPayAllDebts().setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
+
+    }
+
     public void showParticipant() {
         primaryStage.setTitle("Splitty: Add/Edit Participant");
         primaryStage.setScene(participant);
@@ -132,9 +137,9 @@ public class MainCtrl {
         primaryStage.setScene(closedDebts);
     }
 
-    public void addItemsToClosedDebts(ListView listView) {
-        for (String s : listView.getItems()) {
-            closedDebtsCtrl.getListView().getItems().add(s);
-        }
-    }
+//    public void addItemsToClosedDebts(ListView<String> listView) {
+//        for (String s : listView.getItems()) {
+//            closedDebtsCtrl.getListView().getItems().add(s);
+//        }
+//    }
 }
