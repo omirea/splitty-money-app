@@ -38,7 +38,7 @@ public class MainCtrl {
     private EventOverviewCtrl overviewCtrl;
     private Scene overview;
     private ManageParticipantsCtrl manageParticipantsCtrl;
-    private Scene editParticipants;
+    private Scene manageParticipants;
 
     private StartCtrl startCtrl;
     private Scene start;
@@ -50,7 +50,7 @@ public class MainCtrl {
                            Pair<AddEditParticipantCtrl, Parent> participant,
                            Pair<AddEditExpenseCtrl, Parent> expense,
                            Pair<OpenDebtsCtrl, Parent> openDebts,
-                           Pair<ManageParticipantsCtrl, Parent> editParticipants) {
+                           Pair<ManageParticipantsCtrl, Parent> manageParticipants) {
         this.primaryStage = primaryStage;
         this.startCtrl = start.getKey();
         this.start = new Scene(start.getValue());
@@ -70,8 +70,8 @@ public class MainCtrl {
         this.addEditExpenseCtrl = expense.getKey();
         this.expense = new Scene(expense.getValue());
 
-        this.manageParticipantsCtrl = editParticipants.getKey();
-        this.editParticipants = new Scene(editParticipants.getValue());
+        this.manageParticipantsCtrl = manageParticipants.getKey();
+        this.manageParticipants = new Scene(manageParticipants.getValue());
 
         showStartScreen();
 //        showExpense();
@@ -111,8 +111,8 @@ public class MainCtrl {
         overviewCtrl.setEventTitleText();
     }
 
-    public void showEditParticipants() {
-        primaryStage.setTitle("Splitty: Edit Participants");
-        primaryStage.setScene(editParticipants);
+    public void showManageParticipants() {
+        primaryStage.setTitle("Splitty: Manage Participants");
+        primaryStage.setScene(manageParticipants);
     }
 }

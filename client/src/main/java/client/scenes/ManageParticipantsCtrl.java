@@ -49,6 +49,6 @@ public class ManageParticipantsCtrl {
 
     @FXML
     public void addParticipant() {
-        // TODO: navigate to add/edit participants page
+        // TODO: open new window
     }
 }
