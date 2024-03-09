@@ -56,6 +56,6 @@ public class ManageParticipantsCtrl {
      * method to add participant
      */
     public void addParticipant() {
-        // TODO: navigate to add/edit participants page
+        // TODO: open new window
     }
 }

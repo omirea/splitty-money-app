@@ -35,7 +35,7 @@ public class MainCtrl {
     private EventOverviewCtrl overviewCtrl;
     private Scene overview;
     private ManageParticipantsCtrl manageParticipantsCtrl;
-    private Scene editParticipants;
+    private Scene manageParticipants;
     private StartCtrl startCtrl;
     private Scene start;
     private Scene logInAdmin;
@@ -50,7 +50,7 @@ public class MainCtrl {
                            Pair<AddEditParticipantCtrl, Parent> participant,
                            Pair<AddEditExpenseCtrl, Parent> expense,
                            Pair<OpenDebtsCtrl, Parent> openDebts,
-                           Pair<ManageParticipantsCtrl, Parent> editParticipants,
+                           Pair<ManageParticipantsCtrl, Parent> manageParticipants,
                            Pair<AdminLogInCtrl, Parent> logInAdminA,
                            Pair<ClosedDebtsCtrl, Parent> closedDebts) {
         this.primaryStage = primaryStage;
@@ -66,8 +66,10 @@ public class MainCtrl {
         this.invitation = new Scene(invitation.getValue());
         this.addEditExpenseCtrl = expense.getKey();
         this.expense = new Scene(expense.getValue());
-        this.manageParticipantsCtrl = editParticipants.getKey();
-        this.editParticipants = new Scene(editParticipants.getValue());
+        this.manageParticipantsCtrl = manageParticipants.getKey();
+        this.manageParticipants = new Scene(manageParticipants.getValue());
+        this.manageParticipantsCtrl = manageParticipants.getKey();
+        this.manageParticipants = new Scene(manageParticipants.getValue());
         this.adminLogInCtrl = logInAdminA.getKey();
         this.logInAdmin = new Scene(logInAdminA.getValue());
         this.closedDebtsCtrl = closedDebts.getKey();
@@ -147,11 +149,11 @@ public class MainCtrl {
     }
 
     /**
-     * method to show edit participant page
+     * method to show manage participant page
      */
-    public void showEditParticipants() {
-        primaryStage.setTitle("Splitty: Edit Participants");
-        primaryStage.setScene(editParticipants);
+    public void showManageParticipants() {
+        primaryStage.setTitle("Splitty: Manage Participants");
+        primaryStage.setScene(manageParticipants);
     }
 
     /**
