@@ -8,7 +8,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
 import java.util.ArrayList;
 
 public class EventOverviewCtrl {
@@ -16,15 +15,14 @@ public class EventOverviewCtrl {
     private final RefServerUtils server;
     private final MainCtrl mainCtrl;
     private ArrayList<RecentExpense> recentExpenses;
-
     @FXML
-    Text participantsList, eventTitleText;
+    private Text participantsList, eventTitleText;
     @FXML
-    ChoiceBox<String> participantsMenu;
+    private ChoiceBox<String> participantsMenu;
     @FXML
-    VBox allBox, withBox, fromBox;
+    private VBox allBox, withBox, fromBox;
     @FXML
-    TabPane expensesTabs;
+    private TabPane expensesTabs;
 
     @Inject
     public EventOverviewCtrl(RefServerUtils server, MainCtrl mainCtrl) {
@@ -33,14 +31,18 @@ public class EventOverviewCtrl {
         this.mainCtrl = mainCtrl;
     }
 
-    @FXML
+    /**
+     * method to open send invite page
+     */
     public void onSendInvitesClick(){
         //will do the following code snippet once implemented:
-        //mainCtrl.showInvite();
+        mainCtrl.showInvitation();
         System.out.println("Sending Invite...");
     }
 
-    @FXML
+    /**
+     * method to add expense
+     */
     public void onAddExpenseClick() {
         //will do the following code snippet once implemented:
         //mainCtrl.showAddExpense();
@@ -48,14 +50,18 @@ public class EventOverviewCtrl {
         addExpense();
     }
 
-    @FXML
+    /**
+     * method to open open debts page
+     */
     public void onSettleDebtsClick() {
         //will do the following code snippet once implemented:
-        //mainCtrl.showOpenDebts();
+        mainCtrl.showOpenDebts();
         System.out.println("Settling debts...");
     }
 
-    @FXML
+    /**
+     * method to refresh the page
+     */
     public void onRefreshClick() {
         System.out.println(participantsMenu.getValue());
         allBox.getChildren().clear();
@@ -67,19 +73,25 @@ public class EventOverviewCtrl {
         onTabSwitch();
     }
 
-    @FXML
+    /**
+     * method to add participant
+     */
     public void onAddClick() {
         System.out.println("opening add page...[temp]");
         addParticipantToBox();
     }
 
-    @FXML
+    /**
+     * method to edit participant
+     */
     public void onEditClick() {
         System.out.println("opening edit page... [temp]");
         mainCtrl.showParticipant();
     }
 
-    @FXML
+    /**
+     * method to change between the list tabs
+     */
     public void onTabSwitch() {
         int tabIndex = expensesTabs.getSelectionModel().getSelectedIndex();
         for (RecentExpense re : recentExpenses) {

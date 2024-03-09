@@ -43,7 +43,15 @@
             <TextArea fx:id="emailTextField" maxHeight="-Infinity" prefHeight="150.0" prefWidth="450.0" />
             <HBox alignment="TOP_RIGHT" prefHeight="62.0" prefWidth="601.0">
                <children>
-                  <Button fx:id="sendInvitesButton" mnemonicParsing="false" onAction="#sendInvites" text="Send Invites" textOverrun="CENTER_ELLIPSIS" />
+                  <Button fx:id="back" mnemonicParsing="false" onAction="#goBackToEvent" text="Back">
+                     <HBox.margin>
+                        <Insets right="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="sendInvitesButton" mnemonicParsing="false" onAction="#sendInvites" text="Send Invites" textOverrun="CENTER_ELLIPSIS">
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin></Button>
                </children>
             </HBox>
             <HBox prefHeight="0.0" prefWidth="586.0" />
