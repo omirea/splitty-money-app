@@ -1,6 +1,8 @@
 package client.scenes;
 
 import client.nodes.CheckBoxListCell;
+import client.utils.ServerUtils;
+import commons.Expense;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -13,7 +15,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javax.inject.Inject;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Currency;
 import java.util.Objects;
 
 public class AddEditExpenseCtrl {
@@ -21,6 +26,10 @@ public class AddEditExpenseCtrl {
     ObservableList<String> currencyList =
             FXCollections.observableArrayList("EUR", "USD", "GBP");
     // Add expense
+    private MainCtrl mainCtrl;
+
+    private ServerUtils serverUtils;
+
     @FXML
     private ChoiceBox<String> whoPaidField;
     @FXML
@@ -41,6 +50,12 @@ public class AddEditExpenseCtrl {
     private RadioButton onlySomePeopleField;
     @FXML
     private RadioButton allPeopleField;
+
+    @Inject
+    public AddEditExpenseCtrl(ServerUtils serverUtils, MainCtrl mainCtrl){
+        this.serverUtils=serverUtils;
+        this.mainCtrl=mainCtrl;
+    }
 
 
     // expense type tag bar
@@ -75,6 +90,8 @@ public class AddEditExpenseCtrl {
         currencyField.setItems(currencyList);
     }
 
+    public ChoiceBox<String> getWhoPaidField(){return whoPaidField;}
+
     /**
      * onAddClick method
      * @param event - click event
@@ -82,18 +99,24 @@ public class AddEditExpenseCtrl {
      */
     @FXML
     public void onAddClick(ActionEvent event) throws IOException {
-//        if(whoPaidField.getValue() != null
-        if(whatForField.getText() != null
-                && whenField.getValue() != null
-                && howMuchField.getText() != null &&
-                (allPeopleField.getText() != null
-                        || onlySomePeopleField.getText() != null)) {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("StartScreen.fxml")));
-            Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+
+        if(whatForField.getText() != null && whenField.getValue() != null
+          && howMuchField.getText() != null && (allPeopleField.getText() != null
+          || onlySomePeopleField.getText() != null)) {
+
+            mainCtrl.addExpenseToEvent(createExpense());
+            mainCtrl.showEventOverview("123");
+//            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("StartScreen.fxml")));
+//            Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+//            Scene scene = new Scene(root);
+//            stage.setScene(scene);
+//            stage.show();
             // TO DO: DATABASE STUFF
+        }else{
+            Alert alert=new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Empty fields");
+            alert.setContentText("You need to fill in all fields to create an expense");
+            alert.showAndWait();
         }
         System.out.println("Add " + whatForField.getText());
         System.out.println("Picked date " + whenField.getValue());
@@ -108,11 +131,12 @@ public class AddEditExpenseCtrl {
      */
     @FXML
     public void onAbortClick(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("StartScreen.fxml")));
-        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+//        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("EventOverview.fxml")));
+//        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+//        Scene scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
+        mainCtrl.showEventOverview("123");
     }
 
 //    @FXML
@@ -142,4 +166,14 @@ public class AddEditExpenseCtrl {
 //            tagBarEnterField.clear();
 //        }
 //    }
+
+    public Expense createExpense(){
+        String whoPaid=whoPaidField.getSelectionModel().getSelectedItem();
+        String whatFor=whatForField.getText();
+        Double amount= Double.valueOf(howMuchField.getText());
+        Currency currency= Currency.getInstance(currencyField.getSelectionModel().getSelectedItem());
+        LocalDate date=whenField.getValue();
+        Expense expense=new Expense(whatFor, amount, null, date, currency);
+        return expense;
+    }
 }

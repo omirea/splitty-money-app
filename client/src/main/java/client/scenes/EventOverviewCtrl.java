@@ -5,6 +5,7 @@ import client.utils.RefServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -23,6 +24,12 @@ public class EventOverviewCtrl {
     private VBox allBox, withBox, fromBox;
     @FXML
     private TabPane expensesTabs;
+    @FXML
+    private ListView<String> listViewAll;
+    @FXML
+    private ListView<String> listViewFrom;
+    @FXML
+    private ListView<String> listViewWith;
 
     @Inject
     public EventOverviewCtrl(RefServerUtils server, MainCtrl mainCtrl) {
@@ -30,6 +37,12 @@ public class EventOverviewCtrl {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
+
+    public ListView<String> getListViewAll() {return listViewAll;}
+
+    public ListView<String> getListViewFrom(){return listViewFrom;}
+
+    public ListView<String> getListViewWith(){return  listViewWith;}
 
     /**
      * method to open send invite page
@@ -47,6 +60,7 @@ public class EventOverviewCtrl {
         //will do the following code snippet once implemented:
         //mainCtrl.showAddExpense();
         System.out.println("Adding Expense...");
+        mainCtrl.showExpense();
         addExpense();
     }
 
@@ -104,6 +118,7 @@ public class EventOverviewCtrl {
         recentExpenses.add(re);
         int tabIndex = expensesTabs.getSelectionModel().getSelectedIndex();
         switchTab(tabIndex, re);
+        mainCtrl.showExpense();
     }
 
     private void switchTab(int index, RecentExpense re) {
@@ -133,9 +148,9 @@ public class EventOverviewCtrl {
         }
         pString.append(participant);
         participantsMenu.getItems().add(participant);
-
         //after the loop:
         participantsList.setText(pString.toString());
+        mainCtrl.addParticipantToExpenseOption(participant);
     }
 
     public void setEventTitleText() {
