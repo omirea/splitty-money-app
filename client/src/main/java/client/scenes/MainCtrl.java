@@ -18,6 +18,7 @@ package client.scenes;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -34,7 +35,7 @@ public class MainCtrl {
     private EventOverviewCtrl overviewCtrl;
     private Scene overview;
     private ManageParticipantsCtrl manageParticipantsCtrl;
-    private Scene editParticipants;
+    private Scene manageParticipants;
     private StartCtrl startCtrl;
     private Scene start;
     private Scene logInAdmin;
@@ -49,7 +50,7 @@ public class MainCtrl {
                            Pair<AddEditParticipantCtrl, Parent> participant,
                            Pair<AddEditExpenseCtrl, Parent> expense,
                            Pair<OpenDebtsCtrl, Parent> openDebts,
-                           Pair<ManageParticipantsCtrl, Parent> editParticipants,
+                           Pair<ManageParticipantsCtrl, Parent> manageParticipants,
                            Pair<AdminLogInCtrl, Parent> logInAdminA,
                            Pair<ClosedDebtsCtrl, Parent> closedDebts) {
         this.primaryStage = primaryStage;
@@ -65,20 +66,24 @@ public class MainCtrl {
         this.invitation = new Scene(invitation.getValue());
         this.addEditExpenseCtrl = expense.getKey();
         this.expense = new Scene(expense.getValue());
-        this.manageParticipantsCtrl = editParticipants.getKey();
-        this.editParticipants = new Scene(editParticipants.getValue());
-//
+        this.manageParticipantsCtrl = manageParticipants.getKey();
+        this.manageParticipants = new Scene(manageParticipants.getValue());
+        this.manageParticipantsCtrl = manageParticipants.getKey();
+        this.manageParticipants = new Scene(manageParticipants.getValue());
         this.adminLogInCtrl = logInAdminA.getKey();
         this.logInAdmin = new Scene(logInAdminA.getValue());
         this.closedDebtsCtrl = closedDebts.getKey();
         this.closedDebts = new Scene(closedDebts.getValue());
 
         initializeAspectOpenDebts();
+        initializeAspectClosedDebts();
         openDebtsCtrl.getListView().getItems().addAll("Debt 1", "Debt 2", "Debt 3");
+        openDebtsCtrl.getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        closedDebtsCtrl.getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        showStartScreen();
+        //showStartScreen();
         //showEditParticipants();
-        //showOpenDebts();
+        showOpenDebts();
         //showExpense();
         //showEditParticipants();
         //showAdminLogIn();
@@ -87,58 +92,101 @@ public class MainCtrl {
 
     private void initializeAspectOpenDebts() {
         openDebtsCtrl.getPayAllDebts().setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
-
     }
 
+    private void initializeAspectClosedDebts() {
+        closedDebtsCtrl.getReopenAllDebts().setStyle("-fx-background-color: #4dbaff");
+    }
+
+    /**
+     * method to show participant page
+     */
     public void showParticipant() {
         primaryStage.setTitle("Splitty: Add/Edit Participant");
         primaryStage.setScene(participant);
     }
 
+    /**
+     * method to show open debts page
+     */
     public void showOpenDebts() {
         primaryStage.setTitle("Splitty: Open Debts");
         primaryStage.setScene(openDebts);
     }
 
+    /**
+     * method to show invitation page
+     */
     public void showInvitation() {
         primaryStage.setTitle("Splitty: Send Invites");
         primaryStage.setScene(invitation);
     }
 
+    /**
+     * method to show start screen page
+     */
     public void showStartScreen() {
         primaryStage.setTitle("Splitty: Start");
         primaryStage.setScene(start);
     }
 
+    /**
+     * method to show expense page
+     */
     public void showExpense() {
         primaryStage.setTitle("Splitty: Add/Edit Expense");
         primaryStage.setScene(expense);
     }
 
+    /**
+     * method to show events page
+     * @param id id of the event
+     */
     public void showEventOverview(String id) {
         primaryStage.setTitle("Splitty: Event overview");
         primaryStage.setScene(overview);
         overviewCtrl.setEventTitleText();
     }
 
-    public void showEditParticipants() {
-        primaryStage.setTitle("Splitty: Edit Participants");
-        primaryStage.setScene(editParticipants);
+    /**
+     * method to show manage participant page
+     */
+    public void showManageParticipants() {
+        primaryStage.setTitle("Splitty: Manage Participants");
+        primaryStage.setScene(manageParticipants);
     }
 
+    /**
+     * method to show admin log in page
+     */
     public void showAdminLogIn() {
         primaryStage.setTitle("Splitty: Admin Log In");
         primaryStage.setScene(logInAdmin);
     }
 
+    /**
+     * method to show closed debts page
+     */
     public void showClosedDebts() {
         primaryStage.setTitle("Closed Debts");
         primaryStage.setScene(closedDebts);
     }
 
+    /**
+     * method to add closed debts to the list view
+     * @param listView list view that needs to be added
+     */
     public void addItemsToClosedDebts(ListView<String> listView) {
         for(String s: listView.getItems())
             closedDebtsCtrl.getListView().getItems().add(s);
     }
 
+    /**
+     * method to add open debts to the list view
+     * @param listView list view that needs to be added
+     */
+    public void addItemsToOpenDebts(ListView<String> listView) {
+        for(String s: listView.getItems())
+            openDebtsCtrl.getListView().getItems().add(s);
+    }
 }

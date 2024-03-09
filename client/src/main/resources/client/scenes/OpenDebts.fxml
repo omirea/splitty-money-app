@@ -50,7 +50,7 @@
                         <Insets left="300.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="payAllDebts" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#areYouSure" prefHeight="26.0" prefWidth="87.0" text="Pay all debts">
+                  <Button fx:id="payAllDebts" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#markAllDebtsAsPaid" prefHeight="26.0" prefWidth="87.0" text="Pay all debts">
                      <HBox.margin>
                         <Insets left="15.0" />
                      </HBox.margin>

@@ -20,6 +20,11 @@
                                 <Font name="System Bold" size="27.0" />
                             </font>
                         </Label>
+                  <Button fx:id="seeOpenDebts" mnemonicParsing="false" onAction="#goBackToOpenDebts" text="See open debts">
+                     <HBox.margin>
+                        <Insets left="297.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
                     </children>
                 </HBox>
                 <VBox prefHeight="308.0" prefWidth="558.0">
@@ -39,9 +44,14 @@
                 </VBox>
                 <HBox prefHeight="42.0" prefWidth="558.0">
                     <children>
-                        <Button fx:id="back" alignment="BASELINE_LEFT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#goBackToOpenDebts" prefHeight="26.0" prefWidth="44.0" text="Back">
+                  <Button fx:id="reopenSelectedDebts" mnemonicParsing="false" onAction="#reopenSelectedDebts" text="Reopen selected debts">
+                     <HBox.margin>
+                        <Insets left="305.0" />
+                     </HBox.margin>
+                  </Button>
+                        <Button fx:id="reopenAllDebts" alignment="BASELINE_LEFT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#reopenAllDebts" prefHeight="26.0" prefWidth="106.0" text="Reopen all debts">
                             <HBox.margin>
-                                <Insets left="510.0" />
+                                <Insets left="10.0" />
                             </HBox.margin></Button>
                     </children>
                 </HBox>
