@@ -787,3 +787,21 @@ create table debt (d_id bigint not null, settled boolean not null, value float(5
 2024-03-07 14:48:20.440253+01:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table expense (ex_id bigint not null, currency varchar(3), date_sent date, description varchar(255), type varchar(255), [*]value float(53) not null, event_id bigint not null, primary key (ex_id))"; expected "identifier"; SQL statement:
 create table expense (ex_id bigint not null, currency varchar(3), date_sent date, description varchar(255), type varchar(255), value float(53) not null, event_id bigint not null, primary key (ex_id)) [42001-224]
+2024-03-09 04:17:42.360294+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table debt (d_id bigint not null, settled boolean not null, [*]value float(53) not null, exp_id bigint not null, debt_id bigint not null, p_id bigint, primary key (d_id))"; expected "identifier"; SQL statement:
+create table debt (d_id bigint not null, settled boolean not null, value float(53) not null, exp_id bigint not null, debt_id bigint not null, p_id bigint, primary key (d_id)) [42001-224]
+2024-03-09 04:17:42.372825+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table expense (ex_id bigint not null, currency varchar(3), date_sent date, description varchar(255), type varchar(255), [*]value float(53) not null, event_id bigint not null, primary key (ex_id))"; expected "identifier"; SQL statement:
+create table expense (ex_id bigint not null, currency varchar(3), date_sent date, description varchar(255), type varchar(255), value float(53) not null, event_id bigint not null, primary key (ex_id)) [42001-224]
+2024-03-09 04:18:49.432174+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table debt (d_id bigint not null, settled boolean not null, [*]value float(53) not null, exp_id bigint not null, debt_id bigint not null, p_id bigint, primary key (d_id))"; expected "identifier"; SQL statement:
+create table debt (d_id bigint not null, settled boolean not null, value float(53) not null, exp_id bigint not null, debt_id bigint not null, p_id bigint, primary key (d_id)) [42001-224]
+2024-03-09 04:18:49.440701+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table expense (ex_id bigint not null, currency varchar(3), date_sent date, description varchar(255), type varchar(255), [*]value float(53) not null, event_id bigint not null, primary key (ex_id))"; expected "identifier"; SQL statement:
+create table expense (ex_id bigint not null, currency varchar(3), date_sent date, description varchar(255), type varchar(255), value float(53) not null, event_id bigint not null, primary key (ex_id)) [42001-224]
+2024-03-09 18:39:08.118552+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table debt (d_id bigint not null, settled boolean not null, [*]value float(53) not null, exp_id bigint not null, debt_id bigint not null, p_id bigint, primary key (d_id))"; expected "identifier"; SQL statement:
+create table debt (d_id bigint not null, settled boolean not null, value float(53) not null, exp_id bigint not null, debt_id bigint not null, p_id bigint, primary key (d_id)) [42001-224]
+2024-03-09 18:39:08.127070+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table expense (ex_id bigint not null, currency varchar(3), date_sent date, description varchar(255), type varchar(255), [*]value float(53) not null, event_id bigint not null, primary key (ex_id))"; expected "identifier"; SQL statement:
+create table expense (ex_id bigint not null, currency varchar(3), date_sent date, description varchar(255), type varchar(255), value float(53) not null, event_id bigint not null, primary key (ex_id)) [42001-224]

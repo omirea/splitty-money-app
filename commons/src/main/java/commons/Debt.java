@@ -12,10 +12,9 @@ public class Debt {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long d_id;
     private boolean settled;
-
     @ManyToOne
     @JoinColumn(name = "exp_id", nullable = false)
-    private Expense expense_id;
+    private Expense expense;
     @ManyToOne
     @JoinColumn(name = "debt_id", nullable = false)
     private Participant from;
@@ -35,6 +34,31 @@ public class Debt {
         this.to = to;
         this.value = value;
         settled = false;
+    }
+
+    public Debt(Long d_id, Expense expense, Participant from, Participant to, double value) {
+        this.d_id = d_id;
+        this.expense = expense;
+        this.from = from;
+        this.to = to;
+        this.value = value;
+        settled = false;
+    }
+
+    public Long getD_id() {
+        return d_id;
+    }
+
+    public void setD_id(Long d_id) {
+        this.d_id = d_id;
+    }
+
+    public Expense getExpense() {
+        return expense;
+    }
+
+    public void setExpense(Expense expense) {
+        this.expense = expense;
     }
 
     public Debt() {}
@@ -113,7 +137,8 @@ public class Debt {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Debt debt = (Debt) o;
-        return settled == debt.settled && Double.compare(value, debt.value) == 0 && Objects.equals(from, debt.from) && Objects.equals(to, debt.to);
+        return settled == debt.settled && Double.compare(value, debt.value) == 0 && Objects.equals(from, debt.from)
+                && Objects.equals(to, debt.to);
     }
 
     /**
