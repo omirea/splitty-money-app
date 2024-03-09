@@ -68,8 +68,6 @@ public class MainCtrl {
         this.expense = new Scene(expense.getValue());
         this.manageParticipantsCtrl = manageParticipants.getKey();
         this.manageParticipants = new Scene(manageParticipants.getValue());
-        this.manageParticipantsCtrl = manageParticipants.getKey();
-        this.manageParticipants = new Scene(manageParticipants.getValue());
         this.adminLogInCtrl = logInAdminA.getKey();
         this.logInAdmin = new Scene(logInAdminA.getValue());
         this.closedDebtsCtrl = closedDebts.getKey();
