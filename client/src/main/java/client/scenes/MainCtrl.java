@@ -43,6 +43,9 @@ public class MainCtrl {
     private AdminLogInCtrl adminLogInCtrl;
     private ClosedDebtsCtrl closedDebtsCtrl;
     private Scene closedDebts;
+    private Scene eventsAdmin;
+
+    private ManageEventsAdminCtrl manageEventsAdminCtrl;
 
     public void initialize(Stage primaryStage,
                            Pair<StartCtrl, Parent> start,
@@ -53,7 +56,8 @@ public class MainCtrl {
                            Pair<OpenDebtsCtrl, Parent> openDebts,
                            Pair<ManageParticipantsCtrl, Parent> manageParticipants,
                            Pair<AdminLogInCtrl, Parent> logInAdminA,
-                           Pair<ClosedDebtsCtrl, Parent> closedDebts) {
+                           Pair<ClosedDebtsCtrl, Parent> closedDebts,
+                           Pair<ManageEventsAdminCtrl, Parent> eventsAdmin) {
         this.primaryStage = primaryStage;
         this.startCtrl = start.getKey();
         this.start = new Scene(start.getValue());
@@ -73,6 +77,8 @@ public class MainCtrl {
         this.logInAdmin = new Scene(logInAdminA.getValue());
         this.closedDebtsCtrl = closedDebts.getKey();
         this.closedDebts = new Scene(closedDebts.getValue());
+        this.manageEventsAdminCtrl = eventsAdmin.getKey();
+        this.eventsAdmin = new Scene(eventsAdmin.getValue());
 
         initializeAspectOpenDebts();
         initializeAspectClosedDebts();
@@ -86,7 +92,7 @@ public class MainCtrl {
         //showOpenDebts();
         //showExpense();
         //showEditParticipants();
-        //showAdminLogIn();
+        showAdminLogIn();
         primaryStage.show();
     }
 
@@ -162,6 +168,14 @@ public class MainCtrl {
     public void showAdminLogIn() {
         primaryStage.setTitle("Splitty: Admin Log In");
         primaryStage.setScene(logInAdmin);
+    }
+
+    /**
+     * method to show admin events overview page
+     */
+    public void showEventsAdmin(){
+        primaryStage.setTitle("Splitty: Admin events overview");
+        primaryStage.setScene(eventsAdmin);
     }
 
     /**
