@@ -7,7 +7,7 @@ import javafx.scene.control.TextField;
 
 import javax.inject.Inject;
 
-public class ManageEventsAdmin {
+public class ManageEventsAdminCtrl {
 
     private final RefServerUtils server;
     private final MainCtrl mainCtrl;
@@ -22,12 +22,12 @@ public class ManageEventsAdmin {
     private Button search;
 
     @Inject
-    public ManageEventsAdmin(RefServerUtils server, MainCtrl mainCtrl) {
+    public ManageEventsAdminCtrl (RefServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
 
-    public void  onOverviewClick(){
+    public void  onLogOutClick(){
         mainCtrl.showStartScreen();
     }
 

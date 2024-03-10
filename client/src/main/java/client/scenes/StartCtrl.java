@@ -52,4 +52,8 @@ public class StartCtrl {
         RecentEvent re = new RecentEvent();
         recentEventsBox.getChildren().add(re.getNode());
     }
+
+    public void onAdminClick(){
+        mainCtrl.showAdminLogIn();
+    }
 }

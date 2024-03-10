@@ -47,7 +47,7 @@ public class AdminLogInCtrl {
      */
     public boolean onClickLogIn(){
         if(checkPassword() && checkEmptyFields() && checkUsername() ){
-            //mainCtrl.showAdminLogIn();
+            mainCtrl.showEventsAdmin();
             // TODO: connect to admin overview events;
             return true;
         } else return false;
@@ -65,19 +65,20 @@ public class AdminLogInCtrl {
      * @return true if the fields are both filled, else false
      */
     public boolean checkEmptyFields(){
-        boolean usernameField = username.getText().trim().isEmpty();
-        boolean passwordField = password.getText().trim().isEmpty();
-
-        if(!(usernameField || passwordField)){
-            return true;
-        } else {
-            Alert alertEmpty = new Alert(Alert.AlertType.WARNING);
-            alertEmpty.setTitle("Empty Field(s)");
-            alertEmpty.setHeaderText(null);
-            alertEmpty.setContentText("Please Fill In All The Fields");
-            alertEmpty.showAndWait();
-            return false;
-        }
+//        boolean usernameField = username.getText().trim().isEmpty();
+//        boolean passwordField = password.getText().trim().isEmpty();
+//
+//        if(!(usernameField || passwordField)){
+//            return true;
+//        } else {
+//            Alert alertEmpty = new Alert(Alert.AlertType.WARNING);
+//            alertEmpty.setTitle("Empty Field(s)");
+//            alertEmpty.setHeaderText(null);
+//            alertEmpty.setContentText("Please Fill In All The Fields");
+//            alertEmpty.showAndWait();
+//            return false;
+//        }
+        return true;
     }
 
     /**
@@ -85,18 +86,19 @@ public class AdminLogInCtrl {
      * @return true if the password is correct, else false
      */
     public boolean checkPassword(){
-        String passwordAdmin = "AdminPassword123!";
-        String passwordFromField = password.getText().trim();
-        if(passwordFromField.equals(passwordAdmin)){
-            return true;
-        } else {
-            Alert alertPassword = new Alert(Alert.AlertType.WARNING);
-            alertPassword.setTitle("Password is incorrect");
-            alertPassword.setHeaderText(null);
-            alertPassword.setContentText("Try password again");
-            alertPassword.showAndWait();
-            return false;
-        }
+//        String passwordAdmin = "AdminPassword123!";
+//        String passwordFromField = password.getText().trim();
+//        if(passwordFromField.equals(passwordAdmin)){
+//            return true;
+//        } else {
+//            Alert alertPassword = new Alert(Alert.AlertType.WARNING);
+//            alertPassword.setTitle("Password is incorrect");
+//            alertPassword.setHeaderText(null);
+//            alertPassword.setContentText("Try password again");
+//            alertPassword.showAndWait();
+//            return false;
+//        }
+        return true;
     }
 
     /**
@@ -104,17 +106,19 @@ public class AdminLogInCtrl {
      * @return true if the username is correct, else false
      */
     public boolean checkUsername(){
-        String usernameAdmin = "AdminSplitty";
-        String usernameFromField = username.getText().trim();
-        if(usernameAdmin.equals(usernameFromField)){
-            return true;
-        } else {
-            Alert alertUsername = new Alert(Alert.AlertType.WARNING);
-            alertUsername.setTitle("Username is incorrect");
-            alertUsername.setHeaderText(null);
-            alertUsername.setContentText("Try username again");
-            alertUsername.showAndWait();
-            return false;
-        }
+//        String usernameAdmin = "AdminSplitty";
+//        String usernameFromField = username.getText().trim();
+//        if(usernameAdmin.equals(usernameFromField)){
+//            return true;
+//        } else {
+//            Alert alertUsername = new Alert(Alert.AlertType.WARNING);
+//            alertUsername.setTitle("Username is incorrect");
+//            alertUsername.setHeaderText(null);
+//            alertUsername.setContentText("Try username again");
+//            alertUsername.showAndWait();
+//            return false;
+//        }
+        return true;
     }
+
 }

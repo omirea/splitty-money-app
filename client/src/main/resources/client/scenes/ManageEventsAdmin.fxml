@@ -7,12 +7,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ManageEventsAdmin">
+<AnchorPane prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ManageEventsAdminCtrl">
    <children>
       <VBox layoutX="106.0" layoutY="80.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Button mnemonicParsing="false" text="Back to overview">
+            <Button mnemonicParsing="false" onAction="#onLogOutClick" text="Log Out">
                <VBox.margin>
                   <Insets left="10.0" top="10.0" />
                </VBox.margin>
@@ -24,7 +23,7 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button mnemonicParsing="false" text="Search">
+                  <Button mnemonicParsing="false" onAction="#onSearchClick" text="Search">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
