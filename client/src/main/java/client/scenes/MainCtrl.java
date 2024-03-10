@@ -15,6 +15,7 @@
  */
 package client.scenes;
 
+import commons.Expense;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
@@ -79,9 +80,10 @@ public class MainCtrl {
         openDebtsCtrl.getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         closedDebtsCtrl.getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
+        showEventOverview("123");
         //showStartScreen();
         //showEditParticipants();
-        showOpenDebts();
+        //showOpenDebts();
         //showExpense();
         //showEditParticipants();
         //showAdminLogIn();
@@ -186,5 +188,22 @@ public class MainCtrl {
     public void addItemsToOpenDebts(ListView<String> listView) {
         for(String s: listView.getItems())
             openDebtsCtrl.getListView().getItems().add(s);
+    }
+
+    /**
+     * when a participant is added to the event it becomes a possible option
+     * for "who paid" for an expense
+     * @param participant the participant that has been added
+     */
+    public void addParticipantToExpenseOption(String participant) {
+        addEditExpenseCtrl.getWhoPaidField().getItems().add(participant);
+    }
+
+    /**
+     * when an expense gets created it is added to the list of all events
+     * @param expense the expense that has been created
+     */
+    public void addExpenseToEvent(Expense expense) {
+        overviewCtrl.getListViewAll().getItems().add(expense.toString());
     }
 }
