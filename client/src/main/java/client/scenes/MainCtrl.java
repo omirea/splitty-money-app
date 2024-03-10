@@ -168,6 +168,9 @@ public class MainCtrl {
         primaryStage.setScene(logInAdmin);
     }
 
+    /**
+     * method to show admin events overview page
+     */
     public void showEventsAdmin(){
         primaryStage.setTitle("Splitty: Admin events overview");
         primaryStage.setScene(eventsAdmin);

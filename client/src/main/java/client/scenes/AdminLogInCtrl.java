@@ -65,6 +65,7 @@ public class AdminLogInCtrl {
      * @return true if the fields are both filled, else false
      */
     public boolean checkEmptyFields(){
+        //TODO: doesnt work yet, need to figure out why
 //        boolean usernameField = username.getText().trim().isEmpty();
 //        boolean passwordField = password.getText().trim().isEmpty();
 //
@@ -86,6 +87,7 @@ public class AdminLogInCtrl {
      * @return true if the password is correct, else false
      */
     public boolean checkPassword(){
+        //TODO: doesnt work yet, need to figure out why
 //        String passwordAdmin = "AdminPassword123!";
 //        String passwordFromField = password.getText().trim();
 //        if(passwordFromField.equals(passwordAdmin)){
@@ -106,6 +108,7 @@ public class AdminLogInCtrl {
      * @return true if the username is correct, else false
      */
     public boolean checkUsername(){
+        //TODO: doesnt work yet, need to figure out why
 //        String usernameAdmin = "AdminSplitty";
 //        String usernameFromField = username.getText().trim();
 //        if(usernameAdmin.equals(usernameFromField)){

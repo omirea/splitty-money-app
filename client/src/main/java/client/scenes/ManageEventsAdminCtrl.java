@@ -27,12 +27,19 @@ public class ManageEventsAdminCtrl {
         this.mainCtrl = mainCtrl;
     }
 
+    /**
+     * method to show start screen when admin wants to log out
+     */
     public void  onLogOutClick(){
         mainCtrl.showStartScreen();
     }
 
+    /**
+     * method for button so search with string happens when clicking it
+     */
     public void onSearchClick(){
         String eventNameS = eventName.getText().trim();
         //TODO: implement search in database.
+        //TODO: implement the FXML file so it shows them.
     }
 }
