@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.*;
 @Entity
 @Table(name = "expense")
- class Expense {
+ public class Expense {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
