@@ -1,10 +1,26 @@
 package commons;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Table(name = "debt")
 public class Debt {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long d_id;
     private boolean settled;
+
+    @ManyToOne
+    @JoinColumn(name = "exp_id", nullable = false)
+    private Expense expense_id;
+    @ManyToOne
+    @JoinColumn(name = "debt_id", nullable = false)
     private Participant from;
+    @OneToOne
+    @JoinColumn(name = "p_id", referencedColumnName = "p_id")
     private Participant to;
     private double value;
 
@@ -20,6 +36,8 @@ public class Debt {
         this.value = value;
         settled = false;
     }
+
+    public Debt() {}
 
     /**
      * getter for settled

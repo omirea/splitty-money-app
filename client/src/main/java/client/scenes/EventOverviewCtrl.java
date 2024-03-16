@@ -1,13 +1,14 @@
 package client.scenes;
 
+import client.nodes.RecentExpense;
 import client.utils.RefServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
 import java.util.ArrayList;
 
 public class EventOverviewCtrl {
@@ -15,15 +16,20 @@ public class EventOverviewCtrl {
     private final RefServerUtils server;
     private final MainCtrl mainCtrl;
     private ArrayList<RecentExpense> recentExpenses;
-
     @FXML
-    Text participantsList, eventTitleText;
+    private Text participantsList, eventTitleText;
     @FXML
-    ChoiceBox<String> participantsMenu;
+    private ChoiceBox<String> participantsMenu;
     @FXML
-    VBox allBox, withBox, fromBox;
+    private VBox allBox, withBox, fromBox;
     @FXML
-    TabPane expensesTabs;
+    private TabPane expensesTabs;
+    @FXML
+    private ListView<String> listViewAll;
+    @FXML
+    private ListView<String> listViewFrom;
+    @FXML
+    private ListView<String> listViewWith;
 
     @Inject
     public EventOverviewCtrl(RefServerUtils server, MainCtrl mainCtrl) {
@@ -32,29 +38,44 @@ public class EventOverviewCtrl {
         this.mainCtrl = mainCtrl;
     }
 
-    @FXML
+    public ListView<String> getListViewAll() {return listViewAll;}
+
+    public ListView<String> getListViewFrom(){return listViewFrom;}
+
+    public ListView<String> getListViewWith(){return  listViewWith;}
+
+    /**
+     * method to open send invite page
+     */
     public void onSendInvitesClick(){
         //will do the following code snippet once implemented:
-        //mainCtrl.showInvite();
+        mainCtrl.showInvitation();
         System.out.println("Sending Invite...");
     }
 
-    @FXML
+    /**
+     * method to add expense
+     */
     public void onAddExpenseClick() {
         //will do the following code snippet once implemented:
         //mainCtrl.showAddExpense();
         System.out.println("Adding Expense...");
+        mainCtrl.showExpense();
         addExpense();
     }
 
-    @FXML
+    /**
+     * method to open open debts page
+     */
     public void onSettleDebtsClick() {
         //will do the following code snippet once implemented:
-        //mainCtrl.showOpenDebts();
+        mainCtrl.showOpenDebts();
         System.out.println("Settling debts...");
     }
 
-    @FXML
+    /**
+     * method to refresh the page
+     */
     public void onRefreshClick() {
         System.out.println(participantsMenu.getValue());
         allBox.getChildren().clear();
@@ -66,19 +87,25 @@ public class EventOverviewCtrl {
         onTabSwitch();
     }
 
-    @FXML
+    /**
+     * method to add participant
+     */
     public void onAddClick() {
         System.out.println("opening add page...[temp]");
-        addParticipant();
+        addParticipantToBox();
     }
 
-    @FXML
+    /**
+     * method to edit participant
+     */
     public void onEditClick() {
         System.out.println("opening edit page... [temp]");
         mainCtrl.showParticipant();
     }
 
-    @FXML
+    /**
+     * method to change between the list tabs
+     */
     public void onTabSwitch() {
         int tabIndex = expensesTabs.getSelectionModel().getSelectedIndex();
         for (RecentExpense re : recentExpenses) {
@@ -91,6 +118,7 @@ public class EventOverviewCtrl {
         recentExpenses.add(re);
         int tabIndex = expensesTabs.getSelectionModel().getSelectedIndex();
         switchTab(tabIndex, re);
+        mainCtrl.showExpense();
     }
 
     private void switchTab(int index, RecentExpense re) {
@@ -110,7 +138,7 @@ public class EventOverviewCtrl {
         box.getChildren().add(re.getNode());
     }
 
-    private void addParticipant() {
+    private void addParticipantToBox() {
         StringBuilder pString = new StringBuilder(participantsList.getText());
         //it would call the method to get the list of participants from the db
         //and loop through the following code
@@ -120,9 +148,9 @@ public class EventOverviewCtrl {
         }
         pString.append(participant);
         participantsMenu.getItems().add(participant);
-
         //after the loop:
         participantsList.setText(pString.toString());
+        mainCtrl.addParticipantToExpenseOption(participant);
     }
 
     public void setEventTitleText() {

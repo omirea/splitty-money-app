@@ -1,18 +1,17 @@
 package client.scenes;
+
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-
-
 import javax.inject.Inject;
 import javafx.event.ActionEvent;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AddEditParticipant {
+public class AddEditParticipantCtrl {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -27,10 +26,10 @@ public class AddEditParticipant {
     @FXML
     private Button okButton;
     @FXML
-    private Button abortButton;
+    private Button cancelButton;
 
     @Inject
-    public AddEditParticipant(ServerUtils server, MainCtrl mainCtrl){
+    public AddEditParticipantCtrl(ServerUtils server, MainCtrl mainCtrl){
         this.server=server;
         this.mainCtrl=mainCtrl;
     }
@@ -40,13 +39,20 @@ public class AddEditParticipant {
         emailTextField.clear();
         ibanTextField.clear();
         bicTextField.clear();
+        mainCtrl.showEventOverview("123");
     }
 
     @FXML
     void onClickOk(ActionEvent event) {
         if(checkEmpty() && validateEmail() && isIbanValid()){
+<<<<<<< HEAD:client/src/main/java/client/scenes/AddEditParticipant.java
         // TODO: Add to database
 
+||||||| ff706d9:client/src/main/java/client/scenes/AddEditParticipant.java
+        // TODO: Add to database
+=======
+            // TODO: Add to database
+>>>>>>> 65d624f7b9947ab5555edecb94671f0859e8529f:client/src/main/java/client/scenes/AddEditParticipantCtrl.java
         }
     }
 
@@ -94,36 +100,31 @@ public class AddEditParticipant {
         return okButton;
     }
 
-    public void setOkButton(Button okButton) {
-        this.okButton = okButton;
-    }
-
-    public Button getAbortButton() {
-        return abortButton;
-    }
-
-    public void setAbortButton(Button abortButton) {
-        this.abortButton = abortButton;
+    public Button getCancelButton() {
+        return cancelButton;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AddEditParticipant that = (AddEditParticipant) o;
-        return Objects.equals(server, that.server) && Objects.equals(mainCtrl, that.mainCtrl) && Objects.equals(bicTextField, that.bicTextField) && Objects.equals(emailTextField, that.emailTextField) && Objects.equals(ibanTextField, that.ibanTextField) && Objects.equals(nameTextField, that.nameTextField) && Objects.equals(okButton, that.okButton) && Objects.equals(abortButton, that.abortButton);
+        AddEditParticipantCtrl that = (AddEditParticipantCtrl) o;
+        return Objects.equals(server, that.server) && Objects.equals(mainCtrl, that.mainCtrl) && Objects.equals(bicTextField, that.bicTextField) && Objects.equals(emailTextField, that.emailTextField) && Objects.equals(ibanTextField, that.ibanTextField) && Objects.equals(nameTextField, that.nameTextField) && Objects.equals(okButton, that.okButton) && Objects.equals(cancelButton, that.cancelButton);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(server, mainCtrl, bicTextField, emailTextField, ibanTextField, nameTextField, okButton, abortButton);
+        return Objects.hash(server, mainCtrl, bicTextField, emailTextField, ibanTextField, nameTextField, okButton, cancelButton);
     }
 
+    /**
+     * method to check if the email input is valid
+     * @return true or false if the email is valid
+     */
     public boolean validateEmail(){
         String regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])" +
                 "|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         Pattern p= Pattern.compile(regex);
-        //System.out.println(emailTextField.getText().trim());
         Matcher m= p.matcher(emailTextField.getText().trim());
         if(m.find() && m.group().equals(emailTextField.getText().trim())){
             return true;
@@ -137,27 +138,10 @@ public class AddEditParticipant {
         }
     }
 
-    public boolean checkEmpty(){
-        boolean name= nameTextField.getText().trim().isEmpty();
-        boolean email= emailTextField.getText().trim().isEmpty();
-        boolean iban= ibanTextField.getText().trim().isEmpty();
-        boolean bic= bicTextField.getText().trim().isEmpty();
-
-        if(!(name || email || iban || bic)){
-            return true;
-        }
-        else{
-            Alert alert=new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Empty Field");
-            alert.setHeaderText(null);
-            alert.setContentText("Please Fill All The Fields");
-            alert.showAndWait();
-            return false;
-        }
-
-
-    }
-
+    /**
+     * method to check if IBAN is valid
+     * @return true or false if IBAN is valid
+     */
     private boolean isIbanValid() {
         int IBAN_MIN_SIZE = 15;
         int IBAN_MAX_SIZE = 34;
@@ -203,7 +187,28 @@ public class AddEditParticipant {
             alert.showAndWait();
             return false;
         }
+    }
 
+    /**
+     * method to check if any text box is empty
+     * @return true or false if any text boxes are empty
+     */
+    public boolean checkEmpty(){
+        boolean name= nameTextField.getText().trim().isEmpty();
+        boolean email= emailTextField.getText().trim().isEmpty();
+        boolean iban= ibanTextField.getText().trim().isEmpty();
+        boolean bic= bicTextField.getText().trim().isEmpty();
 
+        if(!(name || email || iban || bic)){
+            return true;
+        }
+        else{
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Empty Field");
+            alert.setHeaderText(null);
+            alert.setContentText("Please Fill All The Fields");
+            alert.showAndWait();
+            return false;
+        }
     }
 }

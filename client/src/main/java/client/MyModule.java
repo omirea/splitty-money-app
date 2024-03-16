@@ -20,7 +20,7 @@ import client.scenes.AddEditExpenseCtrl;
 import client.scenes.EventOverviewCtrl;
 import client.scenes.MainCtrl;
 import client.scenes.StartCtrl;
-import client.scenes.AddEditParticipant;
+import client.scenes.AddEditParticipantCtrl;
 
 
 import com.google.inject.Binder;
@@ -34,10 +34,12 @@ public class MyModule implements Module {
         binder.bind(MainCtrl.class).in(Scopes.SINGLETON);
         binder.bind(StartCtrl.class).in(Scopes.SINGLETON);
         binder.bind(EventOverviewCtrl.class).in(Scopes.SINGLETON);
-        binder.bind(AddEditParticipant.class).in(Scopes.SINGLETON);
+        binder.bind(AddEditParticipantCtrl.class).in(Scopes.SINGLETON);
         binder.bind(AddEditExpenseCtrl.class).in(Scopes.SINGLETON);
-        binder.bind(EditParticipantsCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(ManageParticipantsCtrl.class).in(Scopes.SINGLETON);
         binder.bind(InvitationCtrl.class).in(Scopes.SINGLETON);
         binder.bind(OpenDebtsCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(AdminLogInCtrl.class).in(Scopes.SINGLETON);
+        binder.bind(ManageEventsAdminCtrl.class).in(Scopes.SINGLETON);
     }
 }

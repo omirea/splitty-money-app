@@ -781,3 +781,9 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/mirea/O
 	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:286)
 	... 59 more
+2024-03-07 14:48:20.414031+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table debt (d_id bigint not null, settled boolean not null, [*]value float(53) not null, exp_id bigint not null, debt_id bigint not null, p_id bigint, primary key (d_id))"; expected "identifier"; SQL statement:
+create table debt (d_id bigint not null, settled boolean not null, value float(53) not null, exp_id bigint not null, debt_id bigint not null, p_id bigint, primary key (d_id)) [42001-224]
+2024-03-07 14:48:20.440253+01:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "create table expense (ex_id bigint not null, currency varchar(3), date_sent date, description varchar(255), type varchar(255), [*]value float(53) not null, event_id bigint not null, primary key (ex_id))"; expected "identifier"; SQL statement:
+create table expense (ex_id bigint not null, currency varchar(3), date_sent date, description varchar(255), type varchar(255), value float(53) not null, event_id bigint not null, primary key (ex_id)) [42001-224]

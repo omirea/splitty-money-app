@@ -5,11 +5,13 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
+
 @Entity
 public class Event {
     /**
      * Arraylist with all the participants which are part of this event
      */
+
 
     @ManyToMany
     private ArrayList<Participant> participants;
@@ -48,7 +50,6 @@ public class Event {
 
     public Event() {
     }
-
 
     /**
      * Getter for the list of participants
