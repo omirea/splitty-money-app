@@ -76,11 +76,13 @@ public class EventControllerTest {
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
         verify(eventRepository, times(1)).deleteById(eventId);
     }
-    public String getLongValue(String invitationId){
+    public String getLongValue(String invitationId) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < invitationId.length(); ++i) {
             int ch = (int) invitationId.charAt(i);
-    }
+        }
         return sb.toString();
+
+    }
 
 }
