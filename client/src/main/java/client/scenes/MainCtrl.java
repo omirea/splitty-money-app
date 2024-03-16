@@ -75,7 +75,7 @@ public class MainCtrl {
 
 //        showStartScreen();
 //        showExpense();
-        showEditParticipants();
+        showParticipant();
         primaryStage.show();
     }
 

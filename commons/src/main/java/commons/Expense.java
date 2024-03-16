@@ -1,7 +1,17 @@
 package commons;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import java.time.LocalDate;
 import java.util.*;
+@Entity
 public class Expense {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private Participant whoPaid; // The participant that paid this instance
     private String description; // Description by the participant
     private double value; // Value of the expense

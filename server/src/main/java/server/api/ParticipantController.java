@@ -1,4 +1,4 @@
-package server;
+package server.api;
 
 import commons.Participant;
 import org.springframework.http.ResponseEntity;
