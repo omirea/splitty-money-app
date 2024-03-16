@@ -45,14 +45,7 @@ public class AddEditParticipantCtrl {
     @FXML
     void onClickOk(ActionEvent event) {
         if(checkEmpty() && validateEmail() && isIbanValid()){
-<<<<<<< HEAD:client/src/main/java/client/scenes/AddEditParticipant.java
         // TODO: Add to database
-
-||||||| ff706d9:client/src/main/java/client/scenes/AddEditParticipant.java
-        // TODO: Add to database
-=======
-            // TODO: Add to database
->>>>>>> 65d624f7b9947ab5555edecb94671f0859e8529f:client/src/main/java/client/scenes/AddEditParticipantCtrl.java
         }
     }
 
