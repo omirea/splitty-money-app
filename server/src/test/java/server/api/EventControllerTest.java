@@ -60,7 +60,7 @@ public class EventControllerTest {
         when(eventRepository.findById(eventId)).thenReturn(java.util.Optional.of(existingEvent));
         when(eventRepository.save(existingEvent)).thenReturn(updatedEvent);
 
-        ResponseEntity<Event> responseEntity = eventController.updateEvent(updatedEvent, eID);
+        ResponseEntity<Event> responseEntity = eventController.updateEvent(updatedEvent, eventId);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(updatedEvent, responseEntity.getBody());
@@ -71,7 +71,7 @@ public class EventControllerTest {
         String eID = "ab123";
         long eventId=Long.parseLong(eID);
 
-        ResponseEntity<Event> responseEntity = eventController.deleteEvent(eID);
+        ResponseEntity<Event> responseEntity = eventController.deleteEvent(eventId);
 
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
         verify(eventRepository, times(1)).deleteById(eventId);
