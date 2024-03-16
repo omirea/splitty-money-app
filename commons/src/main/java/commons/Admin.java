@@ -1,11 +1,21 @@
 package commons;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.util.Objects;
 
+@Entity
+@Table(name = "admin")
 public class Admin {
+    @Id
     private String name;
 
     private String password;
+
+    public Admin() {
+    }
 
     public Admin(String name, String password) {
         this.name = name;
