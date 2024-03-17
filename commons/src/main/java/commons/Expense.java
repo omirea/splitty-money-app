@@ -3,9 +3,11 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.*;
+
+
 @Entity
 @Table(name = "expense")
- class Expense {
+ public class Expense {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -153,4 +155,21 @@ import java.util.*;
         return Objects.hash(description, value, type, dateSent, currency);
     }
 
+    /**
+     * toString method
+     * @return string version of expense
+     */
+    @Override
+    public String toString() {
+        return "Expense{" +
+                "ex_id=" + ex_id +
+                ", event_id=" + event_id +
+                ", debts=" + debts +
+                ", description='" + description + '\'' +
+                ", value=" + value +
+                ", type='" + type + '\'' +
+                ", dateSent=" + dateSent +
+                ", currency=" + currency +
+                '}';
+    }
 }

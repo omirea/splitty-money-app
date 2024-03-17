@@ -45,7 +45,7 @@ public class AddEditParticipantCtrl {
     @FXML
     void onClickOk(ActionEvent event) {
         if(checkEmpty() && validateEmail() && isIbanValid()){
-            // TODO: Add to database
+        // TODO: Add to database
         }
     }
 

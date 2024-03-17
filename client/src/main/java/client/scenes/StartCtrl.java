@@ -52,4 +52,11 @@ public class StartCtrl {
         RecentEvent re = new RecentEvent();
         recentEventsBox.getChildren().add(re.getNode());
     }
+
+    /**
+     * method to go to adming log in page
+     */
+    public void onAdminClick(){
+        mainCtrl.showAdminLogIn();
+    }
 }
