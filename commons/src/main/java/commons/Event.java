@@ -8,27 +8,27 @@ import java.util.Objects;
 
 @Entity
 public class Event {
+
     /**
      * Arraylist with all the participants which are part of this event
      */
-
-
-    @OneToMany(mappedBy = "invitationID")
+    @OneToMany(mappedBy = "p_id")
     private ArrayList<Participant> participants;
+
     /**
      * Arraylist with all the expenses which are part of this event
      */
-
-    @OneToMany(mappedBy = "invitationID")
+    @OneToMany(mappedBy = "ex_id")
     private ArrayList<Expense> expenses;
+
     /**
      * String with the name of the event
      */
     private String name;
+
     /**
      * String with invitation ID, which the participants can invite others with
      */
-
     @Id
     private String invitationID;
 
