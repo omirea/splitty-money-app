@@ -13,13 +13,13 @@ public class Event {
      */
 
 
-    @ManyToMany
+    @OneToMany(mappedBy = "invitationID")
     private ArrayList<Participant> participants;
     /**
      * Arraylist with all the expenses which are part of this event
      */
 
-    @ManyToMany
+    @OneToMany(mappedBy = "invitationID")
     private ArrayList<Expense> expenses;
     /**
      * String with the name of the event
@@ -30,7 +30,6 @@ public class Event {
      */
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String invitationID;
 
     /**
