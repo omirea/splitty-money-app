@@ -6,7 +6,7 @@
 | Chair        | Noe Narayudha Purwanto                                  |
 | Minute Taker | Filip Nedić                                             |
 | Attendees:   | Ege Yarar, Aayush Gupta, Oana Mirea, Noortje Manintveld |
-# Agenda (total: 31)
+# Agenda (total: 45-49)
 ## Opening (4-9 min)
 - Opening by chair (1 min)
 - Check -in: How is everyone doing + How did the midterms go for everyone? (2 min)
@@ -28,8 +28,16 @@
 > - If not, by when will that be finished? (0-1 min)
  - Buddy Checks (1 min)
 > - Did everyone finish the buddy checks? (1 min)
-## Action Points for This Week (14 min)
-
+## Action Points for This Week (18 min)
+- Anything missing from this section? (1 min)
+- Server utilities: adding server methods to the client side (4 min)
+- Basic requirements
+> - Has everyone read all the basic requirements? (2 min)
+> - Which ones are already done? (3 min)
+> - Which ones do we still need to do? (2 min)
+> - Which ones do we work on this week? (3 min)
+> - How are we going to divide the roles? (2 min)
+- Any Additions? (1 min)
 ## Conclusion (7 min)
 - Feedback round: What went well and what can be improved next time? (2 min)
 - Planned meeting duration != actual duration? Where/why did you misestimate? (1 min)
