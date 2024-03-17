@@ -5,22 +5,21 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-@Entity
-@Table(name = "event")
-public class Event {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long event_id;
+@Entity
+public class Event {
     /**
      * Arraylist with all the participants which are part of this event
      */
-    @OneToMany(mappedBy = "event_id")
+
+
+    @OneToMany(mappedBy = "invitationID")
     private ArrayList<Participant> participants;
     /**
      * Arraylist with all the expenses which are part of this event
      */
-    @OneToMany(mappedBy = "event_id")
+
+    @OneToMany(mappedBy = "invitationID")
     private ArrayList<Expense> expenses;
     /**
      * String with the name of the event
@@ -29,6 +28,8 @@ public class Event {
     /**
      * String with invitation ID, which the participants can invite others with
      */
+
+    @Id
     private String invitationID;
 
     /**
@@ -46,7 +47,8 @@ public class Event {
         this.invitationID = invitationID;
     }
 
-    public Event() {}
+    public Event() {
+    }
 
     /**
      * Getter for the list of participants
