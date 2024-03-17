@@ -16,15 +16,14 @@ public class EventController {
 
     @PutMapping("/event/{invitationID}")
     public ResponseEntity<Event> updateEvent(@RequestBody Event event, @PathVariable("invitationID") String event_id) {
-        long id=Long.parseLong(event_id);
         if(event == null) {
             return ResponseEntity.badRequest().build();
         }
-        if (!db.existsById(id)){
+        if (!db.existsById(event_id)){
             return ResponseEntity.notFound().build();
         }
 
-        Event existingEvent = db.findById(id).get();
+        Event existingEvent = db.findById(event_id).get();
         existingEvent.setParticipants(event.getParticipants());
         existingEvent.setExpenses(event.getExpenses());
         existingEvent.setName(event.getName());
@@ -34,20 +33,16 @@ public class EventController {
 
     @DeleteMapping("/event/{invitationID}")
     public ResponseEntity<Event> deleteEvent(@PathVariable("invitationID") String event_id) {
-        long id=Long.parseLong(event_id);
-        db.deleteById(id);
+        db.deleteById(event_id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/event")
     @ResponseBody
-    public ResponseEntity<Event> getEventById(@RequestParam("invitationID") String event_id){
-        long id=Long.parseLong(event_id);
-        if(id<0)
-            return ResponseEntity.badRequest().build();
+    public ResponseEntity<Event> getEventById(@RequestParam("invitationID") String id){
         if(!db.existsById(id))
             return ResponseEntity.notFound().build();
-        System.out.println(event_id);
+        System.out.println(id);
         Event event=db.findById(id).get();
         return ResponseEntity.ok(event);
     }
