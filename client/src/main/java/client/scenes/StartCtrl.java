@@ -27,25 +27,36 @@ public class StartCtrl {
         this.mainCtrl = mainCtrl;
     }
 
-    @FXML
+    /**
+     * method to create event
+     */
     public void onCreateClick() {
         System.out.println("Create" + createEventField.getText());
         addEventToBox();
         // TODO: open new window
-
-
     }
-    @FXML
+
+    /**
+     * method to join event
+     */
     public void onJoinClick() {
         System.out.println("Join: " + joinEventField.getText());
         // TODO: connect to database, open new window
         mainCtrl.showEventOverview(joinEventField.getText());
-
-
     }
 
+    /**
+     * method to add event to box
+     */
     public void addEventToBox() {
         RecentEvent re = new RecentEvent();
         recentEventsBox.getChildren().add(re.getNode());
+    }
+
+    /**
+     * method to go to adming log in page
+     */
+    public void onAdminClick(){
+        mainCtrl.showAdminLogIn();
     }
 }
