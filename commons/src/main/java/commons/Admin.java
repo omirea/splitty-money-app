@@ -1,8 +1,6 @@
 package commons;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -10,6 +8,8 @@ import java.util.Objects;
 @Table(name = "admin")
 public class Admin {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long d_id;
     private String name;
 
     private String password;
