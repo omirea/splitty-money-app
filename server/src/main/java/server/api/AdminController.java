@@ -11,6 +11,10 @@ import server.database.AdminRepository;
 public class AdminController {
     private AdminRepository repo;
 
+    public AdminController(AdminRepository repo) {
+        this.repo = repo;
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Admin> getById(@PathVariable("id") long id) {
         if (id < 0 || !repo.existsById(id)) {
