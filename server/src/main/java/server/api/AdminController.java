@@ -1,5 +1,5 @@
-package server.api;
-
-public class AdminController {
-
-}
+//package server.api;
+//
+//public class AdminController {
+//
+//}

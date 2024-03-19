@@ -20,7 +20,7 @@ import java.util.*;
     @OneToMany(mappedBy = "d_id")
     private List<Debt> debts;
     private String description; // Description by the participant
-    private double value; // Value of the expense
+    private double amount; // Value of the expense
     private String type; // Type of expense
 
     private LocalDate dateSent; //date the expense is sent
@@ -30,15 +30,15 @@ import java.util.*;
     /**
      * Constructor for expense
      * @param description description of the participant
-     * @param value value of the expense
+     * @param amount value of the expense
      * @param type type of the expense
      * @param dateSent date when the request for the expense has been made
      * @param currency currency of the expense
      */
-    public Expense(String description, double value, String type,
+    public Expense(String description, double amount, String type,
                    LocalDate dateSent, Currency currency) {
         this.description = description;
-        this.value = value;
+        this.amount = amount;
         this.type = type;
         this.dateSent = dateSent;
         this.currency = currency;
@@ -59,8 +59,8 @@ import java.util.*;
      * Getter for the value
      * @return the value of the expense
      */
-    public double getValue() {
-        return value;
+    public double getAmount() {
+        return amount;
     }
 
     /**
@@ -100,8 +100,8 @@ import java.util.*;
      * Setter for the value of the expense
      * @param value value of the expense
      */
-    public void setValue(double value) {
-        this.value = value;
+    public void setAmount(double value) {
+        this.amount = value;
     }
 
     /**
@@ -140,7 +140,7 @@ import java.util.*;
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Expense expense = (Expense) o;
-        return Double.compare(value, expense.value) == 0 &&
+        return Double.compare(amount, expense.amount) == 0 &&
                 Objects.equals(description, expense.description) &&
                 Objects.equals(type, expense.type) &&
                 Objects.equals(dateSent, expense.dateSent) && Objects.equals(currency, expense.currency);
@@ -152,7 +152,7 @@ import java.util.*;
      */
     @Override
     public int hashCode() {
-        return Objects.hash(description, value, type, dateSent, currency);
+        return Objects.hash(description, amount, type, dateSent, currency);
     }
 
     /**
@@ -166,7 +166,7 @@ import java.util.*;
                 ", event_id=" + event_id +
                 ", debts=" + debts +
                 ", description='" + description + '\'' +
-                ", value=" + value +
+                ", value=" + amount +
                 ", type='" + type + '\'' +
                 ", dateSent=" + dateSent +
                 ", currency=" + currency +

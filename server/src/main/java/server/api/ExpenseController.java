@@ -65,7 +65,7 @@ public class ExpenseController {
 
         Expense existingExpense = db.findById(expense_id).get();
         existingExpense.setDescription(expense.getDescription());
-        existingExpense.setValue(expense.getValue());
+        existingExpense.setAmount(expense.getAmount());
         existingExpense.setType(expense.getType());
         existingExpense.setDateSent(expense.getDateSent());
         existingExpense.setCurrency(expense.getCurrency());

@@ -57,13 +57,13 @@ class DebtTest {
 
     @Test
     void getValue() {
-        assertEquals(10, debt.getValue());
+        assertEquals(10, debt.getAmount());
     }
 
     @Test
     void setValue() {
-        debt.setValue(20);
-        assertEquals(20, debt.getValue());
+        debt.setAmount(20);
+        assertEquals(20, debt.getAmount());
     }
 
     @Test

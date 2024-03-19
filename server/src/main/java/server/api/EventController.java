@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import server.database.EventRepository;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/event")
 public class EventController {
     private EventRepository db;
 
@@ -47,7 +47,7 @@ public class EventController {
         return ResponseEntity.ok(event);
     }
 
-    @PostMapping()
+    @PostMapping(path = { "", "/" })
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
         if (event == null) {
             return ResponseEntity.badRequest().build();
