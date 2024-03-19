@@ -3,7 +3,6 @@ package commons;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Currency;
 import java.util.List;
