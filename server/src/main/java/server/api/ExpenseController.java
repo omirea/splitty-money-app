@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import server.database.ExpenseRepository;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/expense")
 public class ExpenseController {
 
     private ExpenseRepository db;
@@ -37,9 +37,9 @@ public class ExpenseController {
     /**
      * Post request of the expense
      * @param expense - expense
-     * @return esponseEntity<Expense> - Response
+     * @return ResponseEntity<Expense> - Response
      */
-    @PostMapping()
+    @PostMapping(path = { "", "/" })
     public ResponseEntity<Expense> createExpense(@RequestBody Expense expense) {
         if (expense == null) {
             return ResponseEntity.badRequest().build();
