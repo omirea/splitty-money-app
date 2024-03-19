@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import server.database.ExpenseRepository;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/expense")
 public class ExpenseController {
 
     private ExpenseRepository db;
@@ -39,7 +39,7 @@ public class ExpenseController {
      * @param expense - expense
      * @return esponseEntity<Expense> - Response
      */
-    @PostMapping()
+    @PostMapping(path = { "", "/" })
     public ResponseEntity<Expense> createExpense(@RequestBody Expense expense) {
         if (expense == null) {
             return ResponseEntity.badRequest().build();
@@ -65,7 +65,7 @@ public class ExpenseController {
 
         Expense existingExpense = db.findById(expense_id).get();
         existingExpense.setDescription(expense.getDescription());
-        existingExpense.setValue(expense.getValue());
+        existingExpense.setAmount(expense.getAmount());
         existingExpense.setType(expense.getType());
         existingExpense.setDateSent(expense.getDateSent());
         existingExpense.setCurrency(expense.getCurrency());

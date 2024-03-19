@@ -37,7 +37,7 @@ public class DebtController {
     @PostMapping(path = { "debt", "debt/" })
     public ResponseEntity<Debt> add(@RequestBody Debt debt) {
 
-        if (debt.getValue() == 0 || debt.getFrom() == null || debt.getTo() == null || debt.getExpense() == null) {
+        if (debt.getAmount() == 0 || debt.getFrom() == null || debt.getTo() == null || debt.getExpense() == null) {
             return ResponseEntity.badRequest().build();
         }
         Debt saved = db.save(debt);
