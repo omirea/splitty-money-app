@@ -1,4 +1,4 @@
-package server;
+package server.api;
 
 
 import commons.Expense;
@@ -37,7 +37,7 @@ public class ExpenseController {
     /**
      * Post request of the expense
      * @param expense - expense
-     * @return esponseEntity<Expense> - Response
+     * @return ResponseEntity<Expense> - Response
      */
     @PostMapping(path = { "", "/" })
     public ResponseEntity<Expense> createExpense(@RequestBody Expense expense) {
