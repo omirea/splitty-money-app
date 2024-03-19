@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import server.database.ParticipantRepository;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/participant")
 public class ParticipantController {
 
     private ParticipantRepository db;
