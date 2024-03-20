@@ -22,7 +22,7 @@ public class ExpenseController {
      * @param expense_id id of the request
      * @return ResponseEntity<Expense> - answer of the request
      */
-    @GetMapping("/expense")
+    @GetMapping(path = { "", "/" })
     @ResponseBody
     public ResponseEntity<Expense> getExpenseByID(@RequestParam("id") long expense_id){
         if(expense_id < 0)
@@ -54,7 +54,7 @@ public class ExpenseController {
      * @param expense_id - the id of the expense
      * @return ResponseEntity<Expense> - response of the method
      */
-    @PutMapping("/expense/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Expense> updateExpense(@RequestBody Expense expense, @PathVariable("id") long expense_id) {
         if(expense == null) {
             return ResponseEntity.badRequest().build();
@@ -78,7 +78,7 @@ public class ExpenseController {
      * @param expense_id - id of the expense
      * @return ResponseEntity<Expense> - response  of the method
      */
-    @DeleteMapping("/expense/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Expense> deleteExpense(@PathVariable("id") long expense_id) {
         db.deleteById(expense_id);
         return ResponseEntity.noContent().build();

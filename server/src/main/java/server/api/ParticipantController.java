@@ -18,13 +18,13 @@ public class ParticipantController {
         this.db=db;
     }
 
-    @GetMapping("/participant")
+    @GetMapping(path = { "", "/" })
     @ResponseBody
     public List<Participant> getAllParticipants() {
         return db.findAll();
     }
 
-    @GetMapping("/participant/{id}")
+    @GetMapping("/{id}")
     @ResponseBody
     public ResponseEntity<Object> findParticipantByID(@PathVariable("id") Long id){
         if(!db.existsById(id)){
@@ -33,7 +33,7 @@ public class ParticipantController {
         return ResponseEntity.ok(db.findById(id).get());
     }
 
-    @DeleteMapping("/participant/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Participant> deleteParticipant(@PathVariable("id") Long id) {
         db.deleteById(id);
         return ResponseEntity.noContent().build();
@@ -48,7 +48,7 @@ public class ParticipantController {
         return ResponseEntity.ok(createParticipant);
     }
 
-    @PutMapping("/participant/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Participant> updateParticipant
         (@RequestBody Participant participant, @PathVariable("id") long id) {
         if(participant == null) {
