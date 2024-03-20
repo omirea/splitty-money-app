@@ -14,7 +14,7 @@ public class EventController {
         this.db=db;
     }
 
-    @PutMapping("/event/{invitationID}")
+    @PutMapping("/{invitationID}")
     public ResponseEntity<Event> updateEvent(@RequestBody Event event, @PathVariable("invitationID") String event_id) {
         if(event == null) {
             return ResponseEntity.badRequest().build();
@@ -31,13 +31,13 @@ public class EventController {
         return ResponseEntity.ok(updatedEventEntity);
     }
 
-    @DeleteMapping("/event/{invitationID}")
+    @DeleteMapping("/{invitationID}")
     public ResponseEntity<Event> deleteEvent(@PathVariable("invitationID") String event_id) {
         db.deleteById(event_id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/event")
+    @GetMapping(path = { "", "/" })
     @ResponseBody
     public ResponseEntity<Event> getEventById(@RequestParam("invitationID") String id){
         if(!db.existsById(id))
