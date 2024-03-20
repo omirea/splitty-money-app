@@ -23,4 +23,29 @@ public class ExpenseServerUtils {
     }
 
 
+    public Expense getExpense() {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("/expense")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(new GenericType<Expense>() {});
+    }
+
+    public Expense deleteExpense() {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("/expense")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .delete(new GenericType<Expense>() {});
+    }
+
+    public Expense updateExpense(Expense expense) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("/expense")
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .put(Entity.entity(expense, APPLICATION_JSON), Expense.class);
+    }
+
+
 }
