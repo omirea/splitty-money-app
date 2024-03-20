@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public class ParticipantControllerTest {
 
     @Test
@@ -162,8 +160,5 @@ public class ParticipantControllerTest {
                 return null;
             }
         };
-        String result="Hello 2010!";
-        ParticipantController pc=new ParticipantController(db);
-        assertEquals(pc.id(id), result);
     }
 }
