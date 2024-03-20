@@ -40,7 +40,7 @@ public class ParticipantController {
     }
 
     @PostMapping(path = { "", "/" })
-    public ResponseEntity<Participant> cParticipant(@RequestBody Participant participant) {
+    public ResponseEntity<Participant> createParticipant(@RequestBody Participant participant) {
         if (participant == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -49,7 +49,7 @@ public class ParticipantController {
     }
 
     @PutMapping("/participant/{id}")
-    public ResponseEntity<Participant> Participant
+    public ResponseEntity<Participant> updateParticipant
         (@RequestBody Participant participant, @PathVariable("id") long id) {
         if(participant == null) {
             return ResponseEntity.badRequest().build();
