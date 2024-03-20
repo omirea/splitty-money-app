@@ -15,9 +15,52 @@
  */
 package client.utils;
 
+import commons.Participant;
+import commons.Quote;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
+import org.glassfish.jersey.client.ClientConfig;
+
+import java.util.List;
+
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
+
 public class ServerUtils {
 
 	private static final String SERVER = "http://localhost:8080/";
+
+	public List<Participant> getAllParticipants(){
+		return ClientBuilder.newClient(new ClientConfig())
+				.target(SERVER).path("/participant")
+				.request(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.get(new GenericType<List<Participant>>() {});
+	}
+
+	public Participant getParticipantById(Long id){
+		return ClientBuilder.newClient(new ClientConfig())
+				.target(SERVER).path("/participant/" + id)
+				.request(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.get(new GenericType<Participant>() {});
+	}
+
+	public Participant deleteParticipant(Long id){
+		return ClientBuilder.newClient(new ClientConfig())
+				.target(SERVER).path("/participant/" + id)
+				.request(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.delete(new GenericType<Participant>() {});
+	}
+
+	public Participant createParticipant(Participant participant){
+		return ClientBuilder.newClient(new ClientConfig())
+				.target(SERVER).path({" ","/"} + participant)
+				.request(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.c(new GenericType<Participant>() {});
+	}
 
 
 }
