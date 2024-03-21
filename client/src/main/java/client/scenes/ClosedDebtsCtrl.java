@@ -39,6 +39,12 @@ public class ClosedDebtsCtrl {
 
     public Button getReopenSelectedDebts(){return reopenSelectedDebts;}
 
+    public void initialize(){
+        getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        getReopenAllDebts()
+                .setStyle("-fx-background-color: linear-gradient(to top right, #c7dde7, #32c2fd)");
+    }
+
     /**
      * method to reopen all the closed debts
      */

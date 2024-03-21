@@ -151,6 +151,7 @@ public class EventOverviewCtrl {
         //after the loop:
         participantsList.setText(pString.toString());
         mainCtrl.addParticipantToExpenseOption(participant);
+        mainCtrl.addParticipantToWhoShouldPayOption(participant);
     }
 
     public void setEventTitleText() {

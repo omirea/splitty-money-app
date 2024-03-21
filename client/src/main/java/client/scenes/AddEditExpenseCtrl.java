@@ -1,14 +1,14 @@
 package client.scenes;
 
-import client.nodes.CheckBoxListCell;
+import client.nodes.PersonAmount;
 import client.utils.ServerUtils;
 import commons.Expense;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javax.inject.Inject;
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class AddEditExpenseCtrl {
     // Add expense
     private MainCtrl mainCtrl;
 
-    private ServerUtils serverUtils;
+    private final ServerUtils serverUtils;
 
     @FXML
     private ChoiceBox<String> whoPaidField;
@@ -37,18 +37,27 @@ public class AddEditExpenseCtrl {
 
     // How to split
     @FXML
-    private ListView<String> peopleListViewField;
-    @FXML
     private VBox peopleVBoxField;
     @FXML
     private RadioButton onlySomePeopleField;
     @FXML
     private RadioButton allPeopleField;
 
+    @FXML
+    private TableColumn<PersonAmount, String> participantColumn;
+    @FXML
+    private TableColumn<PersonAmount, TextField> amountColumn;
+    @FXML
+    private TableView<PersonAmount> tableView;
+
     @Inject
     public AddEditExpenseCtrl(ServerUtils serverUtils, MainCtrl mainCtrl){
         this.serverUtils=serverUtils;
         this.mainCtrl=mainCtrl;
+    }
+
+    public TableView<PersonAmount> getTableView(){
+        return tableView;
     }
 
 
@@ -66,20 +75,13 @@ public class AddEditExpenseCtrl {
      */
     @FXML
     private void initialize() {
-        // only some people initialiser
-        peopleVBoxField.visibleProperty().bind(onlySomePeopleField.selectedProperty());
-        peopleListViewField.setItems(currencyList); // for testing only
-        peopleListViewField.setCellFactory(CheckBoxListCell.forListView());
-        peopleListViewField.getSelectionModel().getSelectedItems()
-            .addListener((ListChangeListener<String>) c -> {
-            while (c.next()) {
-                if (c.wasAdded()) {
-                    System.out.println("Selected: " + c.getAddedSubList());
-                } else if (c.wasRemoved()) {
-                    System.out.println("Deselected: " + c.getRemoved());
-                }
-            }
-        });
+        //initialize table view
+        participantColumn.
+                setCellValueFactory(new PropertyValueFactory<PersonAmount, String>("name"));
+        amountColumn.
+                setCellValueFactory(new PropertyValueFactory<PersonAmount, TextField>("textField"));
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
         // currency initialiser
         currencyField.setValue("EUR");
         currencyField.setItems(currencyList);

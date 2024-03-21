@@ -29,6 +29,7 @@ public class Event {
      * String with invitation ID, which the participants can invite others with
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String invitationID;
 
     /**

@@ -38,6 +38,7 @@ public class Main extends Application {
         var participant = FXML.load(AddEditParticipantCtrl.class, "client", "scenes",
             "AddEditParticipant.fxml");
         var start = FXML.load(StartCtrl.class, "client", "scenes", "StartScreen.fxml");
+
         var invitation = FXML.load(InvitationCtrl.class, "client", "scenes",
             "Invitation.fxml");
         var openDebts = FXML.load(OpenDebtsCtrl.class, "client", "scenes",
