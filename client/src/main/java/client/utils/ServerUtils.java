@@ -26,7 +26,6 @@ import java.util.List;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
-
 	private static final String SERVER = "http://localhost:8080/";
 
 	/**
