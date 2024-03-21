@@ -1,7 +1,9 @@
 package client.scenes;
 
 import client.nodes.CheckBoxListCell;
+import client.nodes.PersonAmount;
 import client.utils.ServerUtils;
+import com.fasterxml.jackson.databind.deser.impl.PropertyValue;
 import commons.Expense;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -9,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javax.inject.Inject;
 import java.io.IOException;
@@ -45,11 +48,22 @@ public class AddEditExpenseCtrl {
     @FXML
     private RadioButton allPeopleField;
 
+    @FXML
+    private TableColumn<PersonAmount, String> participantColumn;
+    @FXML
+    private TableColumn<PersonAmount, TextField> amountColumn;
+    @FXML
+    private TableView<PersonAmount> tableView;
+
     @Inject
     public AddEditExpenseCtrl(ServerUtils serverUtils, MainCtrl mainCtrl){
         this.serverUtils=serverUtils;
         this.mainCtrl=mainCtrl;
     }
+
+    public TableColumn<PersonAmount, String> getParticipantColumn(){return participantColumn;}
+    public TableColumn<PersonAmount, TextField> getAmountColumn(){return amountColumn;}
+    public TableView<PersonAmount> getTableView(){return tableView;}
 
 
     // expense type tag bar
@@ -66,9 +80,13 @@ public class AddEditExpenseCtrl {
      */
     @FXML
     private void initialize() {
+        participantColumn.setCellValueFactory(new PropertyValueFactory<PersonAmount, String>("name"));
+        amountColumn.setCellValueFactory(new PropertyValueFactory<PersonAmount, TextField>("textField"));
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
         // only some people initialiser
         peopleVBoxField.visibleProperty().bind(onlySomePeopleField.selectedProperty());
-        peopleListViewField.setItems(currencyList); // for testing only
+        //peopleListViewField.setItems(currencyList); // for testing only
         peopleListViewField.setCellFactory(CheckBoxListCell.forListView());
         peopleListViewField.getSelectionModel().getSelectedItems()
             .addListener((ListChangeListener<String>) c -> {
@@ -86,6 +104,8 @@ public class AddEditExpenseCtrl {
     }
 
     public ChoiceBox<String> getWhoPaidField(){return whoPaidField;}
+
+    public ListView<String> getPeopleListViewField(){return peopleListViewField;}
 
     /**
      * onAddClick method

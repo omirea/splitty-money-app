@@ -6,6 +6,8 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -48,7 +50,10 @@
                   <ChoiceBox fx:id="whoPaidField" prefWidth="150.0" GridPane.columnIndex="1" />
                </children>
             </GridPane>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="How to Split" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="How to Split">
+               <VBox.margin>
+                  <Insets top="2.0" />
+               </VBox.margin></Text>
             <RadioButton fx:id="allPeopleField" mnemonicParsing="false" text="Equally between everybody">
                <toggleGroup>
                   <ToggleGroup fx:id="Split" />
@@ -57,28 +62,35 @@
                   <Insets top="3.0" />
                </VBox.margin>
             </RadioButton>
-            <RadioButton fx:id="onlySomePeopleField" mnemonicParsing="false" text="Only some people..." toggleGroup="$Split">
+            <RadioButton fx:id="onlySomePeopleField" mnemonicParsing="false" onAction="#initialize" text="Only some people" toggleGroup="$Split">
                <VBox.margin>
-                  <Insets top="2.0" />
+                  <Insets top="3.0" />
                </VBox.margin></RadioButton>
-            <VBox fx:id="peopleVBoxField" prefHeight="79.0" prefWidth="279.0">
+            <VBox fx:id="peopleVBoxField" prefHeight="141.0" prefWidth="346.0">
                <children>
-                  <ListView fx:id="peopleListViewField" prefHeight="98.0" prefWidth="279.0">
+                  <ListView fx:id="peopleListViewField" prefHeight="150.0" prefWidth="279.0">
                      <VBox.margin>
                         <Insets top="10.0" />
-                     </VBox.margin></ListView>
+                     </VBox.margin>
+                  </ListView>
+                  <TableView fx:id="tableView" prefHeight="399.0" prefWidth="197.0">
+                    <columns>
+                      <TableColumn fx:id="participantColumn" prefWidth="207.20008504390717" sortable="false" text="C1" />
+                      <TableColumn fx:id="amountColumn" prefWidth="68.00006103515625" sortable="false" text="C2" />
+                    </columns>
+                  </TableView>
                </children>
             </VBox>
-            <HBox prefHeight="106.0" prefWidth="309.0">
+            <HBox prefHeight="53.0" prefWidth="279.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#onAbortClick" text="Cancel">
                      <HBox.margin>
-                        <Insets left="133.0" top="50.0" />
+                        <Insets left="133.0" top="10.0" />
                      </HBox.margin>
                   </Button>
                   <Button mnemonicParsing="false" onAction="#onAddClick" text="Add expense">
                      <HBox.margin>
-                        <Insets left="10.0" top="50.0" />
+                        <Insets left="10.0" top="10.0" />
                      </HBox.margin>
                   </Button>
                </children>
