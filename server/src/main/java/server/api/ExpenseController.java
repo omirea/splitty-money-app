@@ -34,7 +34,7 @@ public class ExpenseController {
      * @param expense_id id of the request
      * @return ResponseEntity<Expense> - answer of the request
      */
-    @GetMapping(path = { "", "/{id}" })
+    @GetMapping(path = {"/{id}" })
     @ResponseBody
     public ResponseEntity<Expense> getExpenseByID(@PathVariable("id") long expense_id){
         if(expense_id < 0)
