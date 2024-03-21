@@ -77,7 +77,8 @@ public class ServerUtils {
 				.target(SERVER).path("/participant")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
-				.post(Entity.entity(participant, APPLICATION_JSON), Participant.class);
+				.post(Entity.entity(participant, APPLICATION_JSON),
+					Participant.class);
 	}
 
 	/**
@@ -90,6 +91,7 @@ public class ServerUtils {
 				.target(SERVER).path("/participant" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
-				.put(Entity.entity(participant, APPLICATION_JSON), Participant.class);
+				.put(Entity.entity(participant, APPLICATION_JSON),
+					Participant.class);
 	}
 }
