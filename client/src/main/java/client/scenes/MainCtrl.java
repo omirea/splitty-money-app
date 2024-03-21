@@ -21,6 +21,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.Mnemonic;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -82,13 +86,14 @@ public class MainCtrl {
         this.eventsAdmin = new Scene(eventsAdmin.getValue());
 
 
-        //showEventOverview("123");
-        //showStartScreen();
+//        showEventOverview("");
+//        showStartScreen();
         //showEditParticipants();
         //showOpenDebts();
-        showExpense();
+        //showExpense();
         //showEditParticipants();
         //showAdminLogIn();
+       showEventsAdmin();
         primaryStage.show();
     }
 
