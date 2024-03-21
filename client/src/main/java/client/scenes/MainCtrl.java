@@ -86,13 +86,13 @@ public class MainCtrl {
         openDebtsCtrl.getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         closedDebtsCtrl.getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        showEventOverview("123");
+        //showEventOverview("123");
         //showStartScreen();
         //showEditParticipants();
         //showOpenDebts();
         //showExpense();
         //showEditParticipants();
-        showAdminLogIn();
+        //showAdminLogIn();
         primaryStage.show();
     }
 
