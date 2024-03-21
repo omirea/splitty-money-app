@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import server.database.ExpenseRepository;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/expense")
 public class ExpenseController {
@@ -18,13 +20,23 @@ public class ExpenseController {
     }
 
     /**
+     * find all expenses
+     * @return List<Expense>
+     */
+    @GetMapping(path = { "", "/" })
+    @ResponseBody
+    public List<Expense> getAllExpenses() {
+        return db.findAll();
+    }
+
+    /**
      * Get request of the expense
      * @param expense_id id of the request
      * @return ResponseEntity<Expense> - answer of the request
      */
-    @GetMapping(path = { "", "/" })
+    @GetMapping(path = {"/{id}" })
     @ResponseBody
-    public ResponseEntity<Expense> getExpenseByID(@RequestParam("id") long expense_id){
+    public ResponseEntity<Expense> getExpenseByID(@PathVariable("id") long expense_id){
         if(expense_id < 0)
             return ResponseEntity.badRequest().build();
         if(!db.existsById(expense_id))
@@ -60,10 +72,12 @@ public class ExpenseController {
         if(expense == null) {
             return ResponseEntity.badRequest().build();
         }
+        if(expense_id < 0) {
+            return ResponseEntity.badRequest().build();
+        }
         if (!db.existsById(expense_id)){
             return ResponseEntity.notFound().build();
         }
-
         Expense existingExpense = db.findById(expense_id).get();
         existingExpense.setDescription(expense.getDescription());
         existingExpense.setAmount(expense.getAmount());
@@ -81,6 +95,12 @@ public class ExpenseController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Expense> deleteExpense(@PathVariable("id") long expense_id) {
+        if(expense_id < 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        if(!db.existsById(expense_id)) {
+            return ResponseEntity.notFound().build();
+        }
         db.deleteById(expense_id);
         return ResponseEntity.noContent().build();
     }
