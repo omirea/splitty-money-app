@@ -15,7 +15,7 @@ public class ExpenseServerUtils {
 
     /**
      * addExpense method
-     * @param expense
+     * @param expense - expense object
      * @return added Expense
      */
     public Expense addExpense(Expense expense) {
@@ -28,9 +28,22 @@ public class ExpenseServerUtils {
 
     /**
      * getExpense method
+     * @param id - get expense by id
      * @return gotten Expense
      */
-    public Expense getExpense() {
+    public Expense getExpenseByID(long id) {
+        return ClientBuilder.newClient(new ClientConfig())
+                .target(SERVER).path("/expense/" + id)
+                .request(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .get(new GenericType<Expense>() {});
+    }
+
+    /**
+     * get all expenses
+     * @return all expenses
+     */
+    public Expense getAllExpenses() {
         return ClientBuilder.newClient(new ClientConfig())
                 .target(SERVER).path("/expense")
                 .request(APPLICATION_JSON)
@@ -42,9 +55,9 @@ public class ExpenseServerUtils {
      * deleteExpense method
      * @return deleted Expense
      */
-    public Expense deleteExpense() {
+    public Expense deleteExpense(long id) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("/expense")
+                .target(SERVER).path("/expense/" + id)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .delete(new GenericType<Expense>() {});
@@ -52,12 +65,13 @@ public class ExpenseServerUtils {
 
     /**
      * updateExpense method
-     * @param expense
+     * @param expense - expense object
+     * @param id - expense id
      * @return updated Expense
      */
-    public Expense updateExpense(Expense expense) {
+    public Expense updateExpense(Expense expense, long id) {
         return ClientBuilder.newClient(new ClientConfig())
-                .target(SERVER).path("/expense")
+                .target(SERVER).path("/expense/" + id)
                 .request(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .put(Entity.entity(expense, APPLICATION_JSON), Expense.class);
