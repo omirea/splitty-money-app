@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddEditExpenseCtrl">
+<AnchorPane prefHeight="400.0" prefWidth="427.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddEditExpenseCtrl">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
@@ -37,17 +37,20 @@
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
-                        <TextField fx:id="howMuchField" />
-                        <ChoiceBox fx:id="currencyField" prefWidth="150.0" />
+                        <TextField fx:id="howMuchField" prefHeight="26.0" prefWidth="108.0" />
+                        <ChoiceBox fx:id="currencyField" prefHeight="26.0" prefWidth="68.0" />
                      </children>
                   </HBox>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="How much?" GridPane.rowIndex="2" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="What for?" GridPane.rowIndex="1" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Who Paid?" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="When?" GridPane.rowIndex="3" />
-                  <TextField fx:id="whatForField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <DatePicker fx:id="whenField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <ChoiceBox fx:id="whoPaidField" prefWidth="150.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="whatForField" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets right="44.0" />
+                     </GridPane.margin></TextField>
+                  <DatePicker fx:id="whenField" prefHeight="26.0" prefWidth="176.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <ChoiceBox fx:id="whoPaidField" prefHeight="26.0" prefWidth="174.0" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="How to Split">
@@ -62,7 +65,7 @@
                   <Insets top="3.0" />
                </VBox.margin>
             </RadioButton>
-            <RadioButton fx:id="onlySomePeopleField" mnemonicParsing="false" onAction="#initialize" text="Only some people" toggleGroup="$Split">
+            <RadioButton fx:id="onlySomePeopleField" mnemonicParsing="false" text="Only some people" toggleGroup="$Split">
                <VBox.margin>
                   <Insets top="3.0" />
                </VBox.margin></RadioButton>
@@ -73,19 +76,25 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </ListView>
-                  <TableView fx:id="tableView" prefHeight="399.0" prefWidth="197.0">
+                  <TableView fx:id="tableView" prefHeight="399.0" prefWidth="401.0">
                     <columns>
-                      <TableColumn fx:id="participantColumn" prefWidth="207.20008504390717" sortable="false" text="C1" />
-                      <TableColumn fx:id="amountColumn" prefWidth="68.00006103515625" sortable="false" text="C2" />
+                        <TableColumn fx:id="checkBoxColumn" prefWidth="46.40008199214935" />
+                      <TableColumn fx:id="participantColumn" prefWidth="271.2000274658203" sortable="false" text="Participant" />
+                      <TableColumn fx:id="amountColumn" prefWidth="76.0" sortable="false" text="Amount" />
                     </columns>
                   </TableView>
                </children>
             </VBox>
             <HBox prefHeight="53.0" prefWidth="279.0">
                <children>
+                  <Button fx:id="autoDivide" mnemonicParsing="false" onAction="#autoDivideMethod" prefHeight="26.0" prefWidth="86.0" text="Auto-Divide">
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
+                  </Button>
                   <Button mnemonicParsing="false" onAction="#onAbortClick" text="Cancel">
                      <HBox.margin>
-                        <Insets left="133.0" top="10.0" />
+                        <Insets left="170.0" top="10.0" />
                      </HBox.margin>
                   </Button>
                   <Button mnemonicParsing="false" onAction="#onAddClick" text="Add expense">

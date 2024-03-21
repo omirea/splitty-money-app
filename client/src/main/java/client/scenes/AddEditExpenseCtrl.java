@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Currency;
+import java.util.List;
 
 public class AddEditExpenseCtrl {
 
@@ -21,7 +22,6 @@ public class AddEditExpenseCtrl {
             FXCollections.observableArrayList("EUR", "USD", "GBP");
     // Add expense
     private MainCtrl mainCtrl;
-
     private final ServerUtils serverUtils;
 
     @FXML
@@ -43,6 +43,10 @@ public class AddEditExpenseCtrl {
     @FXML
     private RadioButton allPeopleField;
 
+    @FXML
+    private Button autoDivide;
+    @FXML
+    private TableColumn<PersonAmount, CheckBox> checkBoxColumn;
     @FXML
     private TableColumn<PersonAmount, String> participantColumn;
     @FXML
@@ -76,6 +80,10 @@ public class AddEditExpenseCtrl {
     @FXML
     private void initialize() {
         //initialize table view
+        tableView.visibleProperty().bind(onlySomePeopleField.selectedProperty());
+        autoDivide.visibleProperty().bind(onlySomePeopleField.selectedProperty());
+        checkBoxColumn.
+                setCellValueFactory(new PropertyValueFactory<PersonAmount, CheckBox>("checkBox"));
         participantColumn.
                 setCellValueFactory(new PropertyValueFactory<PersonAmount, String>("name"));
         amountColumn.
@@ -83,6 +91,7 @@ public class AddEditExpenseCtrl {
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         // currency initialiser
+        howMuchField.setText("0");
         currencyField.setValue("EUR");
         currencyField.setItems(currencyList);
     }
@@ -138,34 +147,6 @@ public class AddEditExpenseCtrl {
         mainCtrl.showEventOverview("123");
     }
 
-//    @FXML
-//    public void onXTagClick(ActionEvent event) {
-//        Button deleteButton = (Button) event.getSource();
-//        tagBoxField = (HBox) deleteButton.getParent();
-//        tagBarField = (HBox) tagBoxField.getParent();
-//
-//        tagBarField.getChildren().remove(tagBoxField);
-//    }
-//
-//    @FXML
-//    public void onAddTagClick() {
-//        String newTagName = tagBarEnterField.getText();
-//
-//        if (!newTagName.isEmpty()) {
-//            // Create a new Button for the tag
-//            Button newTagButton = new Button(newTagName);
-//            // Set the action for the delete button in the tag
-//            newTagButton.setOnAction(this::onXTagClick);
-//            // Create a new HBox for the tag
-//            HBox newTagBox = new HBox();
-//            newTagBox.getChildren().add(newTagButton);
-//            // Add the new tag HBox to the existing tagBarField
-//            tagBarField.getChildren().add(newTagBox);
-//            // Clear the tagBarEnterField for the next input
-//            tagBarEnterField.clear();
-//        }
-//    }
-
     public Expense createExpense(){
         String whoPaid=whoPaidField.getSelectionModel().getSelectedItem();
         String whatFor=whatForField.getText();
@@ -175,5 +156,25 @@ public class AddEditExpenseCtrl {
         LocalDate date=whenField.getValue();
         Expense expense=new Expense(whatFor, amount, null, date, currency);
         return expense;
+    }
+
+    public void autoDivideMethod(){
+        double total= Double.parseDouble(howMuchField.getText());
+        int peopleCounter=0;
+        List<PersonAmount> selectedPeople=tableView.getItems();
+        for(PersonAmount pa : selectedPeople)
+            if(pa.getCheckBox().isSelected()) {
+                if(!pa.getTextField().getText().isEmpty())
+                    total=total-Double.parseDouble(pa.getTextField().getText());
+                else
+                    peopleCounter++;
+            }
+        for(PersonAmount pa : selectedPeople){
+            if(pa.getCheckBox().isSelected()){
+                if(pa.getTextField().getText().isEmpty()){
+                    pa.getTextField().setText(String.valueOf((Double)(total/peopleCounter)));
+                }
+            }
+        }
     }
 }
