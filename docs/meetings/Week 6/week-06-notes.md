@@ -25,7 +25,7 @@
 >> - We should make it more accessible but should not worry about it this week
 - Database progress (5 min)
 > - How far have we gotten? (3 min)
->> - Participants and admin repository still need to be finished
+>> - Participants and admin repository still needs to be finished
 > - Did we meet our goals for last week? (1 min)
 > - If not, by when will that be finished? (0-1 min)
 >> - by this week it should be finished.
