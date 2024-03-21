@@ -1,6 +1,5 @@
 package client.nodes;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.TextField;
 
 public class PersonAmount {

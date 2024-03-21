@@ -6,9 +6,9 @@
 <module name="Checker">
 
     <property name="fileExtensions" value="java"/>
-    <module name="BeforeExecutionExclusionFileFilter">
-        <property name="fileNamePattern" value=".*Test\.java$"/>
-    </module>
+<!--    <module name="BeforeExecutionExclusionFileFilter">-->
+<!--        <property name="fileNamePattern" value=".*Test\.java$"/>-->
+<!--    </module>-->
 
     <module name="TreeWalker">
         <module name="MethodLength">
