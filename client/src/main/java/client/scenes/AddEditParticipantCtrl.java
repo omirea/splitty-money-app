@@ -102,12 +102,19 @@ public class AddEditParticipantCtrl {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AddEditParticipantCtrl that = (AddEditParticipantCtrl) o;
-        return Objects.equals(server, that.server) && Objects.equals(mainCtrl, that.mainCtrl) && Objects.equals(bicTextField, that.bicTextField) && Objects.equals(emailTextField, that.emailTextField) && Objects.equals(ibanTextField, that.ibanTextField) && Objects.equals(nameTextField, that.nameTextField) && Objects.equals(okButton, that.okButton) && Objects.equals(cancelButton, that.cancelButton);
+        return Objects.equals(server, that.server) && Objects.equals(mainCtrl, that.mainCtrl)
+            && Objects.equals(bicTextField, that.bicTextField)
+            && Objects.equals(emailTextField, that.emailTextField)
+            && Objects.equals(ibanTextField, that.ibanTextField)
+            && Objects.equals(nameTextField, that.nameTextField)
+            && Objects.equals(okButton, that.okButton)
+            && Objects.equals(cancelButton, that.cancelButton);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(server, mainCtrl, bicTextField, emailTextField, ibanTextField, nameTextField, okButton, cancelButton);
+        return Objects.hash(server, mainCtrl, bicTextField, emailTextField, ibanTextField,
+            nameTextField, okButton, cancelButton);
     }
 
     /**
@@ -115,7 +122,8 @@ public class AddEditParticipantCtrl {
      * @return true or false if the email is valid
      */
     public boolean validateEmail(){
-        String regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])" +
+        String regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\." +
+            "[0-9]{1,3}\\.[0-9]{1,3}\\])" +
                 "|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         Pattern p= Pattern.compile(regex);
         Matcher m= p.matcher(emailTextField.getText().trim());

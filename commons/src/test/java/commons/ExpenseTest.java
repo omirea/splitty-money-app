@@ -11,19 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ExpenseTest {
 
-//    @Test
-//    public void getWhoPaidTest() {
-//        Participant p1 = new Participant("a","b","c","d");
-//        Participant p2 = new Participant("e","g","f","h");
-//        Participant p3 = new Participant("this","or","that","right");
-//        List<Participant> participants = Arrays.asList(p2, p3);
-//
-//        Expense expense = new Expense(p1, "This is a description",
-//                2.09,"This is a type", participants,
-//                LocalDate.of(2005, 12, 1),
-//                Currency.getInstance("BAM"));
-//        assertEquals(p1,expense.getWhoPaid());
-//    }
 
     @Test
     public void getDescriptionTest() {
@@ -49,19 +36,7 @@ public class ExpenseTest {
                 Currency.getInstance("BAM"));
         assertEquals("This is a type", expense.getType());
     }
-//    @Test
-//    public void getParticipantsTest() {
-//        Participant p1 = new Participant("a","b","c","d");
-//        Participant p2 = new Participant("e","g","f","h");
-//        Participant p3 = new Participant("this","or","that","right");
-//        List<Participant> participants = Arrays.asList(p2, p3);
-//
-//        Expense expense = new Expense(p1, "This is a description",
-//                2.09,"This is a type", participants,
-//                LocalDate.of(2005, 12, 1),
-//                Currency.getInstance("BAM"));
-//        assertEquals(participants, expense.getParticipants());
-//    }
+
 
     @Test
     public void getDateSent() {
@@ -81,20 +56,6 @@ public class ExpenseTest {
         assertEquals(Currency.getInstance("BAM"), expense.getCurrency());
     }
 
-//    @Test
-//    public void setWhoPaidTest() {
-//        Participant p1 = new Participant("a","b","c","d");
-//        Participant p2 = new Participant("e","g","f","h");
-//        Participant p3 = new Participant("this","or","that","right");
-//        List<Participant> participants = Arrays.asList(p2, p3);
-//
-//        Expense expense = new Expense(p1, "This is a description",
-//                2.09,"This is a type", participants,
-//                LocalDate.of(2005, 12, 1),
-//                Currency.getInstance("BAM"));
-//        expense.setWhoPaid(p2);
-//        assertEquals(p2,expense.getWhoPaid());
-//    }
 
     @Test
     public void setDescriptionTest() {
@@ -126,21 +87,7 @@ public class ExpenseTest {
         assertEquals("key", expense.getType());
     }
 
-//    @Test
-//    public void setParticipantsTest() {
-//        Participant p1 = new Participant("a","b","c","d");
-//        Participant p2 = new Participant("e","g","f","h");
-//        Participant p3 = new Participant("this","or","that","right");
-//        List<Participant> participants = Arrays.asList(p2, p3);
-//        List<Participant> participants2 = Arrays.asList(p1, p3);
-//
-//        Expense expense = new Expense(p1, "This is a description",
-//                2.09,"This is a type", participants,
-//                LocalDate.of(2005, 12, 1),
-//                Currency.getInstance("BAM"));
-//        expense.setParticipants(participants2);
-//        assertEquals(participants2, expense.getParticipants());
-//    }
+
 
     @Test
     public void setDateSentTest() {
@@ -224,31 +171,5 @@ public class ExpenseTest {
                 Currency.getInstance("BAM"));
         assertNotEquals(expense.hashCode(), expense2.hashCode());
     }
-//    @Test
-//    public void addParticipantTest() {
-//        Participant p1 = new Participant("a","b","c","d");
-//        Participant p2 = new Participant("e","g","f","h");
-//        Participant p3 = new Participant("this","or","that","right");
-//        List<Participant> participants = new ArrayList<>(List.of(p2));
-//        List<Participant> participants2 = Arrays.asList(p2, p3);
-//
-//        Expense expense = new Expense(p1, "This is a description",
-//                2.09,"This is a type", participants,
-//                LocalDate.of(2005, 12, 1),
-//                Currency.getInstance("BAM"));
-//
-//        expense.addParticipant(p3);
-//        assertEquals(expense.getParticipants(), participants2);
-//    }
 
-//    @Test
-//    public void removeParticipantTest() {
-//        Expense expense = new Expense( "This is a description",
-//                2.09,"This is a type",
-//                LocalDate.of(2005, 12, 1),
-//                Currency.getInstance("BAM"));
-//
-//        expense.removeParticipant(p3);
-//        assertEquals(expense.getParticipants(), participants);
-//    }
 }

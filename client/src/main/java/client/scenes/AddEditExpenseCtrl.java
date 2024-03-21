@@ -70,7 +70,8 @@ public class AddEditExpenseCtrl {
         peopleVBoxField.visibleProperty().bind(onlySomePeopleField.selectedProperty());
         peopleListViewField.setItems(currencyList); // for testing only
         peopleListViewField.setCellFactory(CheckBoxListCell.forListView());
-        peopleListViewField.getSelectionModel().getSelectedItems().addListener((ListChangeListener<String>) c -> {
+        peopleListViewField.getSelectionModel().getSelectedItems()
+            .addListener((ListChangeListener<String>) c -> {
             while (c.next()) {
                 if (c.wasAdded()) {
                     System.out.println("Selected: " + c.getAddedSubList());
@@ -100,7 +101,8 @@ public class AddEditExpenseCtrl {
 
             mainCtrl.addExpenseToEvent(createExpense());
             mainCtrl.showEventOverview("123");
-//            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("StartScreen.fxml")));
+//            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass()
+//            .getResource("StartScreen.fxml")));
 //            Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 //            Scene scene = new Scene(root);
 //            stage.setScene(scene);
@@ -125,7 +127,8 @@ public class AddEditExpenseCtrl {
      */
     @FXML
     public void onAbortClick(ActionEvent event) throws IOException {
-//        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("EventOverview.fxml")));
+//        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass()
+//        .getResource("EventOverview.fxml")));
 //        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
 //        Scene scene = new Scene(root);
 //        stage.setScene(scene);
@@ -165,7 +168,8 @@ public class AddEditExpenseCtrl {
         String whoPaid=whoPaidField.getSelectionModel().getSelectedItem();
         String whatFor=whatForField.getText();
         Double amount= Double.valueOf(howMuchField.getText());
-        Currency currency= Currency.getInstance(currencyField.getSelectionModel().getSelectedItem());
+        Currency currency= Currency.getInstance(currencyField.getSelectionModel()
+            .getSelectedItem());
         LocalDate date=whenField.getValue();
         Expense expense=new Expense(whatFor, amount, null, date, currency);
         return expense;
