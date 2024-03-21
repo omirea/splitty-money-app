@@ -20,7 +20,6 @@ import commons.Expense;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -215,10 +214,7 @@ public class MainCtrl {
      * @param participant the participant that has been added
      */
     public void addParticipantToWhoShouldPayOption(String participant) {
-
-        TextField tf=new TextField();
-
-        PersonAmount pa=new PersonAmount(participant,  tf);
+        PersonAmount pa=new PersonAmount(participant);
         addEditExpenseCtrl.getTableView().getItems().add(pa);
     }
 }
