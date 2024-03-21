@@ -143,7 +143,8 @@ import java.util.*;
         return Double.compare(amount, expense.amount) == 0 &&
                 Objects.equals(description, expense.description) &&
                 Objects.equals(type, expense.type) &&
-                Objects.equals(dateSent, expense.dateSent) && Objects.equals(currency, expense.currency);
+                Objects.equals(dateSent, expense.dateSent) &&
+                Objects.equals(currency, expense.currency);
     }
 
     /**

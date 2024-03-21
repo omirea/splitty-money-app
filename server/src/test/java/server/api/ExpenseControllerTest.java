@@ -51,14 +51,18 @@ public class ExpenseControllerTest {
     @Test
     public void testUpdateExpense() {
         long expenseId = 1;
-        Expense existingExpense = new Expense(); // create an existing Expense object with appropriate data
-        Expense updatedExpense = new Expense(); // create an updated Expense object with appropriate data
+        Expense existingExpense = new Expense();
+        // create an existing Expense object// with appropriate data
+        Expense updatedExpense = new Expense();
+        // create an updated Expense object with appropriate data
 
         when(expenseRepository.existsById(expenseId)).thenReturn(true);
-        when(expenseRepository.findById(expenseId)).thenReturn(java.util.Optional.of(existingExpense));
+        when(expenseRepository.findById(expenseId))
+            .thenReturn(java.util.Optional.of(existingExpense));
         when(expenseRepository.save(existingExpense)).thenReturn(updatedExpense);
 
-        ResponseEntity<Expense> responseEntity = expenseController.updateExpense(updatedExpense, expenseId);
+        ResponseEntity<Expense> responseEntity = expenseController
+            .updateExpense(updatedExpense, expenseId);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(updatedExpense, responseEntity.getBody());

@@ -119,7 +119,8 @@ public class Participant {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Participant that)) return false;
-        return Objects.equals(name, that.name) && Objects.equals(email, that.email) && Objects.equals(IBAN, that.IBAN) && Objects.equals(BIC, that.BIC);
+        return Objects.equals(name, that.name) && Objects.equals(email, that.email)
+            && Objects.equals(IBAN, that.IBAN) && Objects.equals(BIC, that.BIC);
     }
 
     /**

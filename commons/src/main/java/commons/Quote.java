@@ -61,6 +61,7 @@ public class Quote {
 
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
+		return ToStringBuilder
+			.reflectionToString(this, MULTI_LINE_STYLE);
 	}
 }

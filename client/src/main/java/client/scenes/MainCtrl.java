@@ -97,7 +97,8 @@ public class MainCtrl {
     }
 
     private void initializeAspectOpenDebts() {
-        openDebtsCtrl.getPayAllDebts().setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
+        openDebtsCtrl.getPayAllDebts()
+            .setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
     }
 
     private void initializeAspectClosedDebts() {
