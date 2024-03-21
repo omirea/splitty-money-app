@@ -55,7 +55,8 @@ public class ExpenseController {
      * @return ResponseEntity<Expense> - response of the method
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Expense> updateExpense(@RequestBody Expense expense, @PathVariable("id") long expense_id) {
+    public ResponseEntity<Expense> updateExpense(@RequestBody Expense expense,
+                                                 @PathVariable("id") long expense_id) {
         if(expense == null) {
             return ResponseEntity.badRequest().build();
         }

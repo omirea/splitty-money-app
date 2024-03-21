@@ -15,7 +15,8 @@ public class EventController {
     }
 
     @PutMapping("/{invitationID}")
-    public ResponseEntity<Event> updateEvent(@RequestBody Event event, @PathVariable("invitationID") String event_id) {
+    public ResponseEntity<Event> updateEvent(@RequestBody Event event,
+                                             @PathVariable("invitationID") String event_id) {
         if(event == null) {
             return ResponseEntity.badRequest().build();
         }
