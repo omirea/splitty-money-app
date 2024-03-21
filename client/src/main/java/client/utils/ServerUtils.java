@@ -88,7 +88,7 @@ public class ServerUtils {
 	 */
 	public Participant updateParticipant(Participant participant, Long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/participant" + id)
+				.target(SERVER).path("/participant/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.put(Entity.entity(participant, APPLICATION_JSON),
