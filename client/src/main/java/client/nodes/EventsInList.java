@@ -1,18 +1,12 @@
 package client.nodes;
 
 import client.scenes.MainCtrl;
-import client.scenes.ManageEventsAdminCtrl;
-import client.utils.RefServerUtils;
-import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
-import javax.inject.Inject;
 
 public class EventsInList {
     private HBox hbox;
