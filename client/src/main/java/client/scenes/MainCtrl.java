@@ -81,13 +81,14 @@ public class MainCtrl {
         this.eventsAdmin = new Scene(eventsAdmin.getValue());
 
 
-        //showEventOverview("123");
-        //showStartScreen();
+//        showEventOverview("");
+//        showStartScreen();
         //showEditParticipants();
         //showOpenDebts();
-        showExpense();
+        //showExpense();
         //showEditParticipants();
         //showAdminLogIn();
+       showEventsAdmin();
         primaryStage.show();
     }
 
