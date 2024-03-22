@@ -31,9 +31,6 @@ public class EventControllerTest {
     @InjectMocks
     private EventController eventController;
 
-    /**
-     * A test event repository.
-     */
 
     @Test
     public void testGetEventByID() {
@@ -96,6 +93,9 @@ public class EventControllerTest {
 
     @Test
     public void getAllEvents() {
+        repo = new TestEventRepository();
+        eventController = new EventController(repo, exRepo);
+
         List<Event> list = new ArrayList<>();
 
         Event event1 = new Event("a");
