@@ -16,7 +16,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/")
 public class EventController {
-    private EventRepository db;
+    private final EventRepository db;
     private ExpenseRepository exRepo;
 
     public EventController(EventRepository db, ExpenseRepository exRepo){
@@ -150,10 +150,8 @@ public class EventController {
     public ResponseEntity<Expense> addExpenseToEvent(
             @PathVariable("invitation_id") String invitation_id,
             @RequestBody Expense expense) {
-        if (!db.existsById(invitation_id)
-                || expense.getValue() < 0
-                || isNullOrEmpty(expense.getDescription())
-        ) {
+        if (!db.existsById(invitation_id) || expense.getValue() < 0
+                || isNullOrEmpty(expense.getDescription())) {
             return ResponseEntity.badRequest().build();
         }
 
