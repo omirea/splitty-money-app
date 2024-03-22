@@ -90,6 +90,16 @@ public class TestExpenseRepository implements ExpenseRepository {
      * @return expense
      */
     @Override
+    public Expense getOne(Long aLong) {
+        return null;
+    }
+
+    /**
+     *
+     * @param aLong must not be {@literal null}.
+     * @return expense
+     */
+    @Override
     public Expense getById(Long aLong) {
         return null;
     }
