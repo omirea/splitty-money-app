@@ -47,7 +47,8 @@ public class Event {
         this.invitationID = invitationID;
     }
 
-    public Event() {
+    public Event(String name) {
+        this.name=name;
     }
 
     /**

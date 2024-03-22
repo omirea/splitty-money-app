@@ -1,6 +1,7 @@
 package server.api;
 
 import commons.Event;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -10,17 +11,34 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import server.database.EventRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @ExtendWith(MockitoExtension.class)
 public class EventControllerTest {
 
+    private TestEventRepository repo;
+    private TestExpenseRepository exRepo;
+
     @Mock
     private EventRepository eventRepository;
 
+
     @InjectMocks
     private EventController eventController;
+
+    /**
+     * A test event repository.
+     */
+    @BeforeEach
+    public void setup() {
+        repo = new TestEventRepository();
+        eventController = new EventController(repo, exRepo);
+    }
 
     @Test
     public void testGetEventByID() {
@@ -75,4 +93,33 @@ public class EventControllerTest {
         verify(eventRepository, times(1)).deleteById(eID);
     }
 
-}
+    @Test
+    public void cannotAddNullEvent() {
+        var actual = eventController.createEvent(null);
+        assertEquals(BAD_REQUEST, actual.getStatusCode());
+    }
+
+    @Test
+    public void getAllEvents() {
+        List<Event> list = new ArrayList<>();
+
+        Event event1 = new Event("a");
+        Event event2 = new Event("b");
+
+        list.add(event1);
+        list.add(event2);
+
+        eventController.createEvent(event1);
+        eventController.createEvent(event2);
+
+        List<Event> response = eventController.getAll();
+
+        assertEquals(response, list);
+    }
+
+
+
+
+    }
+
+

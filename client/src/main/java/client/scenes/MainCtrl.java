@@ -93,6 +93,7 @@ public class MainCtrl {
         //showExpense();
         //showEditParticipants();
         showAdminLogIn();
+        //showStartScreen();
         primaryStage.show();
     }
 
