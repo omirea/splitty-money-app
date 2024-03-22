@@ -34,11 +34,6 @@ public class EventControllerTest {
     /**
      * A test event repository.
      */
-    @BeforeEach
-    public void setup() {
-        repo = new TestEventRepository();
-        eventController = new EventController(repo, exRepo);
-    }
 
     @Test
     public void testGetEventByID() {

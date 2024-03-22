@@ -9,9 +9,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.FluentQuery;
-import org.yaml.snakeyaml.events.Event;
 import server.database.ExpenseRepository;
 
 import java.util.List;
@@ -86,37 +84,6 @@ public class TestExpenseRepository implements ExpenseRepository {
 
     }
 
-    /**
-     * Returns a reference to the entity with the given identifier. Depending on how the JPA persistence provider is
-     * implemented this is very likely to always return an instance and throw an
-     * {@link EntityNotFoundException} on first access. Some of them will reject invalid identifiers
-     * immediately.
-     *
-     * @param aLong must not be {@literal null}.
-     * @return a reference to the entity with the given identifier.
-     * @see EntityManager#getReference(Class, Object) for details on when an exception is thrown.
-     * @deprecated use  instead.
-     */
-    @Override
-    public Expense getOne(Long aLong) {
-        return null;
-    }
-
-    /**
-     * Returns a reference to the entity with the given identifier. Depending on how the JPA persistence provider is
-     * implemented this is very likely to always return an instance and throw an
-     * {@link EntityNotFoundException} on first access. Some of them will reject invalid identifiers
-     * immediately.
-     *
-     * @param aLong must not be {@literal null}.
-     * @return a reference to the entity with the given identifier.
-     * @since 2.5
-     * @deprecated use  instead.
-     */
-    @Override
-    public Expense getById(Long aLong) {
-        return null;
-    }
 
     /**
      * Returns a reference to the entity with the given identifier. Depending on how the JPA persistence provider is
