@@ -26,7 +26,7 @@ public class ParticipantController {
 
     @GetMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<Object> findParticipantByID(@PathVariable("id") Long id){
+    public ResponseEntity<Object> getParticipantByID(@PathVariable("id") Long id){
         if(!db.existsById(id)){
             return ResponseEntity.badRequest().build();
         }
