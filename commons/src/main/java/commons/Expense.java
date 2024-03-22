@@ -47,8 +47,8 @@ import java.util.*;
         this.currency = currency;
     }
 
-    public Expense(Long id, Event event, List<Debt> debts, String description, double amount, String type,
-                   LocalDate dateSent, Currency currency) {
+    public Expense(Long id, Event event, List<Debt> debts, String description,
+                   double amount, String type, LocalDate dateSent, Currency currency) {
         this.id = id;
         this.event = event;
         this.debts = debts;

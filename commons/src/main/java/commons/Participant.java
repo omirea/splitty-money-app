@@ -42,8 +42,8 @@ public class Participant {
         this.BIC=BIC;
     }
 
-    public Participant(Long id, Event event, List<Debt> payDebts, List<Debt> receiveDebts, String name,
-                       String email, String IBAN, String BIC) {
+    public Participant(Long id, Event event, List<Debt> payDebts, List<Debt> receiveDebts,
+                       String name, String email, String IBAN, String BIC) {
         this.id = id;
         this.event = event;
         this.payDebts = payDebts;
