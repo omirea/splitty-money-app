@@ -51,6 +51,9 @@ public class Event {
         this.name=name;
     }
 
+    public Event() {
+    }
+
     /**
      * Getter for the list of participants
      * @return ArrayList with all participants
