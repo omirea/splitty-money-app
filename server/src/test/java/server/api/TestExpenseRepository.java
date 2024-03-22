@@ -84,6 +84,15 @@ public class TestExpenseRepository implements ExpenseRepository {
 
     }
 
+    /**
+     *
+     * @param aLong must not be {@literal null}.
+     * @return expense
+     */
+    @Override
+    public Expense getById(Long aLong) {
+        return null;
+    }
 
     /**
      * Returns a reference to the entity with the given identifier. Depending on how the JPA persistence provider is
