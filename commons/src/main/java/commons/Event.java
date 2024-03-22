@@ -11,13 +11,13 @@ public class Event {
     /**
      * Arraylist with all the participants which are part of this event
      */
-    @OneToMany(mappedBy = "p_id")
+    @OneToMany(mappedBy = "event")
     private ArrayList<Participant> participants;
 
     /**
      * Arraylist with all the expenses which are part of this event
      */
-    @OneToMany(mappedBy = "ex_id")
+    @OneToMany(mappedBy = "event")
     private ArrayList<Expense> expenses;
 
     /**

@@ -9,17 +9,22 @@ public class Debt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long d_id;
+    private Long id;
+
     private boolean settled;
+
     @ManyToOne
-    @JoinColumn(name = "exp_id", nullable = false)
+    @JoinColumn(name = "ex_id", nullable = false)
     private Expense expense;
+
     @ManyToOne
-    @JoinColumn(name = "debt_id", nullable = false)
+    @JoinColumn(name = "from_id", nullable = false)
     private Participant from;
-    @OneToOne
-    @JoinColumn(name = "p_id", referencedColumnName = "p_id")
+
+    @ManyToOne
+    @JoinColumn(name = "to_id", nullable = false)
     private Participant to;
+
     private double amount;
 
     /**
@@ -35,8 +40,8 @@ public class Debt {
         settled = false;
     }
 
-    public Debt(Long d_id, Expense expense, Participant from, Participant to, double amount) {
-        this.d_id = d_id;
+    public Debt(Long id, Expense expense, Participant from, Participant to, double amount) {
+        this.id = id;
         this.expense = expense;
         this.from = from;
         this.to = to;
@@ -44,12 +49,14 @@ public class Debt {
         settled = false;
     }
 
-    public Long getD_id() {
-        return d_id;
+    public Debt() {}
+
+    public Long getId() {
+        return id;
     }
 
-    public void setD_id(Long d_id) {
-        this.d_id = d_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Expense getExpense() {
@@ -59,8 +66,6 @@ public class Debt {
     public void setExpense(Expense expense) {
         this.expense = expense;
     }
-
-    public Debt() {}
 
     /**
      * getter for settled

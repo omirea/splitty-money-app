@@ -19,13 +19,13 @@ public class DebtController {
     }
 
 
-    @GetMapping(path = { "", "/" })
+    @GetMapping("/debt")
     @ResponseBody
     public List<Debt> getAll() {
         return db.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/debt/{id}")
     @ResponseBody
     public ResponseEntity<Debt> getById(@PathVariable("id") Long id){
         if (id < 0 || !db.existsById(id)){
@@ -34,7 +34,7 @@ public class DebtController {
         return ResponseEntity.ok(db.findById(id).get());
     }
 
-    @PostMapping(path = { "", "/" })
+    @PostMapping("/debt")
     public ResponseEntity<Debt> add(@RequestBody Debt debt) {
 
         if (debt.getAmount() == 0 || debt.getFrom() == null || debt.getTo() == null
