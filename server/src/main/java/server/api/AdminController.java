@@ -1,41 +1,27 @@
 package server.api;
 
-import commons.Admin;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import server.database.AdminRepository;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import server.PasswordGenerationService;
 
+@Controller
+@RequestMapping("/admin")
 public class AdminController {
-    private AdminRepository repo;
+    PasswordGenerationService passwordGenerationService;
 
-    public AdminController(AdminRepository repo) {
-        this.repo = repo;
+    public AdminController(PasswordGenerationService passwordGenerationService) {
+        this.passwordGenerationService = passwordGenerationService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Admin> getById(@PathVariable("id") long id) {
-        if (id < 0 || !repo.existsById(id)) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(repo.findById(id).get());
+    @GetMapping("/{password}")
+    public boolean checkPassword(@PathVariable("password") String password) {
+
+        return passwordGenerationService.checkPassword(password);
     }
 
-    @PostMapping(path = { "", "/" })
-    public ResponseEntity<Admin> add(@RequestBody Admin admin) {
-
-        if (isNullOrEmpty(admin.getName()) || isNullOrEmpty(admin.getPassword())) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        Admin saved = repo.save(admin);
-        return ResponseEntity.ok(saved);
-    }
-
-    private static boolean isNullOrEmpty(String s) {
-        return s == null || s.isEmpty();
+    @GetMapping("/")
+    public void requestPassword() {
+        passwordGenerationService.generatePassword();
     }
 
 }
