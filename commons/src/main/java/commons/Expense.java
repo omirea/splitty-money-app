@@ -11,16 +11,19 @@ import java.util.*;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long ex_id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "event_id", nullable = false)
-    private Event event_id;
+    private Event event;
 
-    @OneToMany(mappedBy = "d_id")
+    @OneToMany(mappedBy = "expense")
     private List<Debt> debts;
+
     private String description; // Description by the participant
+
     private double amount; // Value of the expense
+
     private String type; // Type of expense
 
     private LocalDate dateSent; //date the expense is sent
@@ -37,6 +40,18 @@ import java.util.*;
      */
     public Expense(String description, double amount, String type,
                    LocalDate dateSent, Currency currency) {
+        this.description = description;
+        this.amount = amount;
+        this.type = type;
+        this.dateSent = dateSent;
+        this.currency = currency;
+    }
+
+    public Expense(Long id, Event event, List<Debt> debts, String description,
+                   double amount, String type, LocalDate dateSent, Currency currency) {
+        this.id = id;
+        this.event = event;
+        this.debts = debts;
         this.description = description;
         this.amount = amount;
         this.type = type;
@@ -163,8 +178,8 @@ import java.util.*;
     @Override
     public String toString() {
         return "Expense{" +
-                "ex_id=" + ex_id +
-                ", event_id=" + event_id +
+                "ex_id=" + id +
+                ", event_id=" + event +
                 ", debts=" + debts +
                 ", description='" + description + '\'' +
                 ", value=" + amount +
