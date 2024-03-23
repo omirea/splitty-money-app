@@ -1,8 +1,6 @@
 package server.api;
 
 import commons.Debt;
-import commons.Expense;
-import commons.Participant;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
