@@ -1,7 +1,6 @@
 package commons;
 
 import jakarta.persistence.*;
-
 import java.util.Objects;
 
 @Entity
@@ -137,7 +136,8 @@ public class Debt {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Debt debt = (Debt) o;
-        return settled == debt.settled && Double.compare(amount, debt.amount) == 0 && Objects.equals(from, debt.from)
+        return settled == debt.settled && Double.compare(amount, debt.amount) == 0
+            && Objects.equals(from, debt.from)
                 && Objects.equals(to, debt.to);
     }
 

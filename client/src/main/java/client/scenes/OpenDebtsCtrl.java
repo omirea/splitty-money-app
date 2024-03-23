@@ -50,6 +50,14 @@ public class OpenDebtsCtrl {
 
     public Button getPayAllDebts(){return payAllDebts;}
 
+    @FXML
+    public void initialize(){
+        getListView().getItems().addAll("Debt 1", "Debt 2", "Debt 3");
+        getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        getPayAllDebts()
+                .setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
+    }
+
     /**
      * method to mark all debts as paid
      */

@@ -15,11 +15,11 @@
  */
 package client.scenes;
 
+import client.nodes.PersonAmount;
 import commons.Expense;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -80,28 +80,15 @@ public class MainCtrl {
         this.manageEventsAdminCtrl = eventsAdmin.getKey();
         this.eventsAdmin = new Scene(eventsAdmin.getValue());
 
-        initializeAspectOpenDebts();
-        initializeAspectClosedDebts();
-        openDebtsCtrl.getListView().getItems().addAll("Debt 1", "Debt 2", "Debt 3");
-        openDebtsCtrl.getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        closedDebtsCtrl.getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        showEventOverview("123");
+        //showEventOverview("123");
         //showStartScreen();
         //showEditParticipants();
         //showOpenDebts();
-        //showExpense();
+        showExpense();
         //showEditParticipants();
-        showAdminLogIn();
+        //showAdminLogIn();
         primaryStage.show();
-    }
-
-    private void initializeAspectOpenDebts() {
-        openDebtsCtrl.getPayAllDebts().setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
-    }
-
-    private void initializeAspectClosedDebts() {
-        closedDebtsCtrl.getReopenAllDebts().setStyle("-fx-background-color: #4dbaff");
     }
 
     /**
@@ -219,5 +206,15 @@ public class MainCtrl {
      */
     public void addExpenseToEvent(Expense expense) {
         overviewCtrl.getListViewAll().getItems().add(expense.toString());
+    }
+
+    /**
+     * when a participant is added to the event it becomes a possible option
+     * for who should pay for an expense
+     * @param participant the participant that has been added
+     */
+    public void addParticipantToWhoShouldPayOption(String participant) {
+        PersonAmount pa=new PersonAmount(participant);
+        addEditExpenseCtrl.getTableView().getItems().add(pa);
     }
 }
