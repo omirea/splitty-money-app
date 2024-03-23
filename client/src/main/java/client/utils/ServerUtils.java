@@ -16,6 +16,7 @@
 package client.utils;
 
 
+import commons.Debt;
 import commons.Event;
 
 import commons.Expense;
@@ -228,6 +229,72 @@ public class ServerUtils {
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.put(Entity.entity(expense, APPLICATION_JSON), Expense.class);
+	}
+
+	/**
+	 * get all debts from the database
+	 * @return list of all debts
+	 */
+	public List<Debt> getAllDebts(){
+		return ClientBuilder.newClient(new ClientConfig())
+				.target(SERVER).path("/debt")
+				.request(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.get(new GenericType<List<Debt>>() {});
+	}
+
+	/**
+	 * get a specific debt based on id
+	 * @param id id of the debt requested
+	 * @return the requested debt
+	 */
+	public Debt getDebtById(Long id){
+		return ClientBuilder.newClient(new ClientConfig())
+				.target(SERVER).path("/debt/" + id)
+				.request(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.get(new GenericType<Debt>() {});
+	}
+
+	/**
+	 * method to delete a specific debt from the database
+	 * @param id the id of the debt to be deleted
+	 * @return the deleted debt
+	 */
+	public Debt deleteDebt(Long id){
+		return ClientBuilder.newClient(new ClientConfig())
+				.target(SERVER).path("/debt/" + id)
+				.request(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.delete(new GenericType<Debt>() {});
+	}
+
+	/**
+	 * create a new debt in the database
+	 * @param debt to be added to the database
+	 * @return the created debt
+	 */
+	public Debt createDebt(Debt debt){
+		return ClientBuilder.newClient(new ClientConfig())
+				.target(SERVER).path("/debt")
+				.request(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.post(Entity.entity(debt, APPLICATION_JSON),
+						Debt.class);
+	}
+
+	/**
+	 * update a debt from the database
+	 * @param debt to be updated in the database
+	 * @return the updated debt
+	 */
+	public Debt updateParticipant(Debt debt, Long id){
+		return ClientBuilder.newClient(new ClientConfig())
+				.target(SERVER).path("/debt/" + id)
+				.request(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.put(Entity.entity(debt, APPLICATION_JSON),
+						Debt.class);
 	}
 
 }
