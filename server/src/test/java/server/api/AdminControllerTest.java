@@ -45,7 +45,7 @@ public class AdminControllerTest {
 
     @Test
     void testRequestPassword() {
-        adminController.requestPassword();
+        adminController.generatePassword();
 
         verify(passwordGenerationService, times(1)).generatePassword();
     }

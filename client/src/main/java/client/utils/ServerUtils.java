@@ -161,6 +161,11 @@ public class ServerUtils {
 				.put(Entity.entity(expense, APPLICATION_JSON), Expense.class);
 	}
 
+	/**
+	 * compares the password to the server password
+	 * @param password is the password inputted
+	 * @return true if equal, false otherwise
+	 */
 	public boolean checkPassword(String password) {
 		return ClientBuilder.newClient(new ClientConfig())
 			.target(SERVER).path("/admin/" + password)
@@ -169,6 +174,9 @@ public class ServerUtils {
 			.get(new GenericType<>() {});
 	}
 
+	/**
+	 * generates a new password to input
+	 */
 	public void generatePassword() {
 		ClientBuilder.newClient(new ClientConfig())
 			.target(SERVER).path("/admin/")
