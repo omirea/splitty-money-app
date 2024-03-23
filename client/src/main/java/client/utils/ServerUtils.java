@@ -161,4 +161,18 @@ public class ServerUtils {
 				.put(Entity.entity(expense, APPLICATION_JSON), Expense.class);
 	}
 
+	public boolean checkPassword(String password) {
+		return ClientBuilder.newClient(new ClientConfig())
+			.target(SERVER).path("/admin/" + password)
+			.request(APPLICATION_JSON)
+			.accept(APPLICATION_JSON)
+			.get(new GenericType<>() {});
+	}
+
+	public void generatePassword() {
+		ClientBuilder.newClient(new ClientConfig())
+			.target(SERVER).path("/admin/")
+			.request(APPLICATION_JSON)
+			.accept(APPLICATION_JSON).get();
+	}
 }

@@ -1,5 +1,6 @@
 package server.api;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import server.PasswordGenerationService;
@@ -14,9 +15,8 @@ public class AdminController {
     }
 
     @GetMapping("/{password}")
-    public boolean checkPassword(@PathVariable("password") String password) {
-
-        return passwordGenerationService.checkPassword(password);
+    public ResponseEntity<Boolean> checkPassword(@PathVariable("password") String password) {
+        return ResponseEntity.ok(passwordGenerationService.checkPassword(password));
     }
 
     @GetMapping("/")

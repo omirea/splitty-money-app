@@ -22,7 +22,7 @@ public class PasswordGenerationService {
             .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
             .toString();
 
-        System.out.println(password);
+        System.out.println("Password: " + password);
         return password;
     }
 
