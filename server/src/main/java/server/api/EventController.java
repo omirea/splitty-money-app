@@ -29,7 +29,7 @@ public class EventController {
      *
      * @return all events
      */
-    @GetMapping(path = { "", "/" })
+    @GetMapping("/event" )
     public List<Event> getAll() {
         return db.findAll();
     }
@@ -108,7 +108,7 @@ public class EventController {
      * @param email email of user to remove
      * @return successful operation indicator
      */
-    @DeleteMapping("/{invitation_id}/users/{email}")
+    @DeleteMapping("/event/{invitation_id}/users/{email}")
     public ResponseEntity<Event> removeUserFromEvent(
             @PathVariable("invitation_id") String invitation_id, @PathVariable("email") String email) {
         if (invitation_id == null || isNullOrEmpty(invitation_id) || isNullOrEmpty(email)) {
