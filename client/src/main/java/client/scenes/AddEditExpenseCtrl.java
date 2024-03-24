@@ -137,11 +137,11 @@ public class AddEditExpenseCtrl {
     }
 
     public void sumIsLarger(){
-        Alert alert=new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Exceeded amount");
-        alert.setContentText("The amount of money people are paying back " +
+        Alert exceededAmount=new Alert(Alert.AlertType.ERROR);
+        exceededAmount.setTitle("Exceeded amount");
+        exceededAmount.setContentText("The amount of money people are paying back " +
                 "is larger than the value of the expense");
-        alert.showAndWait();
+        exceededAmount.showAndWait();
     }
 
     /**
