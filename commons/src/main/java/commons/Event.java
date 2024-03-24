@@ -47,6 +47,13 @@ public class Event {
         this.invitationID = invitationID;
     }
 
+    public Event(String name) {
+        participants = new ArrayList<>();
+        expenses = new ArrayList<>();
+        this.name = name;
+        invitationID = "banana";
+    }
+
     public Event() {
     }
 
