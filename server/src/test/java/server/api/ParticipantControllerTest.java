@@ -2,168 +2,148 @@ package server.api;
 
 import commons.Participant;
 import org.junit.jupiter.api.Test;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.FluentQuery;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import server.database.ParticipantRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class ParticipantControllerTest {
 
+    @Mock
+    private ParticipantRepository participantRepository;
+
+    @InjectMocks
+    private ParticipantController participantController;
+
     @Test
-    public void idTest(){
-        long id=2010;
-        ParticipantRepository db=new ParticipantRepository() {
-            @Override
-            public List<Participant> findAll(Sort sort) {
-                return null;
-            }
+    public void getParticipantByIdTest(){
+        long participantId=1;
+        Participant participant=new Participant();
 
-            @Override
-            public Page<Participant> findAll(Pageable pageable) {
-                return null;
-            }
+        when(participantRepository.existsById(participantId)).thenReturn(true);
+        when(participantRepository.findById(participantId)).thenReturn(Optional.of(participant));
 
-            @Override
-            public <S extends Participant> S save(S entity) {
-                return null;
-            }
+        ResponseEntity<Object> responseEntity=participantController.getParticipantByID(participantId);
 
-            @Override
-            public <S extends Participant> List<S> saveAll(Iterable<S> entities) {
-                return null;
-            }
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(participant, responseEntity.getBody());
+    }
 
-            @Override
-            public Optional<Participant> findById(Long aLong) {
-                return Optional.empty();
-            }
+    @Test
+    public void getParticipantByIdNegativeID(){
+        ResponseEntity<Object> responseEntity=participantController.getParticipantByID((long)-1);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
+    }
 
-            @Override
-            public boolean existsById(Long aLong) {
-                return false;
-            }
+    @Test
+    public void postParticipantTest(){ //add to db
+        Participant participant=new Participant();
+        when(participantRepository.save(participant)).thenReturn(participant);
+        ResponseEntity<Participant> responseEntity=participantController.createParticipant(participant);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(participant, responseEntity.getBody());
+    }
 
-            @Override
-            public List<Participant> findAll() {
-                return null;
-            }
+    @Test
+    public void postNullParticipantTest(){ //test to add to db
+        ResponseEntity<Participant> responseEntity=participantController.createParticipant(null);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
+    }
 
-            @Override
-            public List<Participant> findAllById(Iterable<Long> longs) {
-                return null;
-            }
+    @Test
+    public void updateParticipantTest(){
+        long participantId=1;
+        Participant existentParticipant=new Participant();
+        Participant updatedParticipant=new Participant();
 
-            @Override
-            public long count() {
-                return 0;
-            }
+        when(participantRepository.existsById(participantId)).thenReturn(true);
+        when(participantRepository.findById(participantId))
+                .thenReturn(Optional.of(existentParticipant));
+        when(participantRepository.save(existentParticipant)).thenReturn(updatedParticipant);
 
-            @Override
-            public void deleteById(Long aLong) {
-            }
+        ResponseEntity<Participant> responseEntity=participantController
+                .updateParticipant(updatedParticipant, participantId);
 
-            @Override
-            public void delete(Participant entity) {
-            }
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(updatedParticipant, responseEntity.getBody());
+    }
 
-            @Override
-            public void deleteAllById(Iterable<? extends Long> longs) {
-            }
+    @Test
+    public void testUpdateParticipantNull() {
+        long id = 100;
+        ResponseEntity<Participant> responseEntity = participantController
+            .updateParticipant(null, id);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
+    }
 
-            @Override
-            public void deleteAll(Iterable<? extends Participant> entities) {
-            }
+    @Test
+    public void testUpdateParticipantNotFound() {
+        long id = 150;
+        Participant participant = new Participant();
+        when(participantRepository.existsById(id)).thenReturn(false);
+        ResponseEntity<Participant> responseEntity = participantController
+            .updateParticipant(participant, id);
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
+    }
 
-            @Override
-            public void deleteAll() {
-            }
+    @Test
+    public void testUpdateParticipantNegativeID() {
+        long id = -1;
+        Participant participant = new Participant();
+        ResponseEntity<Participant> responseEntity = participantController
+            .updateParticipant(participant, id);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
+    }
 
-            @Override
-            public void flush() {
-            }
+    @Test
+    public void deleteParticipantTest() {
+        long participantId = 1;
+        when(participantRepository.existsById(participantId)).thenReturn(true);
+        ResponseEntity<Participant> responseEntity = participantController.deleteParticipant(participantId);
+        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+        verify(participantRepository, times(1)).deleteById(participantId);
+    }
 
-            @Override
-            public <S extends Participant> S saveAndFlush(S entity) {
-                return null;
-            }
+    @Test
+    public void testDeleteParticipantNotFound() {
+        long id = 150;
+        when(participantRepository.existsById(id)).thenReturn(false);
+        ResponseEntity<Participant> responseEntity = participantController.deleteParticipant(id);
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
+    }
 
-            @Override
-            public <S extends Participant> List<S> saveAllAndFlush(Iterable<S> entities) {
-                return null;
-            }
+    @Test
+    public void testDeleteParticipantNegativeID() {
+        long id = -1;
+        ResponseEntity<Participant> responseEntity = participantController.deleteParticipant(id);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
+    }
 
-            @Override
-            public void deleteAllInBatch(Iterable<Participant> entities) {
-            }
 
-            @Override
-            public void deleteAllByIdInBatch(Iterable<Long> longs) {
-            }
 
-            @Override
-            public void deleteAllInBatch() {
-            }
-
-            @Override
-            public Participant getOne(Long aLong) {
-                return null;
-            }
-
-            @Override
-            public Participant getById(Long aLong) {
-                return null;
-            }
-
-            @Override
-            public Participant getReferenceById(Long aLong) {
-                return null;
-            }
-
-            @Override
-            public <S extends Participant> Optional<S> findOne(Example<S> example) {
-                return Optional.empty();
-            }
-
-            @Override
-            public <S extends Participant> List<S> findAll(Example<S> example) {
-                return null;
-            }
-
-            @Override
-            public <S extends Participant> List<S> findAll(Example<S> example, Sort sort) {
-                return null;
-            }
-
-            @Override
-            public <S extends Participant> Page<S> findAll(Example<S> example, Pageable pageable) {
-                return null;
-            }
-
-            @Override
-            public <S extends Participant> long count(Example<S> example) {
-                return 0;
-            }
-
-            @Override
-            public <S extends Participant> boolean exists(Example<S> example) {
-                return false;
-            }
-
-            @Override
-            public <S extends Participant, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
-                return null;
-            }
-        };
-        String result="Hello 2010!";
-        ParticipantController pc=new ParticipantController(db);
-        assertEquals(pc.id(id), result);
+    @Test
+    public void testGetAllParticipants() {
+        List<Participant> dummy = new ArrayList<>();
+        when(participantRepository.findAll()).thenReturn(dummy);
+        List<Participant> listOfParticipants = participantController.getAllParticipants();
+        assertEquals(listOfParticipants, dummy);
     }
 }

@@ -14,7 +14,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/event")
 public class EventController {
     private final EventRepository db;
     private ExpenseRepository exRepo;
@@ -53,13 +53,13 @@ public class EventController {
         return ResponseEntity.ok(updatedEventEntity);
     }
 
-    @DeleteMapping("/event/{invitationID}")
+    @DeleteMapping("/{invitationID}")
     public ResponseEntity<Event> deleteEvent(@PathVariable("invitationID") String event_id) {
         db.deleteById(event_id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/event")
+    @GetMapping(path = { "", "/" })
     @ResponseBody
     public ResponseEntity<Event> getEventById(@RequestParam("invitationID") String id){
         if(!db.existsById(id))
@@ -69,7 +69,7 @@ public class EventController {
         return ResponseEntity.ok(event);
     }
 
-    @PostMapping()
+    @PostMapping(path = { "", "/" })
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
         if (event == null) {
             return ResponseEntity.badRequest().build();

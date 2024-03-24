@@ -6,8 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import server.database.ParticipantRepository;
 
+import java.util.List;
+
 @Controller
-@RequestMapping("/")
+@RequestMapping("/participant")
 public class ParticipantController {
 
     private ParticipantRepository db;
@@ -16,43 +18,63 @@ public class ParticipantController {
         this.db=db;
     }
 
-    @GetMapping("/")
+    @GetMapping(path = { "", "/" })
     @ResponseBody
-    public String index() {
-        return "Hello guy!";
+    public List<Participant> getAllParticipants() {
+        return db.findAll();
     }
 
-    @GetMapping("/participant/{id}")
+    @GetMapping("/{id}")
     @ResponseBody
-    public String id(@PathVariable("id") Long id){
+    public ResponseEntity<Object> getParticipantByID(@PathVariable("id") Long id){
         if(!db.existsById(id)){
-            var user=new Participant();
-            user.setName("name");
-            db.save(user);
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(db.findById(id).get());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Participant> deleteParticipant(@PathVariable("id") Long id) {
+
+        if(id < 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        if(!db.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        db.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(path = { "", "/" })
+    public ResponseEntity<Participant> createParticipant(@RequestBody Participant participant) {
+        if (participant == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        Participant createParticipant = db.save(participant);
+        return ResponseEntity.ok(createParticipant);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Participant> updateParticipant
+        (@RequestBody Participant participant, @PathVariable("id") long id) {
+        if(participant == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        if(id < 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        if (!db.existsById(id)){
+            return ResponseEntity.notFound().build();
         }
 
-        return "Hello " + id + "!";
+        Participant existingParticipant = db.findById(id).get();
+        existingParticipant.setName(participant.getName());
+        existingParticipant.setEmail(participant.getEmail());
+        existingParticipant.setIBAN(participant.getIBAN());
+        existingParticipant.setBIC(participant.getBIC());
+        Participant updatedParticipant = db.save(existingParticipant);
+        return ResponseEntity.ok(updatedParticipant);
     }
-
-    @GetMapping("/participant")
-    @ResponseBody
-    public ResponseEntity<Participant> getParticipantById(@RequestParam("id") long participant_id){
-        if(participant_id<0)
-            return ResponseEntity.badRequest().build();
-        if(!db.existsById(participant_id))
-            return ResponseEntity.notFound().build();
-        System.out.println(participant_id);
-        Participant participant=db.findById(participant_id).get();
-        return ResponseEntity.ok(participant);
-    }
-
-//    @PostMapping(path = "/participant",
-//            consumes = MediaType.APPLICATION_JSON_VALUE,
-//            produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<ParticipantDB> create(@RequestBody ParticipantDB newUser) {
-//
-//        ParticipantDB user = new ParticipantDB();
-//        return new ResponseEntity<>(user, HttpStatus.CREATED);
-//    }
 
 }

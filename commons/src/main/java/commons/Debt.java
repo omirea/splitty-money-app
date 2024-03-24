@@ -1,7 +1,6 @@
 package commons;
 
 import jakarta.persistence.*;
-
 import java.util.Objects;
 
 @Entity
@@ -10,34 +9,63 @@ public class Debt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long d_id;
+    private Long id;
+
     private boolean settled;
 
     @ManyToOne
-    @JoinColumn(name = "exp_id", nullable = false)
-    private Expense expense_id;
+    @JoinColumn(name = "ex_id", nullable = false)
+    private Expense expense;
+
     @ManyToOne
-    @JoinColumn(name = "debt_id", nullable = false)
+    @JoinColumn(name = "from_id", nullable = false)
     private Participant from;
-    @OneToOne
-    @JoinColumn(name = "p_id", referencedColumnName = "p_id")
+
+    @ManyToOne
+    @JoinColumn(name = "to_id", nullable = false)
     private Participant to;
-    private double value;
+
+    private double amount;
 
     /**
      * Constructs a new debt object
      * @param from participant who pays debt
      * @param to participant who gets paid
-     * @param value value of the debt
+     * @param amount value of the debt
      */
-    public Debt(Participant from, Participant to, double value) {
+    public Debt(Participant from, Participant to, double amount) {
         this.from = from;
         this.to = to;
-        this.value = value;
+        this.amount = amount;
+        settled = false;
+    }
+
+    public Debt(Long id, Expense expense, Participant from, Participant to, double amount) {
+        this.id = id;
+        this.expense = expense;
+        this.from = from;
+        this.to = to;
+        this.amount = amount;
         settled = false;
     }
 
     public Debt() {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Expense getExpense() {
+        return expense;
+    }
+
+    public void setExpense(Expense expense) {
+        this.expense = expense;
+    }
 
     /**
      * getter for settled
@@ -91,16 +119,16 @@ public class Debt {
      * getter for value of debt
      * @return value of the debt
      */
-    public double getValue() {
-        return value;
+    public double getAmount() {
+        return amount;
     }
 
     /**
      * setter for value of debt
      * @param value value of the debt
      */
-    public void setValue(double value) {
-        this.value = value;
+    public void setAmount(double value) {
+        this.amount = value;
     }
 
     /**
@@ -113,7 +141,9 @@ public class Debt {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Debt debt = (Debt) o;
-        return settled == debt.settled && Double.compare(value, debt.value) == 0 && Objects.equals(from, debt.from) && Objects.equals(to, debt.to);
+        return settled == debt.settled && Double.compare(amount, debt.amount) == 0
+            && Objects.equals(from, debt.from)
+                && Objects.equals(to, debt.to);
     }
 
     /**
@@ -122,6 +152,6 @@ public class Debt {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(settled, from, to, value);
+        return Objects.hash(settled, from, to, amount);
     }
 }

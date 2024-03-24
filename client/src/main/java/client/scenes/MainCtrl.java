@@ -15,37 +15,31 @@
  */
 package client.scenes;
 
+import client.nodes.PersonAmount;
 import commons.Expense;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
 public class MainCtrl {
     private Stage primaryStage;
     private AddEditParticipantCtrl addEditParticipantCtrl;
-    private Scene participant;
     private OpenDebtsCtrl openDebtsCtrl;
-    private Scene openDebts;
     private InvitationCtrl invitationCtrl;
-    private Scene invitation;
     private AddEditExpenseCtrl addEditExpenseCtrl;
-    private Scene expense;
     private EventOverviewCtrl overviewCtrl;
-    private Scene overview;
     private ManageParticipantsCtrl manageParticipantsCtrl;
-    private Scene manageParticipants;
     private StartCtrl startCtrl;
-    private Scene start;
-    private Scene logInAdmin;
     private AdminLogInCtrl adminLogInCtrl;
     private ClosedDebtsCtrl closedDebtsCtrl;
-    private Scene closedDebts;
-    private Scene eventsAdmin;
-
     private ManageEventsAdminCtrl manageEventsAdminCtrl;
+
+    private Scene participant, openDebts, invitation,
+        expense, overview, manageParticipants, start,
+        logInAdmin, closedDebts, eventsAdmin;
+
 
     public void initialize(Stage primaryStage,
                            Pair<StartCtrl, Parent> start,
@@ -80,29 +74,15 @@ public class MainCtrl {
         this.manageEventsAdminCtrl = eventsAdmin.getKey();
         this.eventsAdmin = new Scene(eventsAdmin.getValue());
 
-        initializeAspectOpenDebts();
-        initializeAspectClosedDebts();
-        openDebtsCtrl.getListView().getItems().addAll("Debt 1", "Debt 2", "Debt 3");
-        openDebtsCtrl.getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        closedDebtsCtrl.getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-        showEventOverview("123");
-        //showStartScreen();
+        //showEventOverview("123");
+        showStartScreen();
         //showEditParticipants();
         //showOpenDebts();
-        //showExpense();
+//        showExpense();
         //showEditParticipants();
-        showAdminLogIn();
-        //showStartScreen();
+//        showAdminLogIn();
         primaryStage.show();
-    }
-
-    private void initializeAspectOpenDebts() {
-        openDebtsCtrl.getPayAllDebts().setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
-    }
-
-    private void initializeAspectClosedDebts() {
-        closedDebtsCtrl.getReopenAllDebts().setStyle("-fx-background-color: #4dbaff");
     }
 
     /**
@@ -167,8 +147,10 @@ public class MainCtrl {
      * method to show admin log in page
      */
     public void showAdminLogIn() {
+
         primaryStage.setTitle("Splitty: Admin Log In");
         primaryStage.setScene(logInAdmin);
+        adminLogInCtrl.generatePassword();
     }
 
     /**
@@ -220,5 +202,15 @@ public class MainCtrl {
      */
     public void addExpenseToEvent(Expense expense) {
         overviewCtrl.getListViewAll().getItems().add(expense.toString());
+    }
+
+    /**
+     * when a participant is added to the event it becomes a possible option
+     * for who should pay for an expense
+     * @param participant the participant that has been added
+     */
+    public void addParticipantToWhoShouldPayOption(String participant) {
+        PersonAmount pa=new PersonAmount(participant);
+        addEditExpenseCtrl.getTableView().getItems().add(pa);
     }
 }

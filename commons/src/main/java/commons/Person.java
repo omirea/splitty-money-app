@@ -46,6 +46,8 @@ public class Person {
 		this.lastName = lastName;
 	}
 
+
+
 	@Override
 	public boolean equals(Object obj) {
 		return EqualsBuilder.reflectionEquals(this, obj);
@@ -58,6 +60,7 @@ public class Person {
 
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this, MULTI_LINE_STYLE);
+		return ToStringBuilder
+			.reflectionToString(this, MULTI_LINE_STYLE);
 	}
 }
