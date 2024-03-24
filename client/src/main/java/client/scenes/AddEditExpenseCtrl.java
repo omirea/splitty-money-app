@@ -168,30 +168,29 @@ public class AddEditExpenseCtrl {
     /**
      * method to auto divide money between selected payers
      */
-    public void autoDivideMethod(){
-        double total= Double.parseDouble(howMuchField.getText());
-        int peopleCounter=0;
-        List<PersonAmount> selectedPeople=tableView.getItems();
-        for(PersonAmount pa : selectedPeople)
-            if(pa.getCheckBox().isSelected()) {
-                if(!pa.getTextField().getText().isEmpty())
-                    total=total-Double.parseDouble(pa.getTextField().getText());
-                else
-                    peopleCounter++;
-            }
-        if(total<0)
-            sumIsLarger();
-        for(PersonAmount pa : selectedPeople){
-            if(pa.getCheckBox().isSelected()){
-                if(pa.getTextField().getText().isEmpty()){
-                    double price=total/peopleCounter;
-                    if(price== (int) price)
-                        pa.getTextField().setText(String.valueOf((int) price));
-                    else
-                        pa.getTextField().setText(String.valueOf(price));
-                }
-            }
-        }
-    }
-
+//    public void autoDivideMethod(){
+//        double total= Double.parseDouble(howMuchField.getText());
+//        int peopleCounter=0;
+//        List<PersonAmount> selectedPeople=tableView.getItems();
+//        for(PersonAmount pa : selectedPeople)
+//            if(pa.getCheckBox().isSelected()) {
+//                if(!pa.getTextField().getText().isEmpty())
+//                    total=total-Double.parseDouble(pa.getTextField().getText());
+//                else
+//                    peopleCounter++;
+//            }
+//        if(total<0)
+//            sumIsLarger();
+//        for(PersonAmount pa : selectedPeople){
+//            if(pa.getCheckBox().isSelected()){
+//                if(pa.getTextField().getText().isEmpty()){
+//                    double price=total/peopleCounter;
+//                    if(price== (int) price)
+//                        pa.getTextField().setText(String.valueOf((int) price));
+//                    else
+//                        pa.getTextField().setText(String.valueOf(price));
+//                }
+//            }
+//        }
+//    }
 }
