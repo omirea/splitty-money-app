@@ -110,25 +110,38 @@ public class AddEditExpenseCtrl {
           && howMuchField.getText() != null && (allPeopleField.getText() != null
           || onlySomePeopleField.getText() != null)) {
 
-            mainCtrl.addExpenseToEvent(createExpense());
-            mainCtrl.showEventOverview("123");
-//            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass()
-//            .getResource("StartScreen.fxml")));
-//            Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-//            Scene scene = new Scene(root);
-//            stage.setScene(scene);
-//            stage.show();
-            // TO DO: DATABASE STUFF
+            //check if the amount people have to pay back is greater than the total amount
+            double total= Double.parseDouble(howMuchField.getText());
+            double sum=0;
+            List<PersonAmount> selectedPeople=tableView.getItems();
+            for(PersonAmount pa : selectedPeople) {
+                if (pa.getCheckBox().isSelected() &&
+                        !pa.getTextField().getText().isEmpty()) {
+                    sum += Double.parseDouble(pa.getTextField().getText());
+                }
+            }
+
+            if(sum>total)
+                sumIsLarger();
+            else {
+                mainCtrl.addExpenseToEvent(createExpense());
+                mainCtrl.showEventOverview("123");
+            }
         }else{
             Alert alert=new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Empty fields");
             alert.setContentText("You need to fill in all fields to create an expense");
             alert.showAndWait();
         }
-        System.out.println("Add " + whatForField.getText());
-        System.out.println("Picked date " + whenField.getValue());
-        System.out.println(howMuchField.getText() + " "
-                + currencyField.getValue());
+
+    }
+
+    public void sumIsLarger(){
+        Alert exceededAmount=new Alert(Alert.AlertType.ERROR);
+        exceededAmount.setTitle("Exceeded amount");
+        exceededAmount.setContentText("The amount of money people are paying back " +
+                "is larger than the value of the expense");
+        exceededAmount.showAndWait();
     }
 
     /**
@@ -138,12 +151,6 @@ public class AddEditExpenseCtrl {
      */
     @FXML
     public void onAbortClick(ActionEvent event) throws IOException {
-//        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass()
-//        .getResource("EventOverview.fxml")));
-//        Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-//        Scene scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
         mainCtrl.showEventOverview("123");
     }
 
@@ -158,23 +165,32 @@ public class AddEditExpenseCtrl {
         return expense;
     }
 
-    public void autoDivideMethod(){
-        double total= Double.parseDouble(howMuchField.getText());
-        int peopleCounter=0;
-        List<PersonAmount> selectedPeople=tableView.getItems();
-        for(PersonAmount pa : selectedPeople)
-            if(pa.getCheckBox().isSelected()) {
-                if(!pa.getTextField().getText().isEmpty())
-                    total=total-Double.parseDouble(pa.getTextField().getText());
-                else
-                    peopleCounter++;
-            }
-        for(PersonAmount pa : selectedPeople){
-            if(pa.getCheckBox().isSelected()){
-                if(pa.getTextField().getText().isEmpty()){
-                    pa.getTextField().setText(String.valueOf((Double)(total/peopleCounter)));
-                }
-            }
-        }
-    }
+    /**
+     * method to auto divide money between selected payers
+     */
+//    public void autoDivideMethod(){
+//        double total= Double.parseDouble(howMuchField.getText());
+//        int peopleCounter=0;
+//        List<PersonAmount> selectedPeople=tableView.getItems();
+//        for(PersonAmount pa : selectedPeople)
+//            if(pa.getCheckBox().isSelected()) {
+//                if(!pa.getTextField().getText().isEmpty())
+//                    total=total-Double.parseDouble(pa.getTextField().getText());
+//                else
+//                    peopleCounter++;
+//            }
+//        if(total<0)
+//            sumIsLarger();
+//        for(PersonAmount pa : selectedPeople){
+//            if(pa.getCheckBox().isSelected()){
+//                if(pa.getTextField().getText().isEmpty()){
+//                    double price=total/peopleCounter;
+//                    if(price== (int) price)
+//                        pa.getTextField().setText(String.valueOf((int) price));
+//                    else
+//                        pa.getTextField().setText(String.valueOf(price));
+//                }
+//            }
+//        }
+//    }
 }
