@@ -219,7 +219,8 @@ public class TestExpenseRepository implements ExpenseRepository {
      */
     @Override
     public <S extends Expense, R> R findBy(Example<S> example,
-                                           Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
+                                           Function<FluentQuery.FetchableFluentQuery<S>, R>
+                                                   queryFunction) {
         return null;
     }
 
@@ -234,11 +235,11 @@ public class TestExpenseRepository implements ExpenseRepository {
      * @throws IllegalArgumentException
      * in case the given {@literal entity} is {@literal null}.
      * @throws OptimisticLockingFailureException
-     * when the entity uses optimistic locking and has a version attribute with
-     *
-     *                                          a different value from that found in the persistence store.
-     *                                          Also thrown if the entity is assumed to be
-     *                                           present but does not exist in the database.
+     * when the entity uses optimistic locking
+     * and has a version attribute with
+     * a different value from that found in the persistence store.
+     * Also thrown if the entity is assumed to be
+     *  present but does not exist in the database.
      */
     @Override
     public <S extends Expense> S save(S entity) {
@@ -248,8 +249,9 @@ public class TestExpenseRepository implements ExpenseRepository {
     /**
      * Saves all given entities.
      *
-     * @param entities must not be {@literal null} nor must it contain {@literal null}.
-     * @return the saved entities; will never be {@literal null}. T
+     * @param entities must not be {@literal null}
+     *  nor must it contain {@literal null}.
+     * @return the saved entities; will never be {@literal null}.
      * he returned {@literal Iterable} will have the same size
      * as the {@literal Iterable} passed as an argument.
      * @throws IllegalArgumentException
