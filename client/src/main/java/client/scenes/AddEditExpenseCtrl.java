@@ -110,7 +110,7 @@ public class AddEditExpenseCtrl {
           && howMuchField.getText() != null && (allPeopleField.getText() != null
           || onlySomePeopleField.getText() != null)) {
 
-            //check if the amount people have to pay back is greater/lower than total amount
+            //check if the amount people have to pay back is greater than the total amount
             double total= Double.parseDouble(howMuchField.getText());
             double sum=0;
             List<PersonAmount> selectedPeople=tableView.getItems();
