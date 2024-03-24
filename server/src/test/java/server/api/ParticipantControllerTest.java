@@ -1,6 +1,5 @@
 package server.api;
 
-import commons.Expense;
 import commons.Participant;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
