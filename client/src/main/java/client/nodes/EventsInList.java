@@ -16,6 +16,10 @@ public class EventsInList {
     private Button JSON;
     private Button details;
 
+    /**
+     * for every event this method is called to add it to the overview list with buttons
+     * @param eventName name of the event to be displayed
+     */
     public EventsInList(String eventName){
         this.eventName = eventName;
         Text name = new Text(eventName);
@@ -39,14 +43,25 @@ public class EventsInList {
         hbox.setAlignment(Pos.CENTER_LEFT);
 
     }
+
+    /**
+     * getting node of the HBox
+     * @return the node of HBox
+     */
     public HBox getNode(){
         return hbox;
     }
 
+    /**
+     * method to download/get JSON file of information of the event
+     */
     private void getJSONFile() {
         //TODO: get JSON file from specific event
     }
 
+    /**
+     * deletes the event from database when clicking the button
+     */
     private void deleteEventFromDB() {
         //TODO: delete event with id from DB
         VBox parent = (VBox) hbox.getParent();
@@ -54,13 +69,12 @@ public class EventsInList {
 
     }
 
+    /**
+     * goes to event overview page of that particular event
+     */
     private void showEventDetails(){
         //TODO: show specific event with id
 //        ManageEventsAdminCtrl.showEventDetails();
     }
 
-    @Override
-    public String toString() {
-        return eventName;
-    }
 }

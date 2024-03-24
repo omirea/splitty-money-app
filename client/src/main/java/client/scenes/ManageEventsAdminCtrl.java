@@ -61,12 +61,17 @@ public class ManageEventsAdminCtrl {
         eventList.getChildren().add(el.getNode());
     }
 
+    /**
+     * shows the event details
+     */
     public void showEventDetails(){
         //TODO: show specific event with id
         mainCtrl.showEventOverview("");
     }
 
-
+    /**
+     * should order the event list of search on date made
+     */
     public void onDateOrderClick(){
 //        tableView.setSortPolicy();
     }

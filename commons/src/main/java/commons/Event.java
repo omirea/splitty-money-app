@@ -47,6 +47,10 @@ public class Event {
         this.invitationID = invitationID;
     }
 
+    public Event(String name) {
+        this.name=name;
+    }
+
     public Event() {
     }
 
