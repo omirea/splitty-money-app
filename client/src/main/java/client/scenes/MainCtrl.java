@@ -82,10 +82,10 @@ public class MainCtrl {
 
 
         //showEventOverview("123");
-        //showStartScreen();
+        showStartScreen();
         //showEditParticipants();
         //showOpenDebts();
-        showExpense();
+//        showExpense();
         //showEditParticipants();
         //showAdminLogIn();
         primaryStage.show();
@@ -138,7 +138,8 @@ public class MainCtrl {
     public void showEventOverview(String id) {
         primaryStage.setTitle("Splitty: Event overview");
         primaryStage.setScene(overview);
-        overviewCtrl.setEventTitleText();
+        overviewCtrl.setEvent(id);
+        overview.setOnKeyPressed(e -> overviewCtrl.keyPressed(e));
     }
 
     /**
@@ -205,7 +206,7 @@ public class MainCtrl {
      * @param expense the expense that has been created
      */
     public void addExpenseToEvent(Expense expense) {
-        overviewCtrl.getListViewAll().getItems().add(expense.toString());
+        overviewCtrl.getListViewAll().getItems().add(expense);
     }
 
     /**
