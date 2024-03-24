@@ -36,7 +36,8 @@ public class EventController {
 
 
     @PutMapping("/event/{invitationID}")
-    public ResponseEntity<Event> updateEvent(@RequestBody Event event, @PathVariable("invitationID") String event_id) {
+    public ResponseEntity<Event> updateEvent(@RequestBody Event event,
+                                             @PathVariable("invitationID") String event_id) {
         if(event == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -85,7 +86,8 @@ public class EventController {
      * @return the updated event
      */
     @PutMapping("/{invitation_id}/users")
-    public ResponseEntity<Event> addUser(@PathVariable("invitation_id") String invitation_id, @RequestBody Participant participant) {
+    public ResponseEntity<Event> addUser(@PathVariable("invitation_id") String invitation_id,
+                                         @RequestBody Participant participant) {
         // TODO should this be a put or a post?
         if (!db.existsById(invitation_id)) {
             return ResponseEntity.badRequest().build();
@@ -110,7 +112,8 @@ public class EventController {
      */
     @DeleteMapping("/event/{invitation_id}/users/{email}")
     public ResponseEntity<Event> removeUserFromEvent(
-            @PathVariable("invitation_id") String invitation_id, @PathVariable("email") String email) {
+            @PathVariable("invitation_id") String invitation_id,
+            @PathVariable("email") String email) {
         if (invitation_id == null || isNullOrEmpty(invitation_id) || isNullOrEmpty(email)) {
             return ResponseEntity.badRequest().build();
         }
