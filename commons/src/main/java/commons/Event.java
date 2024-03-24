@@ -51,7 +51,7 @@ public class Event {
         participants = new ArrayList<>();
         expenses = new ArrayList<>();
         this.name = name;
-        invitationID = "banana";
+//        invitationID = "p" + Math.floor(Math.random() * 20);
     }
 
     public Event() {
