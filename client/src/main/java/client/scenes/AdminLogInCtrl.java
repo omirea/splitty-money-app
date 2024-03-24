@@ -1,26 +1,22 @@
 package client.scenes;
 
-import client.utils.RefServerUtils;
+import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+
 import javax.inject.Inject;
 
 public class AdminLogInCtrl {
 
-    private final RefServerUtils server;
+    private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
     @FXML
-    private TextField textUsername;
-
-    @FXML
-    private PasswordField textPassword;
+    private PasswordField passwordField;
 
 
-    @Inject
-    public AdminLogInCtrl(RefServerUtils server, MainCtrl mainCtrl) {
+    @Inject public AdminLogInCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
@@ -29,11 +25,10 @@ public class AdminLogInCtrl {
      * method to connect into admin account
      * @return true or false if login was successful
      */
-    public boolean onClickLogIn(){
-        if(checkEmptyFields() && checkPassword() && checkUsername() ){
+    @FXML protected boolean onClickLogIn(){
+        if(hasNoEmptyFields() && checkPassword()){
             mainCtrl.showEventsAdmin();
-            textPassword.setText("");
-            textUsername.setText("");
+            passwordField.setText("");
             return true;
         } else return false;
     }
@@ -41,7 +36,7 @@ public class AdminLogInCtrl {
     /**
      * method to display the Start Screen
      */
-    public void onClickHome(){
+    @FXML protected void onClickHome(){
         mainCtrl.showStartScreen();
     }
 
@@ -49,11 +44,9 @@ public class AdminLogInCtrl {
      * method to check if the text filled are empty
      * @return true if the fields are both filled, else false
      */
-    public boolean checkEmptyFields(){
-        boolean usernameField = textUsername.getText().trim().isEmpty();
-        boolean passwordField = textPassword.getText().trim().isEmpty();
-
-        if(!(usernameField || passwordField)){
+    public boolean hasNoEmptyFields(){
+        boolean passwordInput = passwordField.getText().trim().isEmpty();
+        if(!passwordInput){
             return true;
         } else {
             Alert alertEmpty = new Alert(Alert.AlertType.WARNING);
@@ -71,9 +64,8 @@ public class AdminLogInCtrl {
      */
     public boolean checkPassword(){
         //TODO: Figure out how to do specific username/password combinations
-        String passwordAdmin = "AdminPassword123!";
-        String passwordFromField = textPassword.getText().trim();
-        if(passwordFromField.equals(passwordAdmin)){
+        String passwordInput = passwordField.getText().trim();
+        if(server.checkPassword(passwordInput)){
             return true;
         } else {
             Alert alertPassword = new Alert(Alert.AlertType.WARNING);
@@ -85,25 +77,7 @@ public class AdminLogInCtrl {
         }
     }
 
-    /**
-     * method to check if the username is correct
-     * @return true if the username is correct, else false
-     */
-    public boolean checkUsername(){
-        //TODO: Figure out how to do specific username/password combinations
-        String usernameAdmin = "AdminSplitty";
-        String usernameFromField = textUsername.getText().trim();
-        if(usernameAdmin.equals(usernameFromField)){
-            return true;
-        } else {
-            Alert alertUsername = new Alert(Alert.AlertType.WARNING);
-            alertUsername.setTitle("Username is incorrect");
-            alertUsername.setHeaderText(null);
-            alertUsername.setContentText("Try username again");
-            alertUsername.showAndWait();
-            return false;
-        }
-
+    public void generatePassword() {
+        server.generatePassword();
     }
-
 }
