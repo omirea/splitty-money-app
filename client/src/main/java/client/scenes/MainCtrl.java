@@ -26,26 +26,20 @@ import javafx.util.Pair;
 public class MainCtrl {
     private Stage primaryStage;
     private AddEditParticipantCtrl addEditParticipantCtrl;
-    private Scene participant;
     private OpenDebtsCtrl openDebtsCtrl;
-    private Scene openDebts;
     private InvitationCtrl invitationCtrl;
-    private Scene invitation;
     private AddEditExpenseCtrl addEditExpenseCtrl;
-    private Scene expense;
     private EventOverviewCtrl overviewCtrl;
-    private Scene overview;
     private ManageParticipantsCtrl manageParticipantsCtrl;
-    private Scene manageParticipants;
     private StartCtrl startCtrl;
-    private Scene start;
-    private Scene logInAdmin;
     private AdminLogInCtrl adminLogInCtrl;
     private ClosedDebtsCtrl closedDebtsCtrl;
-    private Scene closedDebts;
-    private Scene eventsAdmin;
-
     private ManageEventsAdminCtrl manageEventsAdminCtrl;
+
+    private Scene participant, openDebts, invitation,
+        expense, overview, manageParticipants, start,
+        logInAdmin, closedDebts, eventsAdmin;
+
 
     public void initialize(Stage primaryStage,
                            Pair<StartCtrl, Parent> start,
@@ -82,12 +76,12 @@ public class MainCtrl {
 
 
         //showEventOverview("123");
-        //showStartScreen();
+        showStartScreen();
         //showEditParticipants();
         //showOpenDebts();
-        showExpense();
+//        showExpense();
         //showEditParticipants();
-        //showAdminLogIn();
+//        showAdminLogIn();
         primaryStage.show();
     }
 
@@ -153,8 +147,10 @@ public class MainCtrl {
      * method to show admin log in page
      */
     public void showAdminLogIn() {
+
         primaryStage.setTitle("Splitty: Admin Log In");
         primaryStage.setScene(logInAdmin);
+        adminLogInCtrl.generatePassword();
     }
 
     /**
