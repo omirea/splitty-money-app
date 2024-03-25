@@ -1,7 +1,7 @@
 package client.scenes;
 
 import client.nodes.EventsInList;
-import client.utils.RefServerUtils;
+import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -13,7 +13,7 @@ import javax.inject.Inject;
 
 public class ManageEventsAdminCtrl {
 
-    private final RefServerUtils server;
+    private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
     @FXML
@@ -30,7 +30,7 @@ public class ManageEventsAdminCtrl {
     private VBox eventList;
 
     @Inject
-    public ManageEventsAdminCtrl (RefServerUtils server, MainCtrl mainCtrl) {
+    public ManageEventsAdminCtrl (ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
@@ -61,12 +61,17 @@ public class ManageEventsAdminCtrl {
         eventList.getChildren().add(el.getNode());
     }
 
+    /**
+     * shows the event details
+     */
     public void showEventDetails(){
         //TODO: show specific event with id
         mainCtrl.showEventOverview("");
     }
 
-
+    /**
+     * should order the event list of search on date made
+     */
     public void onDateOrderClick(){
 //        tableView.setSortPolicy();
     }

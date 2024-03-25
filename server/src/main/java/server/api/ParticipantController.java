@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import server.database.ParticipantRepository;
-
 import java.util.List;
 
 @Controller
@@ -35,6 +34,13 @@ public class ParticipantController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Participant> deleteParticipant(@PathVariable("id") Long id) {
+
+        if(id < 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        if(!db.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
         db.deleteById(id);
         return ResponseEntity.noContent().build();
     }
@@ -52,6 +58,9 @@ public class ParticipantController {
     public ResponseEntity<Participant> updateParticipant
         (@RequestBody Participant participant, @PathVariable("id") long id) {
         if(participant == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        if(id < 0) {
             return ResponseEntity.badRequest().build();
         }
         if (!db.existsById(id)){

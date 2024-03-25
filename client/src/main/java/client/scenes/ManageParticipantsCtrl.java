@@ -1,7 +1,7 @@
 package client.scenes;
 
 import client.nodes.AddedParticipant;
-import client.utils.RefServerUtils;
+import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -10,14 +10,14 @@ import javafx.scene.layout.VBox;
 
 public class ManageParticipantsCtrl {
 
-    private final RefServerUtils server;
+    private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
     @FXML
     private VBox displayParticipants;
 
     @Inject
-    public ManageParticipantsCtrl(RefServerUtils server, MainCtrl mainCtrl) {
+    public ManageParticipantsCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
