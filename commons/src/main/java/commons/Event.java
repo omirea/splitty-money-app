@@ -2,6 +2,7 @@ package commons;
 
 import jakarta.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -9,16 +10,16 @@ import java.util.Objects;
 public class Event {
 
     /**
-     * Arraylist with all the participants which are part of this event
+     * List with all the participants which are part of this event
      */
     @OneToMany(mappedBy = "event")
-    private ArrayList<Participant> participants;
+    private List<Participant> participants;
 
     /**
-     * Arraylist with all the expenses which are part of this event
+     * List with all the expenses which are part of this event
      */
     @OneToMany(mappedBy = "event")
-    private ArrayList<Expense> expenses;
+    private List<Expense> expenses;
 
     /**
      * String with the name of the event
@@ -34,12 +35,12 @@ public class Event {
 
     /**
      * Constructor for an Event object
-     * @param participants ArrayList of participants which are part of the event
-     * @param expenses ArrayList of expenses that are part of the event
+     * @param participants List of participants which are part of the event
+     * @param expenses List of expenses that are part of the event
      * @param name String with name of the event
      * @param invitationID String with invitation ID of the event
      */
-    public Event(ArrayList<Participant> participants, ArrayList<Expense> expenses, String name,
+    public Event(List<Participant> participants, List<Expense> expenses, String name,
                  String invitationID) {
         this.participants = participants;
         this.expenses = expenses;
@@ -59,17 +60,17 @@ public class Event {
 
     /**
      * Getter for the list of participants
-     * @return ArrayList with all participants
+     * @return List with all participants
      */
-    public ArrayList<Participant> getParticipants() {
+    public List<Participant> getParticipants() {
         return participants;
     }
 
     /**
      * Getter for the list of participants
-     * @param participants ArrayList with all the participants
+     * @param participants List with all the participants
      */
-    public void setParticipants(ArrayList<Participant> participants) {
+    public void setParticipants(List<Participant> participants) {
         this.participants = participants;
     }
 
@@ -93,17 +94,17 @@ public class Event {
 
     /**
      * Getter for the list of expenses
-     * @return ArrayList with all the expenses of the event
+     * @return List with all the expenses of the event
      */
-    public ArrayList<Expense> getExpenses() {
+    public List<Expense> getExpenses() {
         return expenses;
     }
 
     /**
      * Setter for the list of expenses
-     * @param expenses ArrayList with expenses of the event
+     * @param expenses List with expenses of the event
      */
-    public void setExpenses(ArrayList<Expense> expenses) {
+    public void setExpenses(List<Expense> expenses) {
         this.expenses = expenses;
     }
 
@@ -180,5 +181,15 @@ public class Event {
     @Override
     public int hashCode() {
         return Objects.hash(participants, expenses, name, invitationID);
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+            "participants=" + participants +
+            ", expenses=" + expenses +
+            ", name='" + name + '\'' +
+            ", invitationID='" + invitationID + '\'' +
+            '}';
     }
 }

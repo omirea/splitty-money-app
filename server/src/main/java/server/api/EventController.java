@@ -29,7 +29,7 @@ public class EventController {
      *
      * @return all events
      */
-    @GetMapping("" )
+    @GetMapping(path = { "", "/" })
     public List<Event> getAll() {
         return db.findAll();
     }
@@ -59,9 +59,9 @@ public class EventController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(path = { "", "/" })
+    @GetMapping("/{invitationID}")
     @ResponseBody
-    public ResponseEntity<Event> getEventById(@RequestParam("invitationID") String id){
+    public ResponseEntity<Event> getEventById(@PathVariable("invitationID") String id){
         if(!db.existsById(id))
             return ResponseEntity.notFound().build();
         System.out.println(id);
@@ -74,6 +74,7 @@ public class EventController {
         if (event == null) {
             return ResponseEntity.badRequest().build();
         }
+        System.out.println(event.toString());
         Event createdEvent = db.save(event);
         return ResponseEntity.ok(createdEvent);
     }
