@@ -53,7 +53,7 @@ public class ServerUtils {
 	 */
 	public Participant getParticipantById(Long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/participant/" + id)
+				.target(SERVER).path("participant/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<Participant>() {});
@@ -66,7 +66,7 @@ public class ServerUtils {
 	 */
 	public Participant deleteParticipant(Long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/participant/" + id)
+				.target(SERVER).path("participant/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.delete(new GenericType<Participant>() {});
@@ -79,7 +79,7 @@ public class ServerUtils {
 	 */
 	public Participant createParticipant(Participant participant){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/participant")
+				.target(SERVER).path("participant")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.post(Entity.entity(participant, APPLICATION_JSON),
@@ -93,7 +93,7 @@ public class ServerUtils {
 	 */
 	public Participant updateParticipant(Participant participant, Long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/participant/" + id)
+				.target(SERVER).path("participant/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.put(Entity.entity(participant, APPLICATION_JSON),
@@ -106,7 +106,7 @@ public class ServerUtils {
 	 */
 	public List<Event> getAllEvents(){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/event")
+				.target(SERVER).path("event")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<List<Event>>() {});
@@ -119,7 +119,7 @@ public class ServerUtils {
 	 */
 	public Event getEventById(String invitationID){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/event/" + invitationID)
+				.target(SERVER).path("event/" + invitationID)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<Event>() {});
@@ -132,7 +132,7 @@ public class ServerUtils {
 	 */
 	public Event deleteEvent (String invitationID){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/event/" + invitationID)
+				.target(SERVER).path("event/" + invitationID)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.delete(new GenericType<Event>() {});
@@ -159,7 +159,7 @@ public class ServerUtils {
 	 */
 	public Event updateEvent(Event event , String invitationID){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/event/" + invitationID)
+				.target(SERVER).path("event/" + invitationID)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.put(Entity.entity(event, APPLICATION_JSON),
@@ -174,7 +174,7 @@ public class ServerUtils {
 	 */
 	public Expense addExpense(Expense expense) {
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/")
+				.target(SERVER).path("expense")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.post(Entity.entity(expense, APPLICATION_JSON), Expense.class);
@@ -187,7 +187,7 @@ public class ServerUtils {
 	 */
 	public Expense getExpenseByID(long id) {
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/expense/" + id)
+				.target(SERVER).path("expense/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<Expense>() {});
@@ -199,7 +199,7 @@ public class ServerUtils {
 	 */
 	public Expense getAllExpenses() {
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/expense")
+				.target(SERVER).path("expense")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<Expense>() {});
@@ -211,7 +211,7 @@ public class ServerUtils {
 	 */
 	public Expense deleteExpense(long id) {
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/expense/" + id)
+				.target(SERVER).path("expense/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.delete(new GenericType<Expense>() {});
@@ -225,7 +225,7 @@ public class ServerUtils {
 	 */
 	public Expense updateExpense(Expense expense, long id) {
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/expense/" + id)
+				.target(SERVER).path("expense/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.put(Entity.entity(expense, APPLICATION_JSON), Expense.class);
@@ -237,7 +237,7 @@ public class ServerUtils {
 	 */
 	public List<Debt> getAllDebts(){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/debt")
+				.target(SERVER).path("debt")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<List<Debt>>() {});
@@ -250,7 +250,7 @@ public class ServerUtils {
 	 */
 	public Debt getDebtById(Long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/debt/" + id)
+				.target(SERVER).path("debt/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<Debt>() {});
@@ -263,7 +263,7 @@ public class ServerUtils {
 	 */
 	public Debt deleteDebt(Long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/debt/" + id)
+				.target(SERVER).path("debt/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.delete(new GenericType<Debt>() {});
@@ -276,7 +276,7 @@ public class ServerUtils {
 	 */
 	public Debt createDebt(Debt debt){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/debt")
+				.target(SERVER).path("debt")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.post(Entity.entity(debt, APPLICATION_JSON),
@@ -290,7 +290,7 @@ public class ServerUtils {
 	 */
 	public Debt updateParticipant(Debt debt, Long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/debt/" + id)
+				.target(SERVER).path("debt/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.put(Entity.entity(debt, APPLICATION_JSON),
@@ -304,7 +304,7 @@ public class ServerUtils {
 	 */
 	public boolean checkPassword(String password) {
 		return ClientBuilder.newClient(new ClientConfig())
-			.target(SERVER).path("/admin/" + password)
+			.target(SERVER).path("admin/" + password)
 			.request(APPLICATION_JSON)
 			.accept(APPLICATION_JSON)
 			.get(new GenericType<>() {});
@@ -315,7 +315,7 @@ public class ServerUtils {
 	 */
 	public void generatePassword() {
 		ClientBuilder.newClient(new ClientConfig())
-			.target(SERVER).path("/admin/")
+			.target(SERVER).path("admin/")
 			.request(APPLICATION_JSON)
 			.accept(APPLICATION_JSON).get();
 	}

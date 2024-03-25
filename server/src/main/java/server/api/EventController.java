@@ -29,13 +29,13 @@ public class EventController {
      *
      * @return all events
      */
-    @GetMapping("/event" )
+    @GetMapping("" )
     public List<Event> getAll() {
         return db.findAll();
     }
 
 
-    @PutMapping("/event/{invitationID}")
+    @PutMapping("/{invitationID}")
     public ResponseEntity<Event> updateEvent(@RequestBody Event event,
                                              @PathVariable("invitationID") String event_id) {
         if(event == null) {
@@ -110,7 +110,7 @@ public class EventController {
      * @param email email of user to remove
      * @return successful operation indicator
      */
-    @DeleteMapping("/event/{invitation_id}/users/{email}")
+    @DeleteMapping("/{invitation_id}/users/{email}")
     public ResponseEntity<Event> removeUserFromEvent(
             @PathVariable("invitation_id") String invitation_id,
             @PathVariable("email") String email) {
