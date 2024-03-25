@@ -1,7 +1,7 @@
 package client.scenes;
 
 import client.nodes.RecentExpense;
-import client.utils.RefServerUtils;
+import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class EventOverviewCtrl {
 
-    private final RefServerUtils server;
+    private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private ArrayList<RecentExpense> recentExpenses;
     @FXML
@@ -32,7 +32,7 @@ public class EventOverviewCtrl {
     private ListView<String> listViewWith;
 
     @Inject
-    public EventOverviewCtrl(RefServerUtils server, MainCtrl mainCtrl) {
+    public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
         recentExpenses = new ArrayList<>();
         this.server = server;
         this.mainCtrl = mainCtrl;
