@@ -16,9 +16,7 @@
 package client;
 
 import static com.google.inject.Guice.createInjector;
-
 import client.scenes.*;
-
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;

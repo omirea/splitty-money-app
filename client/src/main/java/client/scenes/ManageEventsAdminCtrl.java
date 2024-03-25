@@ -1,7 +1,7 @@
 package client.scenes;
 
 import client.nodes.EventsInList;
-import client.utils.RefServerUtils;
+import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -13,7 +13,7 @@ import javax.inject.Inject;
 
 public class ManageEventsAdminCtrl {
 
-    private final RefServerUtils server;
+    private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
     @FXML
@@ -30,7 +30,7 @@ public class ManageEventsAdminCtrl {
     private VBox eventList;
 
     @Inject
-    public ManageEventsAdminCtrl (RefServerUtils server, MainCtrl mainCtrl) {
+    public ManageEventsAdminCtrl (ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
