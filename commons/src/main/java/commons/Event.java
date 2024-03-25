@@ -48,7 +48,14 @@ public class Event {
     }
 
     public Event(String name) {
+<<<<<<< HEAD
         this.name=name;
+=======
+        participants = new ArrayList<>();
+        expenses = new ArrayList<>();
+        this.name = name;
+//        invitationID = "p" + Math.floor(Math.random() * 20);
+>>>>>>> origin/overview-cleanup
     }
 
     public Event() {

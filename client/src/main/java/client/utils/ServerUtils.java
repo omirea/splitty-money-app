@@ -143,7 +143,7 @@ public class ServerUtils {
 	 * @param event  Event  to be added to the database
 	 * @return the created Event
 	 */
-	public Event createEvent(Event event ){
+	public Event createEvent(Event event){
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(SERVER).path("event")
 				.request(APPLICATION_JSON)

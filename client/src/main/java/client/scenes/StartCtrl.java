@@ -3,6 +3,7 @@ package client.scenes;
 import client.nodes.RecentEvent;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -32,8 +33,9 @@ public class StartCtrl {
      */
     public void onCreateClick() {
         System.out.println("Create" + createEventField.getText());
-        addEventToBox();
-        // TODO: open new window
+        Event e = new Event(createEventField.getText());
+        e = server.createEvent(e);
+        mainCtrl.showEventOverview(e.getInvitationID());
     }
 
     /**

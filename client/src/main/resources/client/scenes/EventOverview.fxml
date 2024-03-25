@@ -15,25 +15,27 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EventOverviewCtrl">
+<AnchorPane prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EventOverviewCtrl">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <GridPane alignment="CENTER">
+            <GridPane alignment="CENTER" hgap="10.0">
               <columnConstraints>
-                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="80.39996337890625" minWidth="10.0" prefWidth="53.0000244140625" />
+                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="129.4000244140625" minWidth="10.0" prefWidth="98.5999755859375" />
                 <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Text fx:id="eventTitleText" strokeType="OUTSIDE" strokeWidth="0.0" text="[Event Title]">
+                  <Text fx:id="eventTitleText" strokeType="OUTSIDE" strokeWidth="0.0" text="[Event Title]" wrappingWidth="245.29615020751953" GridPane.columnIndex="1">
                       <font>
                           <Font name="System Bold" size="12.0" />
                       </font>
                   </Text>
-                  <Button mnemonicParsing="false" onAction="#onSendInvitesClick" text="Send Invites" GridPane.columnIndex="1" />
+                  <Button mnemonicParsing="false" onAction="#onSendInvitesClick" text="Send Invites" GridPane.columnIndex="2" />
+                  <Button mnemonicParsing="false" onAction="#onBackClick" text="Back" />
                </children>
                <VBox.margin>
                   <Insets />
@@ -47,7 +49,6 @@
                      </font>
                   </Text>
                   <Button mnemonicParsing="false" onAction="#onEditClick" text="edit" />
-                  <Button mnemonicParsing="false" onAction="#onAddClick" text="add" />
                </children>
             </HBox>
             <Text fx:id="participantsList" strokeType="OUTSIDE" strokeWidth="0.0" />
@@ -60,15 +61,13 @@
                <columnConstraints>
                   <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" onAction="#onAddExpenseClick" text="Add Expense" GridPane.columnIndex="2" />
-                  <ChoiceBox fx:id="participantsMenu" prefWidth="150.0" />
-                  <Button mnemonicParsing="false" onAction="#onRefreshClick" text="Refresh" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                  <Button mnemonicParsing="false" onAction="#onAddExpenseClick" text="Add Expense" GridPane.columnIndex="1" />
+                  <ChoiceBox fx:id="participantsMenu" prefWidth="150.0" onAction="#onMenuChange"/>
                </children>
             </GridPane>
             <TabPane fx:id="expensesTabs" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">

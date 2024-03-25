@@ -3,46 +3,60 @@ package client.scenes;
 import client.nodes.RecentExpense;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Event;
+import commons.Expense;
+import commons.Participant;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import java.util.ArrayList;
+
+import java.util.Objects;
 
 public class EventOverviewCtrl {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-    private ArrayList<RecentExpense> recentExpenses;
+    Event event;
     @FXML
     private Text participantsList, eventTitleText;
     @FXML
-    private ChoiceBox<String> participantsMenu;
-    @FXML
-    private VBox allBox, withBox, fromBox;
+    private ChoiceBox<Participant> participantsMenu;
     @FXML
     private TabPane expensesTabs;
     @FXML
-    private ListView<String> listViewAll;
-    @FXML
-    private ListView<String> listViewFrom;
-    @FXML
-    private ListView<String> listViewWith;
+    private ListView<Expense> listViewAll, listViewFrom, listViewWith;
 
     @Inject
     public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
+<<<<<<< HEAD
         recentExpenses = new ArrayList<>();
+=======
+>>>>>>> origin/overview-cleanup
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
 
-    public ListView<String> getListViewAll() {return listViewAll;}
+    public void setEvent(String id) {
+        event = server.getEventById(id);
+        eventTitleText.setText(event.getName());
+    }
 
-    public ListView<String> getListViewFrom(){return listViewFrom;}
+    public ListView<Expense> getListViewAll() {
+        return listViewAll;
+    }
 
-    public ListView<String> getListViewWith(){return  listViewWith;}
+    public ListView<Expense> getListViewFrom(){
+        return listViewFrom;
+    }
+
+    public ListView<Expense> getListViewWith(){
+        return  listViewWith;
+    }
 
     /**
      * method to open send invite page
@@ -50,7 +64,6 @@ public class EventOverviewCtrl {
     public void onSendInvitesClick(){
         //will do the following code snippet once implemented:
         mainCtrl.showInvitation();
-        System.out.println("Sending Invite...");
     }
 
     /**
@@ -59,47 +72,31 @@ public class EventOverviewCtrl {
     public void onAddExpenseClick() {
         //will do the following code snippet once implemented:
         //mainCtrl.showAddExpense();
-        System.out.println("Adding Expense...");
         mainCtrl.showExpense();
-        addExpense();
     }
 
     /**
-     * method to open open debts page
+     * method to open the open debts page
      */
     public void onSettleDebtsClick() {
-        //will do the following code snippet once implemented:
         mainCtrl.showOpenDebts();
-        System.out.println("Settling debts...");
     }
 
     /**
      * method to refresh the page
      */
-    public void onRefreshClick() {
+    public void onMenuChange() {
         System.out.println(participantsMenu.getValue());
-        allBox.getChildren().clear();
-        fromBox.getChildren().clear();
-        withBox.getChildren().clear();
-        //it would call the method to get the list of expenses from the db
-        //assumption is that the right person is filtered
-        //and loop the following code:
-        onTabSwitch();
-    }
+        listViewAll.getItems().clear();
+        listViewFrom.getItems().clear();
+        listViewWith.getItems().clear();
 
-    /**
-     * method to add participant
-     */
-    public void onAddClick() {
-        System.out.println("opening add page...[temp]");
-        addParticipantToBox();
     }
 
     /**
      * method to edit participant
      */
     public void onEditClick() {
-        System.out.println("opening edit page... [temp]");
         mainCtrl.showParticipant();
     }
 
@@ -107,54 +104,17 @@ public class EventOverviewCtrl {
      * method to change between the list tabs
      */
     public void onTabSwitch() {
-        int tabIndex = expensesTabs.getSelectionModel().getSelectedIndex();
-        for (RecentExpense re : recentExpenses) {
-            switchTab(tabIndex, re);
+//        int tabIndex = expensesTabs.getSelectionModel().getSelectedIndex();
+    }
+
+    public void onBackClick() {
+        mainCtrl.showStartScreen();
+    }
+
+    public void keyPressed(KeyEvent e) {
+        if (Objects.requireNonNull(e.getCode()) == KeyCode.ESCAPE) {
+            onBackClick();
         }
-    }
-
-    private void addExpense() {
-        RecentExpense re = new RecentExpense();
-        recentExpenses.add(re);
-        int tabIndex = expensesTabs.getSelectionModel().getSelectedIndex();
-        switchTab(tabIndex, re);
-        mainCtrl.showExpense();
-    }
-
-    private void switchTab(int index, RecentExpense re) {
-        if (re.isFrom() && index == 1) {
-            addToTab(fromBox, re);
-
-        } else if (!re.isFrom() && index == 2) {
-            addToTab(withBox, re);
-
-        } else {
-            addToTab(allBox, re);
-        }
-    }
-
-    private void addToTab(VBox box, RecentExpense re) {
-        if (box.getChildren().contains(re.getNode())) return;
-        box.getChildren().add(re.getNode());
-    }
-
-    private void addParticipantToBox() {
-        StringBuilder pString = new StringBuilder(participantsList.getText());
-        //it would call the method to get the list of participants from the db
-        //and loop through the following code
-        String participant = "Person" + (int) (Math.random() * 10);
-        if (!pString.isEmpty()) {
-            pString.append(", ");
-        }
-        pString.append(participant);
-        participantsMenu.getItems().add(participant);
-        //after the loop:
-        participantsList.setText(pString.toString());
-        mainCtrl.addParticipantToExpenseOption(participant);
-        mainCtrl.addParticipantToWhoShouldPayOption(participant);
-    }
-
-    public void setEventTitleText() {
-        eventTitleText.setText("new title");
     }
 }
+
