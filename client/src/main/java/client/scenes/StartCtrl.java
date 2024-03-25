@@ -2,14 +2,16 @@ package client.scenes;
 
 import client.nodes.RecentEvent;
 import client.utils.RefServerUtils;
+import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 public class StartCtrl {
 
-    private final RefServerUtils server;
+    private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
     @FXML
@@ -22,7 +24,7 @@ public class StartCtrl {
     private VBox recentEventsBox;
 
     @Inject
-    public StartCtrl(RefServerUtils server, MainCtrl mainCtrl) {
+    public StartCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
@@ -32,6 +34,8 @@ public class StartCtrl {
      */
     public void onCreateClick() {
         System.out.println("Create" + createEventField.getText());
+        Event event=new Event("name");
+        server.createEvent(event);
         addEventToBox();
         // TODO: open new window
     }

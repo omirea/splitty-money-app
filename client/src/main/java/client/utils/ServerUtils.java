@@ -40,7 +40,7 @@ public class ServerUtils {
 	 */
 	public List<Participant> getAllParticipants(){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/participant")
+				.target(SERVER).path("participant")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<List<Participant>>() {});
@@ -145,7 +145,7 @@ public class ServerUtils {
 	 */
 	public Event createEvent(Event event ){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("/event")
+				.target(SERVER).path("event")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.post(Entity.entity(event , APPLICATION_JSON),
