@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 
 @Entity
@@ -27,11 +28,16 @@ public class Event {
     private String name;
 
     /**
-     * String with invitation ID, which the participants can invite others with
+     * id used for the database to identify the object
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long invitationID;
+    private long id;
+
+    /**
+     * String with invitation ID, which the participants can invite others with
+     */
+    private String invitationID;
 
     /**
      * Constructor for an Event object
@@ -41,7 +47,7 @@ public class Event {
      * @param invitationID String with invitation ID of the event
      */
     public Event(List<Participant> participants, List<Expense> expenses, String name,
-                 long invitationID) {
+                 String invitationID) {
         this.participants = participants;
         this.expenses = expenses;
         this.name = name;
@@ -52,7 +58,24 @@ public class Event {
         participants = new ArrayList<>();
         expenses = new ArrayList<>();
         this.name = name;
-//        invitationID = "p" + Math.floor(Math.random() * 20);
+        invitationID = generateInvitationID();
+    }
+
+    /**
+     * Generates a random invitation id
+     * @return random invitation id
+     */
+    public String generateInvitationID() {
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 90; // letter 'z'
+        int targetStringLength = 8;
+        Random random = new Random();
+
+        return random.ints(leftLimit, rightLimit + 1)
+            .filter(i -> (i <= 57 || i >= 65))
+            .limit(targetStringLength)
+            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+            .toString();
     }
 
     public Event() {
@@ -146,7 +169,7 @@ public class Event {
      * Getter for the invitation ID of the event
      * @return String with invitation ID
      */
-    public long getInvitationID() {
+    public String getInvitationID() {
         return invitationID;
     }
 
@@ -154,8 +177,25 @@ public class Event {
      * Setter for the invitation ID of the event
      * @param invitationID String with invitation ID
      */
-    public void setInvitationID(long invitationID) {
+    public void setInvitationID(String invitationID) {
         this.invitationID = invitationID;
+    }
+
+
+    /**
+     * Getter for the ID of the event
+     * @return long with ID
+     */
+    public long getID() {
+        return id;
+    }
+
+    /**
+     * Setter for the ID of the event
+     * @param id long with ID
+     */
+    public void setID(long id) {
+        this.id = id;
     }
 
     /**
