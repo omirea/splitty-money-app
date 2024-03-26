@@ -41,7 +41,7 @@ public class EventControllerTest {
         Example<Event> tempEvent = Example.of(event);
         when(eventRepository.findOne(tempEvent)).thenReturn(Optional.of(event));
 
-        ResponseEntity<Event> responseEntity = eventController.getEventById(event_id);
+        ResponseEntity<Event> responseEntity = eventController.getEventByInvitationId(event_id);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(event, responseEntity.getBody());
