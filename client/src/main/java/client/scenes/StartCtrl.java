@@ -9,8 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-
-import java.io.File;
 import java.util.Objects;
 
 public class StartCtrl {
@@ -50,14 +48,16 @@ public class StartCtrl {
         //set settings button
         settingsView.setFitHeight(25);
         settingsView.setFitWidth(22);
-        Image setting=new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/settings.png")));
+        Image setting=new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/settings.png")));
         settingsView.setImage(setting);
         settingsButton.setGraphic(settingsView);
 
         //set admin button
         adminView.setFitHeight(25);
         adminView.setFitWidth(22);
-        Image admin=new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/systemadministratormale_1.png")));
+        Image admin=new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/systemadministratormale_1.png")));
         adminView.setImage(admin);
         adminButton.setGraphic(adminView);
     }
