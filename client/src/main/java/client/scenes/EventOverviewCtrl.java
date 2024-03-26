@@ -12,14 +12,11 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
-
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class EventOverviewCtrl {
 
-    private Stage primaryStage;
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private ArrayList<RecentExpense> recentExpenses;
@@ -43,8 +40,7 @@ public class EventOverviewCtrl {
     private ImageView homeView;
 
     @Inject
-    public EventOverviewCtrl(Stage primaryStage, ServerUtils server, MainCtrl mainCtrl) {
-        this.primaryStage=primaryStage;
+    public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
         recentExpenses = new ArrayList<>();
         this.server = server;
         this.mainCtrl = mainCtrl;
@@ -57,8 +53,8 @@ public class EventOverviewCtrl {
     public void initialize() {
         homeView.setFitHeight(25);
         homeView.setFitWidth(22);
-        homeView.setImage(new Image(
-                new File("client/src/main/resources/icons/home.png").toURI().toString()));
+        Image home=new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/home.png")));
+        homeView.setImage(home);
         goHomeButton.setGraphic(homeView);
     }
 

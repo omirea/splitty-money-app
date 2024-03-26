@@ -31,14 +31,6 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 public class ServerUtils {
 	private static final String SERVER = "http://localhost:8080/";
 
-
-
-
-
-
-
-
-
 	/**
 	 * method to getAll participants from the database
 	 * connects ui to getAll endpoint

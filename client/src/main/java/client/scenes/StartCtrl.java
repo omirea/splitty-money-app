@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 import java.io.File;
+import java.util.Objects;
 
 public class StartCtrl {
 
@@ -49,16 +50,15 @@ public class StartCtrl {
         //set settings button
         settingsView.setFitHeight(25);
         settingsView.setFitWidth(22);
-        settingsView.setImage(new Image(
-                new File("client/src/main/resources/icons/settings.png").toURI().toString()));
+        Image setting=new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/settings.png")));
+        settingsView.setImage(setting);
         settingsButton.setGraphic(settingsView);
 
         //set admin button
         adminView.setFitHeight(25);
         adminView.setFitWidth(22);
-        adminView.setImage(new Image(
-                new File("client/src/main/resources/icons/system administrator male_1.png")
-                        .toURI().toString()));
+        Image admin=new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/systemadministratormale_1.png")));
+        adminView.setImage(admin);
         adminButton.setGraphic(adminView);
     }
 
