@@ -18,15 +18,12 @@ package client.utils;
 
 import commons.Debt;
 import commons.Event;
-
 import commons.Expense;
 import commons.Participant;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
 import org.glassfish.jersey.client.ClientConfig;
-
-import java.net.http.WebSocket;
 import java.util.List;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;

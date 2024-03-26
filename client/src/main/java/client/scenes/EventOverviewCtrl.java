@@ -4,15 +4,12 @@ import client.nodes.RecentExpense;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -60,7 +57,8 @@ public class EventOverviewCtrl {
     public void initialize() {
         homeView.setFitHeight(25);
         homeView.setFitWidth(22);
-        homeView.setImage(new Image(new File("client/src/main/resources/icons/home.png").toURI().toString()));
+        homeView.setImage(new Image(
+                new File("client/src/main/resources/icons/home.png").toURI().toString()));
         goHomeButton.setGraphic(homeView);
     }
 
