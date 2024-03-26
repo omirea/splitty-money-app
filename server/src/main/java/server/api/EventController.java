@@ -37,7 +37,7 @@ public class EventController {
 
     @PutMapping("/{invitationID}")
     public ResponseEntity<Event> updateEvent(@RequestBody Event event,
-                                             @PathVariable("invitationID") String event_id) {
+                                             @PathVariable("invitationID") long event_id) {
         if(event == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -54,14 +54,14 @@ public class EventController {
     }
 
     @DeleteMapping("/{invitationID}")
-    public ResponseEntity<Event> deleteEvent(@PathVariable("invitationID") String event_id) {
-        db.deleteById(event_id);
+    public ResponseEntity<Event> deleteEvent(@PathVariable("invitationID") long id) {
+        db.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{invitationID}")
     @ResponseBody
-    public ResponseEntity<Event> getEventById(@PathVariable("invitationID") String id){
+    public ResponseEntity<Event> getEventById(@PathVariable("invitationID") long id){
         if(!db.existsById(id))
             return ResponseEntity.notFound().build();
         System.out.println(id);
@@ -87,7 +87,7 @@ public class EventController {
      * @return the updated event
      */
     @PutMapping("/{invitation_id}/users")
-    public ResponseEntity<Event> addUser(@PathVariable("invitation_id") String invitation_id,
+    public ResponseEntity<Event> addUser(@PathVariable("invitation_id") long invitation_id,
                                          @RequestBody Participant participant) {
         // TODO should this be a put or a post?
         if (!db.existsById(invitation_id)) {
@@ -113,9 +113,9 @@ public class EventController {
      */
     @DeleteMapping("/{invitation_id}/users/{email}")
     public ResponseEntity<Event> removeUserFromEvent(
-            @PathVariable("invitation_id") String invitation_id,
+            @PathVariable("invitation_id") long invitation_id,
             @PathVariable("email") String email) {
-        if (invitation_id == null || isNullOrEmpty(invitation_id) || isNullOrEmpty(email)) {
+        if (invitation_id <= 0 || isNullOrEmpty(email)) {
             return ResponseEntity.badRequest().build();
         }
         if (!db.existsById(invitation_id)) {
@@ -152,7 +152,7 @@ public class EventController {
      */
     @PostMapping("/{}/expenses")
     public ResponseEntity<Expense> addExpenseToEvent(
-            @PathVariable("invitation_id") String invitation_id,
+            @PathVariable("invitation_id") long invitation_id,
             @RequestBody Expense expense) {
         if (!db.existsById(invitation_id) || isNullOrEmpty(expense.getDescription())) {
             return ResponseEntity.badRequest().build();

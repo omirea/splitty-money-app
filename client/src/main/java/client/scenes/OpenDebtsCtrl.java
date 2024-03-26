@@ -77,7 +77,7 @@ public class OpenDebtsCtrl {
      * method to go back to event page
      */
     public void goBackToEvent(){
-        mainCtrl.showEventOverview("1023");
+        mainCtrl.showEventOverview(1023);
     }
 
     /**

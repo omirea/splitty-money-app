@@ -117,7 +117,7 @@ public class ServerUtils {
 	 * @param invitationID id of the Event requested
 	 * @return the requested Event
 	 */
-	public Event getEventById(String invitationID){
+	public Event getEventById(long invitationID){
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(SERVER).path("event/" + invitationID)
 				.request(APPLICATION_JSON)
@@ -130,7 +130,7 @@ public class ServerUtils {
 	 * @param invitationID the id of the Event  to be deleted
 	 * @return the deleted Event
 	 */
-	public Event deleteEvent (String invitationID){
+	public Event deleteEvent (long invitationID){
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(SERVER).path("event/" + invitationID)
 				.request(APPLICATION_JSON)
@@ -157,7 +157,7 @@ public class ServerUtils {
 	 * @param event Event  to be updated in the database
 	 * @return the updated Event
 	 */
-	public Event updateEvent(Event event , String invitationID){
+	public Event updateEvent(Event event, long invitationID){
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(SERVER).path("event/" + invitationID)
 				.request(APPLICATION_JSON)

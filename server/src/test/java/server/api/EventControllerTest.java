@@ -32,7 +32,7 @@ public class EventControllerTest {
 
     @Test
     public void testGetEventByID() {
-        String event_id = "ab123";
+        long event_id = 123;
 
         Event event = new Event();
         when(eventRepository.existsById(event_id)).thenReturn(true);
@@ -58,7 +58,7 @@ public class EventControllerTest {
     }
     @Test
     public void testUpdateEvent() {
-        String eID = "ab123";
+        long eID = 123;
 
         Event existingEvent = new Event(); // create an existing Event object with appropriate data
         Event updatedEvent = new Event(); // create an updated Event object with appropriate data
@@ -75,7 +75,7 @@ public class EventControllerTest {
 
     @Test
     public void testDeleteEvent() {
-        String eID = "ab123";
+        long eID = 123;
 
         ResponseEntity<Event> responseEntity = eventController.deleteEvent(eID);
 

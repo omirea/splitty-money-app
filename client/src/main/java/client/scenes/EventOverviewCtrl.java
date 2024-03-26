@@ -37,7 +37,7 @@ public class EventOverviewCtrl {
         this.mainCtrl = mainCtrl;
     }
 
-    public void setEvent(String id) {
+    public void setEvent(long id) {
         event = server.getEventById(id);
         eventTitleText.setText(event.getName());
     }

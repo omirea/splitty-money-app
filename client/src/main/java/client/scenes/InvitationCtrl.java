@@ -64,6 +64,6 @@ public class InvitationCtrl {
      * method to go back to event page
      */
     public void goBackToEvent(){
-        mainCtrl.showEventOverview("123");
+        mainCtrl.showEventOverview(123);
     }
 }

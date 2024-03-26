@@ -31,7 +31,7 @@ public class Event {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String invitationID;
+    private long invitationID;
 
     /**
      * Constructor for an Event object
@@ -41,7 +41,7 @@ public class Event {
      * @param invitationID String with invitation ID of the event
      */
     public Event(List<Participant> participants, List<Expense> expenses, String name,
-                 String invitationID) {
+                 long invitationID) {
         this.participants = participants;
         this.expenses = expenses;
         this.name = name;
@@ -146,7 +146,7 @@ public class Event {
      * Getter for the invitation ID of the event
      * @return String with invitation ID
      */
-    public String getInvitationID() {
+    public long getInvitationID() {
         return invitationID;
     }
 
@@ -154,7 +154,7 @@ public class Event {
      * Setter for the invitation ID of the event
      * @param invitationID String with invitation ID
      */
-    public void setInvitationID(String invitationID) {
+    public void setInvitationID(long invitationID) {
         this.invitationID = invitationID;
     }
 
