@@ -129,7 +129,7 @@ public class MainCtrl {
      * method to show events page
      * @param id id of the event
      */
-    public void showEventOverview(long id) {
+    public void showEventOverview(String id) {
         primaryStage.setTitle("Splitty: Event overview");
         primaryStage.setScene(overview);
         overviewCtrl.setEvent(id);

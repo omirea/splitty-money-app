@@ -113,13 +113,13 @@ public class ServerUtils {
 	}
 
 	/**
-	 * method to get a specific Event based on id
-	 * @param id id of the Event requested
+	 * method to get a specific Event based on invitationID
+	 * @param invitationID invitationID of the Event requested
 	 * @return the requested Event
 	 */
-	public Event getEventById(long id){
+	public Event getEventById(String invitationID){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("event/" + id)
+				.target(SERVER).path("event/" + invitationID)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<Event>() {});

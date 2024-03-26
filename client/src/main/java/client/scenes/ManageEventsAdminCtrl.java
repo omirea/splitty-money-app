@@ -66,7 +66,7 @@ public class ManageEventsAdminCtrl {
      */
     public void showEventDetails(){
         //TODO: show specific event with id
-        mainCtrl.showEventOverview(123);
+        mainCtrl.showEventOverview("123");
     }
 
     /**

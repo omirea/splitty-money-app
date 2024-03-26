@@ -39,7 +39,7 @@ public class AddEditParticipantCtrl {
         emailTextField.clear();
         ibanTextField.clear();
         bicTextField.clear();
-        mainCtrl.showEventOverview(123);
+        mainCtrl.showEventOverview("123");
     }
 
     @FXML

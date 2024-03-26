@@ -35,7 +35,7 @@ public class StartCtrl {
         System.out.println("Create" + createEventField.getText());
         Event e = new Event(createEventField.getText());
         e = server.createEvent(e);
-        mainCtrl.showEventOverview(e.getID());
+        mainCtrl.showEventOverview(e.getInvitationID());
     }
 
     /**
@@ -44,7 +44,7 @@ public class StartCtrl {
     public void onJoinClick() {
         System.out.println("Join: " + joinEventField.getText());
         // TODO: connect to database, open new window
-        mainCtrl.showEventOverview(Integer.parseInt(joinEventField.getText()));
+        mainCtrl.showEventOverview(joinEventField.getText());
     }
 
     /**

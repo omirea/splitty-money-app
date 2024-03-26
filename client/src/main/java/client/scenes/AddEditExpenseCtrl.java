@@ -125,7 +125,7 @@ public class AddEditExpenseCtrl {
                 sumIsLarger();
             else {
                 mainCtrl.addExpenseToEvent(createExpense());
-                mainCtrl.showEventOverview(123);
+                mainCtrl.showEventOverview("123");
             }
         }else{
             Alert alert=new Alert(Alert.AlertType.ERROR);
@@ -151,7 +151,7 @@ public class AddEditExpenseCtrl {
      */
     @FXML
     public void onAbortClick(ActionEvent event) throws IOException {
-        mainCtrl.showEventOverview(123);
+        mainCtrl.showEventOverview("123");
     }
 
     public Expense createExpense(){

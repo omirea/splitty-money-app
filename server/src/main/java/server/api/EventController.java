@@ -4,6 +4,7 @@ import commons.Event;
 import commons.Expense;
 import commons.Participant;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Example;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.database.EventRepository;
@@ -61,12 +62,14 @@ public class EventController {
 
     @GetMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<Event> getEventById(@PathVariable("id") long id){
-        if(!db.existsById(id))
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<Event> getEventById(@PathVariable("id") String id){
+        Event e = new Event();
+        e.setInvitationID(id);
+        Optional<Event> tempEvent = db.findOne(Example.of(e));
+
+        if(tempEvent.isEmpty()) return ResponseEntity.notFound().build();
         System.out.println(id);
-        Event event=db.findById(id).get();
-        return ResponseEntity.ok(event);
+        return ResponseEntity.ok(tempEvent.get());
     }
 
     @PostMapping(path = { "", "/" })
@@ -74,7 +77,7 @@ public class EventController {
         if (event == null) {
             return ResponseEntity.badRequest().build();
         }
-        System.out.println(event.toString());
+        System.out.println(event);
         Event createdEvent = db.save(event);
         return ResponseEntity.ok(createdEvent);
     }

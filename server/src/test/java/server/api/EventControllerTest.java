@@ -6,11 +6,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import server.database.EventRepository;
 
 
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -32,11 +34,12 @@ public class EventControllerTest {
 
     @Test
     public void testGetEventByID() {
-        long event_id = 123;
+        String event_id = "123";
 
         Event event = new Event();
-        when(eventRepository.existsById(event_id)).thenReturn(true);
-        when(eventRepository.findById(event_id)).thenReturn(java.util.Optional.of(event));
+        event.setInvitationID(event_id);
+        Example<Event> tempEvent = Example.of(event);
+        when(eventRepository.findOne(tempEvent)).thenReturn(Optional.of(event));
 
         ResponseEntity<Event> responseEntity = eventController.getEventById(event_id);
 
