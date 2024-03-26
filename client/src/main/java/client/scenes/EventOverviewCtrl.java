@@ -53,7 +53,8 @@ public class EventOverviewCtrl {
     public void initialize() {
         homeView.setFitHeight(25);
         homeView.setFitWidth(22);
-        Image home=new Image(Objects.requireNonNull(getClass().getResourceAsStream("/icons/home.png")));
+        Image home=new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/home.png")));
         homeView.setImage(home);
         goHomeButton.setGraphic(homeView);
     }
