@@ -113,13 +113,13 @@ public class ServerUtils {
 	}
 
 	/**
-	 * method to get a specific Event based on invitationID
-	 * @param invitationID id of the Event requested
+	 * method to get a specific Event based on id
+	 * @param id id of the Event requested
 	 * @return the requested Event
 	 */
-	public Event getEventById(long invitationID){
+	public Event getEventById(long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("event/" + invitationID)
+				.target(SERVER).path("event/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<Event>() {});
@@ -127,12 +127,12 @@ public class ServerUtils {
 
 	/**
 	 * method to delete a specific Event  from the database
-	 * @param invitationID the id of the Event  to be deleted
+	 * @param id the id of the Event  to be deleted
 	 * @return the deleted Event
 	 */
-	public Event deleteEvent (long invitationID){
+	public Event deleteEvent (long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("event/" + invitationID)
+				.target(SERVER).path("event/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.delete(new GenericType<Event>() {});
@@ -157,9 +157,9 @@ public class ServerUtils {
 	 * @param event Event  to be updated in the database
 	 * @return the updated Event
 	 */
-	public Event updateEvent(Event event, long invitationID){
+	public Event updateEvent(Event event, long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("event/" + invitationID)
+				.target(SERVER).path("event/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.put(Entity.entity(event, APPLICATION_JSON),

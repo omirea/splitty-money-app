@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
@@ -67,7 +68,7 @@ public class EventOverviewCtrl {
     public void onAddExpenseClick() {
         //will do the following code snippet once implemented:
         //mainCtrl.showAddExpense();
-        mainCtrl.showExpense();
+        mainCtrl.showAddExpense();
     }
 
     /**
@@ -91,8 +92,18 @@ public class EventOverviewCtrl {
     /**
      * method to edit participant
      */
-    public void onEditClick() {
-        mainCtrl.showParticipant();
+    public void onParticipantEditClick() {
+        mainCtrl.showAddParticipant();
+    }
+
+    public void onTitleEditClick() {
+        TextInputDialog tid = new TextInputDialog(eventTitleText.getText());
+        tid.setHeaderText("Input the new event title");
+        tid.showAndWait();
+        String title = tid.getEditor().getText();
+        event.setName(title);
+        event = server.updateEvent(event, event.getID());
+        eventTitleText.setText(title);
     }
 
     /**

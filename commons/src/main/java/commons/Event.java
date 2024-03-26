@@ -65,7 +65,7 @@ public class Event {
      * Generates a random invitation id
      * @return random invitation id
      */
-    public String generateInvitationID() {
+    private String generateInvitationID() {
         int leftLimit = 48; // numeral '0'
         int rightLimit = 90; // letter 'z'
         int targetStringLength = 8;

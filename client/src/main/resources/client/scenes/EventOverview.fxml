@@ -19,28 +19,18 @@
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <GridPane alignment="CENTER" hgap="10.0">
-              <columnConstraints>
-                  <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="80.39996337890625" minWidth="10.0" prefWidth="53.0000244140625" />
-                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="129.4000244140625" minWidth="10.0" prefWidth="98.5999755859375" />
-                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
+            <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="260.0" spacing="10.0">
                <children>
-                  <Text fx:id="eventTitleText" strokeType="OUTSIDE" strokeWidth="0.0" text="[Event Title]" wrappingWidth="245.29615020751953" GridPane.columnIndex="1">
+                  <Button mnemonicParsing="false" onAction="#onBackClick" text="Back" />
+                  <Text fx:id="eventTitleText" strokeType="OUTSIDE" strokeWidth="0.0" text="[Event Title]" HBox.hgrow="ALWAYS">
                       <font>
                           <Font name="System Bold" size="12.0" />
                       </font>
                   </Text>
-                  <Button mnemonicParsing="false" onAction="#onSendInvitesClick" text="Send Invites" GridPane.columnIndex="2" />
-                  <Button mnemonicParsing="false" onAction="#onBackClick" text="Back" />
+                  <Button mnemonicParsing="false" onAction="#onTitleEditClick" text="edit" />
+                  <Button mnemonicParsing="false" onAction="#onSendInvitesClick" text="Send Invites" />
                </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </GridPane>
+            </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="9.0" prefWidth="260.0" spacing="10.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Participants">
@@ -48,7 +38,7 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Text>
-                  <Button mnemonicParsing="false" onAction="#onEditClick" text="edit" />
+                  <Button mnemonicParsing="false" onAction="#onParticipantEditClick" text="edit" />
                </children>
             </HBox>
             <Text fx:id="participantsListText" strokeType="OUTSIDE" strokeWidth="0.0" />
@@ -67,7 +57,7 @@
                </rowConstraints>
                <children>
                   <Button mnemonicParsing="false" onAction="#onAddExpenseClick" text="Add Expense" GridPane.columnIndex="1" />
-                  <ChoiceBox fx:id="participantsMenu" prefWidth="150.0" onAction="#onMenuChange"/>
+                  <ChoiceBox fx:id="participantsMenu" onAction="#onMenuChange" prefWidth="150.0" />
                </children>
             </GridPane>
             <TabPane fx:id="expensesTabs" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">

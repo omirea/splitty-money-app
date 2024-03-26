@@ -88,7 +88,7 @@ public class MainCtrl {
     /**
      * method to show participant page
      */
-    public void showParticipant() {
+    public void showAddParticipant() {
         primaryStage.setTitle("Splitty: Add/Edit Participant");
         primaryStage.setScene(participant);
     }
@@ -120,7 +120,7 @@ public class MainCtrl {
     /**
      * method to show expense page
      */
-    public void showExpense() {
+    public void showAddExpense() {
         primaryStage.setTitle("Splitty: Add/Edit Expense");
         primaryStage.setScene(expense);
     }
