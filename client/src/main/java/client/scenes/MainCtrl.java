@@ -133,6 +133,7 @@ public class MainCtrl {
         primaryStage.setTitle("Splitty: Event overview");
         primaryStage.setScene(overview);
         overviewCtrl.setEvent(id);
+        overviewCtrl.addAllParticipants();
         overview.setOnKeyPressed(e -> overviewCtrl.keyPressed(e));
     }
 
