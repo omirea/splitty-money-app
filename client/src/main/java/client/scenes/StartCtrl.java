@@ -5,6 +5,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
@@ -44,7 +45,15 @@ public class StartCtrl {
     public void onJoinClick() {
         System.out.println("Join: " + joinEventField.getText());
         // TODO: connect to database, open new window
-        mainCtrl.showEventOverview(joinEventField.getText());
+        try {
+            mainCtrl.showEventOverview(joinEventField.getText());
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Invitation code not found");
+            alert.setContentText("Please check your invitation code again");
+            alert.show();
+            throw e;
+        }
     }
 
     /**
