@@ -26,12 +26,21 @@ import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
 import org.glassfish.jersey.client.ClientConfig;
 
+import java.net.http.WebSocket;
 import java.util.List;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
 	private static final String SERVER = "http://localhost:8080/";
+
+
+
+
+
+
+
+
 
 	/**
 	 * method to getAll participants from the database
@@ -317,6 +326,7 @@ public class ServerUtils {
 		ClientBuilder.newClient(new ClientConfig())
 			.target(SERVER).path("admin/")
 			.request(APPLICATION_JSON)
-			.accept(APPLICATION_JSON).get();
+			.accept(APPLICATION_JSON)
+				.get();
 	}
 }

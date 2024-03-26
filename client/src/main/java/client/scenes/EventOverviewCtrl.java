@@ -4,15 +4,25 @@ import client.nodes.RecentExpense;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+
+import java.io.File;
 import java.util.ArrayList;
 
 public class EventOverviewCtrl {
 
+    private Stage primaryStage;
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private ArrayList<RecentExpense> recentExpenses;
@@ -30,12 +40,28 @@ public class EventOverviewCtrl {
     private ListView<String> listViewFrom;
     @FXML
     private ListView<String> listViewWith;
+    @FXML
+    private Button goHomeButton;
+    @FXML
+    private ImageView homeView;
 
     @Inject
-    public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public EventOverviewCtrl(Stage primaryStage, ServerUtils server, MainCtrl mainCtrl) {
+        this.primaryStage=primaryStage;
         recentExpenses = new ArrayList<>();
         this.server = server;
         this.mainCtrl = mainCtrl;
+    }
+
+    /**
+     * method to initialize the page
+     */
+    @FXML
+    public void initialize() {
+        homeView.setFitHeight(25);
+        homeView.setFitWidth(22);
+        homeView.setImage(new Image(new File("client/src/main/resources/icons/home.png").toURI().toString()));
+        goHomeButton.setGraphic(homeView);
     }
 
     public ListView<String> getListViewAll() {return listViewAll;}
@@ -62,6 +88,12 @@ public class EventOverviewCtrl {
         System.out.println("Adding Expense...");
         mainCtrl.showExpense();
         addExpense();
+    }
+    /**
+     * method to go back to the Home page
+     */
+    public void goBackHome(){
+        mainCtrl.showStartScreen();
     }
 
     /**
