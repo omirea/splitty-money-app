@@ -1,6 +1,5 @@
 package client.scenes;
 
-import client.nodes.RecentExpense;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
@@ -12,9 +11,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import java.util.List;
 import java.util.Objects;
 
 public class EventOverviewCtrl {
@@ -23,7 +22,7 @@ public class EventOverviewCtrl {
     private final MainCtrl mainCtrl;
     Event event;
     @FXML
-    private Text participantsList, eventTitleText;
+    private Text participantsListText, eventTitleText;
     @FXML
     private ChoiceBox<Participant> participantsMenu;
     @FXML
@@ -103,14 +102,42 @@ public class EventOverviewCtrl {
 //        int tabIndex = expensesTabs.getSelectionModel().getSelectedIndex();
     }
 
+    /**
+     * occurs when the back button is clicked.
+     * shows the start screen.
+     */
     public void onBackClick() {
         mainCtrl.showStartScreen();
     }
 
+    /**
+     * maps the keyboard shortcuts to this controller/scene
+     * @param e KeyEvent inputted
+     */
     public void keyPressed(KeyEvent e) {
         if (Objects.requireNonNull(e.getCode()) == KeyCode.ESCAPE) {
             onBackClick();
         }
     }
+
+    /**
+     * method to be called to add
+     * you will probably change this to use the methods commented out below
+     */
+    public void addAllParticipants() {
+        List<Participant> pList = event.getParticipants();
+        participantsMenu.getItems().addAll(pList);
+        String pListString = pList.stream().map(Participant::getName).toList().toString();
+        pListString = pListString.substring(1, pListString.length()-1);
+        participantsListText.setText(pListString);
+    }
+
+//    public void addParticipantToMenu(Participant p) {
+//
+//    }
+//
+//    public void addParticipantToText() {
+//
+//    }
 }
 
