@@ -4,8 +4,12 @@ import client.nodes.RecentEvent;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import java.util.Objects;
 
 public class StartCtrl {
 
@@ -21,10 +25,41 @@ public class StartCtrl {
     @FXML
     private VBox recentEventsBox;
 
+    @FXML
+    private Button settingsButton;
+    @FXML
+    private Button adminButton;
+    @FXML
+    private ImageView settingsView;
+    @FXML
+    private ImageView adminView;
+
     @Inject
     public StartCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+    }
+
+    /**
+     * method to initialize the page
+     */
+    @FXML
+    public void initialize() {
+        //set settings button
+        settingsView.setFitHeight(25);
+        settingsView.setFitWidth(22);
+        Image setting=new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/settings.png")));
+        settingsView.setImage(setting);
+        settingsButton.setGraphic(settingsView);
+
+        //set admin button
+        adminView.setFitHeight(25);
+        adminView.setFitWidth(22);
+        Image admin=new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/systemadministratormale_1.png")));
+        adminView.setImage(admin);
+        adminButton.setGraphic(adminView);
     }
 
     /**

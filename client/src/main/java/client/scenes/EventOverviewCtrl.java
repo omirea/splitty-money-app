@@ -4,12 +4,16 @@ import client.nodes.RecentExpense;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.image.ImageView;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class EventOverviewCtrl {
 
@@ -30,12 +34,29 @@ public class EventOverviewCtrl {
     private ListView<String> listViewFrom;
     @FXML
     private ListView<String> listViewWith;
+    @FXML
+    private Button goHomeButton;
+    @FXML
+    private ImageView homeView;
 
     @Inject
     public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
         recentExpenses = new ArrayList<>();
         this.server = server;
         this.mainCtrl = mainCtrl;
+    }
+
+    /**
+     * method to initialize the page
+     */
+    @FXML
+    public void initialize() {
+        homeView.setFitHeight(25);
+        homeView.setFitWidth(22);
+        Image home=new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/home.png")));
+        homeView.setImage(home);
+        goHomeButton.setGraphic(homeView);
     }
 
     public ListView<String> getListViewAll() {return listViewAll;}
@@ -62,6 +83,12 @@ public class EventOverviewCtrl {
         System.out.println("Adding Expense...");
         mainCtrl.showExpense();
         addExpense();
+    }
+    /**
+     * method to go back to the Home page
+     */
+    public void goBackHome(){
+        mainCtrl.showStartScreen();
     }
 
     /**
