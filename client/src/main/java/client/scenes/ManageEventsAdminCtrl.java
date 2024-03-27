@@ -101,8 +101,12 @@ public class ManageEventsAdminCtrl implements Initializable {
     }
 
     public void onTitleOrderClick(){
-        colEventTitle.setSortType(TableColumn.SortType.ASCENDING);
-        refresh();
+//        colEventTitle.setSortType(TableColumn.SortType.ASCENDING);
+//        refresh();
+        var events = server.getAllEvents();
+        List<Event> sortedEvents = events.stream().sorted().toList();
+        ObservableList<Event> eventsSorted = FXCollections.observableList(sortedEvents);
+        table.setItems(eventsSorted);
 
     }
 

@@ -70,12 +70,15 @@
                   </Button>
                </children>
             </HBox>
-            <TableView fx:id="table" prefHeight="245.0">
+            <TableView fx:id="table" VBox.vgrow="ALWAYS">
               <columns>
                 <TableColumn fx:id="colEventTitle" prefWidth="100.0" text="Title" />
                 <TableColumn fx:id="colInvitationID" prefWidth="100.0" text="Invitation ID" />
                   <TableColumn fx:id="buttons" prefWidth="300.0" />
               </columns>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
             </TableView>
          </children>
       </VBox>

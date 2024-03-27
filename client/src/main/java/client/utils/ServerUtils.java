@@ -110,13 +110,6 @@ public class ServerUtils {
 				.get(new GenericType<List<Event>>() {});
 	}
 
-	public List<Event> getEventByName(String eventName){
-		return ClientBuilder.newClient(new ClientConfig())
-			.target(SERVER).path("event/name/" + eventName)
-			.request(APPLICATION_JSON)
-			.accept(APPLICATION_JSON)
-			.get(new GenericType<List<Event>>() {});
-	}
 
 	/**
 	 * method to get a specific Event based on invitationID
@@ -125,7 +118,7 @@ public class ServerUtils {
 	 */
 	public Event getEventById(String invitationID){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("event/id/" + invitationID)
+				.target(SERVER).path("event/" + invitationID)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<Event>() {});
