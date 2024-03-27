@@ -36,19 +36,6 @@ public class EventController {
         return db.findAll();
     }
 
-    @GetMapping("/name/{eventName}")
-    @ResponseBody
-    public ResponseEntity<Event> getEventByEventName(
-        @PathVariable(value = "eventName") String eventName){
-        if(eventName == null){
-            return ResponseEntity.badRequest().build();
-        }
-        if(!db.existsByName(eventName)){
-            return ResponseEntity.notFound().build();
-
-        }
-        return ResponseEntity.ok(db.findByName(eventName).get());
-    }
 
 
     @PutMapping("/{id}")
@@ -75,20 +62,16 @@ public class EventController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/id/{invitationID}")
+    @GetMapping("/{invitationID}")
     @ResponseBody
     public ResponseEntity<Event> getEventByInvitationId(
         @PathVariable("invitationID") String invitationID){
-
-        if(invitationID == null){
-            return ResponseEntity.badRequest().build();
-        }
-        if(!db.existsByInvitationID(invitationID)){
-            return ResponseEntity.notFound().build();
-
-        }
-        return ResponseEntity.ok(db.findByInvitationID(invitationID).get());
+        Event e = new Event();
+        e.setInvitationID(invitationID);
+        Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAny()));
+        return tempEvent.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 
     @PostMapping(path = { "", "/" })
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
@@ -166,10 +149,10 @@ public class EventController {
     }
 
     /**
-     *
-     * @param id
-     * @param expense
-     * @return
+     * adding an expense to event
+     * @param id event id
+     * @param expense expense to add
+     * @return response entity
      */
     @PostMapping("/{id}/expenses")
     public ResponseEntity<Expense> addExpenseToEvent(

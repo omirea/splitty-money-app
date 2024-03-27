@@ -3,6 +3,7 @@ package client.scenes;
 import client.nodes.EventsInList;
 import client.utils.ServerUtils;
 import commons.Event;
+import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +13,7 @@ import javafx.scene.control.*;
 
 import javax.inject.Inject;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 
@@ -47,6 +49,7 @@ public class ManageEventsAdminCtrl implements Initializable {
 
 
 
+
     @Inject
     public ManageEventsAdminCtrl (ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
@@ -65,11 +68,14 @@ public class ManageEventsAdminCtrl implements Initializable {
      */
     public void onSearchClick(){
         boolean searchEmpty = eventName.getText().trim().isEmpty();
+        var events = server.getAllEvents();
+        allEvents = FXCollections.observableList(events);
         if(!searchEmpty) {
             String eventNameS = eventName.getText().trim();
-            var events = server.getEventByName(eventNameS);
-            eventsWithName = FXCollections.observableList(events);
-            table.setItems(eventsWithName);
+            List<Event> eventsWithName =
+                allEvents.stream().filter(e -> e.getName().contains(eventNameS)).toList();
+            ObservableList<Event> eventsWithN = FXCollections.observableList(eventsWithName);
+            table.setItems(eventsWithN);
         } else {
             Alert alertEmpty = new Alert(Alert.AlertType.WARNING);
             alertEmpty.setTitle("Empty Field");

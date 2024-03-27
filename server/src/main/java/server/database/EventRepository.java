@@ -10,10 +10,4 @@ import java.util.Optional;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
 
-    @Query("SELECT e FROM Event e WHERE e.name = :eventName ")
-    Optional<Event> findByName(@Param("eventName") String eventName);
-
-    boolean existsByName (String eventName);
-    Optional<Event> findByInvitationID(String invitationID);
-    boolean existsByInvitationID(String invitationID);
 }
