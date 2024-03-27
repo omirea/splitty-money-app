@@ -51,10 +51,10 @@ public class TestEventRepository implements EventRepository {
     }
 
     /**
-     * @param strings the ids of the entities to be deleted. Must not be {@literal null}.
+     * @param longs the ids of the entities to be deleted. Must not be {@literal null}.
      */
     @Override
-    public void deleteAllByIdInBatch(Iterable<String> strings) {
+    public void deleteAllByIdInBatch(Iterable<Long> longs) {
 
     }
 
@@ -67,29 +67,29 @@ public class TestEventRepository implements EventRepository {
     }
 
     /**
-     * @param string must not be {@literal null}.
+     * @param l must not be {@literal null}.
      * @return
      */
     @Override
-    public Event getOne(String string) {
+    public Event getOne(Long l) {
         return null;
     }
 
     /**
-     * @param string must not be {@literal null}.
+     * @param l must not be {@literal null}.
      * @return
      */
     @Override
-    public Event getById(String string) {
+    public Event getById(Long l) {
         return null;
     }
 
     /**
-     * @param string must not be {@literal null}.
+     * @param l must not be {@literal null}.
      * @return
      */
     @Override
-    public Event getReferenceById(String string) {
+    public Event getReferenceById(Long l) {
         return null;
     }
 
@@ -195,20 +195,20 @@ public class TestEventRepository implements EventRepository {
     }
 
     /**
-     * @param string must not be {@literal null}.
+     * @param l must not be {@literal null}.
      * @return
      */
     @Override
-    public Optional<Event> findById(String string) {
+    public Optional<Event> findById(Long l) {
         return Optional.empty();
     }
 
     /**
-     * @param string must not be {@literal null}.
+     * @param l must not be {@literal null}.
      * @return
      */
     @Override
-    public boolean existsById(String string) {
+    public boolean existsById(Long l) {
         return false;
     }
 
@@ -220,14 +220,17 @@ public class TestEventRepository implements EventRepository {
         return null;
     }
 
+
+
     /**
-     * @param strings must not be {@literal null} nor contain any {@literal null} values.
+     * @param longs must not be {@literal null} nor contain any {@literal null} values.
      * @return
      */
     @Override
-    public List<Event> findAllById(Iterable<String> strings) {
+    public List<Event> findAllById(Iterable<Long> longs) {
         return null;
     }
+
 
     /**
      * @return
@@ -238,10 +241,10 @@ public class TestEventRepository implements EventRepository {
     }
 
     /**
-     * @param string must not be {@literal null}.
+     * @param aLong must not be {@literal null}.
      */
     @Override
-    public void deleteById(String string) {
+    public void deleteById(Long aLong) {
 
     }
 
@@ -253,13 +256,16 @@ public class TestEventRepository implements EventRepository {
 
     }
 
+
+
     /**
-     * @param strings must not be {@literal null}. Must not contain {@literal null} elements.
+     * @param longs must not be {@literal null}. Must not contain {@literal null} elements.
      */
     @Override
-    public void deleteAllById(Iterable<? extends String> strings) {
+    public void deleteAllById(Iterable<? extends Long> longs) {
 
     }
+
 
     /**
      * @param entities must not be {@literal null}. Must not contain {@literal null} elements.

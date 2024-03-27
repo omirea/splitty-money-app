@@ -112,7 +112,7 @@ public class ServerUtils {
 
 	/**
 	 * method to get a specific Event based on invitationID
-	 * @param invitationID id of the Event requested
+	 * @param invitationID invitationID of the Event requested
 	 * @return the requested Event
 	 */
 	public Event getEventById(String invitationID){
@@ -125,12 +125,12 @@ public class ServerUtils {
 
 	/**
 	 * method to delete a specific Event  from the database
-	 * @param invitationID the id of the Event  to be deleted
+	 * @param id the id of the Event  to be deleted
 	 * @return the deleted Event
 	 */
-	public Event deleteEvent (String invitationID){
+	public Event deleteEvent (long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("event/" + invitationID)
+				.target(SERVER).path("event/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.delete(new GenericType<Event>() {});
@@ -141,7 +141,7 @@ public class ServerUtils {
 	 * @param event  Event  to be added to the database
 	 * @return the created Event
 	 */
-	public Event createEvent(Event event ){
+	public Event createEvent(Event event){
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(SERVER).path("event")
 				.request(APPLICATION_JSON)
@@ -155,9 +155,9 @@ public class ServerUtils {
 	 * @param event Event  to be updated in the database
 	 * @return the updated Event
 	 */
-	public Event updateEvent(Event event , String invitationID){
+	public Event updateEvent(Event event, long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("event/" + invitationID)
+				.target(SERVER).path("event/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.put(Entity.entity(event, APPLICATION_JSON),

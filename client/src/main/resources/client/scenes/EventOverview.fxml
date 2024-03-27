@@ -17,36 +17,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="446.0" prefWidth="628.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EventOverviewCtrl">
+<AnchorPane prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EventOverviewCtrl">
    <children>
       <VBox layoutX="11.2" layoutY="3.2" prefHeight="387.0" prefWidth="279.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="3.0">
          <children>
-            <HBox prefHeight="19.0" prefWidth="586.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="260.0" spacing="10.0">
                <children>
-                  <Button fx:id="goHomeButton" mnemonicParsing="false" onAction="#goBackHome" prefHeight="30.0" prefWidth="74.0" text="Home">
-                     <graphic>
-                        <ImageView fx:id="homeView" fitHeight="25.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../icons/home.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </HBox>
-            <GridPane alignment="CENTER">
-              <columnConstraints>
-                <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Text fx:id="eventTitleText" strokeType="OUTSIDE" strokeWidth="0.0" text="[Event Title]">
+                  <Button mnemonicParsing="false" onAction="#onBackClick" text="Back" />
+                  <Text fx:id="eventTitleText" strokeType="OUTSIDE" strokeWidth="0.0" text="[Event Title]" HBox.hgrow="ALWAYS">
                       <font>
                           <Font name="System Bold" size="18.0" />
                       </font>
@@ -54,12 +32,10 @@
                         <Insets top="5.0" />
                      </GridPane.margin>
                   </Text>
-                  <Button mnemonicParsing="false" onAction="#onSendInvitesClick" text="Send Invites" GridPane.columnIndex="1" />
+                  <Button mnemonicParsing="false" onAction="#onTitleEditClick" text="edit" />
+                  <Button mnemonicParsing="false" onAction="#onSendInvitesClick" text="Send Invites" />
                </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </GridPane>
+            </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="9.0" prefWidth="260.0" spacing="10.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Participants">
@@ -67,14 +43,13 @@
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Text>
-                  <Button mnemonicParsing="false" onAction="#onEditClick" text="edit" />
-                  <Button mnemonicParsing="false" onAction="#onAddClick" text="add" />
+                  <Button mnemonicParsing="false" onAction="#onParticipantEditClick" text="edit" />
                </children>
                <padding>
                   <Insets top="5.0" />
                </padding>
             </HBox>
-            <Text fx:id="participantsList" strokeType="OUTSIDE" strokeWidth="0.0" />
+            <Text fx:id="participantsListText" strokeType="OUTSIDE" strokeWidth="0.0" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Expenses">
                <font>
                   <Font name="System Bold" size="12.0" />
@@ -84,18 +59,13 @@
                <columnConstraints>
                   <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" onAction="#onAddExpenseClick" text="Add Expense" GridPane.columnIndex="2" />
-                  <ChoiceBox fx:id="participantsMenu" prefWidth="150.0" />
-                  <Button mnemonicParsing="false" onAction="#onRefreshClick" text="Refresh" GridPane.columnIndex="2" GridPane.halignment="CENTER">
-                     <GridPane.margin>
-                        <Insets left="-50.0" />
-                     </GridPane.margin></Button>
+                  <Button mnemonicParsing="false" onAction="#onAddExpenseClick" text="Add Expense" GridPane.columnIndex="1" />
+                  <ChoiceBox fx:id="participantsMenu" onAction="#onMenuChange" prefWidth="150.0" />
                </children>
             </GridPane>
             <TabPane fx:id="expensesTabs" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">

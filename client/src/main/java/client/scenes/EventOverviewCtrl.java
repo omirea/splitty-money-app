@@ -1,69 +1,55 @@
 package client.scenes;
 
-import client.nodes.RecentExpense;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Event;
+import commons.Expense;
+import commons.Participant;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TabPane;
-import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
-import javafx.scene.image.ImageView;
-import java.util.ArrayList;
+
+import java.util.List;
 import java.util.Objects;
 
 public class EventOverviewCtrl {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-    private ArrayList<RecentExpense> recentExpenses;
+    Event event;
     @FXML
-    private Text participantsList, eventTitleText;
+    private Text participantsListText, eventTitleText;
     @FXML
-    private ChoiceBox<String> participantsMenu;
-    @FXML
-    private VBox allBox, withBox, fromBox;
+    private ChoiceBox<Participant> participantsMenu;
     @FXML
     private TabPane expensesTabs;
     @FXML
-    private ListView<String> listViewAll;
-    @FXML
-    private ListView<String> listViewFrom;
-    @FXML
-    private ListView<String> listViewWith;
-    @FXML
-    private Button goHomeButton;
-    @FXML
-    private ImageView homeView;
+    private ListView<Expense> listViewAll, listViewFrom, listViewWith;
 
     @Inject
     public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
-        recentExpenses = new ArrayList<>();
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
 
-    /**
-     * method to initialize the page
-     */
-    @FXML
-    public void initialize() {
-        homeView.setFitHeight(25);
-        homeView.setFitWidth(22);
-        Image home=new Image(Objects.requireNonNull
-                (getClass().getResourceAsStream("/icons/home.png")));
-        homeView.setImage(home);
-        goHomeButton.setGraphic(homeView);
+    public void setEvent(String id) {
+        event = server.getEventById(id);
+        eventTitleText.setText(event.getName());
     }
 
-    public ListView<String> getListViewAll() {return listViewAll;}
+    public ListView<Expense> getListViewAll() {
+        return listViewAll;
+    }
 
-    public ListView<String> getListViewFrom(){return listViewFrom;}
+    public ListView<Expense> getListViewFrom(){
+        return listViewFrom;
+    }
 
-    public ListView<String> getListViewWith(){return  listViewWith;}
+    public ListView<Expense> getListViewWith(){
+        return  listViewWith;
+    }
 
     /**
      * method to open send invite page
@@ -71,7 +57,6 @@ public class EventOverviewCtrl {
     public void onSendInvitesClick(){
         //will do the following code snippet once implemented:
         mainCtrl.showInvitation();
-        System.out.println("Sending Invite...");
     }
 
     /**
@@ -80,9 +65,7 @@ public class EventOverviewCtrl {
     public void onAddExpenseClick() {
         //will do the following code snippet once implemented:
         //mainCtrl.showAddExpense();
-        System.out.println("Adding Expense...");
-        mainCtrl.showExpense();
-        addExpense();
+        mainCtrl.showAddExpense();
     }
     /**
      * method to go back to the Home page
@@ -92,96 +75,83 @@ public class EventOverviewCtrl {
     }
 
     /**
-     * method to open open debts page
+     * method to open the open debts page
      */
     public void onSettleDebtsClick() {
-        //will do the following code snippet once implemented:
         mainCtrl.showOpenDebts();
-        System.out.println("Settling debts...");
     }
 
     /**
      * method to refresh the page
      */
-    public void onRefreshClick() {
+    public void onMenuChange() {
         System.out.println(participantsMenu.getValue());
-        allBox.getChildren().clear();
-        fromBox.getChildren().clear();
-        withBox.getChildren().clear();
-        //it would call the method to get the list of expenses from the db
-        //assumption is that the right person is filtered
-        //and loop the following code:
-        onTabSwitch();
-    }
+        listViewAll.getItems().clear();
+        listViewFrom.getItems().clear();
+        listViewWith.getItems().clear();
 
-    /**
-     * method to add participant
-     */
-    public void onAddClick() {
-        System.out.println("opening add page...[temp]");
-        addParticipantToBox();
     }
 
     /**
      * method to edit participant
      */
-    public void onEditClick() {
-        System.out.println("opening edit page... [temp]");
-        mainCtrl.showParticipant();
+    public void onParticipantEditClick() {
+        mainCtrl.showAddParticipant();
+    }
+
+    public void onTitleEditClick() {
+        TextInputDialog tid = new TextInputDialog(eventTitleText.getText());
+        tid.setHeaderText("Input the new event title");
+        tid.showAndWait();
+        String title = tid.getEditor().getText();
+        event.setName(title);
+        event = server.updateEvent(event, event.getID());
+        eventTitleText.setText(title);
     }
 
     /**
      * method to change between the list tabs
      */
     public void onTabSwitch() {
-        int tabIndex = expensesTabs.getSelectionModel().getSelectedIndex();
-        for (RecentExpense re : recentExpenses) {
-            switchTab(tabIndex, re);
+//        int tabIndex = expensesTabs.getSelectionModel().getSelectedIndex();
+    }
+
+    /**
+     * occurs when the back button is clicked.
+     * shows the start screen.
+     */
+    public void onBackClick() {
+        mainCtrl.showStartScreen();
+    }
+
+    /**
+     * maps the keyboard shortcuts to this controller/scene
+     * @param e KeyEvent inputted
+     */
+    public void keyPressed(KeyEvent e) {
+        if (Objects.requireNonNull(e.getCode()) == KeyCode.ESCAPE) {
+            onBackClick();
         }
     }
 
-    private void addExpense() {
-        RecentExpense re = new RecentExpense();
-        recentExpenses.add(re);
-        int tabIndex = expensesTabs.getSelectionModel().getSelectedIndex();
-        switchTab(tabIndex, re);
-        mainCtrl.showExpense();
+    /**
+     * method to be called to add
+     * you will probably change this to use the methods commented out below
+     */
+    public void addAllParticipants() {
+        List<Participant> pList = event.getParticipants();
+        participantsMenu.getItems().addAll(pList);
+        String pListString = pList.stream().map(Participant::getName).toList().toString();
+        pListString = pListString.substring(1, pListString.length()-1);
+        participantsListText.setText(pListString);
     }
 
-    private void switchTab(int index, RecentExpense re) {
-        if (re.isFrom() && index == 1) {
-            addToTab(fromBox, re);
-
-        } else if (!re.isFrom() && index == 2) {
-            addToTab(withBox, re);
-
-        } else {
-            addToTab(allBox, re);
-        }
-    }
-
-    private void addToTab(VBox box, RecentExpense re) {
-        if (box.getChildren().contains(re.getNode())) return;
-        box.getChildren().add(re.getNode());
-    }
-
-    private void addParticipantToBox() {
-        StringBuilder pString = new StringBuilder(participantsList.getText());
-        //it would call the method to get the list of participants from the db
-        //and loop through the following code
-        String participant = "Person" + (int) (Math.random() * 10);
-        if (!pString.isEmpty()) {
-            pString.append(", ");
-        }
-        pString.append(participant);
-        participantsMenu.getItems().add(participant);
-        //after the loop:
-        participantsList.setText(pString.toString());
-        mainCtrl.addParticipantToExpenseOption(participant);
-        mainCtrl.addParticipantToWhoShouldPayOption(participant);
-    }
-
-    public void setEventTitleText() {
-        eventTitleText.setText("new title");
-    }
+//    public void addParticipantToMenu(Participant p) {
+//
+//    }
+//
+//    public void addParticipantToText() {
+//
+//    }
 }
+

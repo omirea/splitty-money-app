@@ -4,6 +4,8 @@ import commons.Event;
 import commons.Expense;
 import commons.Participant;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.database.EventRepository;
@@ -29,23 +31,23 @@ public class EventController {
      *
      * @return all events
      */
-    @GetMapping("" )
+    @GetMapping(path = { "", "/" })
     public List<Event> getAll() {
         return db.findAll();
     }
 
 
-    @PutMapping("/{invitationID}")
+    @PutMapping("/{id}")
     public ResponseEntity<Event> updateEvent(@RequestBody Event event,
-                                             @PathVariable("invitationID") String event_id) {
+                                             @PathVariable("id") long id) {
         if(event == null) {
             return ResponseEntity.badRequest().build();
         }
-        if (!db.existsById(event_id)){
+        if (!db.existsById(id)){
             return ResponseEntity.notFound().build();
         }
 
-        Event existingEvent = db.findById(event_id).get();
+        Event existingEvent = db.findById(id).get();
         existingEvent.setParticipants(event.getParticipants());
         existingEvent.setExpenses(event.getExpenses());
         existingEvent.setName(event.getName());
@@ -53,20 +55,20 @@ public class EventController {
         return ResponseEntity.ok(updatedEventEntity);
     }
 
-    @DeleteMapping("/{invitationID}")
-    public ResponseEntity<Event> deleteEvent(@PathVariable("invitationID") String event_id) {
-        db.deleteById(event_id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Event> deleteEvent(@PathVariable("id") long id) {
+        db.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(path = { "", "/" })
+    @GetMapping("/{invitationID}")
     @ResponseBody
-    public ResponseEntity<Event> getEventById(@RequestParam("invitationID") String id){
-        if(!db.existsById(id))
-            return ResponseEntity.notFound().build();
-        System.out.println(id);
-        Event event=db.findById(id).get();
-        return ResponseEntity.ok(event);
+    public ResponseEntity<Event> getEventByInvitationId(
+        @PathVariable("invitationID") String invitationID){
+        Event e = new Event();
+        e.setInvitationID(invitationID);
+        Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAny()));
+        return tempEvent.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping(path = { "", "/" })
@@ -74,6 +76,7 @@ public class EventController {
         if (event == null) {
             return ResponseEntity.badRequest().build();
         }
+        System.out.println(event);
         Event createdEvent = db.save(event);
         return ResponseEntity.ok(createdEvent);
     }
@@ -81,19 +84,19 @@ public class EventController {
     /**
      * Adds a user to an event.
      *
-     * @param invitation_id the id of the event
+     * @param id the id of the event
      * @param participant the participant to add
      * @return the updated event
      */
-    @PutMapping("/{invitation_id}/users")
-    public ResponseEntity<Event> addUser(@PathVariable("invitation_id") String invitation_id,
+    @PutMapping("/{id}/users")
+    public ResponseEntity<Event> addUser(@PathVariable("id") long id,
                                          @RequestBody Participant participant) {
         // TODO should this be a put or a post?
-        if (!db.existsById(invitation_id)) {
+        if (!db.existsById(id)) {
             return ResponseEntity.badRequest().build();
         }
 
-        Event event = db.findById(invitation_id).get();
+        Event event = db.findById(id).get();
         event.addParticipant(participant);
         try {
             db.save(event);
@@ -106,21 +109,21 @@ public class EventController {
     /**
      * Removes a user from an event.
      *
-     * @param invitation_id id of event from which to remove user
+     * @param id id of event from which to remove user
      * @param email email of user to remove
      * @return successful operation indicator
      */
-    @DeleteMapping("/{invitation_id}/users/{email}")
+    @DeleteMapping("/{id}/users/{email}")
     public ResponseEntity<Event> removeUserFromEvent(
-            @PathVariable("invitation_id") String invitation_id,
+            @PathVariable("id") long id,
             @PathVariable("email") String email) {
-        if (invitation_id == null || isNullOrEmpty(invitation_id) || isNullOrEmpty(email)) {
+        if (id <= 0 || isNullOrEmpty(email)) {
             return ResponseEntity.badRequest().build();
         }
-        if (!db.existsById(invitation_id)) {
+        if (!db.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
-        Event event = db.getReferenceById(invitation_id);
+        Event event = db.getReferenceById(id);
         Optional<Participant> toRemove = event.getParticipants()
                 .stream()
                 .filter(u -> u.getEmail().equals(email))
@@ -145,21 +148,21 @@ public class EventController {
 
     /**
      *
-     * @param invitation_id
+     * @param id
      * @param expense
      * @return
      */
-    @PostMapping("/{}/expenses")
+    @PostMapping("/{id}/expenses")
     public ResponseEntity<Expense> addExpenseToEvent(
-            @PathVariable("invitation_id") String invitation_id,
+            @PathVariable("id") long id,
             @RequestBody Expense expense) {
-        if (!db.existsById(invitation_id) || isNullOrEmpty(expense.getDescription())) {
+        if (!db.existsById(id) || isNullOrEmpty(expense.getDescription())) {
             return ResponseEntity.badRequest().build();
         }
 
         expense.setDateSent(java.time.LocalDate.now());
 
-        Event event = db.findById(invitation_id).get();
+        Event event = db.findById(id).get();
         event.addExpense(expense);
         Expense saved = exRepo.save(expense);
         return ResponseEntity.ok(saved);

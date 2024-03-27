@@ -88,7 +88,7 @@ public class MainCtrl {
     /**
      * method to show participant page
      */
-    public void showParticipant() {
+    public void showAddParticipant() {
         primaryStage.setTitle("Splitty: Add/Edit Participant");
         primaryStage.setScene(participant);
     }
@@ -120,7 +120,7 @@ public class MainCtrl {
     /**
      * method to show expense page
      */
-    public void showExpense() {
+    public void showAddExpense() {
         primaryStage.setTitle("Splitty: Add/Edit Expense");
         primaryStage.setScene(expense);
     }
@@ -130,9 +130,11 @@ public class MainCtrl {
      * @param id id of the event
      */
     public void showEventOverview(String id) {
+        overviewCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Event overview");
         primaryStage.setScene(overview);
-        overviewCtrl.setEventTitleText();
+        overviewCtrl.addAllParticipants();
+        overview.setOnKeyPressed(e -> overviewCtrl.keyPressed(e));
     }
 
     /**
@@ -201,7 +203,7 @@ public class MainCtrl {
      * @param expense the expense that has been created
      */
     public void addExpenseToEvent(Expense expense) {
-        overviewCtrl.getListViewAll().getItems().add(expense.toString());
+        overviewCtrl.getListViewAll().getItems().add(expense);
     }
 
     /**

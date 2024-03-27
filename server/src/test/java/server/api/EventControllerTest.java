@@ -6,11 +6,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import server.database.EventRepository;
 
 
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -32,13 +35,13 @@ public class EventControllerTest {
 
     @Test
     public void testGetEventByID() {
-        String event_id = "ab123";
+        String event_id = "123";
 
         Event event = new Event();
-        when(eventRepository.existsById(event_id)).thenReturn(true);
-        when(eventRepository.findById(event_id)).thenReturn(java.util.Optional.of(event));
+        event.setInvitationID(event_id);
+        when(eventRepository.findOne(Example.of(event, ExampleMatcher.matchingAny()))).thenReturn(Optional.of(event));
 
-        ResponseEntity<Event> responseEntity = eventController.getEventById(event_id);
+        ResponseEntity<Event> responseEntity = eventController.getEventByInvitationId(event_id);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(event, responseEntity.getBody());
@@ -58,7 +61,7 @@ public class EventControllerTest {
     }
     @Test
     public void testUpdateEvent() {
-        String eID = "ab123";
+        long eID = 123;
 
         Event existingEvent = new Event(); // create an existing Event object with appropriate data
         Event updatedEvent = new Event(); // create an updated Event object with appropriate data
@@ -75,7 +78,7 @@ public class EventControllerTest {
 
     @Test
     public void testDeleteEvent() {
-        String eID = "ab123";
+        long eID = 123;
 
         ResponseEntity<Event> responseEntity = eventController.deleteEvent(eID);
 
