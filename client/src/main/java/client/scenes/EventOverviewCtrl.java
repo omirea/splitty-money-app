@@ -7,6 +7,8 @@ import commons.Expense;
 import commons.Participant;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
@@ -27,12 +29,31 @@ public class EventOverviewCtrl {
     private TabPane expensesTabs;
     @FXML
     private ListView<Expense> listViewAll, listViewFrom, listViewWith;
+    @FXML
+    private Button homeButton;
+    @FXML
+    private ImageView homeView;
 
     @Inject
     public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
+
+    /**
+     * method to initialize the page
+     */
+    @FXML
+    public void initialize() {
+        //set home button
+        homeView.setFitHeight(25);
+        homeView.setFitWidth(22);
+        Image setting=new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/home.png")));
+        homeView.setImage(setting);
+        homeButton.setGraphic(homeView);
+    }
+
 
     public void setEvent(String id) {
         event = server.getEventById(id);
@@ -117,20 +138,12 @@ public class EventOverviewCtrl {
     }
 
     /**
-     * occurs when the back button is clicked.
-     * shows the start screen.
-     */
-    public void onBackClick() {
-        mainCtrl.showStartScreen();
-    }
-
-    /**
      * maps the keyboard shortcuts to this controller/scene
      * @param e KeyEvent inputted
      */
     public void keyPressed(KeyEvent e) {
         if (Objects.requireNonNull(e.getCode()) == KeyCode.ESCAPE) {
-            onBackClick();
+            goBackHome();
         }
     }
 

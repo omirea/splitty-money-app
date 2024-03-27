@@ -3,7 +3,11 @@ package client.scenes;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 import javax.inject.Inject;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ClosedDebtsCtrl {
@@ -21,6 +25,10 @@ public class ClosedDebtsCtrl {
 
     @FXML
     private ListView<String> listView=new ListView<>();
+    @FXML
+    private Button homeButton;
+    @FXML
+    private ImageView homeView;
 
     @Inject
     public ClosedDebtsCtrl(ServerUtils server,MainCtrl mainCtrl){
@@ -39,10 +47,22 @@ public class ClosedDebtsCtrl {
 
     public Button getReopenSelectedDebts(){return reopenSelectedDebts;}
 
+    /**
+     * method to initialize close debts page
+     */
     public void initialize(){
+        //set button color
         getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         getReopenAllDebts()
                 .setStyle("-fx-background-color: linear-gradient(to top right, #c7dde7, #32c2fd)");
+
+        //set button to go home page
+        homeView.setFitHeight(25);
+        homeView.setFitWidth(22);
+        Image setting=new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/home.png")));
+        homeView.setImage(setting);
+        homeButton.setGraphic(homeView);
     }
 
     /**
