@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import server.database.EventRepository;
@@ -38,8 +39,7 @@ public class EventControllerTest {
 
         Event event = new Event();
         event.setInvitationID(event_id);
-        Example<Event> tempEvent = Example.of(event);
-        when(eventRepository.findOne(tempEvent)).thenReturn(Optional.of(event));
+        when(eventRepository.findOne(Example.of(event, ExampleMatcher.matchingAny()))).thenReturn(Optional.of(event));
 
         ResponseEntity<Event> responseEntity = eventController.getEventByInvitationId(event_id);
 
