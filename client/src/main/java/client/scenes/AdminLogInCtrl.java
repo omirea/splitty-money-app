@@ -3,9 +3,13 @@ package client.scenes;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import javax.inject.Inject;
+import java.util.Objects;
 
 public class AdminLogInCtrl {
 
@@ -14,11 +18,30 @@ public class AdminLogInCtrl {
 
     @FXML
     private PasswordField passwordField;
+    @FXML
+    private Button homeButton;
+    @FXML
+    private ImageView homeView;
 
 
-    @Inject public AdminLogInCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    @Inject
+    public AdminLogInCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+    }
+
+    /**
+     * method to initialize the page
+     */
+    @FXML
+    public void initialize() {
+        //set home button
+        homeView.setFitHeight(25);
+        homeView.setFitWidth(22);
+        Image setting=new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/home.png")));
+        homeView.setImage(setting);
+        homeButton.setGraphic(homeView);
     }
 
     /**
