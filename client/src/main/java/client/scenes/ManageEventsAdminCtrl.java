@@ -8,10 +8,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+
 import javax.inject.Inject;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -35,6 +33,8 @@ public class ManageEventsAdminCtrl implements Initializable {
 
     @FXML
     ObservableList<Event> allEvents;
+    @FXML
+    ObservableList<Event> eventsWithName;
 
     @FXML
     private TableView<Event> table;
@@ -64,19 +64,19 @@ public class ManageEventsAdminCtrl implements Initializable {
      * method for button so search with string happens when clicking it
      */
     public void onSearchClick(){
-
-        String eventNameS = eventName.getText().trim();
-        //TODO: implement search in database.
-        //TODO: commented out code below is method to show all events gotten from search in DB.
-//        List<Event> eventsFromSearch = new ArrayList<>();
-//        for(int x = 0; x < eventsFromSearch.size(); x++ ){
-//            String n = eventsFromSearch.get(x).getName();
-//            EventsInList eil = new EventsInList(n);
-//            eventList.getChildren().add(eil.getNode());
-//        }
-        //TODO: delete this below once above is implemented.
-        EventsInList el = new EventsInList("hello");
-//        eventList.getChildren().add(el.getNode());
+        boolean searchEmpty = eventName.getText().trim().isEmpty();
+        if(!searchEmpty) {
+            String eventNameS = eventName.getText().trim();
+            var events = server.getEventByName(eventNameS);
+            eventsWithName = FXCollections.observableList(events);
+            table.setItems(eventsWithName);
+        } else {
+            Alert alertEmpty = new Alert(Alert.AlertType.WARNING);
+            alertEmpty.setTitle("Empty Field");
+            alertEmpty.setHeaderText(null);
+            alertEmpty.setContentText("Please Fill In The Search Field");
+            alertEmpty.showAndWait();
+        }
     }
 
     /**
@@ -94,12 +94,23 @@ public class ManageEventsAdminCtrl implements Initializable {
 //        tableView.setSortPolicy();
     }
 
+    public void onTitleOrderClick(){
+        colEventTitle.setSortType(TableColumn.SortType.ASCENDING);
+        refresh();
+
+    }
+
     public void refresh(){
         var events = server.getAllEvents();
         allEvents = FXCollections.observableList(events);
         table.setItems(allEvents);
     }
 
+    /**
+     * initializes the columns of the table view with string values of events
+     * @param url location
+     * @param resourceBundle resources
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         colEventTitle.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getName()));

@@ -304,4 +304,25 @@ public class TestEventRepository implements EventRepository {
     public Page<Event> findAll(Pageable pageable) {
         return null;
     }
+
+
+    @Override
+    public Optional<Event> findByName(String eventName) {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean existsByName(String eventName) {
+        return false;
+    }
+
+    @Override
+    public Optional<Event> findByInvitationID(String invitationID) {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean existsByInvitationID(String invitationID) {
+        return false;
+    }
 }
