@@ -67,6 +67,12 @@ public class EventOverviewCtrl {
         //mainCtrl.showAddExpense();
         mainCtrl.showAddExpense();
     }
+    /**
+     * method to go back to the Home page
+     */
+    public void goBackHome(){
+        mainCtrl.showStartScreen();
+    }
 
     /**
      * method to open the open debts page
