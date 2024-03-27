@@ -76,7 +76,8 @@ public class MainCtrl {
 
 
         //showEventOverview("123");
-        showStartScreen();
+        //showStartScreen();
+        showEventsAdmin();
         //showEditParticipants();
         //showOpenDebts();
 //        showExpense();
@@ -159,6 +160,7 @@ public class MainCtrl {
      * method to show admin events overview page
      */
     public void showEventsAdmin(){
+        manageEventsAdminCtrl.refresh();
         primaryStage.setTitle("Splitty: Admin events overview");
         primaryStage.setScene(eventsAdmin);
     }
