@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.Main;
 import client.nodes.RecentEvent;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -11,9 +12,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+
 import java.util.Objects;
 
-public class StartCtrl {
+public class StartCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -35,6 +38,20 @@ public class StartCtrl {
     private ImageView settingsView;
     @FXML
     private ImageView adminView;
+    @FXML
+    private Text createNewEventText;
+    @FXML
+    private Button createButton;
+    @FXML
+    private Text joinEventText;
+    @FXML
+    private Button joinButton;
+    @FXML
+    private Text recentEventsText;
+    @FXML
+    private Button englishButton;
+    @FXML
+    private Button dutchButton;
 
     @Inject
     public StartCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -104,5 +121,22 @@ public class StartCtrl {
      */
     public void onAdminClick(){
         mainCtrl.showAdminLogIn();
+    }
+
+    public void onEnglishSwitchClick() {
+       Main.swtichLocale("translations", "en");
+    }
+    public void onDutchSwitchClick() {
+        Main.swtichLocale("translations", "nl");
+    }
+
+    @Override
+    public void LanguageSwtich() {
+        adminButton.setText(Main.getLocalizedString("Admin"));
+        createNewEventText.setText(Main.getLocalizedString("createNewEvent"));
+        createButton.setText(Main.getLocalizedString("Create"));
+        joinEventText.setText(Main.getLocalizedString("joinEvent"));
+        joinButton.setText(Main.getLocalizedString("Join"));
+        recentEventsText.setText(Main.getLocalizedString("recentlyViewedEvents"));
     }
 }

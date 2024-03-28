@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.Main;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -10,19 +11,19 @@ import javax.inject.Inject;
 import java.util.Objects;
 import java.util.Optional;
 
-public class OpenDebtsCtrl {
+public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
     @FXML
-    private Button payAllDebts;
+    private Button payAllDebtsButton;
 
     @FXML
-    private Button seeClosedDebts;
+    private Button seeClosedDebtsButton;
 
     @FXML
-    private Button selectedDebts;
+    private Button paySelectedDebtsButton;
 
     @FXML
     private ListView<String> listView=new ListView<>();
@@ -32,6 +33,15 @@ public class OpenDebtsCtrl {
 
     @FXML
     private ImageView homeView;
+    @FXML
+    private Label yourCurrentDebtsLabel;
+    @FXML
+    private Label youShouldPayToLabel;
+    @FXML
+    private Label eventLabel;
+    @FXML
+    private Label amountLabel;
+
 
     @Inject
     public OpenDebtsCtrl(ServerUtils server, MainCtrl mainCtrl){
@@ -67,13 +77,13 @@ public class OpenDebtsCtrl {
         return mainCtrl;
     }
 
-    public Button getSeeClosedDebts(){return seeClosedDebts;}
+    public Button getSeeClosedDebtsButton(){return seeClosedDebtsButton;}
 
-    public Button getSelectedDebts(){return selectedDebts;}
+    public Button getSelectedDebts(){return paySelectedDebtsButton;}
 
     public ListView<String> getListView(){return listView;}
 
-    public Button getPayAllDebts(){return payAllDebts;}
+    public Button getPayAllDebts(){return payAllDebtsButton;}
 
     /**
      * method to mark all debts as paid
@@ -118,5 +128,17 @@ public class OpenDebtsCtrl {
             mainCtrl.addItemsToClosedDebts(selected);
             listView.getItems().removeAll(listView.getSelectionModel().getSelectedItems());
         }
+    }
+
+    @Override
+    public void LanguageSwtich() {
+//        homeButton.setText(Main.getLocalizedString("Home"));
+        yourCurrentDebtsLabel.setText(Main.getLocalizedString("yourCurrentDebts"));
+        youShouldPayToLabel.setText(Main.getLocalizedString("youShouldPayTo"));
+        eventLabel.setText(Main.getLocalizedString("Event"));
+        amountLabel.setText(Main.getLocalizedString("Amount"));
+        paySelectedDebtsButton.setText(Main.getLocalizedString("paySelectedDebts"));
+        payAllDebtsButton.setText(Main.getLocalizedString("payAllDebts"));
+        seeClosedDebtsButton.setText(Main.getLocalizedString("seeClosedDebts"));
     }
 }

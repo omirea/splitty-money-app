@@ -28,9 +28,19 @@
                         </ImageView>
                      </graphic>
                   </Button>
+                  <Button fx:id="englishButton" mnemonicParsing="false" onAction="#onEnglishSwitchClick" prefHeight="30.0" prefWidth="68.0" text="English">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="dutchButton" layoutX="68.0" layoutY="10.0" mnemonicParsing="false" onAction="#onDutchSwitchClick" prefHeight="30.0" prefWidth="82.0" text="Dutch">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
                   <Button fx:id="adminButton" alignment="TOP_RIGHT" mnemonicParsing="false" onAction="#onAdminClick" prefHeight="30.0" prefWidth="77.0" text="Admin">
                      <HBox.margin>
-                        <Insets left="162.0" />
+                        <Insets left="10.0" />
                      </HBox.margin>
                      <graphic>
                         <ImageView fx:id="adminView" fitHeight="22.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
@@ -45,7 +55,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </HBox>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Event">
+            <Text fx:id="createNewEventText" strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Event">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin></Text>
@@ -55,23 +65,23 @@
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></TextField>
-                  <Button mnemonicParsing="false" onAction="#onCreateClick" text="create" />
+                  <Button fx:id="createButton" mnemonicParsing="false" onAction="#onCreateClick" text="create" />
                </children>
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </HBox>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Join Event">
+            <Text fx:id="joinEventText" strokeType="OUTSIDE" strokeWidth="0.0" text="Join Event">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin></Text>
             <HBox prefHeight="25.0" prefWidth="200.0" spacing="10.0">
                <children>
                   <TextField fx:id="joinEventField" />
-                  <Button mnemonicParsing="false" onAction="#onJoinClick" text="join" />
+                  <Button fx:id="joinButton" mnemonicParsing="false" onAction="#onJoinClick" text="join" />
                </children>
             </HBox>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Recently Viewed Events:">
+            <Text fx:id="recentEventsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Recently Viewed Events:">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin></Text>
