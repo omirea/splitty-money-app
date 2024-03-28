@@ -16,6 +16,8 @@ import javafx.scene.text.Text;
 
 import java.util.Objects;
 
+import static client.Main.locale;
+
 public class StartCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
@@ -100,9 +102,20 @@ public class StartCtrl implements Main.LanguageSwitch {
         try {
             mainCtrl.showEventOverview(joinEventField.getText());
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Invitation code not found");
-            alert.setContentText("Please check your invitation code again");
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            switch(locale.getLanguage()) {
+                case "nl":
+                    alert.setTitle("Uitnodigingscode niet gevonden");
+                    alert.setContentText("Check je uitnodigingscode opnieuw AUB");
+                    break;
+                case "en":
+                    alert.setTitle("Invitation code not found");
+                    alert.setContentText("Please check your invitation code again");
+                    break;
+                default:
+                    break;
+            }
+            alert.setHeaderText(null);
             alert.show();
             throw e;
         }
@@ -131,7 +144,7 @@ public class StartCtrl implements Main.LanguageSwitch {
     }
 
     @Override
-    public void LanguageSwtich() {
+    public void LanguageSwitch() {
         adminButton.setText(Main.getLocalizedString("Admin"));
         createNewEventText.setText(Main.getLocalizedString("createNewEvent"));
         createButton.setText(Main.getLocalizedString("Create"));

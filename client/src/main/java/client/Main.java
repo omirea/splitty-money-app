@@ -31,6 +31,7 @@ public class Main extends Application {
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
     private static ResourceBundle resourceBundle;
+    public static Locale locale;
     public static void main(String[] args) {
         launch(args);
     }
@@ -66,7 +67,7 @@ public class Main extends Application {
     }
 
     public interface LanguageSwitch {
-        void LanguageSwtich();
+        void LanguageSwitch();
     }
 
     public static String getLocalizedString(String key) {
@@ -90,12 +91,12 @@ public class Main extends Application {
                 INJECTOR.getInstance(OpenDebtsCtrl.class),
                 INJECTOR.getInstance(StartCtrl.class));
         for(LanguageSwitch controller : controllers) {
-            controller.LanguageSwtich();
+            controller.LanguageSwitch();
         }
     }
     public static void swtichLocale(String baseName, String languageCode) {
         if(languageCode != null) {
-            Locale locale = new Locale(languageCode);
+            locale = new Locale(languageCode);
             resourceBundle = ResourceBundle.getBundle(baseName, locale);
         } else {
             resourceBundle = ResourceBundle.getBundle(baseName, Locale.getDefault());

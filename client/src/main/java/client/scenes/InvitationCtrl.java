@@ -77,7 +77,7 @@ public class InvitationCtrl implements Main.LanguageSwitch{
     }
 
     @Override
-    public void LanguageSwtich() {
+    public void LanguageSwitch() {
         giveInviteCodeLabel.setText(Main.getLocalizedString("givePeopleInvCode"));
         inviteEmailLabel.setText(Main.getLocalizedString("inviteFollowingPeopleByEmail"));
         back.setText(Main.getLocalizedString("Back"));

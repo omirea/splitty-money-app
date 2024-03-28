@@ -13,6 +13,8 @@ import javafx.scene.text.Text;
 import javax.inject.Inject;
 import java.util.Objects;
 
+import static client.Main.locale;
+
 public class AdminLogInCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
@@ -78,11 +80,21 @@ public class AdminLogInCtrl implements Main.LanguageSwitch {
         if(!passwordInput){
             return true;
         } else {
-            Alert alertEmpty = new Alert(Alert.AlertType.WARNING);
-            alertEmpty.setTitle("Empty Field(s)");
-            alertEmpty.setHeaderText(null);
-            alertEmpty.setContentText("Please Fill In All The Fields");
-            alertEmpty.showAndWait();
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            switch(locale.getLanguage()) {
+                case "nl":
+                    alert.setTitle("Niet ingevulde velden");
+                    alert.setContentText("Velden invullen AUB");
+                    break;
+                case "en":
+                    alert.setTitle("Empty fields");
+                    alert.setContentText("Please fill in all the fields>");
+                    break;
+                default:
+                    break;
+            }
+            alert.setHeaderText(null);
+            alert.showAndWait();
             return false;
         }
     }
@@ -98,9 +110,19 @@ public class AdminLogInCtrl implements Main.LanguageSwitch {
             return true;
         } else {
             Alert alertPassword = new Alert(Alert.AlertType.WARNING);
-            alertPassword.setTitle("Password is incorrect");
+            switch(locale.getLanguage()) {
+                case "nl":
+                    alertPassword.setTitle("Ongeldig wachtwoord");
+                    alertPassword.setContentText("Wachtwoord is fout, probeer opnieuw");
+                    break;
+                case "en":
+                    alertPassword.setTitle("Password is incorrect");
+                    alertPassword.setContentText("Try Password again");
+                    break;
+                default:
+                    break;
+            }
             alertPassword.setHeaderText(null);
-            alertPassword.setContentText("Try password again");
             alertPassword.showAndWait();
             return false;
         }
@@ -111,7 +133,7 @@ public class AdminLogInCtrl implements Main.LanguageSwitch {
     }
 
     @Override
-    public void LanguageSwtich() {
+    public void LanguageSwitch() {
         homeButton.setText(Main.getLocalizedString("Home"));
         passwordText.setText(Main.getLocalizedString("Password"));
         logInButton.setText(Main.getLocalizedString("logIn"));

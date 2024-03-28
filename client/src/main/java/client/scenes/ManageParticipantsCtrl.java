@@ -11,6 +11,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+import static client.Main.locale;
+
 public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
@@ -41,10 +43,20 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
      */
     public void onCancelClick() {
         System.out.println("Going back to event");
-        Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Revert changes?");
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        switch(locale.getLanguage()) {
+            case "nl":
+                alert.setTitle("Aanpassingen terugdraaien");
+                alert.setContentText("Weet je zeker dat je de aanpassingen wilt terugdraaien?");
+                break;
+            case "en":
+                alert.setTitle("Revert changes");
+                alert.setContentText("Are you sure you want to discard the changes?");
+                break;
+            default:
+                break;
+        }
         alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to discard the changes?");
         alert.showAndWait();
         // TODO: open new window
     }
@@ -74,7 +86,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     }
 
     @Override
-    public void LanguageSwtich() {
+    public void LanguageSwitch() {
         manageParticipantsLabel.setText(Main.getLocalizedString("manageParticipants"));
         cancelButton.setText(Main.getLocalizedString("Cancel"));
         finishButton.setText(Main.getLocalizedString("Finish"));

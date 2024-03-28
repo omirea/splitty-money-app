@@ -191,7 +191,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
     @Override
-    public void LanguageSwtich() {
+    public void LanguageSwitch() {
         homeButton.setText(Main.getLocalizedString("Home"));
         editTitleButton.setText(Main.getLocalizedString("editTitle"));
         sendInvitesButton.setText(Main.getLocalizedString("sendInvites"));

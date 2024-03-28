@@ -11,6 +11,8 @@ import javax.inject.Inject;
 import java.util.Objects;
 import java.util.Optional;
 
+import static client.Main.locale;
+
 public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
@@ -90,9 +92,19 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
      */
     public void markAllDebtsAsPaid(){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Mark all debts as paid");
+        switch(locale.getLanguage()) {
+            case "nl":
+                alert.setTitle("Markeer alle kosten als betaald");
+                alert.setContentText("Weet je zeker dat je alle kosten als betaald wilt markeren");
+                break;
+            case "en":
+                alert.setTitle("Mark all debts as paid");
+                alert.setContentText("Are you sure you want to mark all debts as settled?");
+                break;
+            default:
+                break;
+        }
         alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to mark all debts as settled?");
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK) {
             mainCtrl.addItemsToClosedDebts(this.listView);
@@ -117,9 +129,19 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
      */
     public void paySelectedDebts(){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Mark selected debts as paid");
+        switch(locale.getLanguage()) {
+            case "nl":
+                alert.setTitle("Markeer geselecteerde kosten als betaald");
+                alert.setContentText("Weet je zeker dat je gemarkeerkde kosten als betaalt wilt markeren");
+                break;
+            case "en":
+                alert.setTitle("Mark selected debts as paid");
+                alert.setContentText("Are you sure you want to mark the selected debts as settled?");
+                break;
+            default:
+                break;
+        }
         alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to mark the selected debts as settled?");
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK) {
             ListView<String> selected = new ListView<>();
@@ -131,7 +153,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     }
 
     @Override
-    public void LanguageSwtich() {
+    public void LanguageSwitch() {
         homeButton.setText(Main.getLocalizedString("Home"));
         yourCurrentDebtsLabel.setText(Main.getLocalizedString("yourCurrentDebts"));
         youShouldPayToLabel.setText(Main.getLocalizedString("youShouldPayTo"));

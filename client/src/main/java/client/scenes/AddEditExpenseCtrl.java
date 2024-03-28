@@ -19,6 +19,8 @@ import java.time.LocalDate;
 import java.util.Currency;
 import java.util.List;
 
+import static client.Main.locale;
+
 public class AddEditExpenseCtrl implements Main.LanguageSwitch {
 
     ObservableList<String> currencyList =
@@ -149,8 +151,19 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             }
         }else{
             Alert alert=new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Empty fields");
-            alert.setContentText("You need to fill in all fields to create an expense");
+            switch(locale.getLanguage()) {
+                case "nl":
+                        alert.setTitle("Niet ingevulde velden");
+                        alert.setContentText("Alle velden moeten ingevuld worden voor het maken van een uitgave");
+                        break;
+                case "en":
+                        alert.setTitle("Empty fields");
+                        alert.setContentText("You need to fill in all fields to create an expense");
+                        break;
+                default:
+                    break;
+            }
+            alert.setHeaderText(null);
             alert.showAndWait();
         }
 
@@ -215,7 +228,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     }
 
     @Override
-    public void LanguageSwtich() {
+    public void LanguageSwitch() {
         addExpenseText.setText(Main.getLocalizedString("addEditExpense"));
         whoPaidText.setText(Main.getLocalizedString("whoPaid"));
         howMuchText.setText(Main.getLocalizedString("howMuch"));

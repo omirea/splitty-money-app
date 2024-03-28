@@ -84,7 +84,7 @@ public class ManageEventsAdminCtrl implements Main.LanguageSwitch {
     }
 
     @Override
-    public void LanguageSwtich() {
+    public void LanguageSwitch() {
         orderByText.setText(Main.getLocalizedString("orderBy"));
         logOutButton.setText(Main.getLocalizedString("logOut"));
         eventNameTextField.setText(Main.getLocalizedString("searchEvent"));

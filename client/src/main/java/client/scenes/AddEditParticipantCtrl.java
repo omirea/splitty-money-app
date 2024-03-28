@@ -15,6 +15,8 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static client.Main.locale;
+
 public class AddEditParticipantCtrl implements Main.LanguageSwitch{
 
     private final ServerUtils server;
@@ -146,9 +148,19 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             return true;
         }else{
             Alert alert=new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Validate Email");
+            switch(locale.getLanguage()) {
+                case "nl":
+                    alert.setTitle("Ongeldige E-Mail");
+                    alert.setContentText("Vul een geldig E-Mail adres in");
+                    break;
+                case "en":
+                    alert.setTitle("Validate E-Mail");
+                    alert.setContentText("Please enter a valid E-Mail");
+                    break;
+                default:
+                    break;
+            }
             alert.setHeaderText(null);
-            alert.setContentText("Please Enter A Valid Email");
             alert.showAndWait();
             return false;
         }
@@ -167,9 +179,19 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         //System.out.println(ibanTextField.getText().trim());
         if (trimmed.length() < IBAN_MIN_SIZE || trimmed.length() > IBAN_MAX_SIZE) {
             Alert alert=new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Non-valid IBAN");
+            switch(locale.getLanguage()) {
+                case "nl":
+                    alert.setTitle("Ongeldige IBAN");
+                    alert.setContentText("Vul een geldige IBAN in");
+                    break;
+                case "en":
+                    alert.setTitle("Non-Valid IBAN");
+                    alert.setContentText("Please enter a valid IBAN");
+                    break;
+                default:
+                    break;
+            }
             alert.setHeaderText(null);
-            alert.setContentText("Please Enter A Valid IBAN");
             alert.showAndWait();
             return false;
         }
@@ -180,9 +202,19 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             int charValue = Character.getNumericValue(reformat.charAt(i));
             if (charValue < 0 || charValue > 35) {
                 Alert alert=new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Non-valid IBAN");
+                switch(locale.getLanguage()) {
+                    case "nl":
+                        alert.setTitle("Ongeldige IBAN");
+                        alert.setContentText("Vul een geldige IBAN in");
+                        break;
+                    case "en":
+                        alert.setTitle("Non-Valid IBAN");
+                        alert.setContentText("Please enter a valid IBAN");
+                        break;
+                    default:
+                        break;
+                }
                 alert.setHeaderText(null);
-                alert.setContentText("Please Enter A Valid IBAN");
                 alert.showAndWait();
                 return false;
 
@@ -197,9 +229,19 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         }
         else{
             Alert alert=new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Non-valid IBAN");
+            switch(locale.getLanguage()) {
+                case "nl":
+                    alert.setTitle("Ongeldige IBAN");
+                    alert.setContentText("Vul een geldige IBAN in");
+                    break;
+                case "en":
+                    alert.setTitle("Non-Valid IBAN");
+                    alert.setContentText("Please enter a valid IBAN");
+                    break;
+                default:
+                    break;
+            }
             alert.setHeaderText(null);
-            alert.setContentText("Please Enter A Valid IBAN");
             alert.showAndWait();
             return false;
         }
@@ -219,17 +261,27 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             return true;
         }
         else{
-            Alert alert=new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Empty Field");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            switch(locale.getLanguage()) {
+                case "nl":
+                    alert.setTitle("Niet ingevulde velden");
+                    alert.setContentText("Alle velden invullen AUB");
+                    break;
+                case "en":
+                    alert.setTitle("Empty fields");
+                    alert.setContentText("Please fill in all the fields");
+                    break;
+                default:
+                    break;
+            }
             alert.setHeaderText(null);
-            alert.setContentText("Please Fill All The Fields");
             alert.showAndWait();
             return false;
         }
     }
 
     @Override
-    public void LanguageSwtich() {
+    public void LanguageSwitch() {
         addEditParticipantLabel.setText(Main.getLocalizedString("addEditParticipant"));
         nameLabel.setText(Main.getLocalizedString("Name"));
         ibanLabel.setText(Main.getLocalizedString("IBAN"));
