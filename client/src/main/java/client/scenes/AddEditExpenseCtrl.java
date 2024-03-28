@@ -154,7 +154,8 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             switch(locale.getLanguage()) {
                 case "nl":
                         alert.setTitle("Niet ingevulde velden");
-                        alert.setContentText("Alle velden moeten ingevuld worden voor het maken van een uitgave");
+                        alert.setContentText("Alle velden moeten ingevuld " +
+                                "worden voor het maken van een uitgave");
                         break;
                 case "en":
                         alert.setTitle("Empty fields");

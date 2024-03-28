@@ -132,11 +132,13 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         switch(locale.getLanguage()) {
             case "nl":
                 alert.setTitle("Markeer geselecteerde kosten als betaald");
-                alert.setContentText("Weet je zeker dat je gemarkeerkde kosten als betaalt wilt markeren");
+                alert.setContentText("Weet je zeker dat je " +
+                        "gemarkeerkde kosten als betaalt wilt markeren");
                 break;
             case "en":
                 alert.setTitle("Mark selected debts as paid");
-                alert.setContentText("Are you sure you want to mark the selected debts as settled?");
+                alert.setContentText("Are you sure you want to " +
+                        "mark the selected debts as settled?");
                 break;
             default:
                 break;

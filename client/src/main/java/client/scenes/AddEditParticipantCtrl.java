@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javax.inject.Inject;
 import javafx.event.ActionEvent;
-import javafx.scene.text.Text;
 
 import java.util.Objects;
 import java.util.regex.Matcher;

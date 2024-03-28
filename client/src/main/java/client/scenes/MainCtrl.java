@@ -23,8 +23,6 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-import java.util.Locale;
-
 public class MainCtrl {
     private Stage primaryStage;
     private AddEditParticipantCtrl addEditParticipantCtrl;

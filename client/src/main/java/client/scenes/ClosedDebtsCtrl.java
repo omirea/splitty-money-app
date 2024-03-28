@@ -108,11 +108,13 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         switch(locale.getLanguage()) {
             case "nl":
                 alert.setTitle("Heropen bepaalde kosten");
-                alert.setContentText("Weet je zeker dat je de geselecteerde kosten wilt heropenen?");
+                alert.setContentText("Weet je zeker dat je " +
+                        "de geselecteerde kosten wilt heropenen?");
                 break;
             case "en":
                 alert.setTitle("Re-open selected debts");
-                alert.setContentText("Are you sure that you want to re-open the selected debts?");
+                alert.setContentText("Are you sure that you " +
+                        "want to re-open the selected debts?");
                 break;
             default:
                 break;
