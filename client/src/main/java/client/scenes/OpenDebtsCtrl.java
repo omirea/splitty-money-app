@@ -3,7 +3,11 @@ package client.scenes;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 import javax.inject.Inject;
+import java.util.Objects;
 import java.util.Optional;
 
 public class OpenDebtsCtrl {
@@ -15,9 +19,6 @@ public class OpenDebtsCtrl {
     private Button payAllDebts;
 
     @FXML
-    private Button back;
-
-    @FXML
     private Button seeClosedDebts;
 
     @FXML
@@ -26,10 +27,36 @@ public class OpenDebtsCtrl {
     @FXML
     private ListView<String> listView=new ListView<>();
 
+    @FXML
+    private Button homeButton;
+
+    @FXML
+    private ImageView homeView;
+
     @Inject
     public OpenDebtsCtrl(ServerUtils server, MainCtrl mainCtrl){
         this.server=server;
         this.mainCtrl=mainCtrl;
+    }
+
+    /**
+     * method to initialize the open debts page
+     */
+    @FXML
+    public void initialize(){
+        //initialize button colours
+        getListView().getItems().addAll("Debt 1", "Debt 2", "Debt 3");
+        getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        getPayAllDebts()
+                .setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
+
+        //set home button
+        homeView.setFitHeight(25);
+        homeView.setFitWidth(22);
+        Image setting=new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/home.png")));
+        homeView.setImage(setting);
+        homeButton.setGraphic(homeView);
     }
 
     public ServerUtils getServer() {
@@ -42,21 +69,11 @@ public class OpenDebtsCtrl {
 
     public Button getSeeClosedDebts(){return seeClosedDebts;}
 
-    public Button getBack(){return back;}
-
     public Button getSelectedDebts(){return selectedDebts;}
 
     public ListView<String> getListView(){return listView;}
 
     public Button getPayAllDebts(){return payAllDebts;}
-
-    @FXML
-    public void initialize(){
-        getListView().getItems().addAll("Debt 1", "Debt 2", "Debt 3");
-        getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        getPayAllDebts()
-                .setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
-    }
 
     /**
      * method to mark all debts as paid

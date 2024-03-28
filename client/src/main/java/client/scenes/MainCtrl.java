@@ -80,9 +80,9 @@ public class MainCtrl {
         showEventsAdmin();
         //showEditParticipants();
         //showOpenDebts();
-        //showAddExpense();
+
         //showEditParticipants();
-//        showAdminLogIn();
+        //showAdminLogIn();
         primaryStage.show();
     }
 
