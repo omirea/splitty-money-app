@@ -111,7 +111,7 @@
             </TabPane>
             <HBox alignment="CENTER_RIGHT" prefHeight="8.0" prefWidth="260.0">
                <children>
-                  <Button fx:id="settleDebts" mnemonicParsing="false" onAction="#onSettleDebtsClick" text="Settle Debts" />
+                  <Button fx:id="settleDebtsButton" mnemonicParsing="false" onAction="#onSettleDebtsClick" text="Settle Debts" />
                </children>
             </HBox>
          </children>

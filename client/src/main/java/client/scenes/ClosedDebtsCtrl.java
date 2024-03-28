@@ -16,30 +16,30 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     private final MainCtrl mainCtrl;
 
     @FXML
-    private Button seeOpenDebts;
+    private Button seeOpenDebts = new Button();
 
     @FXML
-    private Button reopenAllDebts;
+    private Button reopenAllDebts = new Button();
 
     @FXML
-    private Button reopenSelectedDebts;
+    private Button reopenSelectedDebts = new Button();
 
     @FXML
     private ListView<String> listView=new ListView<>();
     @FXML
-    private Button homeButton;
+    private Button homeButton = new Button();
     @FXML
     private ImageView homeView;
     @FXML
-    private Label closedDebtsLabel;
+    private Label closedDebtsLabel = new Label();
 
     @FXML
-    private Label youPaidToLabel;
+    private Label youPaidToLabel = new Label();
 
     @FXML
-    private Label eventLabel;
+    private Label eventLabel = new Label();
     @FXML
-    private Label amountLabel;
+    private Label amountLabel = new Label();
 
 
     @Inject

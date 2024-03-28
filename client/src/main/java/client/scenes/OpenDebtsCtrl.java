@@ -26,7 +26,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     private Button paySelectedDebtsButton;
 
     @FXML
-    private ListView<String> listView=new ListView<>();
+    private ListView<String> listView;
 
     @FXML
     private Button homeButton;
