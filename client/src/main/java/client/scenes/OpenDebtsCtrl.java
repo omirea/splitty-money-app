@@ -132,7 +132,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
     @Override
     public void LanguageSwtich() {
-//        homeButton.setText(Main.getLocalizedString("Home"));
+        homeButton.setText(Main.getLocalizedString("Home"));
         yourCurrentDebtsLabel.setText(Main.getLocalizedString("yourCurrentDebts"));
         youShouldPayToLabel.setText(Main.getLocalizedString("youShouldPayTo"));
         eventLabel.setText(Main.getLocalizedString("Event"));
