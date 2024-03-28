@@ -56,7 +56,7 @@ public class EventController {
         return ResponseEntity.ok(updatedEventEntity);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Event> deleteEvent(@PathVariable("id") long id) {
         db.deleteById(id);
         return ResponseEntity.noContent().build();

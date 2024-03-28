@@ -578,3 +578,6 @@ insert into event (invitationid,name,id) values (?,?,?) [42122-224]
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.base/java.lang.Thread.run(Thread.java:1583)
+2024-03-28 13:04:46.880615+01:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'VMYPI5NS' (EXPENSE: ""EVENT_ID"" BIGINT NOT NULL)"; SQL statement:
+delete from event where id=? [22018-224]

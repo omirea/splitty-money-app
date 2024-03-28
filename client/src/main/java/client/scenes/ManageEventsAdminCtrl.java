@@ -1,13 +1,18 @@
 package client.scenes;
 
+import client.nodes.EventListButtons;
 import client.utils.ServerUtils;
 import commons.Event;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 
 import javax.inject.Inject;
 import java.net.URL;
@@ -31,10 +36,9 @@ public class ManageEventsAdminCtrl implements Initializable {
     @FXML
     private Button activity;
 
+
     @FXML
     ObservableList<Event> allEvents;
-    @FXML
-    ObservableList<Event> eventsWithName;
 
     @FXML
     private TableView<Event> table;
@@ -43,7 +47,7 @@ public class ManageEventsAdminCtrl implements Initializable {
     @FXML
     private TableColumn<Event, String> colInvitationID;
     @FXML
-    private TableColumn<Event, Button> buttons;
+    private TableColumn<Event, Button> colDelete;
 
 
 
@@ -124,5 +128,10 @@ public class ManageEventsAdminCtrl implements Initializable {
         colEventTitle.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getName()));
         colInvitationID.setCellValueFactory(q -> new SimpleStringProperty(
             q.getValue().getInvitationID()));
-    }
+        colDelete.setCellValueFactory(q -> {
+            Button delete = new Button("Delete");
+            delete.setOnAction(event -> server.deleteEvent(q.getValue().getID()));
+            return new SimpleObjectProperty<>(delete);
+            });
+        }
 }
