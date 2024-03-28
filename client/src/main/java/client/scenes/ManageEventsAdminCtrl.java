@@ -1,9 +1,7 @@
 package client.scenes;
 
-import client.nodes.EventsInList;
 import client.utils.ServerUtils;
 import commons.Event;
-import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
