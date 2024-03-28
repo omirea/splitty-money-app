@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.Main;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -7,11 +8,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 
 import javax.inject.Inject;
 import java.util.Objects;
 
-public class AdminLogInCtrl {
+public class AdminLogInCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -22,6 +24,10 @@ public class AdminLogInCtrl {
     private Button homeButton;
     @FXML
     private ImageView homeView;
+    @FXML
+    private Text passwordText;
+    @FXML
+    private Button logInButton;
 
 
     @Inject
@@ -102,5 +108,12 @@ public class AdminLogInCtrl {
 
     public void generatePassword() {
         server.generatePassword();
+    }
+
+    @Override
+    public void LanguageSwtich() {
+        homeButton.setText(Main.getLocalizedString("Home"));
+        passwordText.setText(Main.getLocalizedString("Password"));
+        logInButton.setText(Main.getLocalizedString("logIn"));
     }
 }

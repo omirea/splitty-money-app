@@ -25,7 +25,7 @@
             </HBox>
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <Label text="Closed debts">
+                        <Label fx:id="closedDebtsLabel" text="Closed debts">
                             <font>
                                 <Font name="System Bold" size="27.0" />
                             </font>
@@ -41,9 +41,9 @@
                     <children>
                         <HBox prefHeight="18.0" prefWidth="521.0" spacing="100.0">
                             <children>
-                                <Label text="You paid to" />
-                                <Label text="Event" />
-                                <Label text="Amount" />
+                                <Label fx:id="youPaidToLabel" text="You paid to" />
+                                <Label fx:id="eventLabel" text="Event" />
+                                <Label fx:id="amountLabel" text="Amount" />
                             </children>
                             <VBox.margin>
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

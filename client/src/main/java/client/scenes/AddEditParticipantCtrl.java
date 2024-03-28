@@ -1,17 +1,21 @@
 package client.scenes;
 
+import client.Main;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javax.inject.Inject;
 import javafx.event.ActionEvent;
+import javafx.scene.text.Text;
+
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AddEditParticipantCtrl {
+public class AddEditParticipantCtrl implements Main.LanguageSwitch{
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -27,6 +31,17 @@ public class AddEditParticipantCtrl {
     private Button okButton;
     @FXML
     private Button cancelButton;
+    @FXML
+    private Label addEditParticipantLabel;
+    @FXML
+    private Label nameLabel;
+    @FXML
+    private Label emailLabel;
+    @FXML
+    private Label ibanLabel;
+    @FXML
+    private Label bicLabel;
+
 
     @Inject
     public AddEditParticipantCtrl(ServerUtils server, MainCtrl mainCtrl){
@@ -211,5 +226,16 @@ public class AddEditParticipantCtrl {
             alert.showAndWait();
             return false;
         }
+    }
+
+    @Override
+    public void LanguageSwtich() {
+        addEditParticipantLabel.setText(Main.getLocalizedString("addEditParticipant"));
+        nameLabel.setText(Main.getLocalizedString("Name"));
+        ibanLabel.setText(Main.getLocalizedString("IBAN"));
+        emailLabel.setText(Main.getLocalizedString("Email"));
+        bicLabel.setText(Main.getLocalizedString("BIC"));
+        cancelButton.setText(Main.getLocalizedString("Cancel"));
+        okButton.setText(Main.getLocalizedString("Ok"));
     }
 }

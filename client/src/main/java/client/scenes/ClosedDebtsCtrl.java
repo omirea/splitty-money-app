@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.Main;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -10,7 +11,7 @@ import javax.inject.Inject;
 import java.util.Objects;
 import java.util.Optional;
 
-public class ClosedDebtsCtrl {
+public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
@@ -29,6 +30,17 @@ public class ClosedDebtsCtrl {
     private Button homeButton;
     @FXML
     private ImageView homeView;
+    @FXML
+    private Label closedDebtsLabel;
+
+    @FXML
+    private Label youPaidToLabel;
+
+    @FXML
+    private Label eventLabel;
+    @FXML
+    private Label amountLabel;
+
 
     @Inject
     public ClosedDebtsCtrl(ServerUtils server,MainCtrl mainCtrl){
@@ -94,5 +106,17 @@ public class ClosedDebtsCtrl {
             mainCtrl.addItemsToOpenDebts(selected);
             listView.getItems().removeAll(listView.getSelectionModel().getSelectedItems());
         }
+    }
+
+    @Override
+    public void LanguageSwtich() {
+        homeButton.setText(Main.getLocalizedString("Home"));
+        closedDebtsLabel.setText(Main.getLocalizedString("closedDebts"));
+        seeOpenDebts.setText(Main.getLocalizedString("seeOpenDebts"));
+        youPaidToLabel.setText(Main.getLocalizedString("youPaidTo"));
+        eventLabel.setText(Main.getLocalizedString("Event"));
+        amountLabel.setText(Main.getLocalizedString("Amount"));
+        reopenAllDebts.setText(Main.getLocalizedString("reopenSelectedDebts"));
+        reopenAllDebts.setText(Main.getLocalizedString("reopenAllDebts"));
     }
 }
