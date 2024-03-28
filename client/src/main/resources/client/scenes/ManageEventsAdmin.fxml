@@ -74,7 +74,7 @@
               <columns>
                 <TableColumn fx:id="colEventTitle" prefWidth="100.0" text="Title" />
                 <TableColumn fx:id="colInvitationID" prefWidth="100.0" text="Invitation ID" />
-                  <TableColumn fx:id="colDelete" prefWidth="300.0" />
+                  <TableColumn fx:id="colDelete" prefWidth="100.0" />
               </columns>
                <VBox.margin>
                   <Insets top="10.0" />
