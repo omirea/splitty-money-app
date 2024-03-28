@@ -12,7 +12,7 @@
    <children>
       <VBox layoutX="9.0" layoutY="9.0" prefHeight="385.0" prefWidth="283.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Label text="Manage Participants">
+            <Label fx:id="manageParticipantsLabel" text="Manage Participants">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -23,9 +23,9 @@
             <VBox fx:id="displayParticipants" fillWidth="false" prefHeight="279.0" prefWidth="280.0" spacing="10.0" VBox.vgrow="ALWAYS" />
             <HBox alignment="CENTER" prefHeight="43.0" prefWidth="288.0" spacing="20.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#onCancelClick" text="Cancel" />
-                  <Button mnemonicParsing="false" onAction="#onFinishClick" text="Finish" />
-                  <Button mnemonicParsing="false" onAction="#addParticipant" text="Add" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancelClick" text="Cancel" />
+                  <Button fx:id="finishButton" mnemonicParsing="false" onAction="#onFinishClick" text="Finish" />
+                  <Button fx:id="addButton" mnemonicParsing="false" onAction="#addParticipant" text="Add" />
                   <Button mnemonicParsing="false" onAction="#addRandomParticipant" text="test" />
                </children>
             </HBox>

@@ -1,9 +1,11 @@
 package client.scenes;
 
+import client.Main;
 import client.nodes.EventsInList;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
@@ -11,23 +13,28 @@ import javax.inject.Inject;
 
 
 
-public class ManageEventsAdminCtrl {
+public class ManageEventsAdminCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
     @FXML
-    private TextField eventName;
+    private TextField eventNameTextField;
     @FXML
-    private Button search;
+    private Button searchButton;
     @FXML
-    private Button title;
+    private Button titleButton;
     @FXML
-    private Button date;
+    private Button dateButton;
     @FXML
-    private Button activity;
+    private Button activityButton;
     @FXML
     private VBox eventList;
+    @FXML
+    private Button logOutButton;
+    @FXML
+    private Text orderByText;
+
 
     @Inject
     public ManageEventsAdminCtrl (ServerUtils server, MainCtrl mainCtrl) {
@@ -47,7 +54,7 @@ public class ManageEventsAdminCtrl {
      */
     public void onSearchClick(){
 
-        String eventNameS = eventName.getText().trim();
+        String eventNameS = eventNameTextField.getText().trim();
         //TODO: implement search in database.
         //TODO: commented out code below is method to show all events gotten from search in DB.
 //        List<Event> eventsFromSearch = new ArrayList<>();
@@ -74,5 +81,16 @@ public class ManageEventsAdminCtrl {
      */
     public void onDateOrderClick(){
 //        tableView.setSortPolicy();
+    }
+
+    @Override
+    public void LanguageSwtich() {
+        orderByText.setText(Main.getLocalizedString("orderBy"));
+        logOutButton.setText(Main.getLocalizedString("logOut"));
+        eventNameTextField.setText(Main.getLocalizedString("searchEvent"));
+        searchButton.setText(Main.getLocalizedString("Search"));
+        titleButton.setText(Main.getLocalizedString("Title"));
+        dateButton.setText(Main.getLocalizedString("Date"));
+        activityButton.setText(Main.getLocalizedString("Activity"));
     }
 }

@@ -39,25 +39,25 @@
                         <Insets top="5.0" />
                      </GridPane.margin>
                   </Text>
-                  <Button mnemonicParsing="false" onAction="#onTitleEditClick" text="Edit" />
-                  <Button mnemonicParsing="false" onAction="#onSendInvitesClick" text="Send Invites" />
+                  <Button fx:id="editTitleButton" mnemonicParsing="false" onAction="#onTitleEditClick" text="Edit" />
+                  <Button fx:id="sendInvitesButton" mnemonicParsing="false" onAction="#onSendInvitesClick" text="Send Invites" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="9.0" prefWidth="260.0" spacing="10.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Participants">
+                  <Text fx:id="participantsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Participants">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Text>
-                  <Button mnemonicParsing="false" onAction="#onParticipantEditClick" text="Edit" />
+                  <Button fx:id="editParticipantsButton" mnemonicParsing="false" onAction="#onParticipantEditClick" text="Edit" />
                </children>
                <padding>
                   <Insets top="5.0" />
                </padding>
             </HBox>
             <Text fx:id="participantsListText" strokeType="OUTSIDE" strokeWidth="0.0" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Expenses">
+            <Text fx:id="expensesText" strokeType="OUTSIDE" strokeWidth="0.0" text="Expenses">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -71,13 +71,13 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" onAction="#onAddExpenseClick" text="Add Expense" GridPane.columnIndex="1" />
+                  <Button fx:id="addExpenseButton" mnemonicParsing="false" onAction="#onAddExpenseClick" text="Add Expense" GridPane.columnIndex="1" />
                   <ChoiceBox fx:id="participantsMenu" onAction="#onMenuChange" prefWidth="150.0" />
                </children>
             </GridPane>
             <TabPane fx:id="expensesTabs" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab onSelectionChanged="#onTabSwitch" text="All">
+                <Tab fx:id="allTab" onSelectionChanged="#onTabSwitch" text="All">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -86,7 +86,7 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                  <Tab onSelectionChanged="#onTabSwitch" text="From Person">
+                  <Tab fx:id="fromPersonTab" onSelectionChanged="#onTabSwitch" text="From Person">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -95,7 +95,7 @@
                         </AnchorPane>
                      </content>
                   </Tab>
-                <Tab onSelectionChanged="#onTabSwitch" text="With Person">
+                <Tab fx:id="toPersonTab" onSelectionChanged="#onTabSwitch" text="With Person">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -111,7 +111,7 @@
             </TabPane>
             <HBox alignment="CENTER_RIGHT" prefHeight="8.0" prefWidth="260.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#onSettleDebtsClick" text="Settle Debts" />
+                  <Button fx:id="settleDebts" mnemonicParsing="false" onAction="#onSettleDebtsClick" text="Settle Debts" />
                </children>
             </HBox>
          </children>
