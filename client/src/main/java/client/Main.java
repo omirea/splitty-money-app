@@ -21,11 +21,14 @@ import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.util.*;
+
 public class Main extends Application {
 
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
-
+    public static Locale locale;
+    private static ResourceBundle resourceBundle;
     public static void main(String[] args) {
         launch(args);
     }
@@ -58,5 +61,43 @@ public class Main extends Application {
         mainCtrl.initialize(stage, start, overview, invitation, participant, expense, openDebts,
             manageParticipants, logInAdmin, closedDebts, eventsAdmin);
 
+    }
+
+    public interface LanguageSwitch {
+        void LanguageSwitch();
+    }
+
+    public static String getLocalizedString(String key) {
+        if(resourceBundle != null && resourceBundle.containsKey(key)) {
+            return resourceBundle.getString(key);
+        } else {
+            return "MISSING KEY: " + key;
+        }
+    }
+
+    public static void LanguageSwitching() {
+        List<LanguageSwitch> controllers = Arrays.asList(
+                INJECTOR.getInstance(AddEditExpenseCtrl.class),
+                INJECTOR.getInstance(AddEditParticipantCtrl.class),
+                INJECTOR.getInstance(AdminLogInCtrl.class),
+                INJECTOR.getInstance(ClosedDebtsCtrl.class),
+                INJECTOR.getInstance(EventOverviewCtrl.class),
+                INJECTOR.getInstance(InvitationCtrl.class),
+                INJECTOR.getInstance(ManageEventsAdminCtrl.class),
+                INJECTOR.getInstance(ManageParticipantsCtrl.class),
+                INJECTOR.getInstance(OpenDebtsCtrl.class),
+                INJECTOR.getInstance(StartCtrl.class));
+        for(LanguageSwitch controller : controllers) {
+            controller.LanguageSwitch();
+        }
+    }
+    public static void switchLocale(String baseName, String languageCode) {
+        if(languageCode != null) {
+            locale = new Locale(languageCode);
+            resourceBundle = ResourceBundle.getBundle(baseName, locale);
+        } else {
+            resourceBundle = ResourceBundle.getBundle(baseName, Locale.getDefault());
+        }
+        LanguageSwitching();
     }
 }

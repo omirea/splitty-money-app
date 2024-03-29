@@ -40,6 +40,7 @@ public class EventController {
     }
 
 
+
     @PutMapping("/{id}")
     public ResponseEntity<Event> updateEvent(@RequestBody Event event,
                                              @PathVariable("id") long id) {
@@ -57,7 +58,7 @@ public class EventController {
         return ResponseEntity.ok(updatedEventEntity);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Event> deleteEvent(@PathVariable("id") long id) {
         db.deleteById(id);
         return ResponseEntity.noContent().build();
@@ -72,6 +73,7 @@ public class EventController {
         Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAny()));
         return tempEvent.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 
     @PostMapping(path = { "", "/" })
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
@@ -175,10 +177,10 @@ public class EventController {
     }
 
     /**
-     *
-     * @param id
-     * @param expense
-     * @return
+     * adding an expense to event
+     * @param id event id
+     * @param expense expense to add
+     * @return response entity
      */
     @PostMapping("/{id}/expenses")
     public ResponseEntity<Expense> addExpenseToEvent(

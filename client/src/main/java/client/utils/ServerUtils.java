@@ -80,8 +80,8 @@ public class ServerUtils {
 				.target(SERVER).path("participant")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
-				.post(Entity.entity(participant, APPLICATION_JSON),
-					Participant.class);
+				.post(Entity.entity(participant , APPLICATION_JSON),
+						Participant.class);
 	}
 
 	/**
@@ -118,6 +118,7 @@ public class ServerUtils {
 				.get(new GenericType<List<Event>>() {});
 	}
 
+
 	/**
 	 * method to get a specific Event based on invitationID
 	 * @param invitationID invitationID of the Event requested
@@ -138,7 +139,7 @@ public class ServerUtils {
 	 */
 	public Event deleteEvent (long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("event/" + id)
+				.target(SERVER).path("event/delete/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.delete(new GenericType<Event>() {});

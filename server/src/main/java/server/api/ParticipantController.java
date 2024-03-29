@@ -2,16 +2,16 @@ package server.api;
 
 import commons.Participant;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import server.database.ParticipantRepository;
+
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/participant")
 public class ParticipantController {
 
-    private ParticipantRepository db;
+    private final ParticipantRepository db;
 
     public ParticipantController(ParticipantRepository db){
         this.db=db;

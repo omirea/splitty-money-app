@@ -15,6 +15,7 @@
  */
 package client.scenes;
 
+import client.Main;
 import client.nodes.PersonAmount;
 import commons.Expense;
 import commons.Participant;
@@ -74,13 +75,14 @@ public class MainCtrl {
         this.closedDebts = new Scene(closedDebts.getValue());
         this.manageEventsAdminCtrl = eventsAdmin.getKey();
         this.eventsAdmin = new Scene(eventsAdmin.getValue());
-
+        Main.switchLocale("translations","en");
 
         //showEventOverview("123");
-        showStartScreen();
+        //showStartScreen();
+        showEventsAdmin();
         //showEditParticipants();
         //showOpenDebts();
-        //showExpense();
+
         //showEditParticipants();
         //showAdminLogIn();
         primaryStage.show();
@@ -105,7 +107,8 @@ public class MainCtrl {
     /**
      * method to show open debts page
      */
-    public void showOpenDebts() {
+    public void showOpenDebts(String id) {
+        openDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Open Debts");
         primaryStage.setScene(openDebts);
     }
@@ -113,7 +116,8 @@ public class MainCtrl {
     /**
      * method to show invitation page
      */
-    public void showInvitation() {
+    public void showInvitation(String id) {
+        invitationCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Send Invites");
         primaryStage.setScene(invitation);
     }
@@ -169,6 +173,7 @@ public class MainCtrl {
      * method to show admin events overview page
      */
     public void showEventsAdmin(){
+        manageEventsAdminCtrl.refresh();
         primaryStage.setTitle("Splitty: Admin events overview");
         primaryStage.setScene(eventsAdmin);
     }
@@ -176,7 +181,8 @@ public class MainCtrl {
     /**
      * method to show closed debts page
      */
-    public void showClosedDebts() {
+    public void showClosedDebts(String id) {
+        closedDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Closed Debts");
         primaryStage.setScene(closedDebts);
     }
