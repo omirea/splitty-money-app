@@ -25,7 +25,7 @@
                <children>
                   <Button mnemonicParsing="false" onAction="#onCancelClick" text="Cancel" />
                   <Button mnemonicParsing="false" onAction="#onFinishClick" text="Finish" />
-                  <Button mnemonicParsing="false" onAction="#addParticipant" text="Add" />
+                  <Button mnemonicParsing="false" onAction="#showAddParticipant" text="Add" />
                   <Button mnemonicParsing="false" onAction="#addRandomParticipant" text="test" />
                </children>
             </HBox>

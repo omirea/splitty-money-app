@@ -88,7 +88,8 @@ public class MainCtrl {
     /**
      * method to show participant page
      */
-    public void showAddParticipant() {
+    public void showAddParticipant(String id) {
+        addEditParticipantCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Add/Edit Participant");
         primaryStage.setScene(participant);
     }
@@ -127,10 +128,10 @@ public class MainCtrl {
 
     /**
      * method to show events page
-     * @param id id of the event
+     * @param invitationId id of the event
      */
-    public void showEventOverview(String id) {
-        overviewCtrl.setEvent(id);
+    public void showEventOverview(String invitationId) {
+        overviewCtrl.setEvent(invitationId);
         primaryStage.setTitle("Splitty: Event overview");
         primaryStage.setScene(overview);
         overviewCtrl.addAllParticipants();
@@ -140,7 +141,8 @@ public class MainCtrl {
     /**
      * method to show manage participant page
      */
-    public void showManageParticipants() {
+    public void showManageParticipants(String invitationId) {
+        manageParticipantsCtrl.setEvent(invitationId);
         primaryStage.setTitle("Splitty: Manage Participants");
         primaryStage.setScene(manageParticipants);
     }

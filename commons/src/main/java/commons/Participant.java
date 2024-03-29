@@ -2,6 +2,7 @@ package commons;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -41,11 +42,12 @@ public class Participant {
         this.email=email;
         this.IBAN=IBAN;
         this.BIC=BIC;
+        payDebts = new ArrayList<>();
+        receiveDebts = new ArrayList<>();
     }
 
-    public Participant(Long id, Event event, List<Debt> payDebts, List<Debt> receiveDebts,
+    public Participant(Event event, List<Debt> payDebts, List<Debt> receiveDebts,
                        String name, String email, String IBAN, String BIC) {
-        this.id = id;
         this.event = event;
         this.payDebts = payDebts;
         this.receiveDebts = receiveDebts;
@@ -119,6 +121,14 @@ public class Participant {
      */
     public void setBIC(String newBIC){
         this.BIC=newBIC;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Event getEvent() {
+        return event;
     }
 
     /**

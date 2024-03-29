@@ -115,7 +115,7 @@ public class ServerUtils {
 	 * @param invitationID invitationID of the Event requested
 	 * @return the requested Event
 	 */
-	public Event getEventById(String invitationID){
+	public Event getEventByInvitationId(String invitationID){
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(SERVER).path("event/" + invitationID)
 				.request(APPLICATION_JSON)
@@ -286,7 +286,7 @@ public class ServerUtils {
 	 * @param debt to be updated in the database
 	 * @return the updated debt
 	 */
-	public Debt updateParticipant(Debt debt, Long id){
+	public Debt updateDebt(Debt debt, Long id){
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(SERVER).path("debt/" + id)
 				.request(APPLICATION_JSON)

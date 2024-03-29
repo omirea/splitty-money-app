@@ -1,5 +1,6 @@
 package client.nodes;
 
+import commons.Participant;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -10,20 +11,25 @@ import javafx.scene.text.Text;
 public class AddedParticipant {
     HBox hbox;
     Text name;
+    Participant participant;
     Button rename;
     Button save;
     Button remove;
     Button edit;
 
-    public AddedParticipant() {
-        name = new Text("Hello World!");
+    public AddedParticipant(Participant participant) {
+        this.participant = participant;
+        name = new Text(participant.getName());
 
         rename = new Button("rename");
         rename.setOnAction(e -> renameParticipant());
+
         remove = new Button("delete");
         remove.setOnAction(e -> removeParticipant());
+
         save = new Button("save");
         save.setOnAction(e -> saveParticipant());
+
         edit = new Button("edit");
         edit.setOnAction(e -> editParticipant());
 

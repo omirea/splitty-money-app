@@ -56,7 +56,7 @@ public class EventOverviewCtrl {
 
 
     public void setEvent(String id) {
-        event = server.getEventById(id);
+        event = server.getEventByInvitationId(id);
         eventTitleText.setText(event.getName());
     }
 
@@ -117,7 +117,7 @@ public class EventOverviewCtrl {
      * method to edit participant
      */
     public void onParticipantEditClick() {
-        mainCtrl.showAddParticipant();
+        mainCtrl.showManageParticipants(event.getInvitationID());
     }
 
     public void onTitleEditClick() {

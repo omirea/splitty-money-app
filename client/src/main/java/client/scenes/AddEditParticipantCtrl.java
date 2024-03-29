@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import commons.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -28,18 +29,20 @@ public class AddEditParticipantCtrl {
     @FXML
     private Button cancelButton;
 
+    Event event;
+
     @Inject
     public AddEditParticipantCtrl(ServerUtils server, MainCtrl mainCtrl){
         this.server=server;
         this.mainCtrl=mainCtrl;
     }
     @FXML
-    private void onClickDeleteAll(ActionEvent event) {
+    private void onClickDeleteAll() {
         nameTextField.clear();
         emailTextField.clear();
         ibanTextField.clear();
         bicTextField.clear();
-        mainCtrl.showEventOverview("123");
+        mainCtrl.showManageParticipants(event.getInvitationID());
     }
 
     @FXML
@@ -55,6 +58,10 @@ public class AddEditParticipantCtrl {
 
     public MainCtrl getMainCtrl() {
         return mainCtrl;
+    }
+
+    public void setEvent(String id) {
+        event = server.getEventByInvitationId(id);
     }
 
     public TextField getBicTextField() {
