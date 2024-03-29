@@ -82,6 +82,7 @@ public class AddedParticipant {
     }
 
     private void editParticipant() {
-        // TODO: navigate to add/edit participant page
+        removeParticipant();
+        manageParticipantsCtrl.showEditParticipant(participant);
     }
 }

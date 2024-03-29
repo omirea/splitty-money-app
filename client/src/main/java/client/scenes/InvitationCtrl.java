@@ -77,7 +77,7 @@ public class InvitationCtrl implements Main.LanguageSwitch{
     }
 
     public void setEvent(String id) {
-        event = server.getEventById(id);
+        event = server.getEventByInvitationId(id);
         codeLabel.setText(event.getInvitationID());
     }
 

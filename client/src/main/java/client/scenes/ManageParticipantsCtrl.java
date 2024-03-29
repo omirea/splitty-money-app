@@ -45,6 +45,8 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     @FXML
     private Button addButton;
 
+    private VBox displayParticipantsBackup;
+
 
     @Inject
     public ManageParticipantsCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -79,6 +81,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
             addedParticipants = new ArrayList<>();
             editedParticipants = new ArrayList<>();
             deletedParticipants = new ArrayList<>();
+            displayParticipantsBackup = null;
         }
     }
 
@@ -100,6 +103,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         editedParticipants = new ArrayList<>();
         deletedParticipants = new ArrayList<>();
         mainCtrl.showEventOverview(event.getInvitationID());
+        displayParticipantsBackup = null;
     }
 
     /**
@@ -119,23 +123,36 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
      */
     public void showAddParticipant() {
         mainCtrl.showAddParticipant(event.getInvitationID());
+        displayParticipantsBackup = displayParticipants;
     }
 
     public void showEditParticipant(Participant participant) {
         mainCtrl.showAddParticipant(event.getInvitationID(), participant);
+        displayParticipantsBackup = displayParticipants;
     }
 
     public void setEvent(String id) {
         event = server.getEventByInvitationId(id);
     }
 
-//    public void addAllParticipants() {
-//        List<Participant> pList = event.getParticipants();
-//        for (Participant participant : pList) {
-//            AddedParticipant addedParticipant = new AddedParticipant(participant);
-//            displayParticipants.getChildren().add(addedParticipant.getNode());
-//        }
-//    }
+    public void addAllParticipants() {
+        if (displayParticipantsBackup != null) {
+            displayParticipants = displayParticipantsBackup;
+            return;
+        }
+        List<Participant> pList = server.getParticipantsByInvitationId(event.getInvitationID());
+        for (Participant participant : pList) {
+            AddedParticipant addedParticipant = new AddedParticipant(participant, this);
+            displayParticipants.getChildren().add(addedParticipant.getNode());
+        }
+    }
+
+    public void addNewParticipant(Participant participant) {
+        if (participant == null) return;
+        AddedParticipant addedParticipant = new AddedParticipant(participant, this);
+        displayParticipants.getChildren().add(addedParticipant.getNode());
+        addAddedParticipant(participant);
+    }
 
     public void addAddedParticipant(Participant participant) {
         addedParticipants.add(participant);
@@ -155,5 +172,9 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         cancelButton.setText(Main.getLocalizedString("Cancel"));
         finishButton.setText(Main.getLocalizedString("Finish"));
         addButton.setText(Main.getLocalizedString("Add"));
+    }
+
+    public ServerUtils getServer() {
+        return server;
     }
 }

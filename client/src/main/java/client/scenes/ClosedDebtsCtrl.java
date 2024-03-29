@@ -50,7 +50,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     }
 
     public void setEvent(String id) {
-        event = server.getEventById(id);
+        event = server.getEventByInvitationId(id);
     }
 
     public ListView<String> getListView(){return listView;}
