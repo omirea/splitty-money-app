@@ -92,7 +92,6 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
                 break;
         }
         alert.setHeaderText(null);
-        alert.showAndWait();
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK){
             mainCtrl.addItemsToOpenDebts(listView);
@@ -138,7 +137,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         youPaidToLabel.setText(Main.getLocalizedString("youPaidTo"));
         eventLabel.setText(Main.getLocalizedString("Event"));
         amountLabel.setText(Main.getLocalizedString("Amount"));
-        reopenAllDebts.setText(Main.getLocalizedString("reopenSelectedDebts"));
+        reopenSelectedDebts.setText(Main.getLocalizedString("reopenSelectedDebts"));
         reopenAllDebts.setText(Main.getLocalizedString("reopenAllDebts"));
     }
 }

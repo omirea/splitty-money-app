@@ -26,6 +26,7 @@ import java.awt.*;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static client.Main.locale;
@@ -146,8 +147,25 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     }
 
     public void onDeleteClick(TableColumn.CellDataFeatures<Event, Button> q){
-        server.deleteEvent(q.getValue().getID());
-        refresh();
+        Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+        switch(locale.getLanguage()) {
+            case "nl":
+                alert.setTitle("Evenement Verwijderen");
+                alert.setContentText("Weet je zeker dat je het evenement wilt verwijderen?");
+                break;
+            case "en":
+                alert.setTitle("Delete Event");
+                alert.setContentText("Are you sure you want to delete the event?");
+                break;
+            default:
+                break;
+        }
+        alert.setHeaderText(null);
+        Optional<ButtonType> result=alert.showAndWait();
+        if(result.get()==ButtonType.OK){
+            server.deleteEvent(q.getValue().getID());
+            refresh();
+        }
     }
 
     /**
