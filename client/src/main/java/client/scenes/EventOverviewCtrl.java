@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.Main;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
@@ -16,7 +17,9 @@ import javafx.scene.text.Text;
 import java.util.List;
 import java.util.Objects;
 
-public class EventOverviewCtrl {
+import static client.Main.locale;
+
+public class EventOverviewCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -33,6 +36,36 @@ public class EventOverviewCtrl {
     private Button homeButton;
     @FXML
     private ImageView homeView;
+
+    @FXML
+    private Button editTitleButton;
+
+    @FXML
+    private Button sendInvitesButton;
+
+    @FXML
+    private Text participantsText;
+
+    @FXML
+    private Button editParticipantsButton;
+
+    @FXML
+    private Text expensesText;
+
+    @FXML
+    private Button addExpenseButton;
+
+    @FXML
+    private Tab allTab;
+
+    @FXML
+    private Tab fromPersonTab;
+
+    @FXML
+    private Tab toPersonTab;
+    @FXML
+    private Button settleDebtsButton;
+
 
     @Inject
     public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -122,7 +155,15 @@ public class EventOverviewCtrl {
 
     public void onTitleEditClick() {
         TextInputDialog tid = new TextInputDialog(eventTitleText.getText());
-        tid.setHeaderText("Input the new event title");
+        switch (locale.getLanguage()) {
+            case "nl":
+                tid.setHeaderText("Vul de naam van het evenement in");
+                break;
+            case "en":
+                tid.setHeaderText("Input the new event title");
+                break;
+            default: break;
+        }
         tid.showAndWait();
         String title = tid.getEditor().getText();
         event.setName(title);
@@ -157,6 +198,22 @@ public class EventOverviewCtrl {
         String pListString = pList.stream().map(Participant::getName).toList().toString();
         pListString = pListString.substring(1, pListString.length()-1);
         participantsListText.setText(pListString);
+    }
+
+    @Override
+    public void LanguageSwitch() {
+        homeButton.setText(Main.getLocalizedString("Home"));
+        editTitleButton.setText(Main.getLocalizedString("editTitle"));
+        sendInvitesButton.setText(Main.getLocalizedString("sendInvites"));
+        participantsText.setText(Main.getLocalizedString("Participants"));
+        editParticipantsButton.setText(Main.getLocalizedString("editParticipants"));
+        expensesText.setText(Main.getLocalizedString("Expenses"));
+        addExpenseButton.setText(Main.getLocalizedString("addExpense"));
+        allTab.setText(Main.getLocalizedString("All"));
+        fromPersonTab.setText(Main.getLocalizedString("fromPerson"));
+        toPersonTab.setText(Main.getLocalizedString("toPerson"));
+        settleDebtsButton.setText(Main.getLocalizedString("settleDebts"));
+
     }
 
 //    public void addParticipantToMenu(Participant p) {

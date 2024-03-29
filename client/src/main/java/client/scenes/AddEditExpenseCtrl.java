@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.Main;
 import client.nodes.PersonAmount;
 import client.utils.ServerUtils;
 import commons.Expense;
@@ -10,13 +11,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+
 import javax.inject.Inject;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Currency;
 import java.util.List;
 
-public class AddEditExpenseCtrl {
+import static client.Main.locale;
+
+public class AddEditExpenseCtrl implements Main.LanguageSwitch {
 
     ObservableList<String> currencyList =
             FXCollections.observableArrayList("EUR", "USD", "GBP");
@@ -35,6 +40,23 @@ public class AddEditExpenseCtrl {
     @FXML
     private ChoiceBox<String> currencyField;
 
+    @FXML
+    private Text addExpenseText;
+    @FXML
+    private Text whoPaidText;
+    @FXML
+    private Text whatForText;
+    @FXML
+    private Text howMuchText;
+    @FXML
+    private Text whenText;
+    @FXML
+    private Button cancelButton;
+    @FXML
+    private Button addExpenseButton;
+    @FXML
+    private Text howToSplitText;
+
     // How to split
     @FXML
     private VBox peopleVBoxField;
@@ -44,7 +66,7 @@ public class AddEditExpenseCtrl {
     private RadioButton allPeopleField;
 
     @FXML
-    private Button autoDivide;
+    private Button autoDivideButton;
     @FXML
     private TableColumn<PersonAmount, CheckBox> checkBoxColumn;
     @FXML
@@ -81,7 +103,7 @@ public class AddEditExpenseCtrl {
     private void initialize() {
         //initialize table view
         tableView.visibleProperty().bind(onlySomePeopleField.selectedProperty());
-        autoDivide.visibleProperty().bind(onlySomePeopleField.selectedProperty());
+        autoDivideButton.visibleProperty().bind(onlySomePeopleField.selectedProperty());
         checkBoxColumn.
                 setCellValueFactory(new PropertyValueFactory<PersonAmount, CheckBox>("checkBox"));
         participantColumn.
@@ -129,8 +151,20 @@ public class AddEditExpenseCtrl {
             }
         }else{
             Alert alert=new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Empty fields");
-            alert.setContentText("You need to fill in all fields to create an expense");
+            switch(locale.getLanguage()) {
+                case "nl":
+                        alert.setTitle("Niet ingevulde velden");
+                        alert.setContentText("Alle velden moeten ingevuld " +
+                                "worden voor het maken van een uitgave");
+                        break;
+                case "en":
+                        alert.setTitle("Empty fields");
+                        alert.setContentText("You need to fill in all fields to create an expense");
+                        break;
+                default:
+                    break;
+            }
+            alert.setHeaderText(null);
             alert.showAndWait();
         }
 
@@ -192,5 +226,22 @@ public class AddEditExpenseCtrl {
                 }
             }
         }
+    }
+
+    @Override
+    public void LanguageSwitch() {
+        addExpenseText.setText(Main.getLocalizedString("addEditExpense"));
+        whoPaidText.setText(Main.getLocalizedString("whoPaid"));
+        howMuchText.setText(Main.getLocalizedString("howMuch"));
+        whatForText.setText(Main.getLocalizedString("whatFor"));
+        whenText.setText(Main.getLocalizedString("When"));
+        howToSplitText.setText(Main.getLocalizedString("howToSplit"));
+        allPeopleField.setText(Main.getLocalizedString("equallyBetweenEverybody"));
+        onlySomePeopleField.setText(Main.getLocalizedString("onlySomePeople"));
+        participantColumn.setText(Main.getLocalizedString("Participant"));
+        amountColumn.setText(Main.getLocalizedString("Amount"));
+        autoDivideButton.setText(Main.getLocalizedString("Auto-Divide"));
+        cancelButton.setText(Main.getLocalizedString("Cancel"));
+        addExpenseButton.setText(Main.getLocalizedString("addExpense"));
     }
 }

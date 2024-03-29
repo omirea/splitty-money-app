@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.Main;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -10,25 +11,33 @@ import javax.inject.Inject;
 import java.util.Objects;
 import java.util.Optional;
 
-public class ClosedDebtsCtrl {
+import static client.Main.locale;
+
+public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
     @FXML
     private Button seeOpenDebts;
-
     @FXML
     private Button reopenAllDebts;
-
     @FXML
     private Button reopenSelectedDebts;
-
     @FXML
-    private ListView<String> listView=new ListView<>();
+    private ListView<String> listView = new ListView<>();
     @FXML
     private Button homeButton;
     @FXML
     private ImageView homeView;
+    @FXML
+    private Label closedDebtsLabel;
+    @FXML
+    private Label youPaidToLabel;
+    @FXML
+    private Label eventLabel;
+    @FXML
+    private Label amountLabel;
+
 
     @Inject
     public ClosedDebtsCtrl(ServerUtils server,MainCtrl mainCtrl){
@@ -59,7 +68,7 @@ public class ClosedDebtsCtrl {
         //set button to go home page
         homeView.setFitHeight(25);
         homeView.setFitWidth(22);
-        Image setting=new Image(Objects.requireNonNull
+        Image setting = new Image(Objects.requireNonNull
                 (getClass().getResourceAsStream("/icons/home.png")));
         homeView.setImage(setting);
         homeButton.setGraphic(homeView);
@@ -70,8 +79,20 @@ public class ClosedDebtsCtrl {
      */
     public void reopenAllDebts(){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Reopen all debts");
-        alert.setContentText("Are you sure you want to reopen all debts?");
+        switch(locale.getLanguage()) {
+            case "nl":
+                alert.setTitle("Heropenen alle kosten");
+                alert.setContentText("Weet je zeker dat je alle kosten wilt heropenen?");
+                break;
+            case "en":
+                alert.setTitle("Re-open all debts");
+                alert.setContentText("Are you sure you want to re-open all debts?");
+                break;
+            default:
+                break;
+        }
+        alert.setHeaderText(null);
+        alert.showAndWait();
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK){
             mainCtrl.addItemsToOpenDebts(listView);
@@ -84,8 +105,21 @@ public class ClosedDebtsCtrl {
      */
     public void reopenSelectedDebts(){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Reopen selected debts");
-        alert.setContentText("Are you sure you want to reopen the selected debts?");
+        switch(locale.getLanguage()) {
+            case "nl":
+                alert.setTitle("Heropen bepaalde kosten");
+                alert.setContentText("Weet je zeker dat je " +
+                        "de geselecteerde kosten wilt heropenen?");
+                break;
+            case "en":
+                alert.setTitle("Re-open selected debts");
+                alert.setContentText("Are you sure that you " +
+                        "want to re-open the selected debts?");
+                break;
+            default:
+                break;
+        }
+        alert.setHeaderText(null);
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK){
             ListView<String> selected=new ListView<>();
@@ -94,5 +128,17 @@ public class ClosedDebtsCtrl {
             mainCtrl.addItemsToOpenDebts(selected);
             listView.getItems().removeAll(listView.getSelectionModel().getSelectedItems());
         }
+    }
+
+    @Override
+    public void LanguageSwitch() {
+        homeButton.setText(Main.getLocalizedString("Home"));
+        closedDebtsLabel.setText(Main.getLocalizedString("closedDebts"));
+        seeOpenDebts.setText(Main.getLocalizedString("seeOpenDebts"));
+        youPaidToLabel.setText(Main.getLocalizedString("youPaidTo"));
+        eventLabel.setText(Main.getLocalizedString("Event"));
+        amountLabel.setText(Main.getLocalizedString("Amount"));
+        reopenAllDebts.setText(Main.getLocalizedString("reopenSelectedDebts"));
+        reopenAllDebts.setText(Main.getLocalizedString("reopenAllDebts"));
     }
 }
