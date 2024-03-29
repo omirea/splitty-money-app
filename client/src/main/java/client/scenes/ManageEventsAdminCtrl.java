@@ -15,16 +15,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
 
 
 import javax.inject.Inject;
 import java.net.URL;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static client.Main.locale;
 
@@ -40,17 +36,9 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     @FXML
     private Button searchButton;
     @FXML
-    private Button titleButton;
-    @FXML
-    private Button dateButton;
-    @FXML
-    private Button activityButton;
-    @FXML
     private Button logOutButton;
     @FXML
     private Button refreshButton;
-    @FXML
-    private Text orderByText;
     @FXML
     ObservableList<Event> allEvents;
     @FXML
@@ -61,6 +49,13 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     private TableColumn<Event, String> colInvitationID;
     @FXML
     private TableColumn<Event, Button> colDelete;
+    @FXML
+    private TableColumn<Event, String> colDateCreated;
+    @FXML
+    private TableColumn<Event, String> colLastModified;
+    @FXML
+    private TableColumn<Event, Button> colJSON;
+
 
 
 
@@ -143,6 +138,10 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
         table.setItems(allEvents);
     }
 
+    /**
+     * Deletes the Event from the database when clicked on the button
+     * @param q The button
+     */
     public void onDeleteClick(TableColumn.CellDataFeatures<Event, Button> q){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
         switch(locale.getLanguage()) {
@@ -168,7 +167,6 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     /**
      * initializes the columns of the table view with string values of events
      */
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         colEventTitle.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getName()));
@@ -185,22 +183,35 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
             delete.setGraphic(imageView);
             delete.setOnAction(event -> onDeleteClick(q));
             return new SimpleObjectProperty<>(delete);
-            });
-        }
+        });
+        colDateCreated.setCellValueFactory(q ->
+        new SimpleStringProperty(q.getValue().getCreateDate().toString()));
+        colLastModified.setCellValueFactory(q ->
+            new SimpleStringProperty(q.getValue().getLastModified().toString()));
+        colJSON.setCellValueFactory(q -> {
+            Button json = new Button();
+            json.setText("JSON");
+            json.setOnAction(event -> onJSONClick(q));
+            return new SimpleObjectProperty<>(json);
+        });
+    }
+
+
+
+    private void onJSONClick(TableColumn.CellDataFeatures<Event, Button> q) {
+
+    }
 
     @Override
     public void LanguageSwitch() {
-        orderByText.setText(Main.getLocalizedString("orderBy"));
         logOutButton.setText(Main.getLocalizedString("logOut"));
         eventNameTextField.setText(Main.getLocalizedString("searchEvent"));
         searchButton.setText(Main.getLocalizedString("Search"));
-        titleButton.setText(Main.getLocalizedString("Title"));
-        dateButton.setText(Main.getLocalizedString("Date"));
-        activityButton.setText(Main.getLocalizedString("Activity"));
         refreshButton.setText(Main.getLocalizedString("Refresh"));
         colEventTitle.setText(Main.getLocalizedString("Title"));
         colInvitationID.setText(Main.getLocalizedString("invitationID"));
-        //delete.setText(Main.getLocalizedString("Delete"));
+        colLastModified.setText(Main.getLocalizedString("lastModified"));
+        colDateCreated.setText(Main.getLocalizedString("dateCreated"));
     }
 
 }

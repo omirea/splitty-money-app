@@ -9,15 +9,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="498.0" prefWidth="395.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ManageEventsAdminCtrl">
+<AnchorPane prefHeight="503.0" prefWidth="548.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ManageEventsAdminCtrl">
    <children>
       <VBox layoutX="106.0" layoutY="80.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
             <HBox prefHeight="38.0" prefWidth="280.0">
                <children>
-                  <ToolBar prefHeight="35.0" prefWidth="294.0">
+                  <ToolBar prefHeight="35.0" prefWidth="451.0">
                     <items>
                         <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#onLogOutClick" text="Log Out" />
                     </items>
@@ -47,41 +46,17 @@
                   <Insets top="25.0" />
                </VBox.margin>
             </HBox>
-            <HBox prefHeight="47.0" prefWidth="280.0">
-               <children>
-                  <Text fx:id="orderByText" strokeType="OUTSIDE" strokeWidth="0.0" text="Order By">
-                     <HBox.margin>
-                        <Insets left="10.0" top="15.0" />
-                     </HBox.margin>
-                  </Text>
-
-
-                  <Button fx:id="titleButton" alignment="CENTER" mnemonicParsing="false" text="Title">
-
-                     <HBox.margin>
-                        <Insets left="30.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="dateButton" alignment="CENTER" layoutX="99.0" layoutY="20.0" mnemonicParsing="false" text="Date">
-                     <HBox.margin>
-                        <Insets left="20.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="activityButton" alignment="CENTER" layoutX="161.0" layoutY="20.0" mnemonicParsing="false" text="Activity">
-                     <HBox.margin>
-                        <Insets left="20.0" top="10.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
-            <TableView fx:id="table" VBox.vgrow="ALWAYS">
+            <TableView fx:id="table" prefWidth="560.0" VBox.vgrow="ALWAYS">
               <columns>
                 <TableColumn fx:id="colEventTitle" prefWidth="100.0" text="Title" />
-                <TableColumn fx:id="colInvitationID" prefWidth="100.0" text="Invitation ID" />
-                  <TableColumn fx:id="colDelete" prefWidth="50.0" />
+                <TableColumn fx:id="colInvitationID" prefWidth="86.0" text="Invitation ID" />
+                  <TableColumn fx:id="colDateCreated" prefWidth="108.0" text="Date Created" />
+                  <TableColumn fx:id="colLastModified" prefWidth="108.0" text="Last Modified" />
+                  <TableColumn fx:id="colDelete" prefWidth="45.0" />
+                  <TableColumn fx:id="colJSON" prefWidth="114.0" />
               </columns>
                <VBox.margin>
-                  <Insets top="10.0" />
+                  <Insets top="20.0" />
                </VBox.margin>
             </TableView>
          </children>
