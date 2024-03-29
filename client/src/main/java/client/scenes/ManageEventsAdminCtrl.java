@@ -3,7 +3,6 @@ package client.scenes;
 import client.Main;
 import client.utils.ServerUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Event;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
