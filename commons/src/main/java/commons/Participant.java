@@ -131,6 +131,10 @@ public class Participant {
         return event;
     }
 
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
     /**
      * method that checks if 2 participants are equal
      * @param o the participant to compare to

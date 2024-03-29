@@ -98,6 +98,14 @@ public class ServerUtils {
 					Participant.class);
 	}
 
+	public List<Participant> getParticipantsByInvitationId(String invitationId) {
+		return ClientBuilder.newClient(new ClientConfig())
+				.target(SERVER).path("event/" + invitationId + "/participant")
+				.request(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.get(new GenericType<List<Participant>>() {});
+	}
+
 	/**
 	 *
 	 * @return a list of events
@@ -146,7 +154,7 @@ public class ServerUtils {
 				.target(SERVER).path("event")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
-				.post(Entity.entity(event , APPLICATION_JSON),
+				.post(Entity.entity(event, APPLICATION_JSON),
 						Event.class);
 	}
 

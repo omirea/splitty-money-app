@@ -17,6 +17,7 @@ package client.scenes;
 
 import client.nodes.PersonAmount;
 import commons.Expense;
+import commons.Participant;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
@@ -36,7 +37,7 @@ public class MainCtrl {
     private ClosedDebtsCtrl closedDebtsCtrl;
     private ManageEventsAdminCtrl manageEventsAdminCtrl;
 
-    private Scene participant, openDebts, invitation,
+    private Scene addEditParticipant, openDebts, invitation,
         expense, overview, manageParticipants, start,
         logInAdmin, closedDebts, eventsAdmin;
 
@@ -58,7 +59,7 @@ public class MainCtrl {
         this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
         this.addEditParticipantCtrl = participant.getKey();
-        this.participant = new Scene(participant.getValue());
+        this.addEditParticipant = new Scene(participant.getValue());
         this.openDebtsCtrl = openDebts.getKey();
         this.openDebts = new Scene(openDebts.getValue());
         this.invitationCtrl = invitation.getKey();
@@ -91,7 +92,14 @@ public class MainCtrl {
     public void showAddParticipant(String id) {
         addEditParticipantCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Add/Edit Participant");
-        primaryStage.setScene(participant);
+        primaryStage.setScene(addEditParticipant);
+    }
+
+    public void showAddParticipant(String id, Participant participant) {
+        addEditParticipantCtrl.setEvent(id);
+        addEditParticipantCtrl.setParticipant(participant);
+        primaryStage.setTitle("Splitty: Add/Edit Participant");
+        primaryStage.setScene(addEditParticipant);
     }
 
     /**

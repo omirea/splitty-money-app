@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.database.EventRepository;
 import server.database.ExpenseRepository;
+import server.database.ParticipantRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,11 +20,13 @@ import java.util.Optional;
 @RequestMapping("/event")
 public class EventController {
     private final EventRepository db;
+    private final ParticipantRepository participantDB;
     private ExpenseRepository exRepo;
 
-    public EventController(EventRepository db, ExpenseRepository exRepo){
+    public EventController(EventRepository db, ExpenseRepository exRepo, ParticipantRepository participantDB){
         this.db=db;
         this.exRepo=exRepo;
+        this.participantDB = participantDB;
     }
 
     /**
@@ -134,6 +137,32 @@ public class EventController {
 //        db.save(event);
 //        return ResponseEntity.ok(event);
 //    }
+
+
+    @GetMapping("/{invitationID}/participant")
+    @ResponseBody
+    public ResponseEntity<List<Participant>> getParticipantsByInvitationId(
+            @PathVariable("invitationID") String invitationID) {
+
+        Event e = new Event();
+        e.setInvitationID(invitationID);
+        Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAny()));
+        if (tempEvent.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Participant p = new Participant();
+        p.setEvent(tempEvent.get());
+
+        List<Participant> participants = participantDB.findAll(Example.of(p, ExampleMatcher.matchingAny()));
+
+        if (!participants.isEmpty()) {
+            return ResponseEntity.ok(participants);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
     /**
      * Checks if a string is null or empty.

@@ -68,7 +68,7 @@ public class StartCtrl {
      * method to create event
      */
     public void onCreateClick() {
-        System.out.println("Create" + createEventField.getText());
+        System.out.println("Create " + createEventField.getText());
         Event e = new Event(createEventField.getText());
         e = server.createEvent(e);
         mainCtrl.showEventOverview(e.getInvitationID());

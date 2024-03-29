@@ -42,7 +42,7 @@ public class ManageParticipantsCtrl {
      */
     public void onCancelClick() {
         System.out.println("Going back to event");
-        Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Revert changes?");
         alert.setHeaderText(null);
         alert.setContentText("Are you sure you want to discard the changes?");
@@ -69,6 +69,9 @@ public class ManageParticipantsCtrl {
         for (Participant participant : deletedParticipants) {
             server.deleteParticipant(participant.getId());
         }
+        addedParticipants = new ArrayList<>();
+        editedParticipants = new ArrayList<>();
+        deletedParticipants = new ArrayList<>();
         mainCtrl.showEventOverview(event.getInvitationID());
     }
 
@@ -78,7 +81,7 @@ public class ManageParticipantsCtrl {
     public void addRandomParticipant() {
         Participant participant = new Participant(event, new ArrayList<Debt>(), new ArrayList<Debt>(),
                 "name", "email", "iban", "bic");
-        AddedParticipant addedParticipant = new AddedParticipant(participant);
+        AddedParticipant addedParticipant = new AddedParticipant(participant, this);
         addedParticipants.add(participant);
         HBox hBox = addedParticipant.getNode();
         displayParticipants.getChildren().add(hBox);
@@ -89,6 +92,10 @@ public class ManageParticipantsCtrl {
      */
     public void showAddParticipant() {
         mainCtrl.showAddParticipant(event.getInvitationID());
+    }
+
+    public void showEditParticipant(Participant participant) {
+        mainCtrl.showAddParticipant(event.getInvitationID(), participant);
     }
 
     public void setEvent(String id) {

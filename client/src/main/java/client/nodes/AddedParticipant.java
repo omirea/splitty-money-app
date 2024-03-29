@@ -1,5 +1,6 @@
 package client.nodes;
 
+import client.scenes.ManageParticipantsCtrl;
 import commons.Participant;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -16,8 +17,9 @@ public class AddedParticipant {
     Button save;
     Button remove;
     Button edit;
+    ManageParticipantsCtrl manageParticipantsCtrl;
 
-    public AddedParticipant(Participant participant) {
+    public AddedParticipant(Participant participant, ManageParticipantsCtrl manageParticipantsCtrl) {
         this.participant = participant;
         name = new Text(participant.getName());
 
@@ -38,6 +40,8 @@ public class AddedParticipant {
         hbox.getChildren().add(rename);
         hbox.getChildren().add(edit);
         hbox.getChildren().add(remove);
+
+        this.manageParticipantsCtrl = manageParticipantsCtrl;
     }
 
     public HBox getNode(){
@@ -47,6 +51,7 @@ public class AddedParticipant {
     private void removeParticipant() {
         VBox parent = (VBox) hbox.getParent();
         parent.getChildren().remove(hbox);
+        manageParticipantsCtrl.addRemovedParticipant(participant);
     }
 
     private void renameParticipant() {
@@ -71,6 +76,9 @@ public class AddedParticipant {
 
         hbox.getChildren().remove(1);
         hbox.getChildren().add(1, rename);
+
+        participant.setName(name.getText());
+        manageParticipantsCtrl.addEditedParticipant(participant);
     }
 
     private void editParticipant() {

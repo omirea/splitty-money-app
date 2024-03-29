@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.utils.ServerUtils;
 import commons.Event;
+import commons.Participant;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -30,6 +31,7 @@ public class AddEditParticipantCtrl {
     private Button cancelButton;
 
     Event event;
+    Participant participant;
 
     @Inject
     public AddEditParticipantCtrl(ServerUtils server, MainCtrl mainCtrl){
@@ -62,6 +64,10 @@ public class AddEditParticipantCtrl {
 
     public void setEvent(String id) {
         event = server.getEventByInvitationId(id);
+    }
+
+    public void setParticipant(Participant participant) {
+        this.participant = participant;
     }
 
     public TextField getBicTextField() {
