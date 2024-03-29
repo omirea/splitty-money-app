@@ -75,7 +75,26 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             String bic=bicTextField.getText();
 
             Participant p= new Participant(nameTextField.getText(),emailTextField.getText(),ibanTextField.getText(),bicTextField.getText());
-            server.createParticipant(p);
+
+           server.createParticipant(p);
+
+            Alert alert=new Alert(Alert.AlertType.INFORMATION);
+
+            switch(locale.getLanguage()) {
+                case "nl":
+                    alert.setTitle("Succesvol toevoegen");
+                    alert.setContentText("Deelnemer succesvol toegevoegd");
+                    break;
+                case "en":
+                    alert.setTitle("Adding Successful");
+                    alert.setContentText("Participant Added Successfully");
+                    break;
+                default:
+                    break;
+            }
+            alert.setHeaderText(null);
+            alert.showAndWait();
+
             mainCtrl.showEventOverview(this.event.getInvitationID());
         }
     }
