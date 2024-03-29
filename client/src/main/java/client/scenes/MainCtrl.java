@@ -109,7 +109,8 @@ public class MainCtrl {
     /**
      * method to show invitation page
      */
-    public void showInvitation() {
+    public void showInvitation(String id) {
+        invitationCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Send Invites");
         primaryStage.setScene(invitation);
     }

@@ -110,7 +110,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      */
     public void onSendInvitesClick(){
         //will do the following code snippet once implemented:
-        mainCtrl.showInvitation();
+        mainCtrl.showInvitation(event.getInvitationID());
     }
 
     /**
