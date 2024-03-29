@@ -17,12 +17,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 
 
 import javax.inject.Inject;
-import javax.swing.*;
-import java.awt.*;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
