@@ -16,7 +16,7 @@
          <children>
             <HBox prefHeight="38.0" prefWidth="280.0">
                <children>
-                  <ToolBar prefHeight="35.0" prefWidth="451.0">
+                  <ToolBar prefHeight="35.0" prefWidth="446.0">
                     <items>
                         <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#onLogOutClick" text="Log Out" />
                     </items>

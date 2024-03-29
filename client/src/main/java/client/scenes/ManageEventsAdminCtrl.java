@@ -8,16 +8,15 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.TextField;
-
-
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
 import javax.inject.Inject;
 import java.net.URL;
 import java.util.*;
@@ -55,10 +54,6 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     private TableColumn<Event, String> colLastModified;
     @FXML
     private TableColumn<Event, Button> colJSON;
-
-
-
-
 
 
     @Inject
@@ -110,28 +105,15 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     /**
      * shows the event details
      */
-    public void showEventDetails(){
+    public void showEventDetails(String invitationID){
         //TODO: show specific event with id
-        mainCtrl.showEventOverview("123");
+        mainCtrl.showEventOverview(invitationID);
     }
+
 
     /**
-     * should order the event list of search on date made
+     * refreshes the table view with recent added events
      */
-    public void onDateOrderClick(){
-//        tableView.setSortPolicy();
-    }
-
-    public void onTitleOrderClick(){
-//        colEventTitle.setSortType(TableColumn.SortType.ASCENDING);
-//        refresh();
-        var events = server.getAllEvents();
-        List<Event> sortedEvents = events.stream().sorted().toList();
-        ObservableList<Event> eventsSorted = FXCollections.observableList(sortedEvents);
-        table.setItems(eventsSorted);
-
-    }
-
     public void refresh(){
         var events = server.getAllEvents();
         allEvents = FXCollections.observableList(events);
@@ -165,7 +147,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     }
 
     /**
-     * initializes the columns of the table view with string values of events
+     * initializes the rows of the table view with all the columns and the attributes
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -194,14 +176,31 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
             json.setOnAction(event -> onJSONClick(q));
             return new SimpleObjectProperty<>(json);
         });
+        table.setRowFactory(event -> {
+           TableRow<Event> row = new TableRow<>();
+           row.setOnMouseClicked(q -> {
+               if(q.getClickCount() == 2 && (!row.isEmpty())) {
+                   Event eventRow = row.getItem();
+                   String invID = eventRow.getInvitationID();
+                   showEventDetails(invID);
+               }
+           });
+           return row;
+        });
     }
 
 
-
+    /**
+     * Makes an JSON file with all the information of the event
+     * @param q button?
+     */
     private void onJSONClick(TableColumn.CellDataFeatures<Event, Button> q) {
 
     }
 
+    /**
+     * sets the keys on each text included FXML object for the language switch
+     */
     @Override
     public void LanguageSwitch() {
         logOutButton.setText(Main.getLocalizedString("logOut"));
