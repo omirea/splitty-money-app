@@ -76,9 +76,10 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
 
             Participant p= new Participant(name,email,iban,bic);
 
-           server.createParticipant(p);
+            server.createParticipant(p);
 
-            Alert alert=new Alert(Alert.AlertType.INFORMATION);
+            Alert alert=new Alert
+                    (Alert.AlertType.INFORMATION);
 
             switch(locale.getLanguage()) {
                 case "nl":
