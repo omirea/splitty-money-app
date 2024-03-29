@@ -74,7 +74,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             String iban=ibanTextField.getText();
             String bic=bicTextField.getText();
 
-            Participant p= new Participant(nameTextField.getText(),emailTextField.getText(),ibanTextField.getText(),bicTextField.getText());
+            Participant p= new Participant(name,email,iban,bic);
 
            server.createParticipant(p);
 
