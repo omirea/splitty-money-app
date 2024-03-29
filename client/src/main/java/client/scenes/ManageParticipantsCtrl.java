@@ -92,13 +92,13 @@ public class ManageParticipantsCtrl {
         event = server.getEventByInvitationId(id);
     }
 
-    public void addAllParticipants() {
-        List<Participant> pList = event.getParticipants();
-        for (Participant participant : pList) {
-            AddedParticipant addedParticipant = new AddedParticipant(participant);
-            displayParticipants.getChildren().add(addedParticipant.getNode());
-        }
-    }
+//    public void addAllParticipants() {
+//        List<Participant> pList = event.getParticipants();
+//        for (Participant participant : pList) {
+//            AddedParticipant addedParticipant = new AddedParticipant(participant);
+//            displayParticipants.getChildren().add(addedParticipant.getNode());
+//        }
+//    }
 
     public void addAddedParticipant(Participant participant) {
         addedParticipants.add(participant);
