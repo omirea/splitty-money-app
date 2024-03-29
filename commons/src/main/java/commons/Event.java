@@ -9,13 +9,6 @@ import java.util.Random;
 
 @Entity
 public class Event {
-
-    /**
-     * List with all the participants which are part of this event
-     */
-    @OneToMany(mappedBy = "event")
-    private List<Participant> participants;
-
     /**
      * List with all the expenses which are part of this event
      */
@@ -41,21 +34,18 @@ public class Event {
 
     /**
      * Constructor for an Event object
-     * @param participants List of participants which are part of the event
      * @param expenses List of expenses that are part of the event
      * @param name String with name of the event
      * @param invitationID String with invitation ID of the event
      */
-    public Event(List<Participant> participants, List<Expense> expenses, String name,
+    public Event( List<Expense> expenses, String name,
                  String invitationID) {
-        this.participants = participants;
         this.expenses = expenses;
         this.name = name;
         this.invitationID = invitationID;
     }
 
     public Event(String name) {
-        participants = new ArrayList<>();
         expenses = new ArrayList<>();
         this.name = name;
         invitationID = generateInvitationID();
@@ -79,40 +69,6 @@ public class Event {
     }
 
     public Event() {
-    }
-
-    /**
-     * Getter for the list of participants
-     * @return List with all participants
-     */
-    public List<Participant> getParticipants() {
-        return participants;
-    }
-
-    /**
-     * Getter for the list of participants
-     * @param participants List with all the participants
-     */
-    public void setParticipants(List<Participant> participants) {
-        this.participants = participants;
-    }
-
-    /**
-     * Add method to add a new participant to the list of participants of the event
-     * @param newParticipant Participant object that will be added to the list
-     */
-    public void addParticipant(Participant newParticipant){
-        participants.add(newParticipant);
-    }
-
-    /**
-     * Remove method to remove a participant from the list of participants of the event
-     * @param participant Participant object that will be added to the list
-     * @return Boolean if it was successful or not
-     */
-    public Boolean removeParticipant(Participant participant){
-
-        return participants.remove(participant);
     }
 
     /**
@@ -208,8 +164,7 @@ public class Event {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Event event = (Event) object;
-        return Objects.equals(participants, event.participants) &&
-            Objects.equals(expenses, event.expenses) &&
+        return Objects.equals(expenses, event.expenses) &&
             Objects.equals(name, event.name) &&
             Objects.equals(invitationID, event.invitationID);
     }
@@ -220,13 +175,12 @@ public class Event {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(participants, expenses, name, invitationID);
+        return Objects.hash(expenses, name, invitationID);
     }
 
     @Override
     public String toString() {
         return "Event{" +
-            "participants=" + participants +
             ", expenses=" + expenses +
             ", name='" + name + '\'' +
             ", invitationID='" + invitationID + '\'' +

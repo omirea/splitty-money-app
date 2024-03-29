@@ -48,7 +48,6 @@ public class EventController {
         }
 
         Event existingEvent = db.findById(id).get();
-        existingEvent.setParticipants(event.getParticipants());
         existingEvent.setExpenses(event.getExpenses());
         existingEvent.setName(event.getName());
         Event updatedEventEntity = db.save(existingEvent);
@@ -81,60 +80,60 @@ public class EventController {
         return ResponseEntity.ok(createdEvent);
     }
 
-    /**
-     * Adds a user to an event.
-     *
-     * @param id the id of the event
-     * @param participant the participant to add
-     * @return the updated event
-     */
-    @PutMapping("/{id}/users")
-    public ResponseEntity<Event> addUser(@PathVariable("id") long id,
-                                         @RequestBody Participant participant) {
-        // TODO should this be a put or a post?
-        if (!db.existsById(id)) {
-            return ResponseEntity.badRequest().build();
-        }
+//    /**
+//     * Adds a user to an event.
+//     *
+//     * @param id the id of the event
+//     * @param participant the participant to add
+//     * @return the updated event
+//     */
+//    @PutMapping("/{id}/users")
+//    public ResponseEntity<Event> addUser(@PathVariable("id") long id,
+//                                         @RequestBody Participant participant) {
+//        // TODO should this be a put or a post?
+//        if (!db.existsById(id)) {
+//            return ResponseEntity.badRequest().build();
+//        }
+//
+//        Event event = db.findById(id).get();
+//        event.addParticipant(participant);
+//        try {
+//            db.save(event);
+//        } catch (EntityNotFoundException e) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        return ResponseEntity.ok(event);
+//    }
 
-        Event event = db.findById(id).get();
-        event.addParticipant(participant);
-        try {
-            db.save(event);
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(event);
-    }
-
-    /**
-     * Removes a user from an event.
-     *
-     * @param id id of event from which to remove user
-     * @param email email of user to remove
-     * @return successful operation indicator
-     */
-    @DeleteMapping("/{id}/users/{email}")
-    public ResponseEntity<Event> removeUserFromEvent(
-            @PathVariable("id") long id,
-            @PathVariable("email") String email) {
-        if (id <= 0 || isNullOrEmpty(email)) {
-            return ResponseEntity.badRequest().build();
-        }
-        if (!db.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        Event event = db.getReferenceById(id);
-        Optional<Participant> toRemove = event.getParticipants()
-                .stream()
-                .filter(u -> u.getEmail().equals(email))
-                .findFirst();
-        if (toRemove.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        event.removeParticipant(toRemove.get());
-        db.save(event);
-        return ResponseEntity.ok(event);
-    }
+//    /**
+//     * Removes a user from an event.
+//     *
+//     * @param id id of event from which to remove user
+//     * @param email email of user to remove
+//     * @return successful operation indicator
+//     */
+//    @DeleteMapping("/{id}/users/{email}")
+//    public ResponseEntity<Event> removeUserFromEvent(
+//            @PathVariable("id") long id,
+//            @PathVariable("email") String email) {
+//        if (id <= 0 || isNullOrEmpty(email)) {
+//            return ResponseEntity.badRequest().build();
+//        }
+//        if (!db.existsById(id)) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        Event event = db.getReferenceById(id);
+//        Optional<Participant> toRemove = event.getParticipants()
+//                .stream()
+//                .filter(u -> u.getEmail().equals(email))
+//                .findFirst();
+//        if (toRemove.isEmpty()) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        event.removeParticipant(toRemove.get());
+//        db.save(event);
+//        return ResponseEntity.ok(event);
+//    }
 
     /**
      * Checks if a string is null or empty.

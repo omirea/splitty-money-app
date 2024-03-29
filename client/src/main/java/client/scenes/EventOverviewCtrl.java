@@ -58,6 +58,7 @@ public class EventOverviewCtrl {
     public void setEvent(String id) {
         event = server.getEventByInvitationId(id);
         eventTitleText.setText(event.getName());
+        System.out.println("Current event: " + event);
     }
 
     public ListView<Expense> getListViewAll() {
@@ -152,7 +153,7 @@ public class EventOverviewCtrl {
      * you will probably change this to use the methods commented out below
      */
     public void addAllParticipants() {
-        List<Participant> pList = event.getParticipants();
+        List<Participant> pList = /*event.getParticipants()*/ null;
         participantsMenu.getItems().addAll(pList);
         String pListString = pList.stream().map(Participant::getName).toList().toString();
         pListString = pListString.substring(1, pListString.length()-1);
