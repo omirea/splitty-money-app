@@ -88,8 +88,8 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
 
-    public void setEvent(String id) {
-        event = server.getEventById(id);
+    public void setEvent(String invitationID) {
+        event = server.getEventById(invitationID);
         eventTitleText.setText(event.getName());
     }
 

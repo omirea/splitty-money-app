@@ -124,6 +124,25 @@ public class ServerUtils {
 				.get(new GenericType<Event>() {});
 	}
 
+//	public String json(String invitationID){
+//		String jsonString = eventByinvIDJSON(invitationID);
+//		return ClientBuilder.newClient(new ClientConfig())
+//			.target(SERVER).path("event/json/" + jsonString)
+//			.request(APPLICATION_JSON)
+//			.accept(APPLICATION_JSON)
+//			.get()
+//			.readEntity(String.class);
+//	}
+//
+//	public String eventByinvIDJSON(String id){
+//		try{
+//			ObjectMapper map = new ObjectMapper();
+//			return map.writeValueAsString(getEventById(id));
+//		} catch (JsonProcessingException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
 	/**
 	 * method to delete a specific Event  from the database
 	 * @param id the id of the Event  to be deleted

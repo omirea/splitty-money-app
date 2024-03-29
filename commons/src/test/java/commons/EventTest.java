@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EventTest {
 
+
     @Test
     void getParticipantsTest(){
         Participant p1 = new Participant("tom", "123", "23RABO", "45rt6");
