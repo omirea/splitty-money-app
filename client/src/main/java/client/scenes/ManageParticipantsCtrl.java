@@ -20,9 +20,9 @@ public class ManageParticipantsCtrl {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-    private final List<Participant> addedParticipants;
-    private final List<Participant> editedParticipants;
-    private final List<Participant> deletedParticipants;
+    private List<Participant> addedParticipants;
+    private List<Participant> editedParticipants;
+    private List<Participant> deletedParticipants;
     private Event event;
 
     @FXML
@@ -49,6 +49,9 @@ public class ManageParticipantsCtrl {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             mainCtrl.showEventOverview(event.getInvitationID());
+            addedParticipants = new ArrayList<>();
+            editedParticipants = new ArrayList<>();
+            deletedParticipants = new ArrayList<>();
         }
     }
 
