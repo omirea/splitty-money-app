@@ -110,6 +110,7 @@ public class ServerUtils {
 				.get(new GenericType<List<Event>>() {});
 	}
 
+
 	/**
 	 * method to get a specific Event based on invitationID
 	 * @param invitationID invitationID of the Event requested
@@ -130,7 +131,7 @@ public class ServerUtils {
 	 */
 	public Event deleteEvent (long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("event/" + id)
+				.target(SERVER).path("event/delete/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.delete(new GenericType<Event>() {});

@@ -78,10 +78,11 @@ public class MainCtrl {
         Main.switchLocale("translations","en");
 
         //showEventOverview("123");
-        showStartScreen();
+        //showStartScreen();
+        showEventsAdmin();
         //showEditParticipants();
         //showOpenDebts();
-        //showExpense();
+
         //showEditParticipants();
         //showAdminLogIn();
         primaryStage.show();
@@ -161,6 +162,7 @@ public class MainCtrl {
      * method to show admin events overview page
      */
     public void showEventsAdmin(){
+        manageEventsAdminCtrl.refresh();
         primaryStage.setTitle("Splitty: Admin events overview");
         primaryStage.setScene(eventsAdmin);
     }

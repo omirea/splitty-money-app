@@ -104,7 +104,6 @@ public class AdminLogInCtrl implements Main.LanguageSwitch {
      * @return true if the password is correct, else false
      */
     public boolean checkPassword(){
-        //TODO: Figure out how to do specific username/password combinations
         String passwordInput = passwordField.getText().trim();
         if(server.checkPassword(passwordInput)){
             return true;

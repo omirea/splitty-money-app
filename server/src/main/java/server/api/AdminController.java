@@ -29,8 +29,8 @@ public class AdminController {
     }
 
     @GetMapping("/")
-    public void generatePassword() {
+    public ResponseEntity<Boolean> generatePassword() {
         passwordGenerationService.generatePassword();
+        return ResponseEntity.ok(true);
     }
-
 }
