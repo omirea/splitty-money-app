@@ -91,7 +91,8 @@ public class MainCtrl {
     /**
      * method to show participant page
      */
-    public void showAddParticipant() {
+    public void showAddParticipant(String id) {
+        addEditParticipantCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Add/Edit Participant");
         primaryStage.setScene(participant);
     }

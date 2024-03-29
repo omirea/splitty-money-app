@@ -2,14 +2,16 @@ package client.scenes;
 
 import client.Main;
 import client.utils.ServerUtils;
+import commons.Event;
+import commons.Participant;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javax.inject.Inject;
-import javafx.event.ActionEvent;
 
+import javax.inject.Inject;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,6 +22,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+    private Event event;
     @FXML
     private TextField bicTextField;
     @FXML
@@ -55,13 +58,25 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         emailTextField.clear();
         ibanTextField.clear();
         bicTextField.clear();
-        mainCtrl.showEventOverview("123");
+        mainCtrl.showEventOverview(this.event.getInvitationID());
+    }
+
+    public void setEvent(String id) {
+        event = server.getEventById(id);
     }
 
     @FXML
     void onClickOk(ActionEvent event) {
         if(checkEmpty() && validateEmail() && isIbanValid()){
         // TODO: Add to database
+            String name= nameTextField.getText();
+            String email=emailTextField.getText();
+            String iban=ibanTextField.getText();
+            String bic=bicTextField.getText();
+
+            Participant p= new Participant(nameTextField.getText(),emailTextField.getText(),ibanTextField.getText(),bicTextField.getText());
+            server.createParticipant(p);
+            mainCtrl.showEventOverview(this.event.getInvitationID());
         }
     }
 

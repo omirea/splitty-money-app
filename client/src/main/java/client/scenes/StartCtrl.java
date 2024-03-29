@@ -89,7 +89,7 @@ public class StartCtrl implements Main.LanguageSwitch {
     public void onCreateClick() {
         System.out.println("Create" + createEventField.getText());
         Event e = new Event(createEventField.getText());
-        e = server.createEvent(e);
+        e= server.createEvent(e);
         mainCtrl.showEventOverview(e.getInvitationID());
     }
 
