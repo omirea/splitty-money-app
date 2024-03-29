@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.Main;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -10,28 +11,39 @@ import javax.inject.Inject;
 import java.util.Objects;
 import java.util.Optional;
 
-public class OpenDebtsCtrl {
+import static client.Main.locale;
+
+public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
     @FXML
-    private Button payAllDebts;
+    private Button payAllDebtsButton;
 
     @FXML
-    private Button seeClosedDebts;
+    private Button seeClosedDebtsButton;
 
     @FXML
-    private Button selectedDebts;
+    private Button paySelectedDebtsButton;
 
     @FXML
-    private ListView<String> listView=new ListView<>();
+    private ListView<String> listView;
 
     @FXML
     private Button homeButton;
 
     @FXML
     private ImageView homeView;
+    @FXML
+    private Label yourCurrentDebtsLabel;
+    @FXML
+    private Label youShouldPayToLabel;
+    @FXML
+    private Label eventLabel;
+    @FXML
+    private Label amountLabel;
+
 
     @Inject
     public OpenDebtsCtrl(ServerUtils server, MainCtrl mainCtrl){
@@ -67,22 +79,32 @@ public class OpenDebtsCtrl {
         return mainCtrl;
     }
 
-    public Button getSeeClosedDebts(){return seeClosedDebts;}
+    public Button getSeeClosedDebtsButton(){return seeClosedDebtsButton;}
 
-    public Button getSelectedDebts(){return selectedDebts;}
+    public Button getSelectedDebts(){return paySelectedDebtsButton;}
 
     public ListView<String> getListView(){return listView;}
 
-    public Button getPayAllDebts(){return payAllDebts;}
+    public Button getPayAllDebts(){return payAllDebtsButton;}
 
     /**
      * method to mark all debts as paid
      */
     public void markAllDebtsAsPaid(){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Mark all debts as paid");
+        switch(locale.getLanguage()) {
+            case "nl":
+                alert.setTitle("Markeer alle kosten als betaald");
+                alert.setContentText("Weet je zeker dat je alle kosten als betaald wilt markeren");
+                break;
+            case "en":
+                alert.setTitle("Mark all debts as paid");
+                alert.setContentText("Are you sure you want to mark all debts as settled?");
+                break;
+            default:
+                break;
+        }
         alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to mark all debts as settled?");
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK) {
             mainCtrl.addItemsToClosedDebts(this.listView);
@@ -107,9 +129,21 @@ public class OpenDebtsCtrl {
      */
     public void paySelectedDebts(){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Mark selected debts as paid");
+        switch(locale.getLanguage()) {
+            case "nl":
+                alert.setTitle("Markeer geselecteerde kosten als betaald");
+                alert.setContentText("Weet je zeker dat je " +
+                        "gemarkeerkde kosten als betaalt wilt markeren");
+                break;
+            case "en":
+                alert.setTitle("Mark selected debts as paid");
+                alert.setContentText("Are you sure you want to " +
+                        "mark the selected debts as settled?");
+                break;
+            default:
+                break;
+        }
         alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to mark the selected debts as settled?");
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK) {
             ListView<String> selected = new ListView<>();
@@ -118,5 +152,17 @@ public class OpenDebtsCtrl {
             mainCtrl.addItemsToClosedDebts(selected);
             listView.getItems().removeAll(listView.getSelectionModel().getSelectedItems());
         }
+    }
+
+    @Override
+    public void LanguageSwitch() {
+        homeButton.setText(Main.getLocalizedString("Home"));
+        yourCurrentDebtsLabel.setText(Main.getLocalizedString("yourCurrentDebts"));
+        youShouldPayToLabel.setText(Main.getLocalizedString("youShouldPayTo"));
+        eventLabel.setText(Main.getLocalizedString("Event"));
+        amountLabel.setText(Main.getLocalizedString("Amount"));
+        paySelectedDebtsButton.setText(Main.getLocalizedString("paySelectedDebts"));
+        payAllDebtsButton.setText(Main.getLocalizedString("payAllDebts"));
+        seeClosedDebtsButton.setText(Main.getLocalizedString("seeClosedDebts"));
     }
 }

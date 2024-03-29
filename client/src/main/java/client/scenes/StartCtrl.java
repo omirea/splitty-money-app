@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.Main;
 import client.nodes.RecentEvent;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -11,9 +12,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+
 import java.util.Objects;
 
-public class StartCtrl {
+import static client.Main.locale;
+
+public class StartCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -35,6 +40,20 @@ public class StartCtrl {
     private ImageView settingsView;
     @FXML
     private ImageView adminView;
+    @FXML
+    private Text createNewEventText;
+    @FXML
+    private Button createButton;
+    @FXML
+    private Text joinEventText;
+    @FXML
+    private Button joinButton;
+    @FXML
+    private Text recentEventsText;
+    @FXML
+    private Button englishButton;
+    @FXML
+    private Button dutchButton;
 
     @Inject
     public StartCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -83,9 +102,20 @@ public class StartCtrl {
         try {
             mainCtrl.showEventOverview(joinEventField.getText());
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Invitation code not found");
-            alert.setContentText("Please check your invitation code again");
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            switch(locale.getLanguage()) {
+                case "nl":
+                    alert.setTitle("Uitnodigingscode niet gevonden");
+                    alert.setContentText("Check je uitnodigingscode opnieuw AUB");
+                    break;
+                case "en":
+                    alert.setTitle("Invitation code not found");
+                    alert.setContentText("Please check your invitation code again");
+                    break;
+                default:
+                    break;
+            }
+            alert.setHeaderText(null);
             alert.show();
             throw e;
         }
@@ -104,5 +134,22 @@ public class StartCtrl {
      */
     public void onAdminClick(){
         mainCtrl.showAdminLogIn();
+    }
+
+    public void onEnglishSwitchClick() {
+       Main.switchLocale("translations", "en");
+    }
+    public void onDutchSwitchClick() {
+        Main.switchLocale("translations", "nl");
+    }
+
+    @Override
+    public void LanguageSwitch() {
+        adminButton.setText(Main.getLocalizedString("Admin"));
+        createNewEventText.setText(Main.getLocalizedString("createNewEvent"));
+        createButton.setText(Main.getLocalizedString("Create"));
+        joinEventText.setText(Main.getLocalizedString("joinEvent"));
+        joinButton.setText(Main.getLocalizedString("Join"));
+        recentEventsText.setText(Main.getLocalizedString("recentlyViewedEvents"));
     }
 }

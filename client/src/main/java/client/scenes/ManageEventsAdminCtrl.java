@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.Main;
 import client.utils.ServerUtils;
 import commons.Event;
 import javafx.beans.property.SimpleObjectProperty;
@@ -7,8 +8,15 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+
+import javafx.scene.control.Button;
+import javafx.scene.text.Text;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+
 
 import javax.inject.Inject;
 import java.net.URL;
@@ -16,19 +24,20 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 
-public class ManageEventsAdminCtrl implements Initializable {
+public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch {
+
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
     @FXML
-    private TextField eventName;
+    private TextField eventNameTextField;
     @FXML
-    private Button search;
+    private Button searchButton;
     @FXML
-    private Button title;
+    private Button titleButton;
     @FXML
-    private Button date;
+    private Button dateButton;
     @FXML
     private Button activity;
 
@@ -45,6 +54,16 @@ public class ManageEventsAdminCtrl implements Initializable {
     @FXML
     private TableColumn<Event, Button> colDelete;
 
+
+
+    @FXML
+    private Button activityButton;
+    @FXML
+    private VBox eventList;
+    @FXML
+    private Button logOutButton;
+    @FXML
+    private Text orderByText;
 
 
 
@@ -65,11 +84,11 @@ public class ManageEventsAdminCtrl implements Initializable {
      * method for button so search with string happens when clicking it
      */
     public void onSearchClick(){
-        boolean searchEmpty = eventName.getText().trim().isEmpty();
+        boolean searchEmpty = eventNameTextField.getText().trim().isEmpty();
         var events = server.getAllEvents();
         allEvents = FXCollections.observableList(events);
         if(!searchEmpty) {
-            String eventNameS = eventName.getText().trim();
+            String eventNameS = eventNameTextField.getText().trim();
             List<Event> eventsWithName =
                 allEvents.stream().filter(e -> e.getName().contains(eventNameS)).toList();
             ObservableList<Event> eventsWithN = FXCollections.observableList(eventsWithName);
@@ -135,4 +154,16 @@ public class ManageEventsAdminCtrl implements Initializable {
             return new SimpleObjectProperty<>(delete);
             });
         }
+
+    @Override
+    public void LanguageSwitch() {
+        orderByText.setText(Main.getLocalizedString("orderBy"));
+        logOutButton.setText(Main.getLocalizedString("logOut"));
+        eventNameTextField.setText(Main.getLocalizedString("searchEvent"));
+        searchButton.setText(Main.getLocalizedString("Search"));
+        titleButton.setText(Main.getLocalizedString("Title"));
+        dateButton.setText(Main.getLocalizedString("Date"));
+        activityButton.setText(Main.getLocalizedString("Activity"));
+    }
+
 }

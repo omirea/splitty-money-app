@@ -20,7 +20,7 @@
             </Label>
             <HBox prefHeight="54.0" prefWidth="601.0">
                <children>
-                  <Label prefHeight="46.0" prefWidth="347.0" text="Give people the following Invite Code:">
+                  <Label fx:id="giveInviteCodeLabel" prefHeight="46.0" prefWidth="347.0" text="Give people the following Invite Code:">
                      <font>
                         <Font size="17.0" />
                      </font>
@@ -35,7 +35,7 @@
                   </Label>
                </children>
             </HBox>
-            <Label text="Invite the following people by email (one address per line):">
+            <Label fx:id="inviteEmailLabel" text="Invite the following people by email (one address per line):">
                <font>
                   <Font size="17.0" />
                </font>
