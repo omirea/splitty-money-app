@@ -13,15 +13,22 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 
 import javax.inject.Inject;
+import javax.swing.*;
+import java.awt.*;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
+
+import static client.Main.locale;
 
 
 public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch {
@@ -39,12 +46,15 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     @FXML
     private Button dateButton;
     @FXML
-    private Button activity;
-
-
+    private Button activityButton;
+    @FXML
+    private Button logOutButton;
+    @FXML
+    private Button refreshButton;
+    @FXML
+    private Text orderByText;
     @FXML
     ObservableList<Event> allEvents;
-
     @FXML
     private TableView<Event> table;
     @FXML
@@ -55,15 +65,6 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     private TableColumn<Event, Button> colDelete;
 
 
-
-    @FXML
-    private Button activityButton;
-    @FXML
-    private VBox eventList;
-    @FXML
-    private Button logOutButton;
-    @FXML
-    private Text orderByText;
 
 
 
@@ -95,12 +96,23 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
             table.setItems(eventsWithN);
         } else {
             Alert alertEmpty = new Alert(Alert.AlertType.WARNING);
-            alertEmpty.setTitle("Empty Field");
+            switch(locale.getLanguage()){
+                case "nl":
+                    alertEmpty.setTitle("Lege Velden");
+                    alertEmpty.setContentText("Vul het zoek veld in AUB");
+                    break;
+                case "en":
+                    alertEmpty.setTitle("Empty Field");
+                    alertEmpty.setContentText("Please Fill In The Search Field");
+                    break;
+                default:
+                    break;
+            }
             alertEmpty.setHeaderText(null);
-            alertEmpty.setContentText("Please Fill In The Search Field");
             alertEmpty.showAndWait();
         }
     }
+
 
     /**
      * shows the event details
@@ -140,16 +152,22 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
 
     /**
      * initializes the columns of the table view with string values of events
-     * @param url location
-     * @param resourceBundle resources
      */
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         colEventTitle.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getName()));
         colInvitationID.setCellValueFactory(q -> new SimpleStringProperty(
             q.getValue().getInvitationID()));
         colDelete.setCellValueFactory(q -> {
-            Button delete = new Button("Delete");
+            Button delete = new Button();
+            ImageView imageView = new ImageView();
+            imageView.setFitHeight(20);
+            imageView.setFitWidth(20);
+            Image trash =new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/trash.png")));
+            imageView.setImage(trash);
+            delete.setGraphic(imageView);
             delete.setOnAction(event -> onDeleteClick(q));
             return new SimpleObjectProperty<>(delete);
             });
@@ -164,6 +182,10 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
         titleButton.setText(Main.getLocalizedString("Title"));
         dateButton.setText(Main.getLocalizedString("Date"));
         activityButton.setText(Main.getLocalizedString("Activity"));
+        refreshButton.setText(Main.getLocalizedString("Refresh"));
+        colEventTitle.setText(Main.getLocalizedString("Title"));
+        colInvitationID.setText(Main.getLocalizedString("invitationID"));
+        //delete.setText(Main.getLocalizedString("Delete"));
     }
 
 }

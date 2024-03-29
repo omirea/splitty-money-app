@@ -150,7 +150,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                 mainCtrl.showEventOverview("123");
             }
         }else{
-            Alert alert=new Alert(Alert.AlertType.ERROR);
+            Alert alert=new Alert(Alert.AlertType.WARNING);
             switch(locale.getLanguage()) {
                 case "nl":
                         alert.setTitle("Niet ingevulde velden");

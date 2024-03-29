@@ -17,14 +17,14 @@
          <children>
             <HBox prefHeight="38.0" prefWidth="280.0">
                <children>
-                  <ToolBar prefWidth="300.0">
+                  <ToolBar prefHeight="35.0" prefWidth="294.0">
                     <items>
                         <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#onLogOutClick" text="Log Out" />
                     </items>
                   </ToolBar>
                   <ToolBar HBox.hgrow="NEVER">
                     <items>
-                      <Button fx:id="refresh" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
+                      <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
                     </items>
                   </ToolBar>
                </children>
@@ -78,7 +78,7 @@
               <columns>
                 <TableColumn fx:id="colEventTitle" prefWidth="100.0" text="Title" />
                 <TableColumn fx:id="colInvitationID" prefWidth="100.0" text="Invitation ID" />
-                  <TableColumn fx:id="colDelete" prefWidth="100.0" />
+                  <TableColumn fx:id="colDelete" prefWidth="50.0" />
               </columns>
                <VBox.margin>
                   <Insets top="10.0" />
