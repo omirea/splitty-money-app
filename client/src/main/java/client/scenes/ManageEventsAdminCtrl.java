@@ -2,6 +2,8 @@ package client.scenes;
 
 import client.Main;
 import client.utils.ServerUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Event;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -106,7 +108,6 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
      * shows the event details
      */
     public void showEventDetails(String invitationID){
-        //TODO: show specific event with id
         mainCtrl.showEventOverview(invitationID);
     }
 
@@ -173,7 +174,13 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
         colJSON.setCellValueFactory(q -> {
             Button json = new Button();
             json.setText("JSON");
-            json.setOnAction(event -> onJSONClick(q));
+            json.setOnAction(event -> {
+                try {
+                    onJSONClick(q.getValue());
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
+            });
             return new SimpleObjectProperty<>(json);
         });
         table.setRowFactory(event -> {
@@ -192,10 +199,10 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
 
     /**
      * Makes an JSON file with all the information of the event
-     * @param q button?
+     * @param event which needs to be exported
      */
-    private void onJSONClick(TableColumn.CellDataFeatures<Event, Button> q) {
-
+    private void onJSONClick(Event event) throws JsonProcessingException {
+//        server.json(event.getInvitationID());
     }
 
     /**

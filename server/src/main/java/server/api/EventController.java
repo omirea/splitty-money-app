@@ -14,7 +14,6 @@ import server.database.ExpenseRepository;
 import java.util.List;
 import java.util.Optional;
 
-
 @RestController
 @RequestMapping("/event")
 public class EventController {
@@ -36,7 +35,18 @@ public class EventController {
         return db.findAll();
     }
 
-
+//    @GetMapping("/json/{jsonString}")
+//    public ResponseEntity<Resource> exportEventToJson(
+//         @PathVariable("jsonString") String jsonString) {
+//        try{
+//            byte[] eventBytes = jsonString.getBytes();
+//            ByteArrayResource resource = new ByteArrayResource(eventBytes);
+//            return ResponseEntity.ok().body(resource);
+//
+//        } catch (Exception e){
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//        }
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Event> updateEvent(@RequestBody Event event,
