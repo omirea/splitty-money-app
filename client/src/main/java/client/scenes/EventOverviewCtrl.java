@@ -132,7 +132,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      * method to open the open debts page
      */
     public void onSettleDebtsClick() {
-        mainCtrl.showOpenDebts();
+        mainCtrl.showOpenDebts(event.getInvitationID());
     }
 
     /**

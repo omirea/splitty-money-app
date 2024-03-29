@@ -100,7 +100,8 @@ public class MainCtrl {
     /**
      * method to show open debts page
      */
-    public void showOpenDebts() {
+    public void showOpenDebts(String id) {
+        openDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Open Debts");
         primaryStage.setScene(openDebts);
     }
@@ -171,7 +172,8 @@ public class MainCtrl {
     /**
      * method to show closed debts page
      */
-    public void showClosedDebts() {
+    public void showClosedDebts(String id) {
+        closedDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Closed Debts");
         primaryStage.setScene(closedDebts);
     }

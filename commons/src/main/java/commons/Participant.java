@@ -15,7 +15,7 @@ public class Participant {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "event_id", nullable = false)
+    @JoinColumn(name = "event_id")
     private Event event;
 
     @OneToMany(mappedBy = "from")
