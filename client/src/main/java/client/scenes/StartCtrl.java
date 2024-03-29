@@ -137,10 +137,10 @@ public class StartCtrl implements Main.LanguageSwitch {
     }
 
     public void onEnglishSwitchClick() {
-       Main.swtichLocale("translations", "en");
+       Main.switchLocale("translations", "en");
     }
     public void onDutchSwitchClick() {
-        Main.swtichLocale("translations", "nl");
+        Main.switchLocale("translations", "nl");
     }
 
     @Override

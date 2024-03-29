@@ -21,17 +21,14 @@ import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Main extends Application {
 
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
-    private static ResourceBundle resourceBundle;
     public static Locale locale;
+    private static ResourceBundle resourceBundle;
     public static void main(String[] args) {
         launch(args);
     }
@@ -94,7 +91,7 @@ public class Main extends Application {
             controller.LanguageSwitch();
         }
     }
-    public static void swtichLocale(String baseName, String languageCode) {
+    public static void switchLocale(String baseName, String languageCode) {
         if(languageCode != null) {
             locale = new Locale(languageCode);
             resourceBundle = ResourceBundle.getBundle(baseName, locale);

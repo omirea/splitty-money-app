@@ -15,6 +15,7 @@
  */
 package client.scenes;
 
+import client.Main;
 import client.nodes.PersonAmount;
 import commons.Expense;
 import javafx.scene.Parent;
@@ -74,7 +75,7 @@ public class MainCtrl {
         this.closedDebts = new Scene(closedDebts.getValue());
         this.manageEventsAdminCtrl = eventsAdmin.getKey();
         this.eventsAdmin = new Scene(eventsAdmin.getValue());
-
+        Main.switchLocale("translations","en");
 
         //showEventOverview("123");
         showStartScreen();
