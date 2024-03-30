@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.Main;
 import client.utils.ServerUtils;
+import commons.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -17,6 +18,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+
+    Event event;
 
     @FXML
     private Button payAllDebtsButton;
@@ -111,18 +114,21 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
             listView.getItems().clear();
         }
     }
+    public void setEvent(String id) {
+        event = server.getEventById(id);
+    }
 
     /**
      * method to go back to event page
      */
     public void goBackToEvent(){
-        mainCtrl.showEventOverview("1023");
+        mainCtrl.showEventOverview(event.getInvitationID());
     }
 
     /**
      * method to open closed debts page
      */
-    public void seeClosedDebts(){mainCtrl.showClosedDebts();}
+    public void seeClosedDebts(){mainCtrl.showClosedDebts(event.getInvitationID());}
 
     /**
      * method to mark all selected debts as paid

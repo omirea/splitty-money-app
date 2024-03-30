@@ -91,7 +91,8 @@ public class MainCtrl {
     /**
      * method to show participant page
      */
-    public void showAddParticipant() {
+    public void showAddParticipant(String id) {
+        addEditParticipantCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Add/Edit Participant");
         primaryStage.setScene(participant);
     }
@@ -99,7 +100,8 @@ public class MainCtrl {
     /**
      * method to show open debts page
      */
-    public void showOpenDebts() {
+    public void showOpenDebts(String id) {
+        openDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Open Debts");
         primaryStage.setScene(openDebts);
     }
@@ -107,7 +109,8 @@ public class MainCtrl {
     /**
      * method to show invitation page
      */
-    public void showInvitation() {
+    public void showInvitation(String id) {
+        invitationCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Send Invites");
         primaryStage.setScene(invitation);
     }
@@ -170,7 +173,8 @@ public class MainCtrl {
     /**
      * method to show closed debts page
      */
-    public void showClosedDebts() {
+    public void showClosedDebts(String id) {
+        closedDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Closed Debts");
         primaryStage.setScene(closedDebts);
     }
