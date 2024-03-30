@@ -88,9 +88,10 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
 
-    public void setEvent(String invitationID) {
-        event = server.getEventById(invitationID);
+    public void setEvent(String id) {
+        event = server.getEventByInvitationId(id);
         eventTitleText.setText(event.getName());
+        System.out.println("Current event: " + event);
     }
 
     public ListView<Expense> getListViewAll() {
@@ -110,7 +111,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      */
     public void onSendInvitesClick(){
         //will do the following code snippet once implemented:
-        mainCtrl.showInvitation();
+        mainCtrl.showInvitation(event.getInvitationID());
     }
 
     /**
@@ -132,7 +133,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      * method to open the open debts page
      */
     public void onSettleDebtsClick() {
-        mainCtrl.showOpenDebts();
+        mainCtrl.showOpenDebts(event.getInvitationID());
     }
 
     /**
@@ -150,7 +151,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      * method to edit participant
      */
     public void onParticipantEditClick() {
-        mainCtrl.showAddParticipant();
+        mainCtrl.showManageParticipants(event.getInvitationID());
     }
 
     public void onTitleEditClick() {
@@ -193,7 +194,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      * you will probably change this to use the methods commented out below
      */
     public void addAllParticipants() {
-        List<Participant> pList = event.getParticipants();
+        List<Participant> pList = server.getParticipantsByInvitationId(event.getInvitationID());
         participantsMenu.getItems().addAll(pList);
         String pListString = pList.stream().map(Participant::getName).toList().toString();
         pListString = pListString.substring(1, pListString.length()-1);

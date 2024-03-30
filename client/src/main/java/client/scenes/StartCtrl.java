@@ -87,9 +87,10 @@ public class StartCtrl implements Main.LanguageSwitch {
      * method to create event
      */
     public void onCreateClick() {
-        System.out.println("Create" + createEventField.getText());
+        System.out.println("Create " + createEventField.getText());
         Event e = new Event(createEventField.getText());
-        e = server.createEvent(e);
+        addEventToBox(e);
+        e= server.createEvent(e);
         mainCtrl.showEventOverview(e.getInvitationID());
         createEventField.setText("");
     }
@@ -126,8 +127,8 @@ public class StartCtrl implements Main.LanguageSwitch {
     /**
      * method to add event to box
      */
-    public void addEventToBox() {
-        RecentEvent re = new RecentEvent();
+    public void addEventToBox(Event event) {
+        RecentEvent re = new RecentEvent(event, mainCtrl);
         recentEventsBox.getChildren().add(re.getNode());
     }
 
