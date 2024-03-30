@@ -3,7 +3,6 @@ package client.scenes;
 import client.Main;
 import client.utils.ServerUtils;
 import commons.Event;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -149,7 +148,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         reopenAllDebts.setText(Main.getLocalizedString("reopenAllDebts"));
     }
 
-    public void goBackToEvent(ActionEvent actionEvent) {
+    public void goBackToEvent() {
         mainCtrl.showEventOverview(event.getInvitationID());
     }
 }

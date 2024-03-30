@@ -14,7 +14,7 @@ import java.util.*;
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "event_id")
+    @JoinColumn(name = "event_id",nullable = false)
     private Event event;
 
     @OneToMany(mappedBy = "expense")
