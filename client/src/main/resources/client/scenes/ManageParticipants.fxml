@@ -23,9 +23,9 @@
             <VBox fx:id="displayParticipants" fillWidth="false" prefHeight="279.0" prefWidth="280.0" spacing="10.0" VBox.vgrow="ALWAYS" />
             <HBox alignment="CENTER" prefHeight="43.0" prefWidth="288.0" spacing="20.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#onCancelClick" text="Cancel" />
-                  <Button mnemonicParsing="false" onAction="#onFinishClick" text="Finish" />
-                  <Button mnemonicParsing="false" onAction="#showAddParticipant" text="Add" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancelClick" text="Cancel" />
+                  <Button fx:id="finishButton" mnemonicParsing="false" onAction="#onFinishClick" text="Finish" />
+                  <Button fx:id="addButton" mnemonicParsing="false" onAction="#showAddParticipant" text="Add" />
                   <Button mnemonicParsing="false" onAction="#addRandomParticipant" text="test" />
                </children>
             </HBox>
