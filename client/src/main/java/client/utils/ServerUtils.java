@@ -80,8 +80,8 @@ public class ServerUtils {
 				.target(SERVER).path("participant")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
-				.post(Entity.entity(participant, APPLICATION_JSON),
-					Participant.class);
+				.post(Entity.entity(participant , APPLICATION_JSON),
+						Participant.class);
 	}
 
 	/**
@@ -98,6 +98,14 @@ public class ServerUtils {
 					Participant.class);
 	}
 
+	public List<Participant> getParticipantsByInvitationId(String invitationId) {
+		return ClientBuilder.newClient(new ClientConfig())
+				.target(SERVER).path("event/" + invitationId + "/participant")
+				.request(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.get(new GenericType<List<Participant>>() {});
+	}
+
 	/**
 	 *
 	 * @return a list of events
@@ -109,6 +117,7 @@ public class ServerUtils {
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<List<Event>>() {});
 	}
+
 
 	/**
 	 * method to get a specific Event based on invitationID
@@ -130,7 +139,7 @@ public class ServerUtils {
 	 */
 	public Event deleteEvent (long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("event/" + id)
+				.target(SERVER).path("event/delete/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.delete(new GenericType<Event>() {});
@@ -146,7 +155,7 @@ public class ServerUtils {
 				.target(SERVER).path("event")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
-				.post(Entity.entity(event , APPLICATION_JSON),
+				.post(Entity.entity(event, APPLICATION_JSON),
 						Event.class);
 	}
 

@@ -2,30 +2,42 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ManageEventsAdminCtrl">
+<AnchorPane prefHeight="498.0" prefWidth="395.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ManageEventsAdminCtrl">
    <children>
       <VBox layoutX="106.0" layoutY="80.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#onLogOutClick" text="Log Out">
-               <VBox.margin>
-                  <Insets left="10.0" top="10.0" />
-               </VBox.margin>
-            </Button>
+            <HBox prefHeight="38.0" prefWidth="280.0">
+               <children>
+                  <ToolBar prefHeight="35.0" prefWidth="294.0">
+                    <items>
+                        <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#onLogOutClick" text="Log Out" />
+                    </items>
+                  </ToolBar>
+                  <ToolBar HBox.hgrow="NEVER">
+                    <items>
+                      <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
+                    </items>
+                  </ToolBar>
+               </children>
+            </HBox>
+
             <HBox prefHeight="27.0" prefWidth="280.0">
                <children>
-                  <TextField fx:id="eventName" promptText="search event">
+                  <TextField fx:id="eventNameTextField" promptText="search event">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button fx:id="search" mnemonicParsing="false" onAction="#onSearchClick" text="Search">
+                  <Button fx:id="searchButton" mnemonicParsing="false" onAction="#onSearchClick" text="Search">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -37,33 +49,41 @@
             </HBox>
             <HBox prefHeight="47.0" prefWidth="280.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Order By">
+                  <Text fx:id="orderByText" strokeType="OUTSIDE" strokeWidth="0.0" text="Order By">
                      <HBox.margin>
                         <Insets left="10.0" top="15.0" />
                      </HBox.margin>
                   </Text>
-                  <Button fx:id="title" alignment="CENTER" mnemonicParsing="false" text="Title">
+
+
+                  <Button fx:id="titleButton" alignment="CENTER" mnemonicParsing="false" text="Title">
+
                      <HBox.margin>
                         <Insets left="30.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="date" alignment="CENTER" layoutX="99.0" layoutY="20.0" mnemonicParsing="false" text="Date">
+                  <Button fx:id="dateButton" alignment="CENTER" layoutX="99.0" layoutY="20.0" mnemonicParsing="false" text="Date">
                      <HBox.margin>
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="activity" alignment="CENTER" layoutX="161.0" layoutY="20.0" mnemonicParsing="false" text="Activity">
+                  <Button fx:id="activityButton" alignment="CENTER" layoutX="161.0" layoutY="20.0" mnemonicParsing="false" text="Activity">
                      <HBox.margin>
                         <Insets left="20.0" top="10.0" />
                      </HBox.margin>
                   </Button>
                </children>
             </HBox>
-            <ScrollPane prefHeight="506.0" prefWidth="280.0">
-               <content>
-                  <VBox fx:id="eventList" prefHeight="243.0" prefWidth="280.0" />
-               </content>
-            </ScrollPane>
+            <TableView fx:id="table" VBox.vgrow="ALWAYS">
+              <columns>
+                <TableColumn fx:id="colEventTitle" prefWidth="100.0" text="Title" />
+                <TableColumn fx:id="colInvitationID" prefWidth="100.0" text="Invitation ID" />
+                  <TableColumn fx:id="colDelete" prefWidth="50.0" />
+              </columns>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </TableView>
          </children>
       </VBox>
    </children>

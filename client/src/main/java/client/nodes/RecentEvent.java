@@ -1,5 +1,8 @@
 package client.nodes;
 
+import client.scenes.MainCtrl;
+import commons.Event;
+import jakarta.inject.Inject;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -8,7 +11,9 @@ import javafx.scene.text.Text;
 
 public class RecentEvent {
     HBox hbox;
-    // Event event;
+     Event event;
+
+     MainCtrl mainCtrl;
     Button link;
     Button remove;
 
@@ -28,6 +33,24 @@ public class RecentEvent {
 
     }
 
+    @Inject
+    public RecentEvent(Event event, MainCtrl mainCtrl) {
+        this.event = event;
+        this.mainCtrl=mainCtrl;
+        link = new Button("Open ");
+        // might need to put the url from event into the param
+        link.setOnAction(e -> openRecentEvent());
+        remove = new Button("Remove ");
+        remove.setOnAction(e -> removeRecentEvent());
+        hbox = new HBox();
+        hbox.getChildren().add(new Text(this.event.getName() +"  "));
+        hbox.getChildren().add(link);
+        hbox.getChildren().add(remove);
+        hbox.setAlignment(Pos.CENTER_LEFT);
+
+    }
+
+
     public HBox getNode(){
         return hbox;
     }
@@ -35,5 +58,9 @@ public class RecentEvent {
     private void removeRecentEvent() {
         VBox parent = (VBox) hbox.getParent();
         parent.getChildren().remove(hbox);
+    }
+
+    private void openRecentEvent() {
+        mainCtrl.showEventOverview(event.getInvitationID());
     }
 }

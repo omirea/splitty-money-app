@@ -16,7 +16,7 @@ public class Participant {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "event_id", nullable = false)
+    @JoinColumn(name = "event_id")
     private Event event;
 
     @OneToMany(mappedBy = "from")
@@ -37,11 +37,12 @@ public class Participant {
      * @param IBAN IBAN of the participant
      * @param BIC BIC of the participant
      */
-    public Participant(String name, String email, String IBAN, String BIC){
+    public Participant(String name, String email, String IBAN, String BIC, Event event){
         this.name=name;
         this.email=email;
         this.IBAN=IBAN;
         this.BIC=BIC;
+        this.event = event;
         payDebts = new ArrayList<>();
         receiveDebts = new ArrayList<>();
     }
@@ -129,6 +130,10 @@ public class Participant {
 
     public Event getEvent() {
         return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
     }
 
     /**

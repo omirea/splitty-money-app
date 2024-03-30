@@ -35,13 +35,13 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password:">
+                  <Text fx:id="passwordText" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
                   <PasswordField fx:id="passwordField" GridPane.columnIndex="1" />
-                  <Button mnemonicParsing="false" onAction="#onClickLogIn" text="Log In" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Button fx:id="logInButton" mnemonicParsing="false" onAction="#onClickLogIn" text="Log In" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
                <VBox.margin>
                   <Insets />

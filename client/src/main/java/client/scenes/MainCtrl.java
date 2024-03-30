@@ -15,8 +15,10 @@
  */
 package client.scenes;
 
+import client.Main;
 import client.nodes.PersonAmount;
 import commons.Expense;
+import commons.Participant;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
@@ -36,7 +38,7 @@ public class MainCtrl {
     private ClosedDebtsCtrl closedDebtsCtrl;
     private ManageEventsAdminCtrl manageEventsAdminCtrl;
 
-    private Scene participant, openDebts, invitation,
+    private Scene addEditParticipant, openDebts, invitation,
         expense, overview, manageParticipants, start,
         logInAdmin, closedDebts, eventsAdmin;
 
@@ -58,7 +60,7 @@ public class MainCtrl {
         this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
         this.addEditParticipantCtrl = participant.getKey();
-        this.participant = new Scene(participant.getValue());
+        this.addEditParticipant = new Scene(participant.getValue());
         this.openDebtsCtrl = openDebts.getKey();
         this.openDebts = new Scene(openDebts.getValue());
         this.invitationCtrl = invitation.getKey();
@@ -73,13 +75,14 @@ public class MainCtrl {
         this.closedDebts = new Scene(closedDebts.getValue());
         this.manageEventsAdminCtrl = eventsAdmin.getKey();
         this.eventsAdmin = new Scene(eventsAdmin.getValue());
-
+        Main.switchLocale("translations","en");
 
         //showEventOverview("123");
-        showStartScreen();
+        //showStartScreen();
+        showEventsAdmin();
         //showEditParticipants();
         //showOpenDebts();
-        //showExpense();
+
         //showEditParticipants();
         //showAdminLogIn();
         primaryStage.show();
@@ -91,13 +94,21 @@ public class MainCtrl {
     public void showAddParticipant(String id) {
         addEditParticipantCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Add/Edit Participant");
-        primaryStage.setScene(participant);
+        primaryStage.setScene(addEditParticipant);
+    }
+
+    public void showAddParticipant(String id, Participant participant) {
+        addEditParticipantCtrl.setEvent(id);
+        addEditParticipantCtrl.setParticipant(participant);
+        primaryStage.setTitle("Splitty: Add/Edit Participant");
+        primaryStage.setScene(addEditParticipant);
     }
 
     /**
      * method to show open debts page
      */
-    public void showOpenDebts() {
+    public void showOpenDebts(String id) {
+        openDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Open Debts");
         primaryStage.setScene(openDebts);
     }
@@ -105,7 +116,8 @@ public class MainCtrl {
     /**
      * method to show invitation page
      */
-    public void showInvitation() {
+    public void showInvitation(String id) {
+        invitationCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Send Invites");
         primaryStage.setScene(invitation);
     }
@@ -141,8 +153,10 @@ public class MainCtrl {
     /**
      * method to show manage participant page
      */
-    public void showManageParticipants(String invitationId) {
+    public void showManageParticipants(String invitationId, Participant participantToAdd) {
         manageParticipantsCtrl.setEvent(invitationId);
+//        manageParticipantsCtrl.addAllParticipants();
+        manageParticipantsCtrl.addNewParticipant(participantToAdd);
         primaryStage.setTitle("Splitty: Manage Participants");
         primaryStage.setScene(manageParticipants);
     }
@@ -161,6 +175,7 @@ public class MainCtrl {
      * method to show admin events overview page
      */
     public void showEventsAdmin(){
+        manageEventsAdminCtrl.refresh();
         primaryStage.setTitle("Splitty: Admin events overview");
         primaryStage.setScene(eventsAdmin);
     }
@@ -168,7 +183,8 @@ public class MainCtrl {
     /**
      * method to show closed debts page
      */
-    public void showClosedDebts() {
+    public void showClosedDebts(String id) {
+        closedDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Closed Debts");
         primaryStage.setScene(closedDebts);
     }

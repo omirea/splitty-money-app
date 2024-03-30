@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.database.EventRepository;
 import server.database.ExpenseRepository;
+import server.database.ParticipantRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,11 +18,13 @@ import java.util.Optional;
 @RequestMapping("/event")
 public class EventController {
     private final EventRepository db;
+    private final ParticipantRepository participantDB;
     private ExpenseRepository exRepo;
 
-    public EventController(EventRepository db, ExpenseRepository exRepo){
+    public EventController(EventRepository db, ExpenseRepository exRepo, ParticipantRepository participantDB){
         this.db=db;
         this.exRepo=exRepo;
+        this.participantDB = participantDB;
     }
 
     /**
@@ -33,6 +36,7 @@ public class EventController {
     public List<Event> getAll() {
         return db.findAll();
     }
+
 
 
     @PutMapping("/{id}")
@@ -52,7 +56,7 @@ public class EventController {
         return ResponseEntity.ok(updatedEventEntity);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Event> deleteEvent(@PathVariable("id") long id) {
         db.deleteById(id);
         return ResponseEntity.noContent().build();
@@ -67,6 +71,7 @@ public class EventController {
         Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAny()));
         return tempEvent.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 
     @PostMapping(path = { "", "/" })
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
@@ -133,6 +138,32 @@ public class EventController {
 //        return ResponseEntity.ok(event);
 //    }
 
+
+    @GetMapping("/{invitationID}/participant")
+    @ResponseBody
+    public ResponseEntity<List<Participant>> getParticipantsByInvitationId(
+            @PathVariable("invitationID") String invitationID) {
+
+        Event e = new Event();
+        e.setInvitationID(invitationID);
+        Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAny()));
+        if (tempEvent.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Participant p = new Participant();
+        p.setEvent(tempEvent.get());
+
+        List<Participant> participants = participantDB.findAll(Example.of(p, ExampleMatcher.matchingAny()));
+
+        if (!participants.isEmpty()) {
+            return ResponseEntity.ok(participants);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
     /**
      * Checks if a string is null or empty.
      *
@@ -144,10 +175,10 @@ public class EventController {
     }
 
     /**
-     *
-     * @param id
-     * @param expense
-     * @return
+     * adding an expense to event
+     * @param id event id
+     * @param expense expense to add
+     * @return response entity
      */
     @PostMapping("/{id}/expenses")
     public ResponseEntity<Expense> addExpenseToEvent(
