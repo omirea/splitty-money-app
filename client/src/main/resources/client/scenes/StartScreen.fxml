@@ -45,7 +45,7 @@
                      <graphic>
                         <ImageView fx:id="adminView" fitHeight="22.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../icons/System%20administrator%20male_1.png" />
+                              <Image url="@../../icons/systemadministratormale_1.png" />
                            </image>
                         </ImageView>
                      </graphic>

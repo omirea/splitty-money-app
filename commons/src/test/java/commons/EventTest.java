@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class EventTest {
 
+
     @Test
     void getNameTest(){
         Event event = new Event("Party", "DER45");
