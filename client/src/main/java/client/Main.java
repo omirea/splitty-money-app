@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 
 import java.util.*;
 
+@SuppressWarnings("deprecation")
 public class Main extends Application {
 
     private static final Injector INJECTOR = createInjector(new MyModule());

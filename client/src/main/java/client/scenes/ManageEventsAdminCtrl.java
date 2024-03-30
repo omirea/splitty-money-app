@@ -2,29 +2,25 @@ package client.scenes;
 
 import client.Main;
 import client.utils.ServerUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import commons.Event;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
-
-
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
 import javax.inject.Inject;
 import java.net.URL;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static client.Main.locale;
 
@@ -40,17 +36,9 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     @FXML
     private Button searchButton;
     @FXML
-    private Button titleButton;
-    @FXML
-    private Button dateButton;
-    @FXML
-    private Button activityButton;
-    @FXML
     private Button logOutButton;
     @FXML
     private Button refreshButton;
-    @FXML
-    private Text orderByText;
     @FXML
     ObservableList<Event> allEvents;
     @FXML
@@ -61,9 +49,12 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     private TableColumn<Event, String> colInvitationID;
     @FXML
     private TableColumn<Event, Button> colDelete;
-
-
-
+    @FXML
+    private TableColumn<Event, String> colDateCreated;
+    @FXML
+    private TableColumn<Event, String> colLastModified;
+    @FXML
+    private TableColumn<Event, Button> colJSON;
 
 
     @Inject
@@ -115,34 +106,24 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     /**
      * shows the event details
      */
-    public void showEventDetails(){
-        //TODO: show specific event with id
-        mainCtrl.showEventOverview("123");
+    public void showEventDetails(String invitationID){
+        mainCtrl.showEventOverview(invitationID);
     }
+
 
     /**
-     * should order the event list of search on date made
+     * refreshes the table view with recent added events
      */
-    public void onDateOrderClick(){
-//        tableView.setSortPolicy();
-    }
-
-    public void onTitleOrderClick(){
-//        colEventTitle.setSortType(TableColumn.SortType.ASCENDING);
-//        refresh();
-        var events = server.getAllEvents();
-        List<Event> sortedEvents = events.stream().sorted().toList();
-        ObservableList<Event> eventsSorted = FXCollections.observableList(sortedEvents);
-        table.setItems(eventsSorted);
-
-    }
-
     public void refresh(){
         var events = server.getAllEvents();
         allEvents = FXCollections.observableList(events);
         table.setItems(allEvents);
     }
 
+    /**
+     * Deletes the Event from the database when clicked on the button
+     * @param q The button
+     */
     public void onDeleteClick(TableColumn.CellDataFeatures<Event, Button> q){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
         switch(locale.getLanguage()) {
@@ -166,9 +147,8 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     }
 
     /**
-     * initializes the columns of the table view with string values of events
+     * initializes the rows of the table view with all the columns and the attributes
      */
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         colEventTitle.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getName()));
@@ -185,22 +165,58 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
             delete.setGraphic(imageView);
             delete.setOnAction(event -> onDeleteClick(q));
             return new SimpleObjectProperty<>(delete);
+        });
+        colDateCreated.setCellValueFactory(q ->
+        new SimpleStringProperty(q.getValue().getCreateDate().toString()));
+        colLastModified.setCellValueFactory(q ->
+            new SimpleStringProperty(q.getValue().getLastModified().toString()));
+        colJSON.setCellValueFactory(q -> {
+            Button json = new Button();
+            json.setText("JSON");
+            json.setOnAction(event -> {
+                try {
+                    onJSONClick(q.getValue());
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
             });
-        }
+            return new SimpleObjectProperty<>(json);
+        });
+        table.setRowFactory(event -> {
+           TableRow<Event> row = new TableRow<>();
+           row.setOnMouseClicked(q -> {
+               if(q.getClickCount() == 2 && (!row.isEmpty())) {
+                   Event eventRow = row.getItem();
+                   String invID = eventRow.getInvitationID();
+                   showEventDetails(invID);
+               }
+           });
+           return row;
+        });
+    }
 
+
+    /**
+     * Makes an JSON file with all the information of the event
+     * @param event which needs to be exported
+     */
+    private void onJSONClick(Event event) throws JsonProcessingException {
+//        server.json(event.getInvitationID());
+    }
+
+    /**
+     * sets the keys on each text included FXML object for the language switch
+     */
     @Override
     public void LanguageSwitch() {
-        orderByText.setText(Main.getLocalizedString("orderBy"));
         logOutButton.setText(Main.getLocalizedString("logOut"));
         eventNameTextField.setText(Main.getLocalizedString("searchEvent"));
         searchButton.setText(Main.getLocalizedString("Search"));
-        titleButton.setText(Main.getLocalizedString("Title"));
-        dateButton.setText(Main.getLocalizedString("Date"));
-        activityButton.setText(Main.getLocalizedString("Activity"));
         refreshButton.setText(Main.getLocalizedString("Refresh"));
         colEventTitle.setText(Main.getLocalizedString("Title"));
         colInvitationID.setText(Main.getLocalizedString("invitationID"));
-        //delete.setText(Main.getLocalizedString("Delete"));
+        colLastModified.setText(Main.getLocalizedString("lastModified"));
+        colDateCreated.setText(Main.getLocalizedString("dateCreated"));
     }
 
 }
