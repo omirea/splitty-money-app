@@ -47,6 +47,15 @@ public class Participant {
         receiveDebts = new ArrayList<>();
     }
 
+    public Participant(String name, String email, String IBAN, String BIC){
+        this.name=name;
+        this.email=email;
+        this.IBAN=IBAN;
+        this.BIC=BIC;
+        payDebts = new ArrayList<>();
+        receiveDebts = new ArrayList<>();
+    }
+
     public Participant(Event event, List<Debt> payDebts, List<Debt> receiveDebts,
                        String name, String email, String IBAN, String BIC) {
         this.event = event;

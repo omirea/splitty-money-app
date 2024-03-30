@@ -3,9 +3,7 @@ package commons;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Currency;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -101,11 +99,6 @@ public class ExpenseTest {
 
     @Test
     public void setCurrencyTest() {
-        Participant p1 = new Participant("a","b","c","d");
-        Participant p2 = new Participant("e","g","f","h");
-        Participant p3 = new Participant("this","or","that","right");
-        List<Participant> participants = Arrays.asList(p2, p3);
-
         Expense expense = new Expense( "This is a description",
                 2.09,"This is a type",
                 LocalDate.of(2005, 12, 1),
