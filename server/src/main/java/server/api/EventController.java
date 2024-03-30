@@ -1,7 +1,6 @@
 package server.api;
 
 import commons.Event;
-import commons.Expense;
 import commons.Participant;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -51,7 +50,6 @@ public class EventController {
         }
 
         Event existingEvent = db.findById(id).get();
-        existingEvent.setExpenses(event.getExpenses());
         existingEvent.setName(event.getName());
         Event updatedEventEntity = db.save(existingEvent);
         return ResponseEntity.ok(updatedEventEntity);
@@ -171,12 +169,14 @@ public class EventController {
         return s == null || s.isEmpty();
     }
 
+
     /**
      * adding an expense to event
      * @param id event id
      * @param expense expense to add
      * @return response entity
      */
+    /**
     @PostMapping("/{id}/expenses")
     public ResponseEntity<Expense> addExpenseToEvent(
             @PathVariable("id") long id,
@@ -192,6 +192,6 @@ public class EventController {
         Expense saved = exRepo.save(expense);
         return ResponseEntity.ok(saved);
     }
-
+*/
 
 }
