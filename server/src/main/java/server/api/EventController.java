@@ -2,8 +2,6 @@ package server.api;
 
 import commons.Event;
 import commons.Expense;
-import commons.Participant;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
