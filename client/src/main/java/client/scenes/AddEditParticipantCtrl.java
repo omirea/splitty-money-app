@@ -72,7 +72,14 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             String iban = ibanTextField.getText();
             String bic = bicTextField.getText();
 
-            participant = new Participant(name, email, iban, bic, event);
+            if (participant == null) {
+                participant = new Participant(name, email, iban, bic, event);
+            } else {
+                participant.setName(name);
+                participant.setEmail(email);
+                participant.setIBAN(iban);
+                participant.setBIC(bic);
+            }
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
 

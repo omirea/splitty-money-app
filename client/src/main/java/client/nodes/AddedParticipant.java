@@ -82,7 +82,8 @@ public class AddedParticipant {
     }
 
     private void editParticipant() {
-        removeParticipant();
+        VBox parent = (VBox) hbox.getParent();
+        parent.getChildren().remove(hbox);
         manageParticipantsCtrl.showEditParticipant(participant);
     }
 }

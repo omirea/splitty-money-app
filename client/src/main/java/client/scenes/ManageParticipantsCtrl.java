@@ -118,6 +118,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     }
 
     public void showEditParticipant(Participant participant) {
+        addedParticipants.remove(participant);
         mainCtrl.showAddParticipant(event.getInvitationID(), participant);
     }
 
@@ -136,9 +137,13 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
     public void addNewParticipant(Participant participant) {
         if (participant == null) return;
+        if (participant.getId() != null) {
+            addEditedParticipant(participant);
+        } else {
+            addAddedParticipant(participant);
+        }
         AddedParticipant addedParticipant = new AddedParticipant(participant, this);
         displayParticipants.getChildren().add(addedParticipant.getNode());
-        addAddedParticipant(participant);
     }
 
     public void addAddedParticipant(Participant participant) {
