@@ -153,14 +153,10 @@ public class EventController {
 
         Participant p = new Participant();
         p.setEvent(tempEvent.get());
-
         List<Participant> participants = participantDB.findAll(Example.of(p, ExampleMatcher.matchingAny()));
+        System.out.println(participants);
 
-        if (!participants.isEmpty()) {
-            return ResponseEntity.ok(participants);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(participants);
     }
 
 
