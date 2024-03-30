@@ -1,14 +1,12 @@
 package server.api;
 
 import commons.Event;
-import commons.Expense;
 import commons.Participant;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.database.EventRepository;
-import server.database.ExpenseRepository;
 import server.database.ParticipantRepository;
 
 import java.util.List;
@@ -20,11 +18,9 @@ import java.util.Optional;
 public class EventController {
     private final EventRepository db;
     private final ParticipantRepository participantDB;
-    private ExpenseRepository exRepo;
 
-    public EventController(EventRepository db, ExpenseRepository exRepo, ParticipantRepository participantDB){
+    public EventController(EventRepository db, ParticipantRepository participantDB){
         this.db=db;
-        this.exRepo=exRepo;
         this.participantDB = participantDB;
     }
 
@@ -51,7 +47,6 @@ public class EventController {
         }
 
         Event existingEvent = db.findById(id).get();
-        existingEvent.setExpenses(event.getExpenses());
         existingEvent.setName(event.getName());
         Event updatedEventEntity = db.save(existingEvent);
         return ResponseEntity.ok(updatedEventEntity);
@@ -161,37 +156,35 @@ public class EventController {
     }
 
 
-    /**
-     * Checks if a string is null or empty.
-     *
-     * @param s the string s
-     * @return true if the string is null or empty
-     */
-    private static boolean isNullOrEmpty(String s) {
-        return s == null || s.isEmpty();
-    }
-
-    /**
-     * adding an expense to event
-     * @param id event id
-     * @param expense expense to add
-     * @return response entity
-     */
-    @PostMapping("/{id}/expenses")
-    public ResponseEntity<Expense> addExpenseToEvent(
-            @PathVariable("id") long id,
-            @RequestBody Expense expense) {
-        if (!db.existsById(id) || isNullOrEmpty(expense.getDescription())) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        expense.setDateSent(java.time.LocalDate.now());
-
-        Event event = db.findById(id).get();
-        event.addExpense(expense);
-        Expense saved = exRepo.save(expense);
-        return ResponseEntity.ok(saved);
-    }
+//    /**
+//     * Checks if a string is null or empty.
+//     *
+//     * @param s the string s
+//     * @return true if the string is null or empty
+//     */
+//
+//    TODO: I DONT THINK THIS METHOD IS NEEDED GIVEN OUR NEW STRUCTURE WITH NO EXPENSE LIST
+//    /**
+//     * adding an expense to event
+//     * @param id event id
+//     * @param expense expense to add
+//     * @return response entity
+//     */
+//    @PostMapping("/{id}/expenses")
+//    public ResponseEntity<Expense> addExpenseToEvent(
+//            @PathVariable("id") long id,
+//            @RequestBody Expense expense) {
+//        if (!db.existsById(id) || isNullOrEmpty(expense.getDescription())) {
+//            return ResponseEntity.badRequest().build();
+//        }
+//
+//        expense.setDateSent(java.time.LocalDate.now());
+//
+//        Event event = db.findById(id).get();
+//        event.addExpense(expense);
+//        Expense saved = exRepo.save(expense);
+//        return ResponseEntity.ok(saved);
+//    }
 
 
 }
