@@ -155,10 +155,13 @@ public class MainCtrl {
      */
     public void showManageParticipants(String invitationId, Participant participantToAdd) {
         manageParticipantsCtrl.setEvent(invitationId);
-        manageParticipantsCtrl.addAllParticipants();
         manageParticipantsCtrl.addNewParticipant(participantToAdd);
         primaryStage.setTitle("Splitty: Manage Participants");
         primaryStage.setScene(manageParticipants);
+    }
+    public void showManageParticipants(String invitationId) {
+        showManageParticipants(invitationId, null);
+        manageParticipantsCtrl.addAllParticipants();
     }
 
     /**
