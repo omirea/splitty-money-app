@@ -19,7 +19,8 @@ public class AddedParticipant {
     Button edit;
     ManageParticipantsCtrl manageParticipantsCtrl;
 
-    public AddedParticipant(Participant participant, ManageParticipantsCtrl manageParticipantsCtrl) {
+    public AddedParticipant(Participant participant,
+                            ManageParticipantsCtrl manageParticipantsCtrl) {
         this.participant = participant;
         name = new Text(participant.getName());
 

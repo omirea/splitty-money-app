@@ -102,8 +102,8 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
      * method to add a random participant
      */
     public void addRandomParticipant() {
-        Participant participant = new Participant(event, new ArrayList<Debt>(), new ArrayList<Debt>(),
-                "name", "email", "iban", "bic");
+        Participant participant = new Participant(event, new ArrayList<Debt>(),
+                new ArrayList<Debt>(), "name", "email", "iban", "bic");
         AddedParticipant addedParticipant = new AddedParticipant(participant, this);
         addedParticipants.add(participant);
         HBox hBox = addedParticipant.getNode();
