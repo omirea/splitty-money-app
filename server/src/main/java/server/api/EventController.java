@@ -21,7 +21,8 @@ public class EventController {
     private final ParticipantRepository participantDB;
     private ExpenseRepository exRepo;
 
-    public EventController(EventRepository db, ExpenseRepository exRepo, ParticipantRepository participantDB){
+    public EventController(EventRepository db, ExpenseRepository exRepo,
+                           ParticipantRepository participantDB){
         this.db=db;
         this.exRepo=exRepo;
         this.participantDB = participantDB;
@@ -152,7 +153,8 @@ public class EventController {
 
         Participant p = new Participant();
         p.setEvent(tempEvent.get());
-        List<Participant> participants = participantDB.findAll(Example.of(p, ExampleMatcher.matchingAny()));
+        List<Participant> participants = participantDB.
+                findAll(Example.of(p, ExampleMatcher.matchingAny()));
         System.out.println(participants);
 
         return ResponseEntity.ok(participants);
