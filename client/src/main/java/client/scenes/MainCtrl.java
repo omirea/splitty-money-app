@@ -20,7 +20,9 @@ import client.nodes.PersonAmount;
 import commons.Expense;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -36,11 +38,12 @@ public class MainCtrl {
     private AdminLogInCtrl adminLogInCtrl;
     private ClosedDebtsCtrl closedDebtsCtrl;
     private ManageEventsAdminCtrl manageEventsAdminCtrl;
+    private SettingsPageCtrl settingsPageCtrl;
 
 
     private Scene participant, openDebts, invitation,
         expense, overview, manageParticipants, start,
-        logInAdmin, closedDebts, eventsAdmin;
+        logInAdmin, closedDebts, eventsAdmin, settingsPage;
 
 
     public void initialize(Stage primaryStage,
@@ -53,7 +56,8 @@ public class MainCtrl {
                            Pair<ManageParticipantsCtrl, Parent> manageParticipants,
                            Pair<AdminLogInCtrl, Parent> logInAdminA,
                            Pair<ClosedDebtsCtrl, Parent> closedDebts,
-                           Pair<ManageEventsAdminCtrl, Parent> eventsAdmin) {
+                           Pair<ManageEventsAdminCtrl, Parent> eventsAdmin,
+                            Pair<SettingsPageCtrl, Parent> settingsPage) {
         this.primaryStage = primaryStage;
         this.startCtrl = start.getKey();
         this.start = new Scene(start.getValue());
@@ -75,14 +79,16 @@ public class MainCtrl {
         this.closedDebts = new Scene(closedDebts.getValue());
         this.manageEventsAdminCtrl = eventsAdmin.getKey();
         this.eventsAdmin = new Scene(eventsAdmin.getValue());
+        this.settingsPage=new Scene(settingsPage.getValue());
         Main.switchLocale("translations","en");
+
 
         //showEventOverview("123");
         //showStartScreen();
-        showEventsAdmin();
+        showSettingsPage();
+        //showEventsAdmin();
         //showEditParticipants();
         //showOpenDebts();
-
         //showEditParticipants();
         //showAdminLogIn();
         primaryStage.show();
@@ -168,10 +174,35 @@ public class MainCtrl {
     }
 
     /**
+     * method to show the Settings page
+     */
+    public void showSettingsPage(){
+
+        // Set the preferred size of the VBox to make it smaller
+//        settingsPage.getRoot().setScaleX(313); // Adjust width and height as needed
+//        settingsPage.getRoot().setScaleY(261);
+
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(start.getRoot(), settingsPage.getRoot());
+        stackPane.getChildren().get(1).setLayoutY(261);
+        stackPane.getChildren().get(1).setLayoutX(313);
+
+
+
+        primaryStage.setScene(new Scene(stackPane));
+        primaryStage.setTitle("Splitty: Settings Page");
+        primaryStage.show();
+
+//        primaryStage.setTitle("Splitty: SettingsPage");
+//        primaryStage.toBack(start);
+//        primaryStage.toFront(settingsPage);
+    }
+
+    /**
      * method to show closed debts page
      */
     public void showClosedDebts() {
-        primaryStage.setTitle("Closed Debts");
+        primaryStage.setTitle("Splitty: Closed Debts");
         primaryStage.setScene(closedDebts);
     }
 
