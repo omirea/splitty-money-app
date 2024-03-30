@@ -26,9 +26,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-    private List<Participant> addedParticipants;
-    private List<Participant> editedParticipants;
-    private List<Participant> deletedParticipants;
+    private List<Participant> addedParticipants, editedParticipants, deletedParticipants;
     private Event event;
 
     @FXML
@@ -37,16 +35,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     private Label manageParticipantsLabel;
 
     @FXML
-    private Button cancelButton;
-
-    @FXML
-    private Button finishButton;
-
-    @FXML
-    private Button addButton;
-
-    private VBox displayParticipantsBackup;
-
+    private Button cancelButton, finishButton, addButton;
 
     @Inject
     public ManageParticipantsCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -62,6 +51,15 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
      */
     public void onCancelClick() {
         System.out.println("Going back to event");
+        if (hasConfirmed()) {
+            mainCtrl.showEventOverview(event.getInvitationID());
+            addedParticipants = new ArrayList<>();
+            editedParticipants = new ArrayList<>();
+            deletedParticipants = new ArrayList<>();
+        }
+    }
+
+    private static boolean hasConfirmed() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         switch(locale.getLanguage()) {
             case "nl":
@@ -76,13 +74,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
                 break;
         }
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            mainCtrl.showEventOverview(event.getInvitationID());
-            addedParticipants = new ArrayList<>();
-            editedParticipants = new ArrayList<>();
-            deletedParticipants = new ArrayList<>();
-            displayParticipantsBackup = null;
-        }
+        return result.isPresent() && result.get() == ButtonType.OK;
     }
 
     /**
@@ -91,7 +83,8 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     public void onFinishClick() {
         System.out.println("Complete changes and return to event");
         for (Participant participant : addedParticipants) {
-            server.createParticipant(participant);
+            Participant p = server.createParticipant(participant);
+            participant.setId(p.getId());
         }
         for (Participant participant : editedParticipants) {
             server.updateParticipant(participant, participant.getId());
@@ -103,7 +96,6 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         editedParticipants = new ArrayList<>();
         deletedParticipants = new ArrayList<>();
         mainCtrl.showEventOverview(event.getInvitationID());
-        displayParticipantsBackup = null;
     }
 
     /**
@@ -123,12 +115,10 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
      */
     public void showAddParticipant() {
         mainCtrl.showAddParticipant(event.getInvitationID());
-        displayParticipantsBackup = displayParticipants;
     }
 
     public void showEditParticipant(Participant participant) {
         mainCtrl.showAddParticipant(event.getInvitationID(), participant);
-        displayParticipantsBackup = displayParticipants;
     }
 
     public void setEvent(String id) {
@@ -136,10 +126,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     }
 
     public void addAllParticipants() {
-        if (displayParticipantsBackup != null) {
-            displayParticipants = displayParticipantsBackup;
-            return;
-        }
+        displayParticipants.getChildren().clear();
         List<Participant> pList = server.getParticipantsByInvitationId(event.getInvitationID());
         for (Participant participant : pList) {
             AddedParticipant addedParticipant = new AddedParticipant(participant, this);

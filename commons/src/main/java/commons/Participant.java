@@ -167,4 +167,8 @@ public class Participant {
                 ", BIC: '" + BIC + '\'' +
                 ';';
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

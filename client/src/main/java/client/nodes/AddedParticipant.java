@@ -57,7 +57,7 @@ public class AddedParticipant {
     private void renameParticipant() {
         System.out.println("Renaming participant");
 
-        Node node = hbox.getChildren().remove(0);
+        Node node = hbox.getChildren().removeFirst();
         name = (Text) node;
         TextField field = new TextField(name.getText());
         hbox.getChildren().add(0, field);
@@ -69,7 +69,7 @@ public class AddedParticipant {
     private void saveParticipant() {
         System.out.println("Saving changes to participant");
 
-        Node node = hbox.getChildren().remove(0);
+        Node node = hbox.getChildren().removeFirst();
         TextField field = (TextField) node;
         name = new Text(field.getText());
         hbox.getChildren().add(0, name);
