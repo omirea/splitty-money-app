@@ -149,7 +149,8 @@ public class EventController {
 
         Participant p = new Participant();
         p.setEvent(tempEvent.get());
-        List<Participant> participants = participantDB.findAll(Example.of(p, ExampleMatcher.matchingAny()));
+        List<Participant> participants = participantDB.findAll(
+                Example.of(p, ExampleMatcher.matchingAny()));
         System.out.println(participants);
 
         return ResponseEntity.ok(participants);
