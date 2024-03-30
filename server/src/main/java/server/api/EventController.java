@@ -1,7 +1,6 @@
 package server.api;
 
 import commons.Event;
-import commons.Expense;
 import commons.Participant;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Example;
@@ -59,8 +58,6 @@ public class EventController {
         }
 
         Event existingEvent = db.findById(id).get();
-        existingEvent.setParticipants(event.getParticipants());
-        existingEvent.setExpenses(event.getExpenses());
         existingEvent.setName(event.getName());
         Event updatedEventEntity = db.save(existingEvent);
         return ResponseEntity.ok(updatedEventEntity);
@@ -109,7 +106,6 @@ public class EventController {
         }
 
         Event event = db.findById(id).get();
-        event.addParticipant(participant);
         try {
             db.save(event);
         } catch (EntityNotFoundException e) {
@@ -119,12 +115,13 @@ public class EventController {
     }
 
     /**
+    /**
      * Removes a user from an event.
      *
      * @param id id of event from which to remove user
      * @param email email of user to remove
      * @return successful operation indicator
-     */
+     *
     @DeleteMapping("/{id}/users/{email}")
     public ResponseEntity<Event> removeUserFromEvent(
             @PathVariable("id") long id,
@@ -147,6 +144,7 @@ public class EventController {
         db.save(event);
         return ResponseEntity.ok(event);
     }
+     */
 
     /**
      * Checks if a string is null or empty.
@@ -164,6 +162,7 @@ public class EventController {
      * @param expense expense to add
      * @return response entity
      */
+    /**
     @PostMapping("/{id}/expenses")
     public ResponseEntity<Expense> addExpenseToEvent(
             @PathVariable("id") long id,
@@ -180,5 +179,5 @@ public class EventController {
         return ResponseEntity.ok(saved);
     }
 
-
+    */
 }
