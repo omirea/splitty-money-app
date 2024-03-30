@@ -9,11 +9,6 @@ import java.util.Random;
 
 @Entity
 public class Event {
-    /**
-     * List with all the expenses which are part of this event
-     */
-    @OneToMany(mappedBy = "event")
-    private List<Expense> expenses;
 
     /**
      * String with the name of the event
@@ -34,19 +29,16 @@ public class Event {
 
     /**
      * Constructor for an Event object
-     * @param expenses List of expenses that are part of the event
      * @param name String with name of the event
      * @param invitationID String with invitation ID of the event
      */
-    public Event( List<Expense> expenses, String name,
+    public Event(String name,
                  String invitationID) {
-        this.expenses = expenses;
         this.name = name;
         this.invitationID = invitationID;
     }
 
     public Event(String name) {
-        expenses = new ArrayList<>();
         this.name = name;
         invitationID = generateInvitationID();
     }
@@ -69,40 +61,6 @@ public class Event {
     }
 
     public Event() {
-    }
-
-    /**
-     * Getter for the list of expenses
-     * @return List with all the expenses of the event
-     */
-    public List<Expense> getExpenses() {
-        return expenses;
-    }
-
-    /**
-     * Setter for the list of expenses
-     * @param expenses List with expenses of the event
-     */
-    public void setExpenses(List<Expense> expenses) {
-        this.expenses = expenses;
-    }
-
-    /**
-     * Add method to add a new expense to the list of expenses of the event
-     * @param newExpense Expense object that will be added to the list
-     */
-    public void addExpense (Expense newExpense){expenses.add(newExpense);
-    }
-
-
-    /**
-     * Remove method for the list of expenses, to remove an expense in the list
-     * @param expense The expense that is to be removed
-     * @return Boolean if it was successful or not
-     */
-    public Boolean removeExpense(Expense expense){
-
-        return expenses.remove(expense);
     }
 
     /**
@@ -164,8 +122,7 @@ public class Event {
         if (this == object) return true;
         if (object == null || getClass() != object.getClass()) return false;
         Event event = (Event) object;
-        return Objects.equals(expenses, event.expenses) &&
-            Objects.equals(name, event.name) &&
+        return Objects.equals(name, event.name) &&
             Objects.equals(invitationID, event.invitationID);
     }
 
@@ -175,14 +132,13 @@ public class Event {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(expenses, name, invitationID);
+        return Objects.hash(name, invitationID);
     }
 
     @Override
     public String toString() {
         return "Event{" +
-            "expenses=" + expenses +
-            ", name='" + name + '\'' +
+            "name='" + name + '\'' +
             ", invitationID='" + invitationID + '\'' +
             '}';
     }
