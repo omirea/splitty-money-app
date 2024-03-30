@@ -133,7 +133,10 @@ public class Event {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Event event = (Event) o;
-        return id == event.id && Objects.equals(name, event.name) && Objects.equals(invitationID, event.invitationID) && Objects.equals(createDate, event.createDate) && Objects.equals(lastModified, event.lastModified);
+        return id == event.id && Objects.equals(name, event.name) &&
+                Objects.equals(invitationID, event.invitationID) &&
+                Objects.equals(createDate, event.createDate) &&
+                Objects.equals(lastModified, event.lastModified);
     }
 
     @Override

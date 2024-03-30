@@ -57,7 +57,7 @@ class EventTest {
 
 
         Event event = new Event("Party", "DER45");
-        Event event2 = new Event("Party", "DER45");
+        Event event2 = new Event("P", "DER45");
         assertNotEquals(event, event2);
     }
 
