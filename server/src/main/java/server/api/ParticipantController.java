@@ -47,7 +47,6 @@ public class ParticipantController {
 
     @PostMapping(path = { "", "/" })
     public ResponseEntity<Participant> createParticipant(@RequestBody Participant participant) {
-        System.out.println(participant.getEvent().getInvitationID());
         if (participant == null) {
             return ResponseEntity.badRequest().build();
         }
