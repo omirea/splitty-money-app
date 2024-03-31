@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.RadioMenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="227.0" prefWidth="151.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SettingsPageCtrl">
+   <children>
+      <VBox alignment="CENTER" prefHeight="239.0" prefWidth="193.0">
+         <children>
+            <MenuButton alignment="CENTER" mnemonicParsing="false" popupSide="RIGHT" text="Language">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <items>
+                  <RadioMenuItem fx:id="englishButton" mnemonicParsing="false" onAction="#onEnglishSwitchClick" text="English">
+                     <graphic>
+                        <ImageView fx:id="englishView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/english.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </RadioMenuItem>
+                  <RadioMenuItem fx:id="dutchButton" mnemonicParsing="false" onAction="#onDutchSwitchClick" text="Dutch">
+                     <graphic>
+                        <ImageView fx:id="dutchView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/dutch.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </RadioMenuItem>
+               </items>
+            </MenuButton>
+            <MenuButton fx:id="themeButton" alignment="CENTER" mnemonicParsing="false" popupSide="RIGHT" text="Theme" textAlignment="CENTER">
+              <items>
+                  <RadioMenuItem mnemonicParsing="false" text="Light Mode" />
+                  <RadioMenuItem mnemonicParsing="false" text="Dark Mode" />
+              </items>
+               <VBox.margin>
+                  <Insets bottom="30.0" top="30.0" />
+               </VBox.margin>
+            </MenuButton>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

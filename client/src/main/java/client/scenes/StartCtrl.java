@@ -6,9 +6,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -137,11 +135,28 @@ public class StartCtrl implements Main.LanguageSwitch {
         mainCtrl.showAdminLogIn();
     }
 
-    public void onEnglishSwitchClick() {
-       Main.switchLocale("translations", "en");
-    }
-    public void onDutchSwitchClick() {
-        Main.switchLocale("translations", "nl");
+//    public void onEnglishSwitchClick() {
+//       Main.switchLocale("translations", "en");
+//    }
+//    public void onDutchSwitchClick() {
+//        Main.switchLocale("translations", "nl");
+//    }
+//
+//    @Override
+//    public void LanguageSwitch() {
+//        adminButton.setText(Main.getLocalizedString("Admin"));
+//        createNewEventText.setText(Main.getLocalizedString("createNewEvent"));
+//        createButton.setText(Main.getLocalizedString("Create"));
+//        joinEventText.setText(Main.getLocalizedString("joinEvent"));
+//        joinButton.setText(Main.getLocalizedString("Join"));
+//        recentEventsText.setText(Main.getLocalizedString("recentlyViewedEvents"));
+//    }
+
+    /**
+     * method to show the Settings Page
+     */
+    public void showSettingsPage(){
+        mainCtrl.showSettingsPage();
     }
 
     @Override
