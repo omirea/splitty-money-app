@@ -1,52 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.RadioMenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="313.0" prefWidth="261.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SettingsPageCtrl">
+<AnchorPane prefHeight="227.0" prefWidth="151.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SettingsPageCtrl">
    <children>
-      <HBox prefHeight="100.0" prefWidth="200.0">
+      <VBox alignment="CENTER" prefHeight="239.0" prefWidth="193.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#closeWindow" text="x">
-               <HBox.margin>
-                  <Insets left="230.0" top="5.0" />
-               </HBox.margin>
-            </Button>
-         </children>
-      </HBox>
-      <VBox layoutX="46.0" layoutY="49.0" prefHeight="215.0" prefWidth="170.0">
-         <children>
-            <MenuButton mnemonicParsing="false" text="Language">
+            <MenuButton alignment="CENTER" mnemonicParsing="false" popupSide="RIGHT" text="Language">
                <VBox.margin>
-                  <Insets left="40.0" top="40.0" />
+                  <Insets />
                </VBox.margin>
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#onEnglishSwitchClick" text="English">
+                  <RadioMenuItem fx:id="englishButton" mnemonicParsing="false" onAction="#onEnglishSwitchClick" text="English">
                      <graphic>
-                        <RadioButton mnemonicParsing="false" onAction="#onDutchSwitchClick" />
+                        <ImageView fx:id="englishView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/english.png" />
+                           </image>
+                        </ImageView>
                      </graphic>
-                  </MenuItem>
-                  <MenuItem mnemonicParsing="false" onAction="#onDutchSwitchClick" text="Dutch">
+                  </RadioMenuItem>
+                  <RadioMenuItem fx:id="dutchButton" mnemonicParsing="false" onAction="#onDutchSwitchClick" text="Dutch">
                      <graphic>
-                        <RadioButton mnemonicParsing="false" onAction="#onEnglishSwitchClick" />
+                        <ImageView fx:id="dutchView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/dutch.png" />
+                           </image>
+                        </ImageView>
                      </graphic>
-                  </MenuItem>
+                  </RadioMenuItem>
                </items>
             </MenuButton>
-            <MenuButton fx:id="themeButton" alignment="CENTER" mnemonicParsing="false" text="Theme">
+            <MenuButton fx:id="themeButton" alignment="CENTER" mnemonicParsing="false" popupSide="RIGHT" text="Theme" textAlignment="CENTER">
               <items>
                   <CheckMenuItem mnemonicParsing="false" text="Light Mode" />
                   <CheckMenuItem mnemonicParsing="false" text="Dark Mode" />
               </items>
                <VBox.margin>
-                  <Insets left="50.0" top="25.0" />
+                  <Insets bottom="30.0" top="30.0" />
                </VBox.margin>
             </MenuButton>
          </children>

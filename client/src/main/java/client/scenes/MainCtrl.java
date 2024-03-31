@@ -18,6 +18,7 @@ package client.scenes;
 import client.Main;
 import client.nodes.PersonAmount;
 import commons.Expense;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -25,6 +26,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+
+import java.io.IOException;
 
 public class MainCtrl {
     private Stage primaryStage;
@@ -84,8 +87,8 @@ public class MainCtrl {
 
 
         //showEventOverview("123");
-        //showStartScreen();
-        showSettingsPage();
+        showStartScreen();
+        //showSettingsPage();
         //showEventsAdmin();
         //showEditParticipants();
         //showOpenDebts();
@@ -176,26 +179,11 @@ public class MainCtrl {
     /**
      * method to show the Settings page
      */
-    public void showSettingsPage(){
-
-        // Set the preferred size of the VBox to make it smaller
-//        settingsPage.getRoot().setScaleX(313); // Adjust width and height as needed
-//        settingsPage.getRoot().setScaleY(261);
-
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(start.getRoot(), settingsPage.getRoot());
-        stackPane.getChildren().get(1).setLayoutY(261);
-        stackPane.getChildren().get(1).setLayoutX(313);
-
-
-
-        primaryStage.setScene(new Scene(stackPane));
-        primaryStage.setTitle("Splitty: Settings Page");
-        primaryStage.show();
-
-//        primaryStage.setTitle("Splitty: SettingsPage");
-//        primaryStage.toBack(start);
-//        primaryStage.toFront(settingsPage);
+    public void showSettingsPage() {
+        Stage anotherStage=new Stage();
+        anotherStage.setTitle("Splitty: Settings Page");
+        anotherStage.setScene(settingsPage);
+        anotherStage.show();
     }
 
     /**
