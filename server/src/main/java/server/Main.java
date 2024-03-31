@@ -18,25 +18,14 @@ package server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 @EntityScan(basePackages = { "commons", "server" })
 public class Main {
 
-    private EmailService emailService;
-
-    public Main(EmailService emailService){
-        this.emailService=emailService;
-    }
-
     public static void main(String[] args) {
-        ApplicationContext context= SpringApplication.run(Main.class, args);
-        Main app= context.getBean(Main.class);
-        app.Run();
+        SpringApplication.run(Main.class, args);
     }
 
-    private void Run(){
-        emailService.sendEmail("egeyarar@gmail.com","deneme","deneme");
-    }
+
 }
