@@ -16,7 +16,7 @@
             <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="homeButton" mnemonicParsing="false" text="Home">
+                  <Button fx:id="homeButton" mnemonicParsing="false" onAction="#goBackToEvent" text="Home">
                      <graphic>
                         <ImageView fx:id="homeView" fitHeight="22.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                      </graphic>

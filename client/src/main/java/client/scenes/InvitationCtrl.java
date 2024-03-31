@@ -2,11 +2,13 @@ package client.scenes;
 
 import client.Main;
 import client.utils.ServerUtils;
+import commons.Event;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+
 import javax.inject.Inject;
 
 public class InvitationCtrl implements Main.LanguageSwitch{
@@ -14,8 +16,13 @@ public class InvitationCtrl implements Main.LanguageSwitch{
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
+    Event event;
+
     @FXML
     private TextArea emailTextField;
+
+    @FXML
+    private Label codeLabel;
 
     @FXML
     private Button sendInvitesButton;
@@ -69,11 +76,16 @@ public class InvitationCtrl implements Main.LanguageSwitch{
         }
     }
 
+    public void setEvent(String id) {
+        event = server.getEventByInvitationId(id);
+        codeLabel.setText(event.getInvitationID());
+    }
+
     /**
      * method to go back to event page
      */
     public void goBackToEvent(){
-        mainCtrl.showEventOverview("123");
+        mainCtrl.showEventOverview(event.getInvitationID());
     }
 
     @Override

@@ -2,14 +2,15 @@ package client.scenes;
 
 import client.Main;
 import client.utils.ServerUtils;
+import commons.Event;
+import commons.Participant;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javax.inject.Inject;
-import javafx.event.ActionEvent;
 
+import javax.inject.Inject;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,24 +45,65 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
     private Label bicLabel;
 
 
+    Event event;
+    Participant participant;
+
     @Inject
     public AddEditParticipantCtrl(ServerUtils server, MainCtrl mainCtrl){
         this.server=server;
         this.mainCtrl=mainCtrl;
     }
     @FXML
-    private void onClickDeleteAll(ActionEvent event) {
+    private void onClickDeleteAll() {
         nameTextField.clear();
         emailTextField.clear();
         ibanTextField.clear();
         bicTextField.clear();
-        mainCtrl.showEventOverview("123");
+        mainCtrl.showManageParticipants(event.getInvitationID(), participant);
+        participant = null;
     }
 
     @FXML
-    void onClickOk(ActionEvent event) {
-        if(checkEmpty() && validateEmail() && isIbanValid()){
-        // TODO: Add to database
+    void onClickOk() {
+        if(checkEmpty() && validateEmail(emailTextField.getText())
+                && isIbanValid(ibanLabel.getText())){
+            String name = nameTextField.getText();
+            String email = emailTextField.getText();
+            String iban = ibanTextField.getText();
+            String bic = bicTextField.getText();
+
+            if (participant == null) {
+                participant = new Participant(name, email, iban, bic, event);
+            } else {
+                participant.setName(name);
+                participant.setEmail(email);
+                participant.setIBAN(iban);
+                participant.setBIC(bic);
+            }
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+            switch(locale.getLanguage()) {
+                case "nl":
+                    alert.setTitle("Succesvol toevoegen");
+                    alert.setContentText("Deelnemer succesvol toegevoegd");
+                    break;
+                case "en":
+                    alert.setTitle("Adding Successful");
+                    alert.setContentText("Participant Added Successfully");
+                    break;
+                default:
+                    break;
+            }
+            alert.setHeaderText(null);
+            alert.showAndWait();
+
+            mainCtrl.showManageParticipants(this.event.getInvitationID(), participant);
+            participant = null;
+            nameTextField.clear();
+            emailTextField.clear();
+            ibanTextField.clear();
+            bicTextField.clear();
         }
     }
 
@@ -73,44 +115,16 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         return mainCtrl;
     }
 
-    public TextField getBicTextField() {
-        return bicTextField;
+    public void setEvent(String id) {
+        event = server.getEventByInvitationId(id);
     }
 
-    public void setBicTextField(TextField bicTextField) {
-        this.bicTextField = bicTextField;
-    }
-
-    public TextField getEmailTextField() {
-        return emailTextField;
-    }
-
-    public void setEmailTextField(TextField emailTextField) {
-        this.emailTextField = emailTextField;
-    }
-
-    public TextField getIbanTextField() {
-        return ibanTextField;
-    }
-
-    public void setIbanTextField(TextField ibanTextField) {
-        this.ibanTextField = ibanTextField;
-    }
-
-    public TextField getNameTextField() {
-        return nameTextField;
-    }
-
-    public void setNameTextField(TextField nameTextField) {
-        this.nameTextField = nameTextField;
-    }
-
-    public Button getOkButton() {
-        return okButton;
-    }
-
-    public Button getCancelButton() {
-        return cancelButton;
+    public void setParticipant(Participant participant) {
+        this.participant = participant;
+        nameTextField.setText(participant.getName());
+        emailTextField.setText(participant.getEmail());
+        bicTextField.setText(participant.getBIC());
+        ibanTextField.setText(participant.getIBAN());
     }
 
     @Override
@@ -137,13 +151,13 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
      * method to check if the email input is valid
      * @return true or false if the email is valid
      */
-    public boolean validateEmail(){
+    public boolean validateEmail(String email){
         String regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\." +
             "[0-9]{1,3}\\.[0-9]{1,3}\\])" +
                 "|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         Pattern p= Pattern.compile(regex);
-        Matcher m= p.matcher(emailTextField.getText().trim());
-        if(m.find() && m.group().equals(emailTextField.getText().trim())){
+        Matcher m= p.matcher(email.trim());
+        if(m.find() && m.group().equals(email.trim())){
             return true;
         }else{
             Alert alert=new Alert(Alert.AlertType.WARNING);
@@ -169,12 +183,13 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
      * method to check if IBAN is valid
      * @return true or false if IBAN is valid
      */
-    private boolean isIbanValid() {
+    public boolean isIbanValid(String IBAN) {
         int IBAN_MIN_SIZE = 15;
         int IBAN_MAX_SIZE = 34;
         long IBAN_MAX = 999999999;
         long IBAN_MODULUS = 97;
-        String trimmed = ibanTextField.getText().trim();
+        String trimmed=IBAN.trim();
+        //String trimmed = ibanTextField.getText().trim();
         //System.out.println(ibanTextField.getText().trim());
         if (trimmed.length() < IBAN_MIN_SIZE || trimmed.length() > IBAN_MAX_SIZE) {
             Alert alert=new Alert(Alert.AlertType.WARNING);
@@ -216,7 +231,6 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
                 alert.setHeaderText(null);
                 alert.showAndWait();
                 return false;
-
             }
             total = (charValue > 9 ? total * 100 : total * 10) + charValue;
             if (total > IBAN_MAX) {

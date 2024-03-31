@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.Main;
 import client.utils.ServerUtils;
+import commons.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -16,6 +17,8 @@ import static client.Main.locale;
 public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+
+    Event event;
 
     @FXML
     private Button seeOpenDebts;
@@ -45,9 +48,13 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         this.mainCtrl=mainCtrl;
     }
 
+    public void setEvent(String id) {
+        event = server.getEventByInvitationId(id);
+    }
+
     public ListView<String> getListView(){return listView;}
     public void goBackToOpenDebts(){
-        mainCtrl.showOpenDebts();
+        mainCtrl.showOpenDebts(event.getInvitationID());
     }
 
     public Button getSeeOpenDebts(){return seeOpenDebts;}
@@ -139,5 +146,9 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         amountLabel.setText(Main.getLocalizedString("Amount"));
         reopenSelectedDebts.setText(Main.getLocalizedString("reopenSelectedDebts"));
         reopenAllDebts.setText(Main.getLocalizedString("reopenAllDebts"));
+    }
+
+    public void goBackToEvent() {
+        mainCtrl.showEventOverview(event.getInvitationID());
     }
 }
