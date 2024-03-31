@@ -25,8 +25,6 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-import java.io.IOException;
-
 public class MainCtrl {
     private Stage primaryStage;
     private AddEditParticipantCtrl addEditParticipantCtrl;
