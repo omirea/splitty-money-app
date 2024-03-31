@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.RadioMenuItem?>
 <?import javafx.scene.image.Image?>
@@ -40,8 +39,8 @@
             </MenuButton>
             <MenuButton fx:id="themeButton" alignment="CENTER" mnemonicParsing="false" popupSide="RIGHT" text="Theme" textAlignment="CENTER">
               <items>
-                  <CheckMenuItem mnemonicParsing="false" text="Light Mode" />
-                  <CheckMenuItem mnemonicParsing="false" text="Dark Mode" />
+                  <RadioMenuItem mnemonicParsing="false" text="Light Mode" />
+                  <RadioMenuItem mnemonicParsing="false" text="Dark Mode" />
               </items>
                <VBox.margin>
                   <Insets bottom="30.0" top="30.0" />
