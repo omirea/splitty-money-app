@@ -65,7 +65,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
 
     @FXML
     void onClickOk() {
-        if(checkEmpty() && validateEmail() && isIbanValid()){
+        if(checkEmpty() && validateEmail(emailTextField.getText()) && isIbanValid(ibanLabel.getText())){
             String name = nameTextField.getText();
             String email = emailTextField.getText();
             String iban = ibanTextField.getText();
@@ -150,13 +150,13 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
      * method to check if the email input is valid
      * @return true or false if the email is valid
      */
-    public boolean validateEmail(){
+    public boolean validateEmail(String email){
         String regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\." +
             "[0-9]{1,3}\\.[0-9]{1,3}\\])" +
                 "|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         Pattern p= Pattern.compile(regex);
-        Matcher m= p.matcher(emailTextField.getText().trim());
-        if(m.find() && m.group().equals(emailTextField.getText().trim())){
+        Matcher m= p.matcher(email.trim());
+        if(m.find() && m.group().equals(email.trim())){
             return true;
         }else{
             Alert alert=new Alert(Alert.AlertType.WARNING);
@@ -182,12 +182,13 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
      * method to check if IBAN is valid
      * @return true or false if IBAN is valid
      */
-    private boolean isIbanValid() {
+    public boolean isIbanValid(String IBAN) {
         int IBAN_MIN_SIZE = 15;
         int IBAN_MAX_SIZE = 34;
         long IBAN_MAX = 999999999;
         long IBAN_MODULUS = 97;
-        String trimmed = ibanTextField.getText().trim();
+        String trimmed=IBAN.trim();
+        //String trimmed = ibanTextField.getText().trim();
         //System.out.println(ibanTextField.getText().trim());
         if (trimmed.length() < IBAN_MIN_SIZE || trimmed.length() > IBAN_MAX_SIZE) {
             Alert alert=new Alert(Alert.AlertType.WARNING);
@@ -229,7 +230,6 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
                 alert.setHeaderText(null);
                 alert.showAndWait();
                 return false;
-
             }
             total = (charValue > 9 ? total * 100 : total * 10) + charValue;
             if (total > IBAN_MAX) {
