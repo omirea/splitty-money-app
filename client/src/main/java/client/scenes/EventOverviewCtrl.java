@@ -88,10 +88,9 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
 
-    public void setEvent(String id) {
-        event = server.getEventByInvitationId(id);
+    public void setEvent(String invitationID) {
+        event = server.getEventByInvitationId(invitationID);
         eventTitleText.setText(event.getName());
-        System.out.println("Current event: " + event);
     }
 
     public ListView<Expense> getListViewAll() {
@@ -151,7 +150,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      * method to edit participant
      */
     public void onParticipantEditClick() {
-        mainCtrl.showManageParticipants(event.getInvitationID());
+        mainCtrl.showAddParticipant(event.getInvitationID());
     }
 
     public void onTitleEditClick() {

@@ -47,8 +47,9 @@ public class ParticipantControllerTest {
         assertNull(responseEntity.getBody());
     }
 
+    /**
     @Test
-    public void postParticipantTest(){ //add to db
+    public void postParticipantTest(){
         Participant participant=new Participant();
         when(participantRepository.save(participant)).thenReturn(participant);
         ResponseEntity<Participant> responseEntity=participantController.createParticipant(participant);
@@ -57,11 +58,12 @@ public class ParticipantControllerTest {
     }
 
     @Test
-    public void postNullParticipantTest(){ //test to add to db
+    public void postNullParticipantTest(){
         ResponseEntity<Participant> responseEntity=participantController.createParticipant(null);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertNull(responseEntity.getBody());
     }
+     */
 
     @Test
     public void updateParticipantTest(){

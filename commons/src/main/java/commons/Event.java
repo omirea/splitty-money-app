@@ -148,10 +148,6 @@ public class Event {
             Objects.equals(invitationID, event.invitationID);
     }
 
-    /**
-     * Hash method for the Event class
-     * @return Integer with hash code
-     */
     @Override
     public int hashCode() {
         return Objects.hash(name, invitationID);
