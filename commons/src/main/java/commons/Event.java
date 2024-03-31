@@ -3,6 +3,9 @@ package commons;
 import jakarta.persistence.*;
 import java.util.Objects;
 import java.util.Random;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import java.time.Instant;
 
 
 @Entity
@@ -24,6 +27,18 @@ public class Event {
      * String with invitation ID, which the participants can invite others with
      */
     private String invitationID;
+
+    /**
+     * Instant with the date an object of event is created
+     */
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private Instant createDate;
+
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private Instant lastModified;
+
 
     /**
      * Constructor for an Event object
@@ -109,6 +124,15 @@ public class Event {
     public void setID(long id) {
         this.id = id;
     }
+
+    public Instant getCreateDate() {
+        return createDate;
+    }
+
+    public Instant getLastModified() {
+        return lastModified;
+    }
+
 
     /**
      * Equals method for the Event class
