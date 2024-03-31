@@ -65,7 +65,8 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
 
     @FXML
     void onClickOk() {
-        if(checkEmpty() && validateEmail(emailTextField.getText()) && isIbanValid(ibanLabel.getText())){
+        if(checkEmpty() && validateEmail(emailTextField.getText())
+                && isIbanValid(ibanLabel.getText())){
             String name = nameTextField.getText();
             String email = emailTextField.getText();
             String iban = ibanTextField.getText();
