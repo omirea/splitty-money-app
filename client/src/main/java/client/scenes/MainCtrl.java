@@ -18,6 +18,7 @@ package client.scenes;
 import client.Main;
 import client.nodes.PersonAmount;
 import commons.Expense;
+import commons.Participant;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
@@ -37,8 +38,7 @@ public class MainCtrl {
     private ClosedDebtsCtrl closedDebtsCtrl;
     private ManageEventsAdminCtrl manageEventsAdminCtrl;
 
-
-    private Scene participant, openDebts, invitation,
+    private Scene addEditParticipant, openDebts, invitation,
         expense, overview, manageParticipants, start,
         logInAdmin, closedDebts, eventsAdmin;
 
@@ -60,7 +60,7 @@ public class MainCtrl {
         this.overviewCtrl = overview.getKey();
         this.overview = new Scene(overview.getValue());
         this.addEditParticipantCtrl = participant.getKey();
-        this.participant = new Scene(participant.getValue());
+        this.addEditParticipant = new Scene(participant.getValue());
         this.openDebtsCtrl = openDebts.getKey();
         this.openDebts = new Scene(openDebts.getValue());
         this.invitationCtrl = invitation.getKey();
@@ -94,7 +94,14 @@ public class MainCtrl {
     public void showAddParticipant(String id) {
         addEditParticipantCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Add/Edit Participant");
-        primaryStage.setScene(participant);
+        primaryStage.setScene(addEditParticipant);
+    }
+
+    public void showAddParticipant(String id, Participant participant) {
+        addEditParticipantCtrl.setEvent(id);
+        addEditParticipantCtrl.setParticipant(participant);
+        primaryStage.setTitle("Splitty: Add/Edit Participant");
+        primaryStage.setScene(addEditParticipant);
     }
 
     /**
@@ -133,10 +140,10 @@ public class MainCtrl {
 
     /**
      * method to show events page
-     * @param id id of the event
+     * @param invitationId id of the event
      */
-    public void showEventOverview(String id) {
-        overviewCtrl.setEvent(id);
+    public void showEventOverview(String invitationId) {
+        overviewCtrl.setEvent(invitationId);
         primaryStage.setTitle("Splitty: Event overview");
         primaryStage.setScene(overview);
         overviewCtrl.addAllParticipants();
@@ -146,9 +153,15 @@ public class MainCtrl {
     /**
      * method to show manage participant page
      */
-    public void showManageParticipants() {
+    public void showManageParticipants(String invitationId, Participant participantToAdd) {
+        manageParticipantsCtrl.setEvent(invitationId);
+        manageParticipantsCtrl.addNewParticipant(participantToAdd);
         primaryStage.setTitle("Splitty: Manage Participants");
         primaryStage.setScene(manageParticipants);
+    }
+    public void showManageParticipants(String invitationId) {
+        showManageParticipants(invitationId, null);
+        manageParticipantsCtrl.addAllParticipants();
     }
 
     /**

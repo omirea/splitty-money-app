@@ -87,12 +87,11 @@ public class StartCtrl implements Main.LanguageSwitch {
      * method to create event
      */
     public void onCreateClick() {
-        System.out.println("Create" + createEventField.getText());
+        System.out.println("Create " + createEventField.getText());
         Event e = new Event(createEventField.getText());
         addEventToBox(e);
         e= server.createEvent(e);
         mainCtrl.showEventOverview(e.getInvitationID());
-        createEventField.setText("");
     }
 
     /**
@@ -103,7 +102,6 @@ public class StartCtrl implements Main.LanguageSwitch {
         // TODO: connect to database, open new window
         try {
             mainCtrl.showEventOverview(joinEventField.getText());
-            joinEventField.setText("");
         } catch (Exception e) {
             Alert alert=new Alert(Alert.AlertType.WARNING);
             switch(locale.getLanguage()) {

@@ -98,6 +98,14 @@ public class ServerUtils {
 					Participant.class);
 	}
 
+	public List<Participant> getParticipantsByInvitationId(String invitationId) {
+		return ClientBuilder.newClient(new ClientConfig())
+				.target(SERVER).path("event/" + invitationId + "/participant")
+				.request(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.get(new GenericType<List<Participant>>() {});
+	}
+
 	/**
 	 *
 	 * @return a list of events
@@ -116,32 +124,13 @@ public class ServerUtils {
 	 * @param invitationID invitationID of the Event requested
 	 * @return the requested Event
 	 */
-	public Event getEventById(String invitationID){
+	public Event getEventByInvitationId(String invitationID){
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(SERVER).path("event/" + invitationID)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<Event>() {});
 	}
-
-//	public String json(String invitationID){
-//		String jsonString = eventByinvIDJSON(invitationID);
-//		return ClientBuilder.newClient(new ClientConfig())
-//			.target(SERVER).path("event/json/" + jsonString)
-//			.request(APPLICATION_JSON)
-//			.accept(APPLICATION_JSON)
-//			.get()
-//			.readEntity(String.class);
-//	}
-//
-//	public String eventByinvIDJSON(String id){
-//		try{
-//			ObjectMapper map = new ObjectMapper();
-//			return map.writeValueAsString(getEventById(id));
-//		} catch (JsonProcessingException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 
 	/**
 	 * method to delete a specific Event  from the database
@@ -166,7 +155,7 @@ public class ServerUtils {
 				.target(SERVER).path("event")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
-				.post(Entity.entity(event , APPLICATION_JSON),
+				.post(Entity.entity(event, APPLICATION_JSON),
 						Event.class);
 	}
 
@@ -306,7 +295,7 @@ public class ServerUtils {
 	 * @param debt to be updated in the database
 	 * @return the updated debt
 	 */
-	public Debt updateParticipant(Debt debt, Long id){
+	public Debt updateDebt(Debt debt, Long id){
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(SERVER).path("debt/" + id)
 				.request(APPLICATION_JSON)

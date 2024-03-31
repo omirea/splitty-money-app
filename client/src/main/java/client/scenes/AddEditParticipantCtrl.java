@@ -4,7 +4,6 @@ import client.Main;
 import client.utils.ServerUtils;
 import commons.Event;
 import commons.Participant;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -22,7 +21,6 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-    private Event event;
     @FXML
     private TextField bicTextField;
     @FXML
@@ -47,39 +45,42 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
     private Label bicLabel;
 
 
+    Event event;
+    Participant participant;
+
     @Inject
     public AddEditParticipantCtrl(ServerUtils server, MainCtrl mainCtrl){
         this.server=server;
         this.mainCtrl=mainCtrl;
     }
     @FXML
-    private void onClickDeleteAll(ActionEvent event) {
+    private void onClickDeleteAll() {
         nameTextField.clear();
         emailTextField.clear();
         ibanTextField.clear();
         bicTextField.clear();
-        mainCtrl.showEventOverview(this.event.getInvitationID());
-    }
-
-    public void setEvent(String id) {
-        event = server.getEventById(id);
+        mainCtrl.showManageParticipants(event.getInvitationID(), participant);
+        participant = null;
     }
 
     @FXML
-    void onClickOk(ActionEvent event) {
+    void onClickOk() {
         if(checkEmpty() && validateEmail() && isIbanValid()){
-        // TODO: Add to database
-            String name= nameTextField.getText();
-            String email=emailTextField.getText();
-            String iban=ibanTextField.getText();
-            String bic=bicTextField.getText();
+            String name = nameTextField.getText();
+            String email = emailTextField.getText();
+            String iban = ibanTextField.getText();
+            String bic = bicTextField.getText();
 
-            Participant p= new Participant(name,email,iban,bic);
+            if (participant == null) {
+                participant = new Participant(name, email, iban, bic, event);
+            } else {
+                participant.setName(name);
+                participant.setEmail(email);
+                participant.setIBAN(iban);
+                participant.setBIC(bic);
+            }
 
-            server.createParticipant(p);
-
-            Alert alert=new Alert
-                    (Alert.AlertType.INFORMATION);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
             switch(locale.getLanguage()) {
                 case "nl":
@@ -96,7 +97,12 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             alert.setHeaderText(null);
             alert.showAndWait();
 
-            mainCtrl.showEventOverview(this.event.getInvitationID());
+            mainCtrl.showManageParticipants(this.event.getInvitationID(), participant);
+            participant = null;
+            nameTextField.clear();
+            emailTextField.clear();
+            ibanTextField.clear();
+            bicTextField.clear();
         }
     }
 
@@ -108,44 +114,16 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         return mainCtrl;
     }
 
-    public TextField getBicTextField() {
-        return bicTextField;
+    public void setEvent(String id) {
+        event = server.getEventByInvitationId(id);
     }
 
-    public void setBicTextField(TextField bicTextField) {
-        this.bicTextField = bicTextField;
-    }
-
-    public TextField getEmailTextField() {
-        return emailTextField;
-    }
-
-    public void setEmailTextField(TextField emailTextField) {
-        this.emailTextField = emailTextField;
-    }
-
-    public TextField getIbanTextField() {
-        return ibanTextField;
-    }
-
-    public void setIbanTextField(TextField ibanTextField) {
-        this.ibanTextField = ibanTextField;
-    }
-
-    public TextField getNameTextField() {
-        return nameTextField;
-    }
-
-    public void setNameTextField(TextField nameTextField) {
-        this.nameTextField = nameTextField;
-    }
-
-    public Button getOkButton() {
-        return okButton;
-    }
-
-    public Button getCancelButton() {
-        return cancelButton;
+    public void setParticipant(Participant participant) {
+        this.participant = participant;
+        nameTextField.setText(participant.getName());
+        emailTextField.setText(participant.getEmail());
+        bicTextField.setText(participant.getBIC());
+        ibanTextField.setText(participant.getIBAN());
     }
 
     @Override
