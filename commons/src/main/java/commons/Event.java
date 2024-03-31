@@ -1,15 +1,15 @@
 package commons;
 
 import jakarta.persistence.*;
+import java.util.Objects;
+import java.util.Random;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.Instant;
-import java.util.*;
 
 
 @Entity
 public class Event {
-
 
     /**
      * String with the name of the event
@@ -40,11 +40,8 @@ public class Event {
     private Instant lastModified;
 
 
-
     /**
      * Constructor for an Event object
-     * @param participants List of participants which are part of the event
-     * @param expenses List of expenses that are part of the event
      * @param name String with name of the event
      * @param invitationID String with invitation ID of the event
      */
@@ -128,38 +125,39 @@ public class Event {
         this.id = id;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Event event = (Event) o;
-        return id == event.id && Objects.equals(name, event.name) &&
-                Objects.equals(invitationID, event.invitationID) &&
-                Objects.equals(createDate, event.createDate) &&
-                Objects.equals(lastModified, event.lastModified);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, id, invitationID, createDate, lastModified);
-    }
-
-    @Override
-    public String toString() {
-        return "Event{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                ", invitationID='" + invitationID + '\'' +
-                ", createDate=" + createDate +
-                ", lastModified=" + lastModified +
-                '}';
-    }
-
     public Instant getCreateDate() {
         return createDate;
     }
 
     public Instant getLastModified() {
         return lastModified;
+    }
+
+
+    /**
+     * Equals method for the Event class
+     * @param object Object that will be compared to
+     * @return boolean true or false if equal or not
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
+        Event event = (Event) object;
+        return Objects.equals(name, event.name) &&
+            Objects.equals(invitationID, event.invitationID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, invitationID);
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+            "name='" + name + '\'' +
+            ", invitationID='" + invitationID + '\'' +
+            '}';
     }
 }
