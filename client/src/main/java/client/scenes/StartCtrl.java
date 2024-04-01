@@ -186,10 +186,15 @@ public class StartCtrl implements Initializable, Main.LanguageSwitch {
                 if (q.getClickCount() == 2 && (!row.isEmpty())) {
                     Event eventRow = row.getItem();
                     String invID = eventRow.getInvitationID();
-                    showEventDetails(invID);
+                    showEvent(invID);
                 }
             });
-        }
+            return row;
+        });
+    }
+
+    private void showEvent(String invID) {
+        mainCtrl.showEventOverview(invID);
     }
 
     private void deleteEventFromTable(Event event) {
@@ -228,5 +233,6 @@ public class StartCtrl implements Initializable, Main.LanguageSwitch {
         settingsButton.setText(Main.getLocalizedString("Settings"));
         joinEventField.setPromptText(Main.getLocalizedString("invitationID"));
         createEventField.setPromptText(Main.getLocalizedString("Title"));
+        titleColumn.setText(Main.getLocalizedString("Title"));
     }
 }
