@@ -88,7 +88,8 @@ public class Main extends Application {
                 INJECTOR.getInstance(ManageEventsAdminCtrl.class),
                 INJECTOR.getInstance(ManageParticipantsCtrl.class),
                 INJECTOR.getInstance(OpenDebtsCtrl.class),
-                INJECTOR.getInstance(StartCtrl.class));
+                INJECTOR.getInstance(StartCtrl.class),
+                INJECTOR.getInstance(SettingsPageCtrl.class));
         for(LanguageSwitch controller : controllers) {
             controller.LanguageSwitch();
         }

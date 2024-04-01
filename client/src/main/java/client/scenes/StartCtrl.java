@@ -167,5 +167,6 @@ public class StartCtrl implements Main.LanguageSwitch {
         joinEventText.setText(Main.getLocalizedString("joinEvent"));
         joinButton.setText(Main.getLocalizedString("Join"));
         recentEventsText.setText(Main.getLocalizedString("recentlyViewedEvents"));
+        settingsButton.setText(Main.getLocalizedString("Settings"));
     }
 }
