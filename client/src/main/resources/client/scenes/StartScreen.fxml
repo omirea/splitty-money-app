@@ -50,7 +50,7 @@
                <children>
                   <HBox prefHeight="25.0" prefWidth="200.0" spacing="10.0">
                      <children>
-                        <TextField fx:id="createEventField">
+                        <TextField fx:id="createEventField" promptText="Title">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -68,7 +68,7 @@
                   </Text>
                   <HBox prefHeight="25.0" prefWidth="200.0" spacing="10.0">
                      <children>
-                        <TextField fx:id="joinEventField" />
+                        <TextField fx:id="joinEventField" promptText="Invite Code" />
                         <Button fx:id="joinButton" mnemonicParsing="false" onAction="#onJoinClick" text="join" />
                      </children>
                   </HBox>

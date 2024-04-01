@@ -85,11 +85,31 @@ public class StartCtrl implements Main.LanguageSwitch {
      * method to create event
      */
     public void onCreateClick() {
-        System.out.println("Create " + createEventField.getText());
-        Event e = new Event(createEventField.getText());
-        addEventToBox(e);
-        e= server.createEvent(e);
-        mainCtrl.showEventOverview(e.getInvitationID());
+        boolean nameEmpty = createEventField.getText().trim().isEmpty();
+        if(!nameEmpty) {
+            System.out.println("Create " + createEventField.getText());
+            Event e = new Event(createEventField.getText());
+            addEventToBox(e);
+            e = server.createEvent(e);
+            mainCtrl.showEventOverview(e.getInvitationID());
+            createEventField.setText("");
+        } else {
+            Alert alertNameEmpty = new Alert(Alert.AlertType.WARNING);
+            switch(locale.getLanguage()){
+                case "nl":
+                    alertNameEmpty.setTitle("Geen Evenement Naam");
+                    alertNameEmpty.setContentText("Vul een naam voor het evenement in AUB");
+                    break;
+                case "en":
+                    alertNameEmpty.setTitle("Empty Event Title Field");
+                    alertNameEmpty.setContentText("Please fill in the event title field");
+                    break;
+                default:
+                    break;
+            }
+            alertNameEmpty.setHeaderText(null);
+            alertNameEmpty.showAndWait();
+        }
     }
 
     /**
@@ -100,6 +120,7 @@ public class StartCtrl implements Main.LanguageSwitch {
         // TODO: connect to database, open new window
         try {
             mainCtrl.showEventOverview(joinEventField.getText());
+            joinEventField.setText("");
         } catch (Exception e) {
             Alert alert=new Alert(Alert.AlertType.WARNING);
             switch(locale.getLanguage()) {
@@ -141,16 +162,6 @@ public class StartCtrl implements Main.LanguageSwitch {
 //    public void onDutchSwitchClick() {
 //        Main.switchLocale("translations", "nl");
 //    }
-//
-//    @Override
-//    public void LanguageSwitch() {
-//        adminButton.setText(Main.getLocalizedString("Admin"));
-//        createNewEventText.setText(Main.getLocalizedString("createNewEvent"));
-//        createButton.setText(Main.getLocalizedString("Create"));
-//        joinEventText.setText(Main.getLocalizedString("joinEvent"));
-//        joinButton.setText(Main.getLocalizedString("Join"));
-//        recentEventsText.setText(Main.getLocalizedString("recentlyViewedEvents"));
-//    }
 
     /**
      * method to show the Settings Page
@@ -168,5 +179,7 @@ public class StartCtrl implements Main.LanguageSwitch {
         joinButton.setText(Main.getLocalizedString("Join"));
         recentEventsText.setText(Main.getLocalizedString("recentlyViewedEvents"));
         settingsButton.setText(Main.getLocalizedString("Settings"));
+        joinEventField.setPromptText(Main.getLocalizedString("invitationID"));
+        createEventField.setPromptText(Main.getLocalizedString("Title"));
     }
 }

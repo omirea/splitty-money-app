@@ -17,7 +17,6 @@ import java.util.Objects;
 public class RecentEvent {
     HBox hbox;
      Event event;
-
      MainCtrl mainCtrl;
     Button link;
     Button remove;
@@ -62,29 +61,6 @@ public class RecentEvent {
         hbox.setAlignment(Pos.CENTER_LEFT);
 
     }
-
-//
-//
-//
-//
-//        switch (locale.getLanguage()){
-//            case "nl": link = new Button("Open ");
-//                link.setOnAction(e -> openRecentEvent());
-//                remove = new Button("Verwijder ");
-//                remove.setOnAction(e -> removeRecentEvent());
-//                break;
-//            case "en":
-//                link = new Button("Open ");
-//                link.setOnAction(e -> openRecentEvent());
-//                remove = new Button("Remove ");
-//                remove.setOnAction(e -> removeRecentEvent());
-//                break;
-//            default: break;
-
-
-
-
-
 
     public HBox getNode(){
         return hbox;
