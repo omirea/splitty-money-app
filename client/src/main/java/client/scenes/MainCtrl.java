@@ -166,7 +166,7 @@ public class MainCtrl {
     }
     public void showManageParticipants(String invitationId) {
         showManageParticipants(invitationId, null);
-        manageParticipantsCtrl.addAllParticipants();
+        manageParticipantsCtrl.setEvent(invitationId);
     }
 
     /**

@@ -134,6 +134,8 @@ public class StartCtrl implements Initializable, Main.LanguageSwitch {
         // TODO: connect to database, open new window
         try {
             mainCtrl.showEventOverview(joinEventField.getText());
+            Event e = server.getEventByInvitationId(joinEventField.getText());
+            addEventToBox(e);
             joinEventField.setText("");
         } catch (Exception e) {
             Alert alert=new Alert(Alert.AlertType.WARNING);
