@@ -12,7 +12,7 @@
    <children>
       <VBox alignment="CENTER" prefHeight="239.0" prefWidth="193.0">
          <children>
-            <MenuButton alignment="CENTER" mnemonicParsing="false" popupSide="RIGHT" text="Language">
+            <MenuButton fx:id="languageMenuButton" alignment="CENTER" mnemonicParsing="false" popupSide="RIGHT" text="Language">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -39,8 +39,8 @@
             </MenuButton>
             <MenuButton fx:id="themeButton" alignment="CENTER" mnemonicParsing="false" popupSide="RIGHT" text="Theme" textAlignment="CENTER">
               <items>
-                  <RadioMenuItem mnemonicParsing="false" text="Light Mode" />
-                  <RadioMenuItem mnemonicParsing="false" text="Dark Mode" />
+                  <RadioMenuItem fx:id="lightModeButton" mnemonicParsing="false" text="Light Mode" />
+                  <RadioMenuItem fx:id="darkModeButton" mnemonicParsing="false" text="Dark Mode" />
               </items>
                <VBox.margin>
                   <Insets bottom="30.0" top="30.0" />

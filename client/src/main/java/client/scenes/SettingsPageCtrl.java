@@ -3,6 +3,7 @@ package client.scenes;
 import client.Main;
 import client.utils.ServerUtils;
 import javafx.fxml.FXML;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,6 +24,16 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
     private RadioMenuItem dutchButton;
     @FXML
     private ImageView dutchView;
+    @FXML
+    private MenuButton languageMenuButton;
+    @FXML
+    private MenuButton themeButton;
+    @FXML
+    private RadioMenuItem lightModeButton;
+    @FXML
+    private RadioMenuItem darkModeButton;
+
+
 
     @Inject
     public SettingsPageCtrl(ServerUtils serverUtils, MainCtrl mainCtrl){
@@ -61,5 +72,12 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
 
     @Override
     public void LanguageSwitch() {
+        languageMenuButton.setText(Main.getLocalizedString("Language"));
+        themeButton.setText(Main.getLocalizedString("Theme"));
+        englishButton.setText(Main.getLocalizedString("English"));
+        dutchButton.setText(Main.getLocalizedString("Dutch"));
+        lightModeButton.setText(Main.getLocalizedString("lightMode"));
+        darkModeButton.setText(Main.getLocalizedString("darkMode"));
+
     }
 }

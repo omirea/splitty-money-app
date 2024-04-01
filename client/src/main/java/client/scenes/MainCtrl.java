@@ -77,6 +77,7 @@ public class MainCtrl {
         this.closedDebts = new Scene(closedDebts.getValue());
         this.manageEventsAdminCtrl = eventsAdmin.getKey();
         this.eventsAdmin = new Scene(eventsAdmin.getValue());
+        this.settingsPageCtrl = settingsPage.getKey();
         this.settingsPage=new Scene(settingsPage.getValue());
         Main.switchLocale("translations","en");
 
