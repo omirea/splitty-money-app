@@ -10,16 +10,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.StartCtrl">
+<AnchorPane prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.StartCtrl">
    <children>
       <VBox layoutY="10.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
             <HBox prefHeight="21.0" prefWidth="279.0">
                <children>
-                  <Button fx:id="settingsButton" graphicTextGap="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="22.0">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
+                  <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#showSettingsPage" prefHeight="30.0" prefWidth="91.0" text="Settings">
                      <graphic>
                         <ImageView fx:id="settingsView" fitHeight="22.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -28,19 +25,9 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="englishButton" mnemonicParsing="false" onAction="#onEnglishSwitchClick" prefHeight="30.0" prefWidth="68.0" text="English">
+                  <Button fx:id="adminButton" alignment="TOP_RIGHT" mnemonicParsing="false" onAction="#onAdminClick" prefHeight="30.0" prefWidth="80.0" text="Admin">
                      <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="dutchButton" layoutX="68.0" layoutY="10.0" mnemonicParsing="false" onAction="#onDutchSwitchClick" prefHeight="30.0" prefWidth="82.0" text="Dutch">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="adminButton" alignment="TOP_RIGHT" mnemonicParsing="false" onAction="#onAdminClick" prefHeight="30.0" prefWidth="77.0" text="Admin">
-                     <HBox.margin>
-                        <Insets left="10.0" />
+                        <Insets left="330.0" />
                      </HBox.margin>
                      <graphic>
                         <ImageView fx:id="adminView" fitHeight="22.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
@@ -57,35 +44,42 @@
             </HBox>
             <Text fx:id="createNewEventText" strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Event">
                <VBox.margin>
-                  <Insets top="10.0" />
+                  <Insets top="20.0" />
                </VBox.margin></Text>
-            <HBox prefHeight="25.0" prefWidth="200.0" spacing="10.0">
+            <VBox prefHeight="200.0" prefWidth="499.0">
                <children>
-                  <TextField fx:id="createEventField">
-                     <HBox.margin>
+                  <HBox prefHeight="25.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <TextField fx:id="createEventField" promptText="Title">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="createButton" mnemonicParsing="false" onAction="#onCreateClick" text="create" />
+                     </children>
+                     <VBox.margin>
                         <Insets />
-                     </HBox.margin></TextField>
-                  <Button fx:id="createButton" mnemonicParsing="false" onAction="#onCreateClick" text="create" />
+                     </VBox.margin>
+                  </HBox>
+                  <Text fx:id="joinEventText" strokeType="OUTSIDE" strokeWidth="0.0" text="Join Event">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+                  <HBox prefHeight="25.0" prefWidth="200.0" spacing="10.0">
+                     <children>
+                        <TextField fx:id="joinEventField" promptText="Invite Code" />
+                        <Button fx:id="joinButton" mnemonicParsing="false" onAction="#onJoinClick" text="join" />
+                     </children>
+                  </HBox>
+                  <Text fx:id="recentEventsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Recently Viewed Events:">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Text>
+                  <VBox fx:id="recentEventsBox" prefHeight="205.0" prefWidth="569.0" />
                </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </HBox>
-            <Text fx:id="joinEventText" strokeType="OUTSIDE" strokeWidth="0.0" text="Join Event">
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin></Text>
-            <HBox prefHeight="25.0" prefWidth="200.0" spacing="10.0">
-               <children>
-                  <TextField fx:id="joinEventField" />
-                  <Button fx:id="joinButton" mnemonicParsing="false" onAction="#onJoinClick" text="join" />
-               </children>
-            </HBox>
-            <Text fx:id="recentEventsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Recently Viewed Events:">
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin></Text>
-            <VBox fx:id="recentEventsBox" prefHeight="200.0" prefWidth="100.0" />
+            </VBox>
          </children></VBox>
    </children>
 </AnchorPane>

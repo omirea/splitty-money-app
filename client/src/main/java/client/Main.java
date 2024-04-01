@@ -58,8 +58,10 @@ public class Main extends Application {
             "ClosedDebts.fxml");
         var eventsAdmin = FXML.load(ManageEventsAdminCtrl.class, "client", "scenes",
             "ManageEventsAdmin.fxml");
+        var settingsPage=FXML.load(SettingsPageCtrl.class, "client", "scenes",
+                "SettingsPage.fxml");
         mainCtrl.initialize(stage, start, overview, invitation, participant, expense, openDebts,
-            manageParticipants, logInAdmin, closedDebts, eventsAdmin);
+            manageParticipants, logInAdmin, closedDebts, eventsAdmin, settingsPage);
 
     }
 
@@ -86,7 +88,8 @@ public class Main extends Application {
                 INJECTOR.getInstance(ManageEventsAdminCtrl.class),
                 INJECTOR.getInstance(ManageParticipantsCtrl.class),
                 INJECTOR.getInstance(OpenDebtsCtrl.class),
-                INJECTOR.getInstance(StartCtrl.class));
+                INJECTOR.getInstance(StartCtrl.class),
+                INJECTOR.getInstance(SettingsPageCtrl.class));
         for(LanguageSwitch controller : controllers) {
             controller.LanguageSwitch();
         }

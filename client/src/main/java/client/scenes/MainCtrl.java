@@ -38,10 +38,11 @@ public class MainCtrl {
     private AdminLogInCtrl adminLogInCtrl;
     private ClosedDebtsCtrl closedDebtsCtrl;
     private ManageEventsAdminCtrl manageEventsAdminCtrl;
+    private SettingsPageCtrl settingsPageCtrl;
 
     private Scene addEditParticipant, openDebts, invitation,
         expense, overview, manageParticipants, start,
-        logInAdmin, closedDebts, eventsAdmin;
+        logInAdmin, closedDebts, eventsAdmin, settingsPage;
 
 
     public void initialize(Stage primaryStage,
@@ -54,7 +55,8 @@ public class MainCtrl {
                            Pair<ManageParticipantsCtrl, Parent> manageParticipants,
                            Pair<AdminLogInCtrl, Parent> logInAdminA,
                            Pair<ClosedDebtsCtrl, Parent> closedDebts,
-                           Pair<ManageEventsAdminCtrl, Parent> eventsAdmin) {
+                           Pair<ManageEventsAdminCtrl, Parent> eventsAdmin,
+                            Pair<SettingsPageCtrl, Parent> settingsPage) {
         this.primaryStage = primaryStage;
         this.startCtrl = start.getKey();
         this.start = new Scene(start.getValue());
@@ -76,14 +78,17 @@ public class MainCtrl {
         this.closedDebts = new Scene(closedDebts.getValue());
         this.manageEventsAdminCtrl = eventsAdmin.getKey();
         this.eventsAdmin = new Scene(eventsAdmin.getValue());
+        this.settingsPageCtrl = settingsPage.getKey();
+        this.settingsPage=new Scene(settingsPage.getValue());
         Main.switchLocale("translations","en");
 
+
         //showEventOverview("123");
-        //showStartScreen();
-        showEventsAdmin();
+        showStartScreen();
+        //showSettingsPage();
+        //showEventsAdmin();
         //showEditParticipants();
         //showOpenDebts();
-
         //showEditParticipants();
         //showAdminLogIn();
         primaryStage.show();
@@ -186,11 +191,22 @@ public class MainCtrl {
     }
 
     /**
+     * method to show the Settings page
+     */
+    public void showSettingsPage() {
+        Stage anotherStage=new Stage();
+        anotherStage.setTitle("Splitty: Settings Page");
+        anotherStage.setScene(settingsPage);
+        anotherStage.show();
+    }
+
+    /**
      * method to show closed debts page
      */
     public void showClosedDebts(String id) {
         closedDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Closed Debts");
+
         primaryStage.setScene(closedDebts);
     }
 

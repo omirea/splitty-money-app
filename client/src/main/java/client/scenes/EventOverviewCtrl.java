@@ -150,7 +150,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      * method to edit participant
      */
     public void onParticipantEditClick() {
-        mainCtrl.showAddParticipant(event.getInvitationID());
+        mainCtrl.showManageParticipants(event.getInvitationID());
     }
 
     public void onTitleEditClick() {
