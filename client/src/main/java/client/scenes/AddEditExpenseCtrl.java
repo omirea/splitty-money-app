@@ -4,6 +4,7 @@ import client.Main;
 import client.nodes.PersonAmount;
 import client.utils.ServerUtils;
 import commons.Expense;
+import commons.Participant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,21 +17,27 @@ import javafx.scene.text.Text;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
+import java.util.Objects;
 
 import static client.Main.locale;
 
 public class AddEditExpenseCtrl implements Main.LanguageSwitch {
 
-    ObservableList<String> currencyList =
+    private ObservableList<String> currencyList =
             FXCollections.observableArrayList("EUR", "USD", "GBP");
     // Add expense
+    private ObservableList<Participant> participants;
+    private List<PersonAmount> pa;
+    private ObservableList<PersonAmount> personAmounts;
+    private List<Participant> participantList;
     private MainCtrl mainCtrl;
-    private final ServerUtils serverUtils;
+    private final ServerUtils server;
 
     @FXML
-    private ChoiceBox<String> whoPaidField;
+    private ChoiceBox<Participant> whoPaidField;
     @FXML
     private TextField whatForField;
     @FXML
@@ -78,8 +85,10 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
 
     @Inject
     public AddEditExpenseCtrl(ServerUtils serverUtils, MainCtrl mainCtrl){
-        this.serverUtils=serverUtils;
+        this.server=serverUtils;
         this.mainCtrl=mainCtrl;
+        this.participantList = new ArrayList<>();
+        this.pa = new ArrayList<>();
     }
 
     public TableView<PersonAmount> getTableView(){
@@ -111,14 +120,27 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         amountColumn.
                 setCellValueFactory(new PropertyValueFactory<PersonAmount, TextField>("textField"));
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
         // currency initialiser
         howMuchField.setText("0");
         currencyField.setValue("EUR");
         currencyField.setItems(currencyList);
+        participants = FXCollections.observableArrayList(participantList);
+        whoPaidField.setItems(participants);
+
+        for(Participant participant : participants) {
+            if(!Objects.equals(participant.getName(), whoPaidField.getValue().getName())) {
+                pa.add(new PersonAmount(participant.getName()));
+            }
+        }
+        personAmounts = FXCollections.observableArrayList(pa);
+        tableView.setItems(personAmounts);
     }
 
-    public ChoiceBox<String> getWhoPaidField(){return whoPaidField;}
+    public void setParticipants(String id) {
+        participantList = server.getParticipantsByInvitationId(id);
+    }
+
+    public ChoiceBox<Participant> getWhoPaidField(){return whoPaidField;}
 
     /**
      * onAddClick method
@@ -189,13 +211,14 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     }
 
     public Expense createExpense(){
-        String whoPaid=whoPaidField.getSelectionModel().getSelectedItem();
+        Participant whoPaid=whoPaidField.getSelectionModel().getSelectedItem();
         String whatFor=whatForField.getText();
-        Double amount= Double.valueOf(howMuchField.getText());
+        double amount= Double.parseDouble(howMuchField.getText());
         Currency currency= Currency.getInstance(currencyField.getSelectionModel()
             .getSelectedItem());
         LocalDate date=whenField.getValue();
         Expense expense=new Expense(whatFor, amount, null, date, currency);
+        server.addExpense(expense);
         return expense;
     }
 
@@ -232,7 +255,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     public void LanguageSwitch() {
         addExpenseText.setText(Main.getLocalizedString("addEditExpense"));
         whoPaidText.setText(Main.getLocalizedString("whoPaid"));
-        howMuchText.setText(Main.getLocalizedString("howMuch"));
+        howMuchText.setText(Main.getLocalizedString("Amount"));
         whatForText.setText(Main.getLocalizedString("whatFor"));
         whenText.setText(Main.getLocalizedString("When"));
         howToSplitText.setText(Main.getLocalizedString("howToSplit"));

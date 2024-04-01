@@ -19,6 +19,7 @@ import client.Main;
 import client.nodes.PersonAmount;
 import commons.Expense;
 import commons.Participant;
+import jakarta.mail.Part;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
@@ -133,9 +134,10 @@ public class MainCtrl {
     /**
      * method to show expense page
      */
-    public void showAddExpense() {
+    public void showAddExpense(String invitationId) {
         primaryStage.setTitle("Splitty: Add/Edit Expense");
         primaryStage.setScene(expense);
+        addEditExpenseCtrl.setParticipants(invitationId);
     }
 
     /**
@@ -215,7 +217,7 @@ public class MainCtrl {
      * for "who paid" for an expense
      * @param participant the participant that has been added
      */
-    public void addParticipantToExpenseOption(String participant) {
+    public void addParticipantToExpenseOption(Participant participant) {
         addEditExpenseCtrl.getWhoPaidField().getItems().add(participant);
     }
 
