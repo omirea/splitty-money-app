@@ -154,11 +154,11 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                     sum += Double.parseDouble(pa.getTextField().getText());
                 }
             }
-
             if(sum>total)
                 sumIsLarger();
             else {
                 Expense expense1 = createExpense();
+                expense = null;
                 mainCtrl.addExpenseToEvent(expense1);
                 mainCtrl.showEventOverview(event.getInvitationID());
             }
@@ -219,7 +219,8 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         fillDebtList(amount, debtList, whoPaid);
         if (expense == null) {
             expense = new Expense(event, debtList, whatFor, amount, null, date, currency);
-            server.addExpense(expense);
+            expense.setEvent(event);
+            server.createExpense(expense);
         } else {
             expense.setDateSent(date);
             expense.setAmount(amount);
@@ -227,6 +228,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             expense.setCurrency(currency);
             expense.setType(null);
             expense.setDebts(debtList);
+            expense.setEvent(event);
             server.updateExpense(expense, expense.getId());
         }
         return expense;
@@ -334,6 +336,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
      * adds all to the choicebox
      */
     public void addAllRelevantParticipants() {
+        participants.clear();
         List<Participant> pList = server.getParticipantsByInvitationId(event.getInvitationID());
         participants.addAll(pList);
     }
