@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 
 import static client.Main.locale;
 
-public class StartCtrl implements Initializable, Main.LanguageSwitch {
+public class StartCtrl implements  Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -58,7 +58,7 @@ public class StartCtrl implements Initializable, Main.LanguageSwitch {
     }
 
     /**
-     * method to initialize the page
+     * method to initialize the page view (table, settings icon and admin icon)
      */
     @FXML
     public void initialize() {
@@ -77,6 +77,32 @@ public class StartCtrl implements Initializable, Main.LanguageSwitch {
                 (getClass().getResourceAsStream("/icons/systemadministratormale_1.png")));
         adminView.setImage(admin);
         adminButton.setGraphic(adminView);
+
+        //sets the table columns
+        titleColumn.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getName()));
+        deleteColumn.setCellValueFactory(q -> {
+            Button deleteEvent = new Button();
+            ImageView trashCan = new ImageView();
+            trashCan.setFitWidth(20);
+            trashCan.setFitHeight(20);
+            Image trash =new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/trash.png")));
+            trashCan.setImage(trash);
+            deleteEvent.setGraphic(trashCan);
+            deleteEvent.setOnAction(event -> deleteEventFromTable(q.getValue()));
+            return new SimpleObjectProperty<>(deleteEvent);
+        });
+        recentEvents.setRowFactory(event -> {
+            TableRow<Event> row = new TableRow<>();
+            row.setOnMouseClicked(q -> {
+                if (q.getClickCount() == 2 && (!row.isEmpty())) {
+                    Event eventRow = row.getItem();
+                    String invID = eventRow.getInvitationID();
+                    showEvent(invID);
+                }
+            });
+            return row;
+        });
     }
 
     /**
@@ -142,39 +168,10 @@ public class StartCtrl implements Initializable, Main.LanguageSwitch {
     }
 
     /**
-     * method to add event to box
+     * method to add event to table view
      */
     public void addEventToBox(Event event) {
         recentEvents.getItems().add(event);
-    }
-
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        titleColumn.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getName()));
-        deleteColumn.setCellValueFactory(q -> {
-            Button deleteEvent = new Button();
-            ImageView trashCan = new ImageView();
-            trashCan.setFitWidth(20);
-            trashCan.setFitHeight(20);
-            Image trash =new Image(Objects.requireNonNull
-                (getClass().getResourceAsStream("/icons/trash.png")));
-            trashCan.setImage(trash);
-            deleteEvent.setGraphic(trashCan);
-            deleteEvent.setOnAction(event -> deleteEventFromTable(q.getValue()));
-            return new SimpleObjectProperty<>(deleteEvent);
-        });
-        recentEvents.setRowFactory(event -> {
-            TableRow<Event> row = new TableRow<>();
-            row.setOnMouseClicked(q -> {
-                if (q.getClickCount() == 2 && (!row.isEmpty())) {
-                    Event eventRow = row.getItem();
-                    String invID = eventRow.getInvitationID();
-                    showEvent(invID);
-                }
-            });
-            return row;
-        });
     }
 
     private void showEvent(String invID) {
