@@ -82,7 +82,6 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             }
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
             switch(locale.getLanguage()) {
                 case "nl":
                     alert.setTitle("Succesvol toevoegen");
