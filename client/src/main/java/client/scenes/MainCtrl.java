@@ -144,7 +144,6 @@ public class MainCtrl {
         addEditExpenseCtrl.setEvent(invitationId);
         primaryStage.setScene(expense);
         addEditExpenseCtrl.addAllRelevantParticipants();
-        addEditExpenseCtrl.addAllItems();
     }
 
     /**

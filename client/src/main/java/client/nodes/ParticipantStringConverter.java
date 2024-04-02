@@ -15,7 +15,6 @@ public class ParticipantStringConverter extends StringConverter<Participant> {
 
     @Override
     public Participant fromString(String string) {
-        // Not needed for a ChoiceBox, so just return null
         return null;
     }
 }
