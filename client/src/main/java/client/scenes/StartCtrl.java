@@ -7,14 +7,11 @@ import commons.Event;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
-import java.net.URL;
 import java.util.Objects;
-import java.util.ResourceBundle;
 
 import static client.Main.locale;
 
