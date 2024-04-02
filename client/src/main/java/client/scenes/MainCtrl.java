@@ -138,9 +138,11 @@ public class MainCtrl {
     /**
      * method to show expense page
      */
-    public void showAddExpense() {
+    public void showAddExpense(String invitationId) {
         primaryStage.setTitle("Splitty: Add/Edit Expense");
+        addEditExpenseCtrl.setEvent(invitationId);
         primaryStage.setScene(expense);
+        addEditExpenseCtrl.addAllRelevantParticipants();
     }
 
     /**
@@ -231,7 +233,7 @@ public class MainCtrl {
      * for "who paid" for an expense
      * @param participant the participant that has been added
      */
-    public void addParticipantToExpenseOption(String participant) {
+    public void addParticipantToExpenseOption(Participant participant) {
         addEditExpenseCtrl.getWhoPaidField().getItems().add(participant);
     }
 
