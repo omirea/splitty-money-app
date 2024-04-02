@@ -1,22 +1,17 @@
 package client.scenes;
 
 import client.Main;
-import client.nodes.RecentEvent;
 import client.utils.ServerUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.inject.Inject;
 import commons.Event;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -27,16 +22,10 @@ public class StartCtrl implements Initializable, Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-
     @FXML
     private TextField createEventField;
-
     @FXML
     private TextField joinEventField;
-
-    @FXML
-    private VBox recentEventsBox;
-
     @FXML
     private Button settingsButton;
     @FXML
@@ -55,10 +44,6 @@ public class StartCtrl implements Initializable, Main.LanguageSwitch {
     private Button joinButton;
     @FXML
     private Text recentEventsText;
-    @FXML
-    private Button englishButton;
-    @FXML
-    private Button dutchButton;
     @FXML
     private TableView<Event> recentEvents;
     @FXML
@@ -102,7 +87,6 @@ public class StartCtrl implements Initializable, Main.LanguageSwitch {
         if(!nameEmpty) {
             System.out.println("Create " + createEventField.getText());
             Event e = new Event(createEventField.getText());
-//            addEventToBox(e);
             addEventToBox(e);
             e = server.createEvent(e);
             mainCtrl.showEventOverview(e.getInvitationID());
@@ -134,6 +118,8 @@ public class StartCtrl implements Initializable, Main.LanguageSwitch {
         // TODO: connect to database, open new window
         try {
             mainCtrl.showEventOverview(joinEventField.getText());
+            Event e =  server.getEventByInvitationId(joinEventField.getText());
+            addEventToBox(e);
             joinEventField.setText("");
         } catch (Exception e) {
             Alert alert=new Alert(Alert.AlertType.WARNING);
@@ -160,8 +146,6 @@ public class StartCtrl implements Initializable, Main.LanguageSwitch {
      */
     public void addEventToBox(Event event) {
         recentEvents.getItems().add(event);
-//        RecentEvent re = new RecentEvent(event, mainCtrl);
-//        recentEventsBox.getChildren().add(re.getNode());
     }
 
 
@@ -207,13 +191,6 @@ public class StartCtrl implements Initializable, Main.LanguageSwitch {
     public void onAdminClick(){
         mainCtrl.showAdminLogIn();
     }
-
-//    public void onEnglishSwitchClick() {
-//       Main.switchLocale("translations", "en");
-//    }
-//    public void onDutchSwitchClick() {
-//        Main.switchLocale("translations", "nl");
-//    }
 
     /**
      * method to show the Settings Page
