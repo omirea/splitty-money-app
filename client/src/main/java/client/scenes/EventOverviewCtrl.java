@@ -66,6 +66,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     @FXML
     private Button settleDebtsButton;
 
+
     @Inject
     public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;

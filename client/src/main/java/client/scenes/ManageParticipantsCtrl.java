@@ -7,26 +7,22 @@ import com.google.inject.Inject;
 import commons.Debt;
 import commons.Event;
 import commons.Participant;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 import static client.Main.locale;
 
-public class ManageParticipantsCtrl implements Initializable, Main.LanguageSwitch {
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+
+public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -41,19 +37,6 @@ public class ManageParticipantsCtrl implements Initializable, Main.LanguageSwitc
     @FXML
     private Button cancelButton, finishButton, addButton;
 
-
-    //TODO: observerableList<EVENT>
-    @FXML
-    private TableView<Participant> participantsList;
-    @FXML
-    private TableColumn<Participant, String> nameCol;
-    @FXML
-    private TableColumn<Participant, Button> renameCol;
-    @FXML
-    private TableColumn<Participant, Button> editCol;
-    @FXML
-    private TableColumn<Participant, Button> deleteCol;
-
     @Inject
     public ManageParticipantsCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
@@ -62,52 +45,6 @@ public class ManageParticipantsCtrl implements Initializable, Main.LanguageSwitc
         editedParticipants = new ArrayList<>();
         deletedParticipants = new ArrayList<>();
     }
-
-    public void getAllParticipantsEvent(Event event){
-        var plist = server.getParticipantsByInvitationId(event.getInvitationID());
-        ObservableList<Participant> allParticipants = FXCollections.observableList(plist);
-        participantsList.setItems(allParticipants);
-
-    }
-
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        //server.getParticipantsByInvitationId(event.getInvitationI
-        nameCol.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getName()));
-        renameCol.setCellValueFactory(q -> {
-            switch(locale.getLanguage()){
-                case "nl":
-                    Button renameN = new Button("Hernoemen");
-                    renameN.setOnAction(participant -> renameParticipant(q.getValue()));
-                    return new SimpleObjectProperty<>(renameN);
-                case "en":
-                    Button rename = new Button("Rename");
-                    rename.setOnAction(participant -> renameParticipant(q.getValue()));
-                    return new SimpleObjectProperty<>(rename);
-
-            }
-            return null;
-        });
-    }
-
-    private void renameParticipant(Participant p) {
-        TextInputDialog tid = new TextInputDialog(p.getName());
-        switch (locale.getLanguage()) {
-            case "nl":
-                tid.setHeaderText("Vul de naam van de persoon in");
-                break;
-            case "en":
-                tid.setHeaderText("Input the new name of the participant");
-                break;
-            default: break;
-        }
-        tid.showAndWait();
-        String title = tid.getEditor().getText();
-        p = server.updateParticipant(p, p.getId());
-        p.setName(title);
-    }
-
 
     /**
      * method to cancel action
@@ -187,7 +124,6 @@ public class ManageParticipantsCtrl implements Initializable, Main.LanguageSwitc
 
     public void setEvent(String id) {
         event = server.getEventByInvitationId(id);
-        getAllParticipantsEvent(event);
     }
 
     public void addAllParticipants() {
@@ -233,5 +169,4 @@ public class ManageParticipantsCtrl implements Initializable, Main.LanguageSwitc
     public ServerUtils getServer() {
         return server;
     }
-
 }
