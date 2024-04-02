@@ -24,47 +24,17 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     Event event;
-    @FXML
-    private Text participantsListText, eventTitleText;
-    @FXML
-    private ChoiceBox<Participant> participantsMenu;
-    @FXML
-    private TabPane expensesTabs;
-    @FXML
-    private ListView<Expense> listViewAll, listViewFrom, listViewWith;
-    @FXML
-    private Button homeButton;
-    @FXML
-    private ImageView homeView;
 
-    @FXML
-    private Button editTitleButton;
+    @FXML private Text participantsListText, eventTitleText;
+    @FXML private ChoiceBox<Participant> participantsMenu;
+    @FXML private TabPane expensesTabs;
+    @FXML private Tab allTab, fromPersonTab, toPersonTab;
+    @FXML private ListView<Expense> listViewAll, listViewFrom, listViewWith;
 
-    @FXML
-    private Button sendInvitesButton;
-
-    @FXML
-    private Text participantsText;
-
-    @FXML
-    private Button editParticipantsButton;
-
-    @FXML
-    private Text expensesText;
-
-    @FXML
-    private Button addExpenseButton;
-
-    @FXML
-    private Tab allTab;
-
-    @FXML
-    private Tab fromPersonTab;
-
-    @FXML
-    private Tab toPersonTab;
-    @FXML
-    private Button settleDebtsButton;
+    @FXML private Button homeButton, editTitleButton, sendInvitesButton,
+        editParticipantsButton, addExpenseButton, settleDebtsButton;
+    @FXML private ImageView homeView;
+    @FXML private Text participantsText, expensesText;
 
 
     @Inject
@@ -79,8 +49,8 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     @FXML
     public void initialize() {
         //set home button
-        homeView.setFitHeight(25);
-        homeView.setFitWidth(22);
+//        homeView.setFitHeight(25);
+//        homeView.setFitWidth(22);
         Image setting=new Image(Objects.requireNonNull
                 (getClass().getResourceAsStream("/icons/home.png")));
         homeView.setImage(setting);
