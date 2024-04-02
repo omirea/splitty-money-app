@@ -1,8 +1,11 @@
 package client.scenes;
 
 import client.Main;
+import client.nodes.ParticipantStringConverter;
 import client.nodes.PersonAmount;
 import client.utils.ServerUtils;
+import commons.Debt;
+import commons.Event;
 import commons.Expense;
 import commons.Participant;
 import javafx.collections.FXCollections;
@@ -17,10 +20,7 @@ import javafx.scene.text.Text;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Currency;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static client.Main.locale;
 
@@ -30,9 +30,9 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             FXCollections.observableArrayList("EUR", "USD", "GBP");
     // Add expense
     private ObservableList<Participant> participants;
-    private List<PersonAmount> pa;
     private ObservableList<PersonAmount> personAmounts;
     private List<Participant> participantList;
+    private Map<String, Participant> personAmountMap;
     private MainCtrl mainCtrl;
     private final ServerUtils server;
 
@@ -82,13 +82,17 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     private TableColumn<PersonAmount, TextField> amountColumn;
     @FXML
     private TableView<PersonAmount> tableView;
+    Event event;
+    Expense expense;
 
     @Inject
     public AddEditExpenseCtrl(ServerUtils serverUtils, MainCtrl mainCtrl){
         this.server=serverUtils;
         this.mainCtrl=mainCtrl;
         this.participantList = new ArrayList<>();
-        this.pa = new ArrayList<>();
+        this.participants = FXCollections.observableArrayList();
+        this.personAmounts = FXCollections.observableArrayList();
+        this.personAmountMap = new HashMap<>();
     }
 
     public TableView<PersonAmount> getTableView(){
@@ -110,6 +114,9 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
      */
     @FXML
     private void initialize() {
+        whoPaidField.setItems(participants);
+        tableView.setItems(personAmounts);
+        whoPaidField.setConverter(new ParticipantStringConverter());
         //initialize table view
         tableView.visibleProperty().bind(onlySomePeopleField.selectedProperty());
         autoDivideButton.visibleProperty().bind(onlySomePeopleField.selectedProperty());
@@ -124,16 +131,17 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         howMuchField.setText("0");
         currencyField.setValue("EUR");
         currencyField.setItems(currencyList);
-        participants = FXCollections.observableArrayList(participantList);
-        whoPaidField.setItems(participants);
+    }
 
-        for(Participant participant : participants) {
-            if(!Objects.equals(participant.getName(), whoPaidField.getValue().getName())) {
-                pa.add(new PersonAmount(participant.getName()));
-            }
+    public void addAllItems() {
+        if(participants != null) {
+            for (Participant participant : participants) {
+//                if (!Objects.equals(participant.getName(), whoPaidField.getValue().getName())) {
+                    personAmounts.add(new PersonAmount(participant.getName()));
+                    personAmountMap.put(participant.getName(), participant);
+//               }
+           }
         }
-        personAmounts = FXCollections.observableArrayList(pa);
-        tableView.setItems(personAmounts);
     }
 
     public void setParticipants(String id) {
@@ -144,11 +152,11 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
 
     /**
      * onAddClick method
-     * @param event - click event
+     * @param event2 - click event
      * @throws IOException - IOException
      */
     @FXML
-    public void onAddClick(ActionEvent event) throws IOException {
+    public void onAddClick(ActionEvent event2) throws IOException {
 
         if(whatForField.getText() != null && whenField.getValue() != null
           && howMuchField.getText() != null && (allPeopleField.getText() != null
@@ -168,8 +176,9 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             if(sum>total)
                 sumIsLarger();
             else {
-                mainCtrl.addExpenseToEvent(createExpense());
-                mainCtrl.showEventOverview("123");
+                Expense expense1 = createExpense();
+                mainCtrl.addExpenseToEvent(expense1);
+                mainCtrl.showEventOverview(event.getInvitationID());
             }
         }else{
             Alert alert=new Alert(Alert.AlertType.WARNING);
@@ -202,12 +211,12 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
 
     /**
      * onAbortClick method
-     * @param event - click event
+     * @param event2 - click event
      * @throws IOException - if class not found
      */
     @FXML
-    public void onAbortClick(ActionEvent event) throws IOException {
-        mainCtrl.showEventOverview("123");
+    public void onAbortClick(ActionEvent event2) throws IOException {
+        mainCtrl.showEventOverview(event.getInvitationID());
     }
 
     public Expense createExpense(){
@@ -217,8 +226,26 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         Currency currency= Currency.getInstance(currencyField.getSelectionModel()
             .getSelectedItem());
         LocalDate date=whenField.getValue();
-        Expense expense=new Expense(whatFor, amount, null, date, currency);
-        server.addExpense(expense);
+        List<Debt> debtList = new ArrayList<>();
+        for(PersonAmount personAmount : tableView.getItems()) {
+            if(personAmount.getCheckBox().isSelected()) {
+                debtList.add(new Debt(personAmountMap.get(personAmount.getName()),whoPaid
+                        ,Double.parseDouble(personAmount.getTextField().getText())));
+            }
+        }
+        if (expense == null) {
+            // how to add new id?
+            expense = new Expense(null , event, debtList, whatFor, amount, null, date, currency);
+//            server.addExpense(expense);
+        } else {
+            expense.setDateSent(date);
+            expense.setAmount(amount);
+            expense.setDescription(whatFor);
+            expense.setCurrency(currency);
+            expense.setType(null);
+            expense.setDebts(debtList);
+//            server.updateExpense(expense, expense.getId());
+        }
         return expense;
     }
 
@@ -266,5 +293,14 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         autoDivideButton.setText(Main.getLocalizedString("Auto-Divide"));
         cancelButton.setText(Main.getLocalizedString("Cancel"));
         addExpenseButton.setText(Main.getLocalizedString("addExpense"));
+    }
+
+    public void setEvent(String invitationId) {
+        event = server.getEventByInvitationId(invitationId);
+    }
+
+    public void addAllRelevantParticipants() {
+        List<Participant> pList = server.getParticipantsByInvitationId(event.getInvitationID());
+        participants.addAll(pList);
     }
 }

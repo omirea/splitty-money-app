@@ -141,8 +141,10 @@ public class MainCtrl {
      */
     public void showAddExpense(String invitationId) {
         primaryStage.setTitle("Splitty: Add/Edit Expense");
+        addEditExpenseCtrl.setEvent(invitationId);
         primaryStage.setScene(expense);
-        addEditExpenseCtrl.setParticipants(invitationId);
+        addEditExpenseCtrl.addAllRelevantParticipants();
+        addEditExpenseCtrl.addAllItems();
     }
 
     /**

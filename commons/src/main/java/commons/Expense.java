@@ -162,6 +162,10 @@ import java.util.*;
                 Objects.equals(currency, expense.currency);
     }
 
+    public void setDebts(List<Debt> debts) {
+        this.debts = debts;
+    }
+
     /**
      * Hash method for Expense
      * @return int hashcode
@@ -187,5 +191,9 @@ import java.util.*;
                 ", dateSent=" + dateSent +
                 ", currency=" + currency +
                 '}';
+    }
+
+    public Long getId() {
+        return id;
     }
 }
