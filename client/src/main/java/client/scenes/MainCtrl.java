@@ -19,7 +19,6 @@ import client.Main;
 import client.nodes.PersonAmount;
 import commons.Expense;
 import commons.Participant;
-import jakarta.mail.Part;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
