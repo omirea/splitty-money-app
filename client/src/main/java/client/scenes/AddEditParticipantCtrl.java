@@ -65,8 +65,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
 
     @FXML
     void onClickOk() {
-        if(checkEmpty() && validateEmail(emailTextField.getText())
-                && isIbanValid(ibanTextField.getText())){
+        if(nameTextField.getText()!=null){
             String name = nameTextField.getText();
             String email = emailTextField.getText();
             String iban = ibanTextField.getText();
@@ -104,6 +103,45 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             ibanTextField.clear();
             bicTextField.clear();
         }
+//        if(checkEmpty() && validateEmail(emailTextField.getText())
+//                && isIbanValid(ibanTextField.getText())){
+//            String name = nameTextField.getText();
+//            String email = emailTextField.getText();
+//            String iban = ibanTextField.getText();
+//            String bic = bicTextField.getText();
+//
+//            if (participant == null) {
+//                participant = new Participant(name, email, iban, bic, event);
+//            } else {
+//                participant.setName(name);
+//                participant.setEmail(email);
+//                participant.setIBAN(iban);
+//                participant.setBIC(bic);
+//            }
+//
+//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//            switch(locale.getLanguage()) {
+//                case "nl":
+//                    alert.setTitle("Succesvol toevoegen");
+//                    alert.setContentText("Deelnemer succesvol toegevoegd");
+//                    break;
+//                case "en":
+//                    alert.setTitle("Adding Successful");
+//                    alert.setContentText("Participant Added Successfully");
+//                    break;
+//                default:
+//                    break;
+//            }
+//            alert.setHeaderText(null);
+//            alert.showAndWait();
+//
+//            mainCtrl.showManageParticipants(this.event.getInvitationID(), participant);
+//            participant = null;
+//            nameTextField.clear();
+//            emailTextField.clear();
+//            ibanTextField.clear();
+//            bicTextField.clear();
+//        }
     }
 
     public ServerUtils getServer() {

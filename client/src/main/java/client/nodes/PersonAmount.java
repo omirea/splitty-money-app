@@ -5,6 +5,8 @@ import javafx.scene.control.TextField;
 
 public class PersonAmount {
 
+
+    private long id;
     private CheckBox checkBox=new CheckBox();
     private String name;
     private TextField textField=new TextField();

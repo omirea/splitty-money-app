@@ -98,17 +98,17 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         mainCtrl.showEventOverview(event.getInvitationID());
     }
 
-    /**
-     * method to add a random participant
-     */
-    public void addRandomParticipant() {
-        Participant participant = new Participant(event, new ArrayList<Debt>(),
-                new ArrayList<Debt>(), "name", "email", "iban", "bic");
-        AddedParticipant addedParticipant = new AddedParticipant(participant, this);
-        addedParticipants.add(participant);
-        HBox hBox = addedParticipant.getNode();
-        displayParticipants.getChildren().add(hBox);
-    }
+//    /**
+//     * method to add a random participant
+//     */
+//    public void addRandomParticipant() {
+//        Participant participant = new Participant(event, new ArrayList<Debt>(),
+//                new ArrayList<Debt>(), "name", "email", "iban", "bic");
+//        AddedParticipant addedParticipant = new AddedParticipant(participant, this);
+//        addedParticipants.add(participant);
+//        HBox hBox = addedParticipant.getNode();
+//        displayParticipants.getChildren().add(hBox);
+//    }
 
     /**
      * method to add participant

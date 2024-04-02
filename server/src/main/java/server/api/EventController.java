@@ -155,37 +155,4 @@ public class EventController {
 
         return ResponseEntity.ok(participants);
     }
-
-
-//    /**
-//     * Checks if a string is null or empty.
-//     *
-//     * @param s the string s
-//     * @return true if the string is null or empty
-//     */
-//
-//    TODO: I DONT THINK THIS METHOD IS NEEDED GIVEN OUR NEW STRUCTURE WITH NO EXPENSE LIST
-//    /**
-//     * adding an expense to event
-//     * @param id event id
-//     * @param expense expense to add
-//     * @return response entity
-//     */
-//    @PostMapping("/{id}/expenses")
-//    public ResponseEntity<Expense> addExpenseToEvent(
-//            @PathVariable("id") long id,
-//            @RequestBody Expense expense) {
-//        if (!db.existsById(id) || isNullOrEmpty(expense.getDescription())) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//
-//        expense.setDateSent(java.time.LocalDate.now());
-//
-//        Event event = db.findById(id).get();
-//        event.addExpense(expense);
-//        Expense saved = exRepo.save(expense);
-//        return ResponseEntity.ok(saved);
-//    }
-
-
 }

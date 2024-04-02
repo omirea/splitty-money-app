@@ -16,8 +16,8 @@ import java.util.Objects;
 
 public class RecentEvent {
     HBox hbox;
-     Event event;
-     MainCtrl mainCtrl;
+    Event event;
+    MainCtrl mainCtrl;
     Button link;
     Button remove;
 

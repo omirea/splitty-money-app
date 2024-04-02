@@ -13,14 +13,18 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import javax.inject.Inject;
+import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.List;
 
 import static client.Main.locale;
 
@@ -84,15 +88,6 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     }
 
 
-    // expense type tag bar
-//    @FXML
-//    private HBox tagBoxField;
-//    @FXML
-//    private HBox tagBarField;
-//
-//    @FXML
-//    private TextField tagBarEnterField;
-
     /**
      * initialise method
      */
@@ -101,6 +96,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         whoPaidField.setItems(participants);
         tableView.setItems(personAmounts);
         whoPaidField.setConverter(new ParticipantStringConverter());
+
         //initialize table view
         tableView.visibleProperty().bind(onlySomePeopleField.selectedProperty());
         autoDivideButton.visibleProperty().bind(onlySomePeopleField.selectedProperty());
@@ -111,6 +107,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         amountColumn.
                 setCellValueFactory(new PropertyValueFactory<PersonAmount, TextField>("textField"));
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
         // currency initialiser
         howMuchField.setText("0");
         currencyField.setValue("EUR");
@@ -228,6 +225,10 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             expense.setType(null);
             expense.setDebts(debtList);
             server.updateExpense(expense, expense.getId());
+            whoPaidField.setValue(null);
+            whatForField.clear();
+            howMuchField.clear();
+            whenField.setValue(null);
         }
         return expense;
     }
@@ -334,6 +335,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
      * adds all to the choicebox
      */
     public void addAllRelevantParticipants() {
+        participants.clear();
         List<Participant> pList = server.getParticipantsByInvitationId(event.getInvitationID());
         participants.addAll(pList);
     }
