@@ -21,7 +21,7 @@ public class Event {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     /**
      * String with invitation ID, which the participants can invite others with
@@ -113,16 +113,8 @@ public class Event {
      * Getter for the ID of the event
      * @return long with ID
      */
-    public long getID() {
+    public Long getID() {
         return id;
-    }
-
-    /**
-     * Setter for the ID of the event
-     * @param id long with ID
-     */
-    public void setID(long id) {
-        this.id = id;
     }
 
     public Instant getCreateDate() {
