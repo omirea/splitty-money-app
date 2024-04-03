@@ -89,7 +89,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     public void onAddExpenseClick() {
         //will do the following code snippet once implemented:
         //mainCtrl.showAddExpense();
-        mainCtrl.showAddExpense();
+        mainCtrl.showAddExpense(event.getInvitationID());
     }
     /**
      * method to go back to the Home page

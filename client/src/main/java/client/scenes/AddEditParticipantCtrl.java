@@ -66,7 +66,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
     @FXML
     void onClickOk() {
         if(checkEmpty() && validateEmail(emailTextField.getText())
-                && isIbanValid(ibanLabel.getText())){
+                && isIbanValid(ibanTextField.getText())){
             String name = nameTextField.getText();
             String email = emailTextField.getText();
             String iban = ibanTextField.getText();
@@ -82,7 +82,6 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             }
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
             switch(locale.getLanguage()) {
                 case "nl":
                     alert.setTitle("Succesvol toevoegen");

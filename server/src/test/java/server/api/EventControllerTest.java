@@ -22,8 +22,8 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 @ExtendWith(MockitoExtension.class)
 public class EventControllerTest {
 
-    private TestEventRepository repo;
-    private TestExpenseRepository exRepo;
+//    private TestEventRepository repo;
+//    private TestExpenseRepository exRepo;
 
     @Mock
     private EventRepository eventRepository;
@@ -39,7 +39,7 @@ public class EventControllerTest {
 
         Event event = new Event();
         event.setInvitationID(event_id);
-        when(eventRepository.findOne(Example.of(event, ExampleMatcher.matchingAny()))).thenReturn(Optional.of(event));
+        when(eventRepository.findOne(Example.of(event, ExampleMatcher.matchingAll()))).thenReturn(Optional.of(event));
 
         ResponseEntity<Event> responseEntity = eventController.getEventByInvitationId(event_id);
 
@@ -66,7 +66,6 @@ public class EventControllerTest {
         Event existingEvent = new Event(); // create an existing Event object with appropriate data
         Event updatedEvent = new Event(); // create an updated Event object with appropriate data
 
-        when(eventRepository.existsById(eID)).thenReturn(true);
         when(eventRepository.findById(eID)).thenReturn(java.util.Optional.of(existingEvent));
         when(eventRepository.save(existingEvent)).thenReturn(updatedEvent);
 
@@ -92,31 +91,27 @@ public class EventControllerTest {
         assertEquals(BAD_REQUEST, actual.getStatusCode());
     }
 
-    /**
-    @Test
-    public void getAllEvents() {
-        repo = new TestEventRepository();
-        eventController = new EventController(repo, exRepo);
 
-        List<Event> list = new ArrayList<>();
-
-        Event event1 = new Event("a");
-        Event event2 = new Event("b");
-
-        list.add(event1);
-        list.add(event2);
-
-        eventController.createEvent(event1);
-        eventController.createEvent(event2);
-
-        List<Event> response = eventController.getAll();
-
-        assertEquals(response, list);
-    }
-
-*/
-
-
-    }
+//    @Test
+//    public void getAllEvents() {
+//        repo = new TestEventRepository();
+//        eventController = new EventController(repo, exRepo);
+//
+//        List<Event> list = new ArrayList<>();
+//
+//        Event event1 = new Event("a");
+//        Event event2 = new Event("b");
+//
+//        list.add(event1);
+//        list.add(event2);
+//
+//        eventController.createEvent(event1);
+//        eventController.createEvent(event2);
+//
+//        List<Event> response = eventController.getAll();
+//
+//        assertEquals(response, list);
+//    }
+}
 
 

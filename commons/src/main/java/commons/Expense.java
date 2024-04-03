@@ -47,9 +47,8 @@ import java.util.*;
         this.currency = currency;
     }
 
-    public Expense(Long id, Event event, List<Debt> debts, String description,
+    public Expense(Event event, List<Debt> debts, String description,
                    double amount, String type, LocalDate dateSent, Currency currency) {
-        this.id = id;
         this.event = event;
         this.debts = debts;
         this.description = description;
@@ -162,6 +161,10 @@ import java.util.*;
                 Objects.equals(currency, expense.currency);
     }
 
+    public void setDebts(List<Debt> debts) {
+        this.debts = debts;
+    }
+
     /**
      * Hash method for Expense
      * @return int hashcode
@@ -187,5 +190,17 @@ import java.util.*;
                 ", dateSent=" + dateSent +
                 ", currency=" + currency +
                 '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
+    public Event getEvent() {
+        return event;
     }
 }

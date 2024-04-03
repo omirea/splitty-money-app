@@ -179,12 +179,13 @@ public class ServerUtils {
 	 * @param expense - expense object
 	 * @return added Expense
 	 */
-	public Expense addExpense(Expense expense) {
+	public Expense createExpense(Expense expense) {
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(SERVER).path("expense")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
-				.post(Entity.entity(expense, APPLICATION_JSON), Expense.class);
+				.post(Entity.entity(expense, APPLICATION_JSON),
+						Expense.class);
 	}
 
 	/**

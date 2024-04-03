@@ -1,35 +1,28 @@
 package client.scenes;
 
 import client.Main;
-import client.nodes.RecentEvent;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-
 import java.util.Objects;
 
 import static client.Main.locale;
 
-public class StartCtrl implements Main.LanguageSwitch {
+public class StartCtrl implements  Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-
     @FXML
     private TextField createEventField;
-
     @FXML
     private TextField joinEventField;
-
-    @FXML
-    private VBox recentEventsBox;
-
     @FXML
     private Button settingsButton;
     @FXML
@@ -49,9 +42,11 @@ public class StartCtrl implements Main.LanguageSwitch {
     @FXML
     private Text recentEventsText;
     @FXML
-    private Button englishButton;
+    private TableView<Event> recentEvents;
     @FXML
-    private Button dutchButton;
+    private TableColumn<Event, String> titleColumn;
+    @FXML
+    private TableColumn<Event, Button> deleteColumn;
 
     @Inject
     public StartCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -60,7 +55,7 @@ public class StartCtrl implements Main.LanguageSwitch {
     }
 
     /**
-     * method to initialize the page
+     * method to initialize the page view (table, settings icon and admin icon)
      */
     @FXML
     public void initialize() {
@@ -79,6 +74,32 @@ public class StartCtrl implements Main.LanguageSwitch {
                 (getClass().getResourceAsStream("/icons/systemadministratormale_1.png")));
         adminView.setImage(admin);
         adminButton.setGraphic(adminView);
+
+        //sets the table columns
+        titleColumn.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getName()));
+        deleteColumn.setCellValueFactory(q -> {
+            Button deleteEvent = new Button();
+            ImageView trashCan = new ImageView();
+            trashCan.setFitWidth(20);
+            trashCan.setFitHeight(20);
+            Image trash =new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/trash.png")));
+            trashCan.setImage(trash);
+            deleteEvent.setGraphic(trashCan);
+            deleteEvent.setOnAction(event -> deleteEventFromTable(q.getValue()));
+            return new SimpleObjectProperty<>(deleteEvent);
+        });
+        recentEvents.setRowFactory(event -> {
+            TableRow<Event> row = new TableRow<>();
+            row.setOnMouseClicked(q -> {
+                if (q.getClickCount() == 2 && (!row.isEmpty())) {
+                    Event eventRow = row.getItem();
+                    String invID = eventRow.getInvitationID();
+                    showEvent(invID);
+                }
+            });
+            return row;
+        });
     }
 
     /**
@@ -120,6 +141,8 @@ public class StartCtrl implements Main.LanguageSwitch {
         // TODO: connect to database, open new window
         try {
             mainCtrl.showEventOverview(joinEventField.getText());
+            Event e =  server.getEventByInvitationId(joinEventField.getText());
+            addEventToBox(e);
             joinEventField.setText("");
         } catch (Exception e) {
             Alert alert=new Alert(Alert.AlertType.WARNING);
@@ -142,11 +165,18 @@ public class StartCtrl implements Main.LanguageSwitch {
     }
 
     /**
-     * method to add event to box
+     * method to add event to table view
      */
     public void addEventToBox(Event event) {
-        RecentEvent re = new RecentEvent(event, mainCtrl);
-        recentEventsBox.getChildren().add(re.getNode());
+        recentEvents.getItems().add(event);
+    }
+
+    private void showEvent(String invID) {
+        mainCtrl.showEventOverview(invID);
+    }
+
+    private void deleteEventFromTable(Event event) {
+        recentEvents.getItems().remove(event);
     }
 
     /**
@@ -155,13 +185,6 @@ public class StartCtrl implements Main.LanguageSwitch {
     public void onAdminClick(){
         mainCtrl.showAdminLogIn();
     }
-
-//    public void onEnglishSwitchClick() {
-//       Main.switchLocale("translations", "en");
-//    }
-//    public void onDutchSwitchClick() {
-//        Main.switchLocale("translations", "nl");
-//    }
 
     /**
      * method to show the Settings Page
@@ -181,5 +204,6 @@ public class StartCtrl implements Main.LanguageSwitch {
         settingsButton.setText(Main.getLocalizedString("Settings"));
         joinEventField.setPromptText(Main.getLocalizedString("invitationID"));
         createEventField.setPromptText(Main.getLocalizedString("Title"));
+        titleColumn.setText(Main.getLocalizedString("Title"));
     }
 }
