@@ -1,9 +1,14 @@
 package server.api;
 
+import client.utils.ServerUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.Inject;
 import commons.Event;
 import commons.Participant;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.database.EventRepository;
@@ -19,6 +24,7 @@ public class EventController {
     private final EventRepository db;
     private final ParticipantRepository participantDB;
 
+
     public EventController(EventRepository db, ParticipantRepository participantDB){
         this.db=db;
         this.participantDB = participantDB;
@@ -33,6 +39,29 @@ public class EventController {
     public List<Event> getAll() {
         return db.findAll();
     }
+
+        @GetMapping(path = "/json/{invID}")
+    public ResponseEntity<ByteArrayResource> exportEventToJson(
+         @PathVariable("jsonString") String invID) {
+        try{
+            String jsonString = eventByinvIDJSON(invID);
+            byte[] eventBytes = jsonString.getBytes();
+            ByteArrayResource resource = new ByteArrayResource(eventBytes);
+            return ResponseEntity.ok().body(resource);
+
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    public String eventByinvIDJSON(String id){
+        try{
+            ObjectMapper map = new ObjectMapper();
+            return map.writeValueAsString(getEventByInvitationId(id));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 
 

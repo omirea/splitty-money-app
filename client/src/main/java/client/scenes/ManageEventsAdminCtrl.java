@@ -19,6 +19,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javax.inject.Inject;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.net.URL;
 import java.util.*;
 
@@ -201,7 +205,16 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
      * @param event which needs to be exported
      */
     private void onJSONClick(Event event) throws JsonProcessingException {
-//        server.json(event.getInvitationID());
+        try {
+            Writer writer = new BufferedWriter(new FileWriter("event: " +
+                event.getName() +" , InvitationID: " + event.getInvitationID() + ".json"));
+            writer.write(server.json(event.getInvitationID()));
+            writer.flush();
+            writer.close();
+            System.out.println("JSON made");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

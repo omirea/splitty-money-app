@@ -16,6 +16,7 @@
 package client.utils;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Debt;
 import commons.Event;
 import commons.Expense;
@@ -30,6 +31,17 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
 	private static final String SERVER = "http://localhost:8080/";
+
+		public String json(String invitationID){
+		return ClientBuilder.newClient(new ClientConfig())
+			.target(SERVER).path("event/json/" + invitationID)
+			.request(APPLICATION_JSON)
+			.accept(APPLICATION_JSON)
+			.get()
+			.readEntity(String.class);
+	}
+
+
 
 	/**
 	 * method to getAll participants from the database
