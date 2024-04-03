@@ -195,4 +195,12 @@ import java.util.*;
     public Long getId() {
         return id;
     }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
 }

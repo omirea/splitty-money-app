@@ -138,9 +138,9 @@ public class MainCtrl {
     /**
      * method to show expense page
      */
-    public void showAddExpense(String invitationId) {
+    public void showAddExpense(String id) {
         primaryStage.setTitle("Splitty: Add/Edit Expense");
-        addEditExpenseCtrl.setEvent(invitationId);
+        addEditExpenseCtrl.setEvent(id);
         primaryStage.setScene(expense);
         addEditExpenseCtrl.addAllRelevantParticipants();
     }
