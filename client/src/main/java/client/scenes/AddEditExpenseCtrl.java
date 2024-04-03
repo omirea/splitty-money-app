@@ -221,6 +221,9 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             expense = new Expense(event, debtList, whatFor, amount, null, date, currency);
             expense.setEvent(event);
             server.createExpense(expense);
+            for(Debt debt:debtList){
+                debt.setExpense(expense);
+            }
         } else {
             expense.setDateSent(date);
             expense.setAmount(amount);
@@ -250,7 +253,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                 dividePerPerson(personAmount, amount, personAmounts.size());
                 Debt debt = new Debt(personAmountMap.get(personAmount.getName()), whoPaid,
                         Double.parseDouble(personAmount.getTextField().getText()));
-//                server.createDebt(debt);
+                server.createDebt(debt);
                 debtList.add(debt);
             }
         } else {
@@ -258,7 +261,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                 if (personAmount.getCheckBox().isSelected()) {
                     Debt debt = new Debt(personAmountMap.get(personAmount.getName()), whoPaid,
                             Double.parseDouble(personAmount.getTextField().getText()));
-//                    server.createDebt(debt);
+                    server.createDebt(debt);
                     debtList.add(debt);
                 }
             }

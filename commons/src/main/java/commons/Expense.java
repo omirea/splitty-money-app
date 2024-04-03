@@ -61,6 +61,7 @@ import java.util.*;
     public Expense() {}
 
 
+
     /**
      * Getter for description
      * @return the description of the expense
@@ -192,6 +193,10 @@ import java.util.*;
                 '}';
     }
 
+    /**
+     * Getter for id
+     * @return the id of an expense
+     */
     public Long getId() {
         return id;
     }

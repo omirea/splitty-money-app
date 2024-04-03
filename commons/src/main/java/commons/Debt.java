@@ -12,7 +12,6 @@ public class Debt {
     private Long id;
 
     private boolean settled;
-
     @ManyToOne
     @JoinColumn(name = "ex_id", nullable = false)
     private Expense expense;
@@ -40,8 +39,7 @@ public class Debt {
         settled = false;
     }
 
-    public Debt(Long id, Expense expense, Participant from, Participant to, double amount) {
-        this.id = id;
+    public Debt(Expense expense, Participant from, Participant to, double amount) {
         this.expense = expense;
         this.from = from;
         this.to = to;
@@ -90,6 +88,7 @@ public class Debt {
     public Participant getFrom() {
         return from;
     }
+
 
     /**
      * setter for participant paying the debt
