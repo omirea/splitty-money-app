@@ -1,11 +1,12 @@
 package commons;
 
 import jakarta.persistence.*;
+
+import java.util.Date;
 import java.util.Objects;
 import java.util.Random;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import java.time.Instant;
 
 
 @Entity
@@ -33,11 +34,11 @@ public class Event {
      */
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    private Instant createDate;
+    private Date createDate;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    private Instant lastModified;
+    private Date lastModified;
 
 
     /**
@@ -117,11 +118,11 @@ public class Event {
         return id;
     }
 
-    public Instant getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public Instant getLastModified() {
+    public Date getLastModified() {
         return lastModified;
     }
 

@@ -83,9 +83,9 @@ public class MainCtrl {
 
 
         //showEventOverview("123");
-        showStartScreen();
+        //showStartScreen();
         //showSettingsPage();
-        //showEventsAdmin();
+        showEventsAdmin();
         //showEditParticipants();
         //showOpenDebts();
         //showEditParticipants();
