@@ -98,12 +98,30 @@ public class ServerUtils {
 					Participant.class);
 	}
 
+	/**
+	 * method to return only participants of a certain event
+	 * @param invitationId the id of the invitation from the current event
+	 * @return list of participants from an event
+	 */
 	public List<Participant> getParticipantsByInvitationId(String invitationId) {
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(SERVER).path("event/" + invitationId + "/participant")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<List<Participant>>() {});
+	}
+
+	/**
+	 * method to return only expenses of a certain event
+	 * @param invitationId the invitationId of the event
+	 * @return list of expenses from an event
+	 */
+	public List<Expense> getExpensesByInvitationId(String invitationId) {
+		return ClientBuilder.newClient(new ClientConfig())
+				.target(SERVER).path("event/" + invitationId + "/expense")
+				.request(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.get(new GenericType<List<Expense>>() {});
 	}
 
 	/**
@@ -137,7 +155,7 @@ public class ServerUtils {
 	 * @param id the id of the Event  to be deleted
 	 * @return the deleted Event
 	 */
-	public Event deleteEvent (long id){
+	public Event deleteEvent (Long id){
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(SERVER).path("event/delete/" + id)
 				.request(APPLICATION_JSON)
@@ -164,7 +182,7 @@ public class ServerUtils {
 	 * @param event Event  to be updated in the database
 	 * @return the updated Event
 	 */
-	public Event updateEvent(Event event, long id){
+	public Event updateEvent(Event event, Long id){
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(SERVER).path("event/" + id)
 				.request(APPLICATION_JSON)
@@ -193,7 +211,7 @@ public class ServerUtils {
 	 * @param id - get expense by id
 	 * @return gotten Expense
 	 */
-	public Expense getExpenseByID(long id) {
+	public Expense getExpenseByID(Long id) {
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(SERVER).path("expense/" + id)
 				.request(APPLICATION_JSON)
@@ -205,19 +223,19 @@ public class ServerUtils {
 	 * get all expenses
 	 * @return all expenses
 	 */
-	public Expense getAllExpenses() {
+	public List<Expense> getAllExpenses() {
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(SERVER).path("expense")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
-				.get(new GenericType<Expense>() {});
+				.get(new GenericType<List<Expense>>() {});
 	}
 
 	/**
 	 * deleteExpense method
 	 * @return deleted Expense
 	 */
-	public Expense deleteExpense(long id) {
+	public Expense deleteExpense(Long id) {
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(SERVER).path("expense/" + id)
 				.request(APPLICATION_JSON)
@@ -231,7 +249,7 @@ public class ServerUtils {
 	 * @param id - expense id
 	 * @return updated Expense
 	 */
-	public Expense updateExpense(Expense expense, long id) {
+	public Expense updateExpense(Expense expense, Long id) {
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(SERVER).path("expense/" + id)
 				.request(APPLICATION_JSON)
@@ -262,6 +280,19 @@ public class ServerUtils {
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<Debt>() {});
+	}
+
+	/**
+	 * method to return only debts of a certain expense
+	 * @param id the id of the expense from the current event
+	 * @return list of debts from an expense
+	 */
+	public List<Debt> getDebtsByExpenseId(Long id) {
+		return ClientBuilder.newClient(new ClientConfig())
+				.target(SERVER).path("expense/" + id + "/debt")
+				.request(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.get(new GenericType<List<Debt>>() {});
 	}
 
 	/**

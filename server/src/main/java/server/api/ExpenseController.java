@@ -1,22 +1,32 @@
 package server.api;
 
 
+import commons.Debt;
 import commons.Expense;
+import commons.Participant;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import server.database.DebtRepository;
 import server.database.ExpenseRepository;
 
 import java.util.List;
+import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/expense")
 public class ExpenseController {
 
-    private ExpenseRepository db;
+    private final ExpenseRepository db;
 
-    public ExpenseController(ExpenseRepository db){
+    private final DebtRepository debtsDB;
+
+
+    public ExpenseController(ExpenseRepository db, DebtRepository debtsDB){
         this.db=db;
+        this.debtsDB=debtsDB;
     }
 
     /**
@@ -36,7 +46,7 @@ public class ExpenseController {
      */
     @GetMapping(path = {"/{id}" })
     @ResponseBody
-    public ResponseEntity<Expense> getExpenseByID(@PathVariable("id") long expense_id){
+    public ResponseEntity<Expense> getExpenseByID(@PathVariable("id") Long expense_id){
         if(expense_id < 0)
             return ResponseEntity.badRequest().build();
         if(!db.existsById(expense_id))
@@ -68,7 +78,7 @@ public class ExpenseController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<Expense> updateExpense(@RequestBody Expense expense,
-                                                 @PathVariable("id") long expense_id) {
+                                                 @PathVariable("id") Long expense_id) {
         if(expense == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -95,7 +105,7 @@ public class ExpenseController {
      * @return ResponseEntity<Expense> - response  of the method
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Expense> deleteExpense(@PathVariable("id") long expense_id) {
+    public ResponseEntity<Expense> deleteExpense(@PathVariable("id") Long expense_id) {
         if(expense_id < 0) {
             return ResponseEntity.badRequest().build();
         }
@@ -104,5 +114,25 @@ public class ExpenseController {
         }
         db.deleteById(expense_id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{expenseID}/debt")
+    @ResponseBody
+    public ResponseEntity<List<Debt>> getDebtsByExpenseId(
+            @PathVariable("expenseID") Long id) {
+
+        Optional<Expense> tempExpense = db.findById(id);
+        if (tempExpense.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Debt debt = new Debt();
+        debt.setExpense(tempExpense.get());
+        List<Debt> debts = debtsDB.findAll(
+                Example.of(debt, ExampleMatcher.matchingAll()));
+
+        System.out.println(debts);
+
+        return ResponseEntity.ok(debts);
     }
 }

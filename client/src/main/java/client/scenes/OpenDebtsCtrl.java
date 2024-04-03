@@ -1,14 +1,22 @@
 package client.scenes;
 
 import client.Main;
+import client.nodes.ParticipantStringConverter;
 import client.utils.ServerUtils;
+import commons.Debt;
 import commons.Event;
+import commons.Expense;
+import commons.Participant;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -19,7 +27,11 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
-    Event event;
+    private  Event event;
+
+    private ObservableList<Debt> allDebts;
+
+    private ObservableList<Participant> allParticipants;
 
     @FXML
     private Button payAllDebtsButton;
@@ -31,10 +43,13 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     private Button paySelectedDebtsButton;
 
     @FXML
-    private ListView<String> listView;
+    private ListView<Debt> listView;
 
     @FXML
     private Button homeButton;
+
+    @FXML
+    private ChoiceBox<Participant> selectedParticipant;
 
     @FXML
     private ImageView homeView;
@@ -52,6 +67,9 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     public OpenDebtsCtrl(ServerUtils server, MainCtrl mainCtrl){
         this.server=server;
         this.mainCtrl=mainCtrl;
+        this.allParticipants = FXCollections.observableArrayList();
+        this.allDebts=FXCollections.observableArrayList();
+        //this.allDebts=new ArrayList<>();
     }
 
     /**
@@ -59,8 +77,13 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
      */
     @FXML
     public void initialize(){
+        //initialize choice box
+        selectedParticipant.setItems(allParticipants);
+        selectedParticipant.setConverter(new ParticipantStringConverter());
+        listView.getItems().addAll(allDebts);
+
         //initialize button colours
-        getListView().getItems().addAll("Debt 1", "Debt 2", "Debt 3");
+        //List<Participant>
         getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         getPayAllDebts()
                 .setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
@@ -86,7 +109,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
     public Button getSelectedDebts(){return paySelectedDebtsButton;}
 
-    public ListView<String> getListView(){return listView;}
+    public ListView<Debt> getListView(){return listView;}
 
     public Button getPayAllDebts(){return payAllDebtsButton;}
 
@@ -110,7 +133,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         alert.setHeaderText(null);
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK) {
-            mainCtrl.addItemsToClosedDebts(this.listView);
+            //mainCtrl.addItemsToClosedDebts(this.listView);
             listView.getItems().clear();
         }
     }
@@ -170,5 +193,26 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         paySelectedDebtsButton.setText(Main.getLocalizedString("paySelectedDebts"));
         payAllDebtsButton.setText(Main.getLocalizedString("payAllDebts"));
         seeClosedDebtsButton.setText(Main.getLocalizedString("seeClosedDebts"));
+    }
+
+    public void addDebtsToList(String id) {
+        allDebts.clear();
+        List<Expense> expenses=server.getExpensesByInvitationId(id);
+        System.out.println(expenses.size());
+        for(Expense expense : expenses){
+//            System.out.println(expense);
+//            System.out.println(2);
+//            allDebts.addAll(server.getDebtsByExpenseId(expense.getId()));
+//            for(Debt debt : allDebts)
+//                System.out.println(debt);
+        }
+    }
+
+    public void addParticipantsToChoiceBox(String id) {
+        allParticipants.clear();
+        List<Participant> pList = server.getParticipantsByInvitationId(id);
+        for(Participant participant:pList)
+            System.out.println(participant);
+        allParticipants.addAll(pList);
     }
 }
