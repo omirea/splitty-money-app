@@ -42,11 +42,11 @@ public class EventController {
         if(event == null) {
             return ResponseEntity.badRequest().build();
         }
-        if (!db.existsById(id)){
+        Optional<Event> tempEvent = db.findById(id);
+        if (tempEvent.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-
-        Event existingEvent = db.findById(id).get();
+        Event existingEvent = tempEvent.get();
         existingEvent.setName(event.getName());
         Event updatedEventEntity = db.save(existingEvent);
         return ResponseEntity.ok(updatedEventEntity);
@@ -64,7 +64,7 @@ public class EventController {
         @PathVariable("invitationID") String invitationID){
         Event e = new Event();
         e.setInvitationID(invitationID);
-        Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAny()));
+        Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAll()));
         return tempEvent.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -142,7 +142,7 @@ public class EventController {
 
         Event e = new Event();
         e.setInvitationID(invitationID);
-        Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAny()));
+        Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAll()));
         if (tempEvent.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -150,7 +150,7 @@ public class EventController {
         Participant p = new Participant();
         p.setEvent(tempEvent.get());
         List<Participant> participants = participantDB.findAll(
-                Example.of(p, ExampleMatcher.matchingAny()));
+                Example.of(p, ExampleMatcher.matchingAll()));
         System.out.println(participants);
 
         return ResponseEntity.ok(participants);
