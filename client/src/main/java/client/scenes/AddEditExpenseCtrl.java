@@ -272,7 +272,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                     Debt debt = new Debt(personAmountMap.get(personAmount.getName()), whoPaid,
                             Double.parseDouble(personAmount.getTextField().getText()));
                     debt.setExpense(null);
-                    server.createDebt(debt);
+                    debt=server.createDebt(debt);
                     debtList.add(debt);
                 }
             }

@@ -80,7 +80,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         //initialize choice box
         selectedParticipant.setItems(allParticipants);
         selectedParticipant.setConverter(new ParticipantStringConverter());
-        listView.getItems().addAll(allDebts);
+        listView.setItems(allDebts);
+        //listView.setConverter
 
         //initialize button colours
         //List<Participant>
@@ -198,21 +199,16 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     public void addDebtsToList(String id) {
         allDebts.clear();
         List<Expense> expenses=server.getExpensesByInvitationId(id);
-        System.out.println(expenses.size());
         for(Expense expense : expenses){
-//            System.out.println(expense);
-//            System.out.println(2);
-//            allDebts.addAll(server.getDebtsByExpenseId(expense.getId()));
-//            for(Debt debt : allDebts)
-//                System.out.println(debt);
+            List<Debt> debts=server.getDebtsByExpenseId(expense.getId());
+            System.out.println(debts.size());
+            allDebts.addAll(debts);
         }
     }
 
     public void addParticipantsToChoiceBox(String id) {
         allParticipants.clear();
         List<Participant> pList = server.getParticipantsByInvitationId(id);
-        for(Participant participant:pList)
-            System.out.println(participant);
         allParticipants.addAll(pList);
     }
 }

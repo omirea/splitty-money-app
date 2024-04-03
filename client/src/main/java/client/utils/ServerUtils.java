@@ -24,6 +24,8 @@ import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
 import org.glassfish.jersey.client.ClientConfig;
+
+import java.util.Collections;
 import java.util.List;
 
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
@@ -288,11 +290,17 @@ public class ServerUtils {
 	 * @return list of debts from an expense
 	 */
 	public List<Debt> getDebtsByExpenseId(Long id) {
-		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("expense/" + id + "/debt")
-				.request(APPLICATION_JSON)
-				.accept(APPLICATION_JSON)
-				.get(new GenericType<List<Debt>>() {});
+		try {
+			return ClientBuilder.newClient(new ClientConfig())
+					.target(SERVER).path("debt/expense/" + id)
+					.request(APPLICATION_JSON)
+					.accept(APPLICATION_JSON)
+					.get(new GenericType<List<Debt>>() {});
+		}catch (Exception e) {
+			// Handle exceptions (e.g., IOException, ProcessingException)
+			e.printStackTrace();
+			return Collections.emptyList();
+		}
 	}
 
 	/**

@@ -15,7 +15,7 @@ import server.database.ExpenseRepository;
 import java.util.List;
 import java.util.Optional;
 
-@RestController
+@Controller
 @RequestMapping("/expense")
 public class ExpenseController {
 
@@ -46,7 +46,7 @@ public class ExpenseController {
      */
     @GetMapping(path = {"/{id}" })
     @ResponseBody
-    public ResponseEntity<Expense> getExpenseByID(@PathVariable("id") Long expense_id){
+    public ResponseEntity<Expense> getExpenseByID(@PathVariable("id") long expense_id){
         if(expense_id < 0)
             return ResponseEntity.badRequest().build();
         if(!db.existsById(expense_id))
@@ -78,7 +78,7 @@ public class ExpenseController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<Expense> updateExpense(@RequestBody Expense expense,
-                                                 @PathVariable("id") Long expense_id) {
+                                                 @PathVariable("id") long expense_id) {
         if(expense == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -105,7 +105,7 @@ public class ExpenseController {
      * @return ResponseEntity<Expense> - response  of the method
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Expense> deleteExpense(@PathVariable("id") Long expense_id) {
+    public ResponseEntity<Expense> deleteExpense(@PathVariable("id") long expense_id) {
         if(expense_id < 0) {
             return ResponseEntity.badRequest().build();
         }
@@ -116,23 +116,22 @@ public class ExpenseController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{expenseID}/debt")
-    @ResponseBody
-    public ResponseEntity<List<Debt>> getDebtsByExpenseId(
-            @PathVariable("expenseID") Long id) {
-
-        Optional<Expense> tempExpense = db.findById(id);
-        if (tempExpense.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Debt debt = new Debt();
-        debt.setExpense(tempExpense.get());
-        List<Debt> debts = debtsDB.findAll(
-                Example.of(debt, ExampleMatcher.matchingAll()));
-
-        System.out.println(debts);
-
-        return ResponseEntity.ok(debts);
-    }
+//    @GetMapping("/{expenseID}/debt")
+//    @ResponseBody
+//    public ResponseEntity<List<Debt>> getDebtsByExpenseId(
+//            @PathVariable("expenseID") Long id) {
+//
+//        Optional<Expense> tempExpense = db.findById(id);
+//        if (tempExpense.isEmpty()) {
+//            return ResponseEntity.notFound().build();
+//        }
+//
+//        Debt debt = new Debt();
+//        debt.setExpense(tempExpense.get());
+//        List<Debt> debts = debtsDB.findAll(
+//                Example.of(debt, ExampleMatcher.matchingAll()));
+//        System.out.println(debt);
+//
+//        return ResponseEntity.ok(debts);
+//    }
 }

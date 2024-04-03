@@ -200,6 +200,8 @@ import java.util.*;
         return id;
     }
 
+    public void setId(Long id){this.id=id;};
+
     public void setEvent(Event event) {
         this.event = event;
     }
