@@ -47,6 +47,8 @@ public class StartCtrl implements  Main.LanguageSwitch {
     private TableColumn<Event, String> titleColumn;
     @FXML
     private TableColumn<Event, Button> deleteColumn;
+    @FXML
+    private TableColumn<Event, Button> openColumn;
 
     @Inject
     public StartCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -88,6 +90,11 @@ public class StartCtrl implements  Main.LanguageSwitch {
             deleteEvent.setGraphic(trashCan);
             deleteEvent.setOnAction(event -> deleteEventFromTable(q.getValue()));
             return new SimpleObjectProperty<>(deleteEvent);
+        });
+        openColumn.setCellValueFactory(q -> {
+            Button toEvent = new Button("Open");
+            toEvent.setOnAction(event -> showEvent(q.getValue().getInvitationID()));
+            return new SimpleObjectProperty<>(toEvent);
         });
         recentEvents.setRowFactory(event -> {
             TableRow<Event> row = new TableRow<>();
