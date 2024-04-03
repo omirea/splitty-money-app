@@ -22,7 +22,7 @@ import java.util.*;
 
     private String description; // Description by the participant
 
-    private double amount; // Value of the expense
+    private Double amount; // Value of the expense
 
     private String type; // Type of expense
 
@@ -73,7 +73,7 @@ import java.util.*;
      * Getter for the value
      * @return the value of the expense
      */
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
@@ -114,7 +114,7 @@ import java.util.*;
      * Setter for the value of the expense
      * @param value value of the expense
      */
-    public void setAmount(double value) {
+    public void setAmount(Double value) {
         this.amount = value;
     }
 

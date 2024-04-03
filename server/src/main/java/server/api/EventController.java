@@ -1,12 +1,14 @@
 package server.api;
 
 import commons.Event;
+import commons.Expense;
 import commons.Participant;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.database.EventRepository;
+import server.database.ExpenseRepository;
 import server.database.ParticipantRepository;
 
 import java.util.List;
@@ -18,10 +20,13 @@ import java.util.Optional;
 public class EventController {
     private final EventRepository db;
     private final ParticipantRepository participantDB;
+    private final ExpenseRepository expenseDB;
 
-    public EventController(EventRepository db, ParticipantRepository participantDB){
+    public EventController(EventRepository db, ParticipantRepository participantDB,
+                           ExpenseRepository expenseDB){
         this.db=db;
         this.participantDB = participantDB;
+        this.expenseDB = expenseDB;
     }
 
     /**
@@ -154,6 +159,27 @@ public class EventController {
         System.out.println(participants);
 
         return ResponseEntity.ok(participants);
+    }
+
+    @GetMapping("/{invitationID}/expense")
+    @ResponseBody
+    public ResponseEntity<List<Expense>> getExpensesByInvitationId(
+        @PathVariable("invitationID") String invitationID) {
+
+        Event e = new Event();
+        e.setInvitationID(invitationID);
+        Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAll()));
+        if (tempEvent.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Expense ex = new Expense();
+        ex.setEvent(tempEvent.get());
+        List<Expense> expenses = expenseDB.findAll(
+            Example.of(ex, ExampleMatcher.matchingAny()));
+        System.out.println(expenses);
+
+        return ResponseEntity.ok(expenses);
     }
 
 

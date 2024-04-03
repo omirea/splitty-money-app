@@ -30,10 +30,16 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     @FXML private TabPane expensesTabs;
     @FXML private Tab allTab, fromPersonTab, toPersonTab;
 
-    @FXML private Button homeButton, editTitleButton, sendInvitesButton,
-        editParticipantsButton, addExpenseButton, settleDebtsButton;
     @FXML private ImageView homeView;
     @FXML private Text participantsText, expensesText;
+    @FXML private Button homeButton, editTitleButton, sendInvitesButton,
+        editParticipantsButton, addExpenseButton, settleDebtsButton;
+
+    @FXML private TableView<Expense> expenseTableViewAll;
+    @FXML private TableColumn<Expense, String> nameColumn;
+    @FXML private TableColumn<Expense, Double> amountColumn;
+    @FXML private TableColumn<Expense, Button> editColumn, deleteButton;
+
 
 
     @Inject
