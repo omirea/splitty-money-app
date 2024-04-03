@@ -29,7 +29,6 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     @FXML private ChoiceBox<Participant> participantsMenu;
     @FXML private TabPane expensesTabs;
     @FXML private Tab allTab, fromPersonTab, toPersonTab;
-    @FXML private ListView<Expense> listViewAll, listViewFrom, listViewWith;
 
     @FXML private Button homeButton, editTitleButton, sendInvitesButton,
         editParticipantsButton, addExpenseButton, settleDebtsButton;
@@ -63,18 +62,6 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         eventTitleText.setText(event.getName());
     }
 
-    public ListView<Expense> getListViewAll() {
-        return listViewAll;
-    }
-
-    public ListView<Expense> getListViewFrom(){
-        return listViewFrom;
-    }
-
-    public ListView<Expense> getListViewWith(){
-        return  listViewWith;
-    }
-
     /**
      * method to open send invite page
      */
@@ -91,6 +78,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         //mainCtrl.showAddExpense();
         mainCtrl.showAddExpense(event.getInvitationID());
     }
+
     /**
      * method to go back to the Home page
      */
@@ -110,10 +98,6 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      */
     public void onMenuChange() {
         System.out.println(participantsMenu.getValue());
-        listViewAll.getItems().clear();
-        listViewFrom.getItems().clear();
-        listViewWith.getItems().clear();
-
     }
 
     /**

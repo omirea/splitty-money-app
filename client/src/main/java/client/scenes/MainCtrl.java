@@ -238,14 +238,6 @@ public class MainCtrl {
     }
 
     /**
-     * when an expense gets created it is added to the list of all events
-     * @param expense the expense that has been created
-     */
-    public void addExpenseToEvent(Expense expense) {
-        overviewCtrl.getListViewAll().getItems().add(expense);
-    }
-
-    /**
      * when a participant is added to the event it becomes a possible option
      * for who should pay for an expense
      * @param participant the participant that has been added

@@ -45,7 +45,7 @@
                   <Button fx:id="sendInvitesButton" mnemonicParsing="false" onAction="#onSendInvitesClick" text="Send Invites" />
                </children>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="9.0" prefWidth="260.0" spacing="10.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="24.0" prefWidth="526.0" spacing="10.0">
                <children>
                   <Text fx:id="participantsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Participants">
                      <font>
@@ -54,9 +54,6 @@
                   </Text>
                   <Button fx:id="editParticipantsButton" mnemonicParsing="false" onAction="#onParticipantEditClick" text="Manage" />
                </children>
-               <padding>
-                  <Insets top="5.0" />
-               </padding>
             </HBox>
             <Text fx:id="participantsListText" strokeType="OUTSIDE" strokeWidth="0.0" />
             <Text fx:id="expensesText" strokeType="OUTSIDE" strokeWidth="0.0" text="Expenses">
@@ -85,10 +82,10 @@
                            <children>
                               <TableView prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn editable="false" prefWidth="200" text="Name" />
+                                  <TableColumn editable="false" prefWidth="350.0" text="Name" />
                                   <TableColumn editable="false" prefWidth="75.0" text="Amount" />
-                                    <TableColumn editable="false" prefWidth="50" sortable="false" text="Edit" />
-                                    <TableColumn editable="false" prefWidth="50" sortable="false" text="Delete" />
+                                    <TableColumn editable="false" prefWidth="50.0" sortable="false" text="Edit" />
+                                    <TableColumn editable="false" prefWidth="50.0" sortable="false" text="Delete" />
                                 </columns>
                               </TableView>
                            </children>
@@ -99,12 +96,12 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <columns>
-                                    <TableColumn editable="false" prefWidth="200" text="Name" />
+                                    <TableColumn editable="false" prefWidth="350.0" text="Name" />
                                     <TableColumn editable="false" prefWidth="75.0" text="Amount" />
-                                    <TableColumn editable="false" prefWidth="50" sortable="false" text="Edit" />
-                                    <TableColumn editable="false" prefWidth="50" sortable="false" text="Delete" />
+                                    <TableColumn editable="false" prefWidth="50.0" sortable="false" text="Edit" />
+                                    <TableColumn editable="false" prefWidth="50.0" sortable="false" text="Delete" />
                                  </columns>
                               </TableView>
                            </children>
@@ -115,12 +112,12 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <columns>
-                                    <TableColumn editable="false" prefWidth="200" text="Name" />
+                                    <TableColumn editable="false" prefWidth="350.0" text="Name" />
                                     <TableColumn editable="false" prefWidth="75.0" text="Amount" />
-                                    <TableColumn editable="false" prefWidth="50" sortable="false" text="Edit" />
-                                    <TableColumn editable="false" prefWidth="50" sortable="false" text="Delete" />
+                                    <TableColumn editable="false" prefWidth="50.0" sortable="false" text="Edit" />
+                                    <TableColumn editable="false" prefWidth="50.0" sortable="false" text="Delete" />
                                  </columns>
                               </TableView>
                            </children>

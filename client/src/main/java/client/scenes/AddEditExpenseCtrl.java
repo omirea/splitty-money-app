@@ -159,7 +159,6 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             else {
                 Expense expense1 = createExpense();
                 expense = null;
-                mainCtrl.addExpenseToEvent(expense1);
                 mainCtrl.showEventOverview(event.getInvitationID());
             }
         }else{
