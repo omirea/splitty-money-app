@@ -2,10 +2,8 @@ package commons;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -42,9 +40,9 @@ public class Event {
     private Date lastModified;
 
     @Transient
-    private List<Expense> expenses;
+    private List<Expense> expenses = new ArrayList<>();
     @Transient
-    private List<Participant> participants;
+    private List<Participant> participants = new ArrayList<>();
 
     /**
      * Constructor for an Event object

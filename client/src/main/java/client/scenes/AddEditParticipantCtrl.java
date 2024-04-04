@@ -66,7 +66,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
     @FXML
     void onClickOk() {
         if(checkEmpty() && validateEmail(emailTextField.getText())
-                && isIbanValid(ibanTextField.getText())){
+            && isIbanValid(ibanTextField.getText())){
             String name = nameTextField.getText();
             String email = emailTextField.getText();
             String iban = ibanTextField.getText();
@@ -153,7 +153,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
     public boolean validateEmail(String email){
         String regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\." +
             "[0-9]{1,3}\\.[0-9]{1,3}\\])" +
-                "|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+            "|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         Pattern p= Pattern.compile(regex);
         Matcher m= p.matcher(email.trim());
         if(email.equals("")) {

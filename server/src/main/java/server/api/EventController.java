@@ -67,7 +67,14 @@ public class EventController {
         Event e = new Event();
         e.setInvitationID(invitationID);
         Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAll()));
-        return tempEvent.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        if(tempEvent.isPresent()){
+            Event event = tempEvent.get();
+            event.setParticipants(getParticipantsByInvitationId(invitationID).getBody());
+            event.setExpenses(getExpenseByInvitationId(invitationID).getBody());
+            return ResponseEntity.ok(event);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 
