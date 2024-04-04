@@ -33,6 +33,14 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 public class ServerUtils {
 	private static final String SERVER = "http://localhost:8080/";
 
+
+	public String getEventByInvitationIdJSON(String invitationID){
+		return ClientBuilder.newClient(new ClientConfig())
+			.target(SERVER).path("event/" + invitationID)
+			.request(APPLICATION_JSON)
+			.accept(APPLICATION_JSON)
+			.get().readEntity(String.class);
+	}
 	/**
 	 * method to getAll participants from the database
 	 * connects ui to getAll endpoint
