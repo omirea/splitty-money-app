@@ -73,20 +73,21 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
     private void setupTableViews() {
-        nameColumnAll.setCellValueFactory(new PropertyValueFactory<Expense, String>("description"));
+        nameColumnAll.setCellValueFactory(new PropertyValueFactory<Expense, String>("name"));
         amountColumnAll.setCellValueFactory(new PropertyValueFactory<Expense, Double>("amount"));
         editColumnAll.setCellValueFactory(this::createEditButton);
         deleteColumnAll.setCellValueFactory(this::createDeleteButton);
-//        loadExpenses();
+        loadExpenses();
     }
 
-//    private void loadExpenses() {
-//
-//    }
-//
-//    private void addExpense() {
-//
-//    }
+    public void loadExpenses() {
+        expenseTableViewAll.getItems().clear();
+        if (event == null) return;
+        List<Expense> expenses = server.getExpensesByInvitationId(event.getInvitationID());
+        for (Expense e : expenses) {
+            expenseTableViewAll.getItems().add(e);
+        }
+    }
 
     private SimpleObjectProperty<Button> createEditButton(
         TableColumn.CellDataFeatures<Expense, Button> q) {
@@ -99,7 +100,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         TableColumn.CellDataFeatures<Expense, Button> q) {
         Button deleteButton = new Button();
         deleteButton.setOnAction(event -> onDeleteExpenseClick(q.getValue()));
-        setImage(deleteButton, "icons/trash.png");
+//        setImage(deleteButton, "icons/trash.png");
         return new SimpleObjectProperty<>(deleteButton);
     }
 
@@ -120,7 +121,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         ImageView iv = new ImageView();
         iv.setFitWidth(20);
         iv.setFitHeight(20);
-        Image image =new Image(Objects.requireNonNull
+        Image image = new Image(Objects.requireNonNull
             (getClass().getResourceAsStream(link)));
         iv.setImage(image);
         b.setGraphic(iv);

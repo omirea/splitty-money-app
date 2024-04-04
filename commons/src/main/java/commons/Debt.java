@@ -131,15 +131,6 @@ public class Debt {
         this.amount = value;
     }
 
-    @Override
-    public String toString() {
-        return "Debt" +
-                ", from=" + from +
-                ", to=" + to +
-                ", amount=" + amount +
-                '}';
-    }
-
     /**
      * equals method to compare debts
      * @param o to be compared to this for equality

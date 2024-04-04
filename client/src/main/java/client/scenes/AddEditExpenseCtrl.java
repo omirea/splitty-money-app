@@ -82,24 +82,17 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     public TableView<PersonAmount> getTableView(){
         return tableView;
     }
+
     public void setExpense(Expense e) {
         expense = e;
-        whoPaidField.setValue(e.getDebts().getFirst().getWhoPaid());
+        List<Debt> debts = server.getAllDebts();
+        whoPaidField.setValue(debts.getFirst().getWhoPaid());
         whatForField.setText(e.getName());
         howMuchField.setText(String.valueOf(e.getAmount()));
         currencyField.setValue(e.getCurrency().getDisplayName());
         whenField.setValue(e.getDateSent());
         //fill in all the expense stuff
     }
-
-    // expense type tag bar
-//    @FXML
-//    private HBox tagBoxField;
-//    @FXML
-//    private HBox tagBarField;
-//
-//    @FXML
-//    private TextField tagBarEnterField;
 
     /**
      * initialise method
@@ -226,7 +219,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         fillDebtList(amount, debtList, whoPaid);
         if (expense == null) {
             //expense = new Expense(event, debtList, whatFor, amount, null, date, currency);
-            expense = new Expense(event,whatFor, amount, null, date, currency);
+            expense = new Expense(event, null, whatFor, amount, null, date, currency);
             expense.setEvent(event);
             expense=server.createExpense(expense);
             for(Debt debt:debtList){

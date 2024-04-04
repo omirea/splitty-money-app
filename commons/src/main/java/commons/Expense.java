@@ -13,7 +13,7 @@ import java.util.*;
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "event_id")
     private Event event;
 
