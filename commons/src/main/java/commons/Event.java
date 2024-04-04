@@ -1,11 +1,16 @@
 package commons;
 
 import jakarta.persistence.*;
+
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.service.spi.InjectService;
+
 import java.time.Instant;
+
 
 
 @Entity
@@ -33,12 +38,16 @@ public class Event {
      */
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    private Instant createDate;
+    private Date createDate;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    private Instant lastModified;
+    private Date lastModified;
 
+    @Transient
+    private List<Expense> expenses;
+    @Transient
+    private List<Participant> participants;
 
     /**
      * Constructor for an Event object
@@ -51,9 +60,36 @@ public class Event {
         this.invitationID = invitationID;
     }
 
+    public Event(String name,
+                 String invitationID,
+                 List<Expense> expenses,
+                 List<Participant> participants){
+        this.name = name;
+        this.invitationID = invitationID;
+        this.expenses = expenses;
+        this.participants = participants;
+    }
+
     public Event(String name) {
         this.name = name;
         invitationID = generateInvitationID();
+    }
+
+
+    public List<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public List<Participant> getParticipants() {
+        return participants;
+    }
+
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
+    }
+
+    public void setParticipants(List<Participant> participants) {
+        this.participants = participants;
     }
 
     /**
