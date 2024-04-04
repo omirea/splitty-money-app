@@ -33,6 +33,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
     private ObservableList<Participant> allParticipants;
 
+    private ObservableList<String> debtsString;
+
     @FXML
     private Button payAllDebtsButton;
 
@@ -43,7 +45,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     private Button paySelectedDebtsButton;
 
     @FXML
-    private ListView<Debt> listView;
+    private ListView<String> listView;
 
     @FXML
     private Button homeButton;
@@ -69,6 +71,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         this.mainCtrl=mainCtrl;
         this.allParticipants = FXCollections.observableArrayList();
         this.allDebts=FXCollections.observableArrayList();
+        this.debtsString=FXCollections.observableArrayList();
         //this.allDebts=new ArrayList<>();
     }
 
@@ -80,12 +83,19 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         //initialize choice box
         selectedParticipant.setItems(allParticipants);
         selectedParticipant.setConverter(new ParticipantStringConverter());
-        listView.setItems(allDebts);
+        listView.setItems(debtsString);
+//        listView.getItems().add(0, "goor");
+//        int i=1;
+//        for(Debt debt : allDebts) {
+//            System.out.println(debt.toString());
+//            listView.getItems().add(i,debt.toString());
+//            i++;
+//        }
         //listView.setConverter
 
         //initialize button colours
         //List<Participant>
-        getListView().getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         getPayAllDebts()
                 .setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
 
@@ -110,7 +120,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
     public Button getSelectedDebts(){return paySelectedDebtsButton;}
 
-    public ListView<Debt> getListView(){return listView;}
+//    public ListView<String> getListView(){return listView;}
 
     public Button getPayAllDebts(){return payAllDebtsButton;}
 
@@ -201,8 +211,9 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         List<Expense> expenses=server.getExpensesByInvitationId(id);
         for(Expense expense : expenses){
             List<Debt> debts=server.getDebtsByExpenseId(expense.getId());
-            System.out.println(debts.size());
             allDebts.addAll(debts);
+            for(Debt debt : debts)
+                debtsString.add(debt.toString());
         }
     }
 

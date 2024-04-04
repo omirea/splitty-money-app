@@ -145,6 +145,7 @@ public class MainCtrl {
         addEditExpenseCtrl.setEvent(id);
         primaryStage.setScene(expense);
         addEditExpenseCtrl.addAllRelevantParticipants();
+        addEditExpenseCtrl.clearBoxes();
     }
 
     /**

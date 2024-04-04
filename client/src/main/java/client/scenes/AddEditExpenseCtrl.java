@@ -362,4 +362,16 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         tableView.getItems().clear();
         addAllItems();
     }
+
+    /**
+     * clear all the boxes on the page
+     */
+    public void clearBoxes() {
+        whoPaidField.setValue(null);
+        whatForField.setText("");
+        howMuchField.setText("0");
+        whenField.setValue(null);
+        onlySomePeopleField.selectedProperty().setValue(false);
+        allPeopleField.selectedProperty().setValue(false);
+    }
 }
