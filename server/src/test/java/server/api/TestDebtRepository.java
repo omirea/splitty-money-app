@@ -90,8 +90,8 @@ class TestDebtRepository implements DebtRepository {
     }
 
     @Override
-    public <S extends Debt, R> R findBy(Example<S> example,
-                                        Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
+    public <S extends Debt, R> R
+    findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         return null;
     }
 
