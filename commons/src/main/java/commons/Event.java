@@ -2,15 +2,12 @@ package commons;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.service.spi.InjectService;
-
-import java.time.Instant;
-
 
 
 @Entity
@@ -153,11 +150,11 @@ public class Event {
         return id;
     }
 
-    public Instant getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public Instant getLastModified() {
+    public Date getLastModified() {
         return lastModified;
     }
 
