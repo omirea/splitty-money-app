@@ -101,7 +101,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         alert.setHeaderText(null);
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK){
-            mainCtrl.addItemsToOpenDebts(listView);
+            //mainCtrl.addItemsToOpenDebts(listView);
             listView.getItems().clear();
         }
     }
@@ -131,7 +131,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             ListView<String> selected=new ListView<>();
             for(String s: listView.getSelectionModel().getSelectedItems())
                 selected.getItems().add(s);
-            mainCtrl.addItemsToOpenDebts(selected);
+            //mainCtrl.addItemsToOpenDebts(selected);
             listView.getItems().removeAll(listView.getSelectionModel().getSelectedItems());
         }
     }

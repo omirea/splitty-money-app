@@ -17,8 +17,8 @@ import java.util.*;
     @JoinColumn(name = "event_id")
     private Event event;
 
-    @OneToMany(mappedBy = "expense")
-    private List<Debt> debts;
+//    @OneToMany(mappedBy = "expense")
+//    private List<Debt> debts;
 
     private String name; // Description by the participant
 
@@ -38,7 +38,7 @@ import java.util.*;
      * @param dateSent date when the request for the expense has been made
      * @param currency currency of the expense
      */
-    public Expense(String name, double amount, String type,
+    public Expense(String name, Double amount, String type,
                    LocalDate dateSent, Currency currency) {
         this.name = name;
         this.amount = amount;
@@ -48,9 +48,9 @@ import java.util.*;
     }
 
     public Expense(Event event, List<Debt> debts, String name,
-                   double amount, String type, LocalDate dateSent, Currency currency) {
+                   Double amount, String type, LocalDate dateSent, Currency currency) {
         this.event = event;
-        this.debts = debts;
+        //this.debts = debts;
         this.name = name;
         this.amount = amount;
         this.type = type;
@@ -144,16 +144,7 @@ import java.util.*;
     }
 
     /**
-     * getter for the debts list
-     * @return list of debts
-     */
-    public List<Debt> getDebts() {
-        return debts;
-    }
-
-    /**
      * Equals method for Expense
-     <<<<<<< HEAD
      * @param o other Expense
      * @return boolean true or false
      */
@@ -169,9 +160,9 @@ import java.util.*;
                 Objects.equals(currency, expense.currency);
     }
 
-    public void setDebts(List<Debt> debts) {
-        this.debts = debts;
-    }
+//    public void setDebts(List<Debt> debts) {
+//        this.debts = debts;
+//    }
 
     /**
      * Hash method for Expense
@@ -191,7 +182,7 @@ import java.util.*;
         return "Expense{" +
                 "ex_id=" + id +
                 ", event_id=" + event +
-                ", debts=" + debts +
+//                ", debts=" + debts +
                 ", description='" + name + '\'' +
                 ", value=" + amount +
                 ", type='" + type + '\'' +
@@ -200,9 +191,15 @@ import java.util.*;
                 '}';
     }
 
+    /**
+     * Getter for id
+     * @return the id of an expense
+     */
     public Long getId() {
         return id;
     }
+
+    public void setId(Long id){this.id=id;};
 
     public void setEvent(Event event) {
         this.event = event;

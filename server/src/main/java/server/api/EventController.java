@@ -14,7 +14,6 @@ import server.database.ParticipantRepository;
 import java.util.List;
 import java.util.Optional;
 
-
 @RestController
 @RequestMapping("/event")
 public class EventController {
@@ -31,15 +30,12 @@ public class EventController {
 
     /**
      * Get all events.
-     *
      * @return all events
      */
     @GetMapping(path = { "", "/" })
     public List<Event> getAll() {
         return db.findAll();
     }
-
-
 
     @PutMapping("/{id}")
     public ResponseEntity<Event> updateEvent(@RequestBody Event event,
@@ -84,62 +80,6 @@ public class EventController {
         return ResponseEntity.ok(createdEvent);
     }
 
-//    /**
-//     * Adds a user to an event.
-//     *
-//     * @param id the id of the event
-//     * @param participant the participant to add
-//     * @return the updated event
-//     */
-//    @PutMapping("/{id}/users")
-//    public ResponseEntity<Event> addUser(@PathVariable("id") long id,
-//                                         @RequestBody Participant participant) {
-//        // TODO should this be a put or a post?
-//        if (!db.existsById(id)) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//
-//        Event event = db.findById(id).get();
-//        event.addParticipant(participant);
-//        try {
-//            db.save(event);
-//        } catch (EntityNotFoundException e) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        return ResponseEntity.ok(event);
-//    }
-
-//    /**
-//     * Removes a user from an event.
-//     *
-//     * @param id id of event from which to remove user
-//     * @param email email of user to remove
-//     * @return successful operation indicator
-//     */
-//    @DeleteMapping("/{id}/users/{email}")
-//    public ResponseEntity<Event> removeUserFromEvent(
-//            @PathVariable("id") long id,
-//            @PathVariable("email") String email) {
-//        if (id <= 0 || isNullOrEmpty(email)) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//        if (!db.existsById(id)) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        Event event = db.getReferenceById(id);
-//        Optional<Participant> toRemove = event.getParticipants()
-//                .stream()
-//                .filter(u -> u.getEmail().equals(email))
-//                .findFirst();
-//        if (toRemove.isEmpty()) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        event.removeParticipant(toRemove.get());
-//        db.save(event);
-//        return ResponseEntity.ok(event);
-//    }
-
-
     @GetMapping("/{invitationID}/participant")
     @ResponseBody
     public ResponseEntity<List<Participant>> getParticipantsByInvitationId(
@@ -156,7 +96,7 @@ public class EventController {
         p.setEvent(tempEvent.get());
         List<Participant> participants = participantDB.findAll(
                 Example.of(p, ExampleMatcher.matchingAll()));
-        System.out.println(participants);
+        //System.out.println(participants);
 
         return ResponseEntity.ok(participants);
     }
@@ -164,7 +104,7 @@ public class EventController {
     @GetMapping("/{invitationID}/expense")
     @ResponseBody
     public ResponseEntity<List<Expense>> getExpensesByInvitationId(
-        @PathVariable("invitationID") String invitationID) {
+            @PathVariable("invitationID") String invitationID) {
 
         Event e = new Event();
         e.setInvitationID(invitationID);
@@ -173,45 +113,13 @@ public class EventController {
             return ResponseEntity.notFound().build();
         }
 
-        Expense ex = new Expense();
-        ex.setEvent(tempEvent.get());
+        Expense expense = new Expense();
+        expense.setEvent(tempEvent.get());
         List<Expense> expenses = expenseDB.findAll(
-            Example.of(ex, ExampleMatcher.matchingAny()));
+                Example.of(expense, ExampleMatcher.matchingAll()));
         System.out.println(expenses);
 
         return ResponseEntity.ok(expenses);
     }
-
-
-//    /**
-//     * Checks if a string is null or empty.
-//     *
-//     * @param s the string s
-//     * @return true if the string is null or empty
-//     */
-//
-//    TODO: I DONT THINK THIS METHOD IS NEEDED GIVEN OUR NEW STRUCTURE WITH NO EXPENSE LIST
-//    /**
-//     * adding an expense to event
-//     * @param id event id
-//     * @param expense expense to add
-//     * @return response entity
-//     */
-//    @PostMapping("/{id}/expenses")
-//    public ResponseEntity<Expense> addExpenseToEvent(
-//            @PathVariable("id") long id,
-//            @RequestBody Expense expense) {
-//        if (!db.existsById(id) || isNullOrEmpty(expense.getDescription())) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//
-//        expense.setDateSent(java.time.LocalDate.now());
-//
-//        Event event = db.findById(id).get();
-//        event.addExpense(expense);
-//        Expense saved = exRepo.save(expense);
-//        return ResponseEntity.ok(saved);
-//    }
-
 
 }

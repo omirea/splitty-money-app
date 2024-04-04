@@ -84,7 +84,8 @@
             </VBox>
             <TableView fx:id="recentEvents" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn fx:id="titleColumn" prefWidth="435.0" text="Title" />
+                <TableColumn fx:id="titleColumn" prefWidth="370.0" text="Title" />
+                  <TableColumn fx:id="openColumn" minWidth="0.0" prefWidth="65.0" />
                 <TableColumn fx:id="deleteColumn" minWidth="0.0" prefWidth="64.0" />
               </columns>
             </TableView>
