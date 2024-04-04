@@ -21,7 +21,8 @@ public class EventController {
     private final ParticipantRepository participantDB;
     private final ExpenseRepository expenseDB;
 
-    public EventController(EventRepository db, ParticipantRepository participantDB, ExpenseRepository expenseDB){
+    public EventController(EventRepository db, ParticipantRepository participantDB,
+                           ExpenseRepository expenseDB){
         this.db=db;
         this.participantDB = participantDB;
         this.expenseDB=expenseDB;

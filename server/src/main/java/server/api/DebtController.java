@@ -5,13 +5,10 @@ import commons.Expense;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import server.database.DebtRepository;
 import server.database.ExpenseRepository;
-
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/debt")

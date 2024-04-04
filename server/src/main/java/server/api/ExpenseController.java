@@ -1,19 +1,12 @@
 package server.api;
 
-
-import commons.Debt;
 import commons.Expense;
-import commons.Participant;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import server.database.DebtRepository;
 import server.database.ExpenseRepository;
-
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/expense")
@@ -116,22 +109,4 @@ public class ExpenseController {
         return ResponseEntity.noContent().build();
     }
 
-//    @GetMapping("/{expenseID}/debt")
-//    @ResponseBody
-//    public ResponseEntity<List<Debt>> getDebtsByExpenseId(
-//            @PathVariable("expenseID") Long id) {
-//
-//        Optional<Expense> tempExpense = db.findById(id);
-//        if (tempExpense.isEmpty()) {
-//            return ResponseEntity.notFound().build();
-//        }
-//
-//        Debt debt = new Debt();
-//        debt.setExpense(tempExpense.get());
-//        List<Debt> debts = debtsDB.findAll(
-//                Example.of(debt, ExampleMatcher.matchingAll()));
-//        System.out.println(debt);
-//
-//        return ResponseEntity.ok(debts);
-//    }
 }
