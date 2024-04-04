@@ -3,25 +3,20 @@ package client.scenes;
 import client.Main;
 import client.nodes.DebtsTable;
 import client.nodes.ParticipantStringConverter;
-import client.nodes.PersonAmount;
 import client.utils.ServerUtils;
 import commons.Debt;
 import commons.Event;
 import commons.Expense;
 import commons.Participant;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+
 
 import javax.inject.Inject;
 import java.util.List;
@@ -81,16 +76,6 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     @FXML
     public void initialize(){
         //initialize table view
-        //initialize table view
-//        tableView.visibleProperty().bind(onlySomePeopleField.selectedProperty());
-//        autoDivideButton.visibleProperty().bind(onlySomePeopleField.selectedProperty());
-//        checkBoxColumn.
-//                setCellValueFactory(new PropertyValueFactory<PersonAmount, CheckBox>("checkBox"));
-//        participantColumn.
-//                setCellValueFactory(new PropertyValueFactory<PersonAmount, String>("name"));
-//        amountColumn.
-//                setCellValueFactory(new PropertyValueFactory<PersonAmount, TextField>("textField"));
-//        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         informationCol.
                 setCellValueFactory(new PropertyValueFactory<DebtsTable, String>("debtInfo"));
         emailCol.setCellValueFactory(new PropertyValueFactory<DebtsTable, Button>("email"));
@@ -232,7 +217,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
      */
     private void createDebtsTable(ObservableList<Debt> allDebts) {
         for(Debt debt : allDebts){
-            String info=debt.getFrom().getName() + " needs to pay " + debt.getAmount() + " to " + debt.getTo().getName();
+            String info=debt.getFrom().getName() + " needs to pay " +
+                    debt.getAmount() + " to " + debt.getTo().getName();
             Button viewEmailButton=new Button();
             viewEmailButton.setAlignment(Pos.CENTER);
             Button viewIBANButton=new Button();
@@ -242,7 +228,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
             Button closeDebtButton=new Button("Close Debt");
             closeDebtButton.setAlignment(Pos.CENTER);
-            DebtsTable newDebt=new DebtsTable(info, viewEmailButton, viewIBANButton, closeDebtButton);
+            DebtsTable newDebt=new DebtsTable(info, viewEmailButton,
+                    viewIBANButton, closeDebtButton);
             debtsTables.add(newDebt);
         }
     }
