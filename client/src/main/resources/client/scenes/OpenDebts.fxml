@@ -42,7 +42,7 @@
             <ChoiceBox fx:id="selectedParticipant" prefHeight="20.0" prefWidth="146.0" />
             <VBox prefHeight="308.0" prefWidth="558.0">
                <children>
-                  <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0">
+                  <TableView fx:id="tableView" prefHeight="198.0" prefWidth="525.0">
                     <columns>
                       <TableColumn fx:id="informationCol" prefWidth="381.6000179052353" text="Information" />
                       <TableColumn fx:id="emailCol" prefWidth="36.79998779296875" text="Email" />

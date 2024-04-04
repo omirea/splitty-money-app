@@ -216,6 +216,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
     public void addDebtsToList(String id) {
         allDebts.clear();
+        debtsTables.clear();
         List<Expense> expenses=server.getExpensesByInvitationId(id);
         for(Expense expense : expenses){
             List<Debt> debts=server.getDebtsByExpenseId(expense.getId());
@@ -231,10 +232,11 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
      */
     private void createDebtsTable(ObservableList<Debt> allDebts) {
         for(Debt debt : allDebts){
-            String info=debt.getFrom() + "needs to pay " + debt.getAmount() + " to " + debt.getTo();
+            String info=debt.getFrom().getName() + " needs to pay " + debt.getAmount() + " to " + debt.getTo().getName();
             Button viewEmailButton=new Button();
+            viewEmailButton.setAlignment(Pos.CENTER);
             Button viewIBANButton=new Button();
-
+            viewIBANButton.setAlignment(Pos.CENTER);
             setupEmailPicture(debt.getTo(), viewEmailButton);
             setupIBANPicture(debt.getTo(), viewIBANButton);
 
@@ -251,12 +253,12 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
      */
     private void setupEmailPicture(Participant to, Button viewEmailButton) {
         Participant participant=server.getParticipantById(to.getId());
-        if(participant.getIBAN()==null) {
+        if(participant.getEmail().isEmpty()) {
             Image image= new Image(Objects.requireNonNull
                     (getClass().getResourceAsStream("/icons/no-email.png")));
             ImageView mailView=new ImageView();
-            mailView.setFitWidth(18);
-            mailView.setFitHeight(18);
+            mailView.setFitWidth(15);
+            mailView.setFitHeight(15);
             mailView.setImage(image);
             viewEmailButton.setGraphic(mailView);
             viewEmailButton.setTooltip(new Tooltip("This participant has no email specified"));
@@ -265,8 +267,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         Image image= new Image(Objects.requireNonNull
                 (getClass().getResourceAsStream("/icons/email.png")));
         ImageView mailView=new ImageView();
-        mailView.setFitWidth(18);
-        mailView.setFitHeight(18);
+        mailView.setFitWidth(15);
+        mailView.setFitHeight(15);
         mailView.setImage(image);
         viewEmailButton.setGraphic(mailView);
         viewEmailButton.setTooltip(new Tooltip("Payer's email: " + participant.getEmail()));
@@ -278,22 +280,25 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
      */
     private void setupIBANPicture(Participant to, Button viewIBANButton) {
         Participant participant=server.getParticipantById(to.getId());
-        if(participant.getEmail()==null){
+        System.out.println(1);
+        System.out.println(participant.getIBAN());
+        if(participant.getIBAN().isEmpty()){
             Image IBAN= new Image(Objects.requireNonNull
                     (getClass().getResourceAsStream("/icons/no-iban.png")));
             ImageView IBANView=new ImageView();
             IBANView.setImage(IBAN);
-            IBANView.setFitWidth(18);
-            IBANView.setFitHeight(18);
+            IBANView.setFitWidth(15);
+            IBANView.setFitHeight(15);
             viewIBANButton.setGraphic(IBANView);
             viewIBANButton.setTooltip(new Tooltip("This participant has no IBAN specified"));
+            return;
         }
         Image IBAN= new Image(Objects.requireNonNull
                 (getClass().getResourceAsStream("/icons/iban.png")));
         ImageView IBANView=new ImageView();
         IBANView.setImage(IBAN);
-        IBANView.setFitWidth(18);
-        IBANView.setFitHeight(18);
+        IBANView.setFitWidth(15);
+        IBANView.setFitHeight(15);
         viewIBANButton.setGraphic(IBANView);
         viewIBANButton.setTooltip(new Tooltip("Payer's IBAN: " + participant.getIBAN()));
     }
