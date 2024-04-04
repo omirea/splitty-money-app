@@ -1,14 +1,9 @@
 package server.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Event;
 import commons.Participant;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.database.EventRepository;
@@ -38,42 +33,6 @@ public class EventController {
     @GetMapping(path = { "", "/" })
     public List<Event> getAll() {
         return db.findAll();
-    }
-
-
-    /**
-     * endpoint to get resource of the json representation of an event
-     * @param invID invitation ID of the event
-     * @return a response entity with a byte array resource
-     */
-    @GetMapping(path = "/json/{invID}", produces = "application/json")
-    public ResponseEntity<ByteArrayResource> exportEventToJson(
-         @PathVariable("invID") String invID) {
-        try{
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            String jsonString = eventJSON(invID);
-            byte[] eventBytes = jsonString.getBytes();
-            ByteArrayResource resource = new ByteArrayResource(eventBytes);
-            return ResponseEntity.ok().body(resource);
-
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-
-    /**
-     * method to get the string version of an event
-     * @param id invitation ID of event
-     * @return String with event details
-     */
-    public String eventJSON(String id){
-        try{
-            ObjectMapper map = new ObjectMapper();
-            return map.writeValueAsString(getEventByInvitationId(id));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
 

@@ -3,6 +3,7 @@ package commons;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 import org.hibernate.annotations.CreationTimestamp;
@@ -39,6 +40,9 @@ public class Event {
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastModified;
+
+//    private List<Expense> expenses;
+//    private List<Participant> participants;
 
 
     /**
@@ -151,6 +155,8 @@ public class Event {
         return "Event{" +
             "name='" + name + '\'' +
             ", invitationID='" + invitationID + '\'' +
+            ", date created = '" + createDate + '\'' +
+            ", date last modified = '" + lastModified + '\''+
             '}';
     }
 }

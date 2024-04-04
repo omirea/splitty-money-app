@@ -16,6 +16,8 @@
 package client.utils;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.Debt;
 import commons.Event;
@@ -37,15 +39,6 @@ public class ServerUtils {
 	 * @param invitationID invitation ID of the event
 	 * @return String with the json representation
 	 */
-	public String json(String invitationID){
-		return ClientBuilder.newClient(new ClientConfig())
-			.target(SERVER).path("event/json/" + invitationID)
-			.request(APPLICATION_JSON)
-			.accept(APPLICATION_JSON)
-			.get()
-			.readEntity(String.class);
-	}
-
 
 
 	/**
@@ -121,6 +114,23 @@ public class ServerUtils {
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<List<Participant>>() {});
+	}
+
+	public String getParticipantsByInvitationIdJSON(String invitationId) {
+		String jsonP =  ClientBuilder.newClient(new ClientConfig())
+			.target(SERVER).path("event/" + invitationId + "/participant")
+			.request(APPLICATION_JSON)
+			.accept(APPLICATION_JSON)
+			.get().readEntity(String.class);
+		return jsonP;
+	}
+
+	public String getEventByInvitationIdJSON(String invitationID){
+		return ClientBuilder.newClient(new ClientConfig())
+			.target(SERVER).path("event/" + invitationID)
+			.request(APPLICATION_JSON)
+			.accept(APPLICATION_JSON)
+			.get().readEntity(String.class);
 	}
 
 	/**

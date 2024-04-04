@@ -208,11 +208,13 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
         try {
             Writer writer = new BufferedWriter(new FileWriter("event: " +
                 event.getName() +" , InvitationID: " + event.getInvitationID() + ".json"));
-            String string = server.json(event.getInvitationID());
+            String string = server.getEventByInvitationIdJSON(event.getInvitationID());
             writer.write(string);
+            String participants = server.getParticipantsByInvitationIdJSON(event.getInvitationID());
+           writer.write(participants);
             writer.flush();
             writer.close();
-            System.out.println("JSON made");
+            System.out.println("JSON made with event invitation ID: " + event.getInvitationID());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
