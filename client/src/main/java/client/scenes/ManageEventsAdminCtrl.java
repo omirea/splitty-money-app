@@ -208,7 +208,8 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
         try {
             Writer writer = new BufferedWriter(new FileWriter("event: " +
                 event.getName() +" , InvitationID: " + event.getInvitationID() + ".json"));
-            writer.write(server.json(event.getInvitationID()));
+            String string = server.json(event.getInvitationID());
+            writer.write(string);
             writer.flush();
             writer.close();
             System.out.println("JSON made");

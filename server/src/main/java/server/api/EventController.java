@@ -1,14 +1,14 @@
 package server.api;
 
-import client.utils.ServerUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.inject.Inject;
 import commons.Event;
 import commons.Participant;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.database.EventRepository;
@@ -40,11 +40,19 @@ public class EventController {
         return db.findAll();
     }
 
-        @GetMapping(path = "/json/{invID}")
+
+    /**
+     * endpoint to get resource of the json representation of an event
+     * @param invID invitation ID of the event
+     * @return a response entity with a byte array resource
+     */
+    @GetMapping(path = "/json/{invID}", produces = "application/json")
     public ResponseEntity<ByteArrayResource> exportEventToJson(
-         @PathVariable("jsonString") String invID) {
+         @PathVariable("invID") String invID) {
         try{
-            String jsonString = eventByinvIDJSON(invID);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            String jsonString = eventJSON(invID);
             byte[] eventBytes = jsonString.getBytes();
             ByteArrayResource resource = new ByteArrayResource(eventBytes);
             return ResponseEntity.ok().body(resource);
@@ -53,7 +61,13 @@ public class EventController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    public String eventByinvIDJSON(String id){
+
+    /**
+     * method to get the string version of an event
+     * @param id invitation ID of event
+     * @return String with event details
+     */
+    public String eventJSON(String id){
         try{
             ObjectMapper map = new ObjectMapper();
             return map.writeValueAsString(getEventByInvitationId(id));
@@ -61,8 +75,6 @@ public class EventController {
             throw new RuntimeException(e);
         }
     }
-
-
 
 
     @PutMapping("/{id}")

@@ -17,6 +17,7 @@ import java.util.*;
     @JoinColumn(name = "event_id")
     private Event event;
 
+
     @OneToMany(mappedBy = "expense")
     private List<Debt> debts;
 

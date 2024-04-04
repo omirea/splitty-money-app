@@ -32,7 +32,12 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 public class ServerUtils {
 	private static final String SERVER = "http://localhost:8080/";
 
-		public String json(String invitationID){
+	/**
+	 * method to get the json representation file of an event
+	 * @param invitationID invitation ID of the event
+	 * @return String with the json representation
+	 */
+	public String json(String invitationID){
 		return ClientBuilder.newClient(new ClientConfig())
 			.target(SERVER).path("event/json/" + invitationID)
 			.request(APPLICATION_JSON)
