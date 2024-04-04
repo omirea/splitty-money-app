@@ -1,18 +1,28 @@
 package client.scenes;
 
 import client.Main;
+import client.nodes.DebtsTable;
 import client.nodes.ParticipantStringConverter;
+import client.nodes.PersonAmount;
 import client.utils.ServerUtils;
 import commons.Debt;
 import commons.Event;
 import commons.Expense;
 import commons.Participant;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
 import javax.inject.Inject;
 import java.util.List;
 import java.util.Objects;
@@ -24,44 +34,36 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-
     private  Event event;
-
     private ObservableList<Debt> allDebts;
-
     private ObservableList<Participant> allParticipants;
 
+    private ObservableList<DebtsTable> debtsTables;
     private ObservableList<String> debtsString;
-
     @FXML
     private Button payAllDebtsButton;
-
     @FXML
     private Button seeClosedDebtsButton;
-
     @FXML
     private Button paySelectedDebtsButton;
-
-    @FXML
-    private ListView<String> listView;
-
     @FXML
     private Button homeButton;
-
     @FXML
     private ChoiceBox<Participant> selectedParticipant;
-
     @FXML
     private ImageView homeView;
     @FXML
     private Label yourCurrentDebtsLabel;
     @FXML
-    private Label youShouldPayToLabel;
+    private TableView<DebtsTable> tableView;
     @FXML
-    private Label eventLabel;
+    private TableColumn<DebtsTable, String> informationCol;
     @FXML
-    private Label amountLabel;
-
+    private TableColumn<DebtsTable, Button> emailCol;
+    @FXML
+    private TableColumn<DebtsTable, Button> IBANCol;
+    @FXML
+    private TableColumn<DebtsTable, Button> receivedCol;
 
     @Inject
     public OpenDebtsCtrl(ServerUtils server, MainCtrl mainCtrl){
@@ -70,7 +72,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         this.allParticipants = FXCollections.observableArrayList();
         this.allDebts=FXCollections.observableArrayList();
         this.debtsString=FXCollections.observableArrayList();
-        //this.allDebts=new ArrayList<>();
+        this.debtsTables=FXCollections.observableArrayList();
     }
 
     /**
@@ -78,22 +80,30 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
      */
     @FXML
     public void initialize(){
+        //initialize table view
+        //initialize table view
+//        tableView.visibleProperty().bind(onlySomePeopleField.selectedProperty());
+//        autoDivideButton.visibleProperty().bind(onlySomePeopleField.selectedProperty());
+//        checkBoxColumn.
+//                setCellValueFactory(new PropertyValueFactory<PersonAmount, CheckBox>("checkBox"));
+//        participantColumn.
+//                setCellValueFactory(new PropertyValueFactory<PersonAmount, String>("name"));
+//        amountColumn.
+//                setCellValueFactory(new PropertyValueFactory<PersonAmount, TextField>("textField"));
+//        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        informationCol.
+                setCellValueFactory(new PropertyValueFactory<DebtsTable, String>("debtInfo"));
+        emailCol.setCellValueFactory(new PropertyValueFactory<DebtsTable, Button>("email"));
+        IBANCol.setCellValueFactory(new PropertyValueFactory<DebtsTable, Button>("IBAN"));
+        receivedCol.setCellValueFactory(new PropertyValueFactory<DebtsTable, Button>("closeDebt"));
+
         //initialize choice box
         selectedParticipant.setItems(allParticipants);
         selectedParticipant.setConverter(new ParticipantStringConverter());
-        listView.setItems(debtsString);
-//        listView.getItems().add(0, "goor");
-//        int i=1;
-//        for(Debt debt : allDebts) {
-//            System.out.println(debt.toString());
-//            listView.getItems().add(i,debt.toString());
-//            i++;
-//        }
-        //listView.setConverter
+        //listView.setItems(debtsString);
 
         //initialize button colours
-        //List<Participant>
-        listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        //listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         getPayAllDebts()
                 .setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
 
@@ -143,7 +153,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK) {
             //mainCtrl.addItemsToClosedDebts(this.listView);
-            listView.getItems().clear();
+            //listView.getItems().clear();
         }
     }
     public void setEvent(String id) {
@@ -185,10 +195,10 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK) {
             ListView<String> selected = new ListView<>();
-            for (Object o : listView.getSelectionModel().getSelectedItems())
-                selected.getItems().add((String) o);
+//            for (Object o : listView.getSelectionModel().getSelectedItems())
+//                selected.getItems().add((String) o);
             mainCtrl.addItemsToClosedDebts(selected);
-            listView.getItems().removeAll(listView.getSelectionModel().getSelectedItems());
+            //listView.getItems().removeAll(listView.getSelectionModel().getSelectedItems());
         }
     }
 
@@ -196,9 +206,9 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     public void LanguageSwitch() {
         homeButton.setText(Main.getLocalizedString("Home"));
         yourCurrentDebtsLabel.setText(Main.getLocalizedString("yourCurrentDebts"));
-        youShouldPayToLabel.setText(Main.getLocalizedString("youShouldPayTo"));
-        eventLabel.setText(Main.getLocalizedString("Event"));
-        amountLabel.setText(Main.getLocalizedString("Amount"));
+        //youShouldPayToLabel.setText(Main.getLocalizedString("youShouldPayTo"));
+        //eventLabel.setText(Main.getLocalizedString("Event"));
+        //amountLabel.setText(Main.getLocalizedString("Amount"));
         paySelectedDebtsButton.setText(Main.getLocalizedString("paySelectedDebts"));
         payAllDebtsButton.setText(Main.getLocalizedString("payAllDebts"));
         seeClosedDebtsButton.setText(Main.getLocalizedString("seeClosedDebts"));
@@ -210,11 +220,88 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         for(Expense expense : expenses){
             List<Debt> debts=server.getDebtsByExpenseId(expense.getId());
             allDebts.addAll(debts);
-            for(Debt debt : debts)
-                debtsString.add(debt.toString());
+        }
+        createDebtsTable(allDebts);
+        tableView.setItems(debtsTables);
+    }
+
+    /**
+     * create the debts to be added to the Open Debts page
+     * @param allDebts list of debts of the event
+     */
+    private void createDebtsTable(ObservableList<Debt> allDebts) {
+        for(Debt debt : allDebts){
+            String info=debt.getFrom() + "needs to pay " + debt.getAmount() + " to " + debt.getTo();
+            Button viewEmailButton=new Button();
+            Button viewIBANButton=new Button();
+
+            setupEmailPicture(debt.getTo(), viewEmailButton);
+            setupIBANPicture(debt.getTo(), viewIBANButton);
+
+            Button closeDebtButton=new Button("Close Debt");
+            closeDebtButton.setAlignment(Pos.CENTER);
+            DebtsTable newDebt=new DebtsTable(info, viewEmailButton, viewIBANButton, closeDebtButton);
+            debtsTables.add(newDebt);
         }
     }
 
+    /**
+     * method to check if payer has email
+     * @param to payer id
+     */
+    private void setupEmailPicture(Participant to, Button viewEmailButton) {
+        Participant participant=server.getParticipantById(to.getId());
+        if(participant.getIBAN()==null) {
+            Image image= new Image(Objects.requireNonNull
+                    (getClass().getResourceAsStream("/icons/no-email.png")));
+            ImageView mailView=new ImageView();
+            mailView.setFitWidth(18);
+            mailView.setFitHeight(18);
+            mailView.setImage(image);
+            viewEmailButton.setGraphic(mailView);
+            viewEmailButton.setTooltip(new Tooltip("This participant has no email specified"));
+            return;
+        }
+        Image image= new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/email.png")));
+        ImageView mailView=new ImageView();
+        mailView.setFitWidth(18);
+        mailView.setFitHeight(18);
+        mailView.setImage(image);
+        viewEmailButton.setGraphic(mailView);
+        viewEmailButton.setTooltip(new Tooltip("Payer's email: " + participant.getEmail()));
+    }
+
+    /**
+     * method to check if payer has IBAN
+     * @param to payer id
+     */
+    private void setupIBANPicture(Participant to, Button viewIBANButton) {
+        Participant participant=server.getParticipantById(to.getId());
+        if(participant.getEmail()==null){
+            Image IBAN= new Image(Objects.requireNonNull
+                    (getClass().getResourceAsStream("/icons/no-iban.png")));
+            ImageView IBANView=new ImageView();
+            IBANView.setImage(IBAN);
+            IBANView.setFitWidth(18);
+            IBANView.setFitHeight(18);
+            viewIBANButton.setGraphic(IBANView);
+            viewIBANButton.setTooltip(new Tooltip("This participant has no IBAN specified"));
+        }
+        Image IBAN= new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/iban.png")));
+        ImageView IBANView=new ImageView();
+        IBANView.setImage(IBAN);
+        IBANView.setFitWidth(18);
+        IBANView.setFitHeight(18);
+        viewIBANButton.setGraphic(IBANView);
+        viewIBANButton.setTooltip(new Tooltip("Payer's IBAN: " + participant.getIBAN()));
+    }
+
+    /**
+     * add the event participants to the choice box
+     * @param id of the event
+     */
     public void addParticipantsToChoiceBox(String id) {
         allParticipants.clear();
         List<Participant> pList = server.getParticipantsByInvitationId(id);

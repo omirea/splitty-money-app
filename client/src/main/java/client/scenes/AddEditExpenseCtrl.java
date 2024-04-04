@@ -101,6 +101,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         whoPaidField.setItems(participants);
         tableView.setItems(personAmounts);
         whoPaidField.setConverter(new ParticipantStringConverter());
+
         //initialize table view
         tableView.visibleProperty().bind(onlySomePeopleField.selectedProperty());
         autoDivideButton.visibleProperty().bind(onlySomePeopleField.selectedProperty());
