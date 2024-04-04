@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.logging.Handler;
 
@@ -48,11 +49,16 @@ public class EventController {
     public DeferredResult<ResponseEntity<Event>> getUpdates() {
 
         var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        var res = new DeferredResult<ResponseEntity<Event>>(20000L, noContent);
+        var res = new DeferredResult<ResponseEntity<Event>>(5000L, noContent);
 
         var key = new Object();
         listeners.put(key, q -> {
-            res.setResult(ResponseEntity.ok(q));
+            try {
+                res.setResult(ResponseEntity.ok(q));
+            } catch(Exception e) {
+                // some error handling, don't know what we want
+                e.printStackTrace();
+            }
         });
         res.onCompletion(() -> {
             listeners.remove(key);
@@ -100,8 +106,21 @@ public class EventController {
             return ResponseEntity.badRequest().build();
         }
         System.out.println(event);
-        listeners.forEach((k,l) -> l.accept(event));
         Event createdEvent = db.save(event);
+        CompletableFuture<Void> notifyListenersFuture = CompletableFuture.runAsync(() -> {
+            try {
+                listeners.forEach((k, l) -> l.accept(event));
+            } catch(Exception e) {
+                // some error handling, don't know what we want
+                e.printStackTrace();
+            }
+        });
+        notifyListenersFuture.exceptionally(ex -> {
+            // some error handling/ don't know what we want
+            ex.printStackTrace();
+            return null;
+
+        });
         return ResponseEntity.ok(createdEvent);
     }
 
