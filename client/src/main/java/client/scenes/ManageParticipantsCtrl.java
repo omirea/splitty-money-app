@@ -7,20 +7,21 @@ import com.google.inject.Inject;
 import commons.Debt;
 import commons.Event;
 import commons.Participant;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static client.Main.locale;
-
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 
 public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
@@ -33,6 +34,15 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     private VBox displayParticipants;
     @FXML
     private Label manageParticipantsLabel;
+    @FXML
+    private TableView<Participant> recentParticipants;
+    @FXML
+    private TableColumn<Participant, Button> deleteColumn;
+    @FXML
+    private TableColumn<Participant, Button> editColumn;
+    @FXML
+    private TableColumn<Participant, String> nameColumn;
+
 
     @FXML
     private Button cancelButton, finishButton, addButton;
@@ -44,6 +54,52 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         addedParticipants = new ArrayList<>();
         editedParticipants = new ArrayList<>();
         deletedParticipants = new ArrayList<>();
+    }
+
+    @FXML
+    public void initialize() {
+
+        nameColumn.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getName()));
+        deleteColumn.setCellValueFactory(q -> {
+            Button deleteParticipant = new Button();
+            ImageView trashCan = new ImageView();
+            trashCan.setFitWidth(20);
+            trashCan.setFitHeight(20);
+            Image trash =new Image(Objects.requireNonNull
+                    (getClass().getResourceAsStream("/icons/trash.png")));
+            trashCan.setImage(trash);
+            deleteParticipant.setGraphic(trashCan);
+            deleteParticipant.setOnAction(participant -> deleteParticipantFromTable(q.getValue()));
+            return new SimpleObjectProperty<>(deleteParticipant);
+        });
+        editColumn.setCellValueFactory(q -> {
+            Button toParticipant = new Button("Edit");
+            toParticipant.setOnAction(participant -> showParticipant(q.getValue()));
+            return new SimpleObjectProperty<>(toParticipant);
+        });
+        recentParticipants.setRowFactory(participant -> {
+            TableRow<Participant> row = new TableRow<>();
+            row.setOnMouseClicked(q -> {
+                if (q.getClickCount() == 2 && (!row.isEmpty())) {
+                    Participant participantRow = row.getItem();
+                    showParticipant(participantRow);
+                }
+            });
+
+            return row;
+        });
+    }
+
+    public void addParticipantToBox(Participant participant) {
+        recentParticipants.getItems().add(participant);
+    }
+
+    private void showParticipant(Participant participant) {
+        mainCtrl.showAddParticipant(event.getInvitationID(), participant);
+    }
+
+    private void deleteParticipantFromTable(Participant participant) {
+        recentParticipants.getItems().remove(participant);
     }
 
     /**
@@ -98,6 +154,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         mainCtrl.showEventOverview(event.getInvitationID());
     }
 
+
     /**
      * method to add a random participant
      */
@@ -113,25 +170,11 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     /**
      * method to add participant
      */
-    public void showAddParticipant() {
-        mainCtrl.showAddParticipant(event.getInvitationID());
-    }
-
-    public void showEditParticipant(Participant participant) {
-        addedParticipants.remove(participant);
-        mainCtrl.showAddParticipant(event.getInvitationID(), participant);
-    }
-
-    public void setEvent(String id) {
-        event = server.getEventByInvitationId(id);
-    }
-
     public void addAllParticipants() {
-        displayParticipants.getChildren().clear();
+        recentParticipants.getItems().clear();
         List<Participant> pList = server.getParticipantsByInvitationId(event.getInvitationID());
         for (Participant participant : pList) {
-            AddedParticipant addedParticipant = new AddedParticipant(participant, this);
-            displayParticipants.getChildren().add(addedParticipant.getNode());
+            addParticipantToBox(participant);
         }
     }
 
@@ -142,10 +185,20 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         } else {
             addAddedParticipant(participant);
         }
-        AddedParticipant addedParticipant = new AddedParticipant(participant, this);
-        displayParticipants.getChildren().add(addedParticipant.getNode());
+        addParticipantToBox(participant);
+    }
+    public void showAddParticipant() {
+        mainCtrl.showAddParticipant(event.getInvitationID());
     }
 
+    public void showEditParticipant(Participant participant) {
+        deleteParticipantFromTable(participant);
+        mainCtrl.showAddParticipant(event.getInvitationID(), participant);
+    }
+
+    public void setEvent(String id) {
+        event = server.getEventByInvitationId(id);
+    }
     public void addAddedParticipant(Participant participant) {
         addedParticipants.add(participant);
     }

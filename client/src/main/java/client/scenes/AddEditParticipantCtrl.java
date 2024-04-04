@@ -187,8 +187,8 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         int IBAN_MAX_SIZE = 34;
         long IBAN_MAX = 999999999;
         long IBAN_MODULUS = 97;
-        String trimmed=IBAN.trim();
-        //String trimmed = ibanTextField.getText().trim();
+        //String trimmed=IBAN.trim();
+        String trimmed = ibanTextField.getText().trim();
         //System.out.println(ibanTextField.getText().trim());
         if (trimmed.length() < IBAN_MIN_SIZE || trimmed.length() > IBAN_MAX_SIZE) {
             Alert alert=new Alert(Alert.AlertType.WARNING);

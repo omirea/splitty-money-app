@@ -126,6 +126,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      */
     public void goBackHome(){
         mainCtrl.showStartScreen();
+
     }
 
     /**

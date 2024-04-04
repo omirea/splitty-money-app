@@ -107,6 +107,7 @@ public class StartCtrl implements  Main.LanguageSwitch {
             });
             return row;
         });
+        recentEvents.refresh();
     }
 
     /**
