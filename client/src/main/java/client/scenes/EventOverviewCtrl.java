@@ -216,12 +216,5 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
 
     }
 
-//    public void addParticipantToMenu(Participant p) {
-//
-//    }
-//
-//    public void addParticipantToText() {
-//
-//    }
 }
 
