@@ -92,6 +92,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         currencyField.setValue(e.getCurrency().getDisplayName());
         whenField.setValue(e.getDateSent());
         //fill in all the expense stuff
+
     }
 
     /**
@@ -163,24 +164,29 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                 mainCtrl.showEventOverview(event.getInvitationID());
             }
         }else{
-            Alert alert=new Alert(Alert.AlertType.WARNING);
-            switch(locale.getLanguage()) {
-                case "nl":
-                        alert.setTitle("Niet ingevulde velden");
-                        alert.setContentText("Alle velden moeten ingevuld " +
-                                "worden voor het maken van een uitgave");
-                        break;
-                case "en":
-                        alert.setTitle("Empty fields");
-                        alert.setContentText("You need to fill in all fields to create an expense");
-                        break;
-                default:
-                    break;
-            }
-            alert.setHeaderText(null);
+            Alert alert = getAlert();
             alert.showAndWait();
         }
 
+    }
+
+    private static Alert getAlert() {
+        Alert alert=new Alert(Alert.AlertType.WARNING);
+        switch(locale.getLanguage()) {
+            case "nl":
+                    alert.setTitle("Niet ingevulde velden");
+                    alert.setContentText("Alle velden moeten ingevuld " +
+                            "worden voor het maken van een uitgave");
+                    break;
+            case "en":
+                    alert.setTitle("Empty fields");
+                    alert.setContentText("You need to fill in all fields to create an expense");
+                    break;
+            default:
+                break;
+        }
+        alert.setHeaderText(null);
+        return alert;
     }
 
     /**
@@ -221,10 +227,10 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             //expense = new Expense(event, debtList, whatFor, amount, null, date, currency);
             expense = new Expense(event, null, whatFor, amount, null, date, currency);
             expense.setEvent(event);
-            expense=server.createExpense(expense);
+            expense = server.createExpense(expense);
             for(Debt debt:debtList){
                 debt.setExpense(expense);
-                debt=server.updateDebt(debt, debt.getId());
+                debt = server.updateDebt(debt, debt.getId());
             }
         } else {
             List<Debt> debts=server.getDebtsByExpenseId(expense.getId());
