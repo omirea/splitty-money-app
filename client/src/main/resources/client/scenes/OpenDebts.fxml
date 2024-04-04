@@ -4,7 +4,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -41,17 +42,14 @@
             <ChoiceBox fx:id="selectedParticipant" prefHeight="20.0" prefWidth="146.0" />
             <VBox prefHeight="308.0" prefWidth="558.0">
                <children>
-                  <HBox prefHeight="18.0" prefWidth="521.0" spacing="100.0">
-                     <children>
-                        <Label fx:id="youShouldPayToLabel" text="You should pay to" />
-                        <Label fx:id="eventLabel" text="Event" />
-                        <Label fx:id="amountLabel" text="Amount" />
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <ListView fx:id="listView" prefHeight="228.0" prefWidth="558.0" />
+                  <TableView fx:id="tableView" prefHeight="198.0" prefWidth="525.0">
+                    <columns>
+                      <TableColumn fx:id="informationCol" prefWidth="381.6000179052353" text="Information" />
+                      <TableColumn fx:id="emailCol" prefWidth="36.79998779296875" text="Email" />
+                        <TableColumn fx:id="IBANCol" prefWidth="40.0" text="IBAN" />
+                        <TableColumn fx:id="receivedCol" prefWidth="100.79986572265625" />
+                    </columns>
+                  </TableView>
                </children>
             </VBox>
             <HBox prefHeight="42.0" prefWidth="558.0">
