@@ -1,22 +1,25 @@
 package server.api;
 
-
 import commons.Expense;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import server.database.DebtRepository;
 import server.database.ExpenseRepository;
-
 import java.util.List;
 
 @Controller
 @RequestMapping("/expense")
 public class ExpenseController {
 
-    private ExpenseRepository db;
+    private final ExpenseRepository db;
 
-    public ExpenseController(ExpenseRepository db){
+    private final DebtRepository debtsDB;
+
+
+    public ExpenseController(ExpenseRepository db, DebtRepository debtsDB){
         this.db=db;
+        this.debtsDB=debtsDB;
     }
 
     /**
@@ -105,4 +108,5 @@ public class ExpenseController {
         db.deleteById(expense_id);
         return ResponseEntity.noContent().build();
     }
+
 }

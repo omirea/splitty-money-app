@@ -1,28 +1,31 @@
 package server.api;
 
 import commons.Event;
+import commons.Expense;
 import commons.Participant;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.database.EventRepository;
+import server.database.ExpenseRepository;
 import server.database.ParticipantRepository;
 
 import java.util.List;
 import java.util.Optional;
-
 
 @RestController
 @RequestMapping("/event")
 public class EventController {
     private final EventRepository db;
     private final ParticipantRepository participantDB;
+    private final ExpenseRepository expenseDB;
 
-
-    public EventController(EventRepository db, ParticipantRepository participantDB){
+    public EventController(EventRepository db, ParticipantRepository participantDB,
+                           ExpenseRepository expenseDB){
         this.db=db;
         this.participantDB = participantDB;
+        this.expenseDB=expenseDB;
     }
 
     /**
@@ -34,6 +37,7 @@ public class EventController {
     public List<Event> getAll() {
         return db.findAll();
     }
+
 
 
     @PutMapping("/{id}")
@@ -151,41 +155,30 @@ public class EventController {
         p.setEvent(tempEvent.get());
         List<Participant> participants = participantDB.findAll(
                 Example.of(p, ExampleMatcher.matchingAll()));
-        System.out.println(participants);
+        //System.out.println(participants);
 
         return ResponseEntity.ok(participants);
     }
 
+    @GetMapping("/{invitationID}/expense")
+    @ResponseBody
+    public ResponseEntity<List<Expense>> getExpenseByInvitationId(
+            @PathVariable("invitationID") String invitationID) {
 
-//    /**
-//     * Checks if a string is null or empty.
-//     *
-//     * @param s the string s
-//     * @return true if the string is null or empty
-//     */
-//
-//    TODO: I DONT THINK THIS METHOD IS NEEDED GIVEN OUR NEW STRUCTURE WITH NO EXPENSE LIST
-//    /**
-//     * adding an expense to event
-//     * @param id event id
-//     * @param expense expense to add
-//     * @return response entity
-//     */
-//    @PostMapping("/{id}/expenses")
-//    public ResponseEntity<Expense> addExpenseToEvent(
-//            @PathVariable("id") long id,
-//            @RequestBody Expense expense) {
-//        if (!db.existsById(id) || isNullOrEmpty(expense.getDescription())) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//
-//        expense.setDateSent(java.time.LocalDate.now());
-//
-//        Event event = db.findById(id).get();
-//        event.addExpense(expense);
-//        Expense saved = exRepo.save(expense);
-//        return ResponseEntity.ok(saved);
-//    }
+        Event e = new Event();
+        e.setInvitationID(invitationID);
+        Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAll()));
+        if (tempEvent.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
 
+        Expense expense = new Expense();
+        expense.setEvent(tempEvent.get());
+        List<Expense> expenses = expenseDB.findAll(
+                Example.of(expense, ExampleMatcher.matchingAll()));
+        System.out.println(expenses);
+
+        return ResponseEntity.ok(expenses);
+    }
 
 }

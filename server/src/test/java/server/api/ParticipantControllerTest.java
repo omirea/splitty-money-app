@@ -47,7 +47,7 @@ public class ParticipantControllerTest {
         assertNull(responseEntity.getBody());
     }
 
-    /**
+
     @Test
     public void postParticipantTest(){
         Participant participant=new Participant();
@@ -63,7 +63,6 @@ public class ParticipantControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertNull(responseEntity.getBody());
     }
-     */
 
     @Test
     public void updateParticipantTest(){

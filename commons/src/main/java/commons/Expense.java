@@ -25,7 +25,7 @@ import java.util.*;
 
     private String description; // Description by the participant
 
-    private double amount; // Value of the expense
+    private Double amount; // Value of the expense
 
     private String type; // Type of expense
 
@@ -41,7 +41,7 @@ import java.util.*;
      * @param dateSent date when the request for the expense has been made
      * @param currency currency of the expense
      */
-    public Expense(String description, double amount, String type,
+    public Expense(String description, Double amount, String type,
                    LocalDate dateSent, Currency currency) {
         this.description = description;
         this.amount = amount;
@@ -50,10 +50,10 @@ import java.util.*;
         this.currency = currency;
     }
 
-    public Expense(Event event, List<Debt> debts, String description,
-                   double amount, String type, LocalDate dateSent, Currency currency) {
+    public Expense(Event event, String description,
+                   Double amount, String type, LocalDate dateSent, Currency currency) {
         this.event = event;
-        this.debts = debts;
+        //.debts = debts;
         this.description = description;
         this.amount = amount;
         this.type = type;
@@ -62,6 +62,7 @@ import java.util.*;
     }
 
     public Expense() {}
+
 
 
     /**
@@ -76,7 +77,7 @@ import java.util.*;
      * Getter for the value
      * @return the value of the expense
      */
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
@@ -117,7 +118,7 @@ import java.util.*;
      * Setter for the value of the expense
      * @param value value of the expense
      */
-    public void setAmount(double value) {
+    public void setAmount(Double value) {
         this.amount = value;
     }
 
@@ -148,7 +149,6 @@ import java.util.*;
 
     /**
      * Equals method for Expense
-     <<<<<<< HEAD
      * @param o other Expense
      * @return boolean true or false
      */
@@ -164,9 +164,9 @@ import java.util.*;
                 Objects.equals(currency, expense.currency);
     }
 
-    public void setDebts(List<Debt> debts) {
-        this.debts = debts;
-    }
+//    public void setDebts(List<Debt> debts) {
+//        this.debts = debts;
+//    }
 
     /**
      * Hash method for Expense
@@ -186,7 +186,7 @@ import java.util.*;
         return "Expense{" +
                 "ex_id=" + id +
                 ", event_id=" + event +
-                ", debts=" + debts +
+                //", debts=" + debts +
                 ", description='" + description + '\'' +
                 ", value=" + amount +
                 ", type='" + type + '\'' +
@@ -195,9 +195,15 @@ import java.util.*;
                 '}';
     }
 
+    /**
+     * Getter for id
+     * @return the id of an expense
+     */
     public Long getId() {
         return id;
     }
+
+    public void setId(Long id){this.id=id;};
 
     public void setEvent(Event event) {
         this.event = event;
