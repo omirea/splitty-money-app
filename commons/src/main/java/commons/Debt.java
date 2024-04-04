@@ -12,9 +12,8 @@ public class Debt {
     private Long id;
 
     private boolean settled;
-
     @ManyToOne
-    @JoinColumn(name = "ex_id", nullable = false)
+    @JoinColumn(name = "ex_id")
     private Expense expense;
 
     @ManyToOne
@@ -25,7 +24,7 @@ public class Debt {
     @JoinColumn(name = "to_id", nullable = false)
     private Participant to;
 
-    private double amount;
+    private Double amount;
 
     /**
      * Constructs a new debt object
@@ -33,15 +32,14 @@ public class Debt {
      * @param to participant who gets paid
      * @param amount value of the debt
      */
-    public Debt(Participant from, Participant to, double amount) {
+    public Debt(Participant from, Participant to, Double amount) {
         this.from = from;
         this.to = to;
         this.amount = amount;
         settled = false;
     }
 
-    public Debt(Long id, Expense expense, Participant from, Participant to, double amount) {
-        this.id = id;
+    public Debt(Expense expense, Participant from, Participant to, Double amount) {
         this.expense = expense;
         this.from = from;
         this.to = to;
@@ -91,6 +89,7 @@ public class Debt {
         return from;
     }
 
+
     /**
      * setter for participant paying the debt
      * @param from participant who is to pay the debt
@@ -119,7 +118,7 @@ public class Debt {
      * getter for value of debt
      * @return value of the debt
      */
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
@@ -127,8 +126,17 @@ public class Debt {
      * setter for value of debt
      * @param value value of the debt
      */
-    public void setAmount(double value) {
+    public void setAmount(Double value) {
         this.amount = value;
+    }
+
+    @Override
+    public String toString() {
+        return "Debt" +
+                ", from=" + from +
+                ", to=" + to +
+                ", amount=" + amount +
+                '}';
     }
 
     /**

@@ -116,6 +116,8 @@ public class MainCtrl {
         openDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Open Debts");
         primaryStage.setScene(openDebts);
+        openDebtsCtrl.addDebtsToList(id);
+        openDebtsCtrl.addParticipantsToChoiceBox(id);
     }
 
     /**
@@ -143,6 +145,7 @@ public class MainCtrl {
         addEditExpenseCtrl.setEvent(id);
         primaryStage.setScene(expense);
         addEditExpenseCtrl.addAllRelevantParticipants();
+        addEditExpenseCtrl.clearBoxes();
     }
 
     /**
@@ -219,14 +222,14 @@ public class MainCtrl {
             closedDebtsCtrl.getListView().getItems().add(s);
     }
 
-    /**
-     * method to add open debts to the list view
-     * @param listView list view that needs to be added
-     */
-    public void addItemsToOpenDebts(ListView<String> listView) {
-        for(String s: listView.getItems())
-            openDebtsCtrl.getListView().getItems().add(s);
-    }
+//    /**
+//     * method to add open debts to the list view
+//     * @param listView list view that needs to be added
+//     */
+//    public void addItemsToOpenDebts(ListView<String> listView) {
+//        for(String s: listView.getItems())
+//            openDebtsCtrl.getListView().getItems().add(s);
+//    }
 
     /**
      * when a participant is added to the event it becomes a possible option

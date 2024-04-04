@@ -15,7 +15,7 @@ class DebtTest {
             "123");
         Participant to = new Participant("Person2", "def@xyz.com", "NL456",
             "456");
-        debt = new Debt(from, to, 10);
+        debt = new Debt(from, to, 10.04);
     }
 
     @Test
@@ -63,13 +63,13 @@ class DebtTest {
 
     @Test
     void getValue() {
-        assertEquals(10, debt.getAmount());
+        assertEquals(10.04, debt.getAmount());
     }
 
     @Test
     void setValue() {
-        debt.setAmount(20);
-        assertEquals(20, debt.getAmount());
+        debt.setAmount(20.04);
+        assertEquals(20.04, debt.getAmount());
     }
 
     @Test
@@ -88,7 +88,7 @@ class DebtTest {
             "123");
         Participant to = new Participant("Person2", "def@xyz.com", "NL456",
             "456");
-        Debt debt1 = new Debt(from, to, 10);
+        Debt debt1 = new Debt(from, to, 10.04);
         assertEquals(debt, debt1);
     }
 
@@ -98,7 +98,7 @@ class DebtTest {
             "123");
         Participant to = new Participant("Person3", "def@xyz.com", "NL456",
             "456");
-        Debt debt1 = new Debt(from, to, 10);
+        Debt debt1 = new Debt(from, to, 10.04);
         assertNotEquals(debt, debt1);
     }
 
@@ -108,7 +108,7 @@ class DebtTest {
             "123");
         Participant to = new Participant("Person2", "def@xyz.com", "NL456",
             "456");
-        Debt debt1 = new Debt(from, to, 10);
+        Debt debt1 = new Debt(from, to, 10.04);
         assertEquals(debt.hashCode(), debt1.hashCode());
     }
 }

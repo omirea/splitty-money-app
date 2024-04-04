@@ -56,7 +56,7 @@ public class ParticipantController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Participant> updateParticipant
-        (@RequestBody Participant participant, @PathVariable("id") long id) {
+        (@RequestBody Participant participant, @PathVariable("id") Long id) {
         if(participant == null) {
             return ResponseEntity.badRequest().build();
         }
