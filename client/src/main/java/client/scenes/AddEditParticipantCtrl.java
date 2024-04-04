@@ -156,6 +156,9 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
                 "|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         Pattern p= Pattern.compile(regex);
         Matcher m= p.matcher(email.trim());
+        if(email.equals("")) {
+            return true;
+        }
         if(m.find() && m.group().equals(email.trim())){
             return true;
         }else{
@@ -190,6 +193,9 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         String trimmed=IBAN.trim();
         //String trimmed = ibanTextField.getText().trim();
         //System.out.println(ibanTextField.getText().trim());
+        if(IBAN.equals("")) {
+            return true;
+        }
         if (trimmed.length() < IBAN_MIN_SIZE || trimmed.length() > IBAN_MAX_SIZE) {
             Alert alert=new Alert(Alert.AlertType.WARNING);
             switch(locale.getLanguage()) {
@@ -265,11 +271,11 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
      */
     public boolean checkEmpty(){
         boolean name= nameTextField.getText().trim().isEmpty();
-        boolean email= emailTextField.getText().trim().isEmpty();
-        boolean iban= ibanTextField.getText().trim().isEmpty();
-        boolean bic= bicTextField.getText().trim().isEmpty();
+//        boolean email= emailTextField.getText().trim().isEmpty();
+//        boolean iban= ibanTextField.getText().trim().isEmpty();
+//        boolean bic= bicTextField.getText().trim().isEmpty();
 
-        if(!(name || email || iban || bic)){
+        if(!(name)){
             return true;
         }
         else{
