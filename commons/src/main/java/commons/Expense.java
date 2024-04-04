@@ -1,4 +1,5 @@
 package commons;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -13,8 +14,9 @@ import java.util.*;
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "event_id")
+//    @JoinColumn(name = "event_id")
     private Event event;
 
 

@@ -116,14 +116,6 @@ public class ServerUtils {
 				.get(new GenericType<List<Participant>>() {});
 	}
 
-	public String getParticipantsByInvitationIdJSON(String invitationId) {
-		String jsonP =  ClientBuilder.newClient(new ClientConfig())
-			.target(SERVER).path("event/" + invitationId + "/participant")
-			.request(APPLICATION_JSON)
-			.accept(APPLICATION_JSON)
-			.get().readEntity(String.class);
-		return jsonP;
-	}
 
 	public String getEventByInvitationIdJSON(String invitationID){
 		return ClientBuilder.newClient(new ClientConfig())

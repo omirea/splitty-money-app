@@ -41,9 +41,18 @@ public class Event {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastModified;
 
-//    private List<Expense> expenses;
-//    private List<Participant> participants;
+    @OneToMany(mappedBy = "event", cascade = CascadeType.REMOVE)
+    private List<Expense> expenses;
+    @OneToMany (mappedBy = "event", cascade = CascadeType.REMOVE)
+    private List<Participant> participants;
 
+    public List<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public List<Participant> getParticipants() {
+        return participants;
+    }
 
     /**
      * Constructor for an Event object
@@ -51,9 +60,13 @@ public class Event {
      * @param invitationID String with invitation ID of the event
      */
     public Event(String name,
-                 String invitationID) {
+                 String invitationID,
+                 List<Expense> expenses,
+                 List<Participant> participants) {
         this.name = name;
         this.invitationID = invitationID;
+        this.expenses = expenses;
+        this.participants = participants;
     }
 
     public Event(String name) {

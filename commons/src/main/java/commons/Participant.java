@@ -1,5 +1,6 @@
 package commons;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -15,8 +16,9 @@ public class Participant {
     @Column(name = "p_id")
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "event_id")
+//    @JoinColumn(name = "invitationID")
     private Event event;
 
     @OneToMany(mappedBy = "from")

@@ -74,6 +74,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
 
             if (participant == null) {
                 participant = new Participant(name, email, iban, bic, event);
+                event.getParticipants().add(participant);
             } else {
                 participant.setName(name);
                 participant.setEmail(email);

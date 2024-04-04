@@ -210,8 +210,6 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
                 event.getName() +" , InvitationID: " + event.getInvitationID() + ".json"));
             String string = server.getEventByInvitationIdJSON(event.getInvitationID());
             writer.write(string);
-            String participants = server.getParticipantsByInvitationIdJSON(event.getInvitationID());
-           writer.write(participants);
             writer.flush();
             writer.close();
             System.out.println("JSON made with event invitation ID: " + event.getInvitationID());

@@ -158,6 +158,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                 sumIsLarger();
             else {
                 Expense expense1 = createExpense();
+                event.getExpenses().add(expense1);
                 expense = null;
                 mainCtrl.addExpenseToEvent(expense1);
                 mainCtrl.showEventOverview(event.getInvitationID());
