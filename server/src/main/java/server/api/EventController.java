@@ -5,14 +5,20 @@ import commons.Expense;
 import commons.Participant;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.async.DeferredResult;
 import server.database.EventRepository;
 import server.database.ExpenseRepository;
 import server.database.ParticipantRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.logging.Handler;
 
 @RestController
 @RequestMapping("/event")
@@ -35,6 +41,23 @@ public class EventController {
     @GetMapping(path = { "", "/" })
     public List<Event> getAll() {
         return db.findAll();
+    }
+
+    private Map<Object, Consumer<Event>> listeners = new HashMap<>();
+    @GetMapping("/updates")
+    public DeferredResult<ResponseEntity<Event>> getUpdates() {
+
+        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        var res = new DeferredResult<ResponseEntity<Event>>(20000L, noContent);
+
+        var key = new Object();
+        listeners.put(key, q -> {
+            res.setResult(ResponseEntity.ok(q));
+        });
+        res.onCompletion(() -> {
+            listeners.remove(key);
+        });
+        return res;
     }
 
 
@@ -77,6 +100,7 @@ public class EventController {
             return ResponseEntity.badRequest().build();
         }
         System.out.println(event);
+        listeners.forEach((k,l) -> l.accept(event));
         Event createdEvent = db.save(event);
         return ResponseEntity.ok(createdEvent);
     }

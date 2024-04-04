@@ -40,7 +40,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     @FXML
     private Button refreshButton;
     @FXML
-    ObservableList<Event> allEvents;
+    private ObservableList<Event> allEvents;
     @FXML
     private TableView<Event> table;
     @FXML
@@ -62,6 +62,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
+
 
     /**
      * method to show start screen when admin wants to log out
@@ -193,6 +194,13 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
            });
            return row;
         });
+        server.registerForUpdates(q->{
+            allEvents.add(q);
+        });
+    }
+
+    public void stop() {
+        server.stop();
     }
 
 

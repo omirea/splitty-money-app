@@ -44,7 +44,6 @@ public class Main extends Application {
             "Invitation.fxml");
         var openDebts = FXML.load(OpenDebtsCtrl.class, "client", "scenes",
             "OpenDebts.fxml");
-
         var expense = FXML.load(AddEditExpenseCtrl.class, "client", "scenes",
             "AddEditExpense.fxml");
         var overview = FXML.load(EventOverviewCtrl.class, "client", "scenes",
@@ -62,6 +61,9 @@ public class Main extends Application {
                 "SettingsPage.fxml");
         mainCtrl.initialize(stage, start, overview, invitation, participant, expense, openDebts,
             manageParticipants, logInAdmin, closedDebts, eventsAdmin, settingsPage);
+        stage.setOnCloseRequest(e -> {
+            eventsAdmin.getKey().stop();
+        });
 
     }
 
