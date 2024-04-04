@@ -26,7 +26,7 @@ import static client.Main.locale;
 
 public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     private ObservableList<String> currencyList =
-            FXCollections.observableArrayList("EUR", "USD", "GBP");
+        FXCollections.observableArrayList("EUR", "USD", "GBP");
     // Add expense
     private ObservableList<Participant> participants;
     private ObservableList<PersonAmount> personAmounts;
@@ -105,11 +105,11 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         tableView.visibleProperty().bind(onlySomePeopleField.selectedProperty());
         autoDivideButton.visibleProperty().bind(onlySomePeopleField.selectedProperty());
         checkBoxColumn.
-                setCellValueFactory(new PropertyValueFactory<PersonAmount, CheckBox>("checkBox"));
+            setCellValueFactory(new PropertyValueFactory<PersonAmount, CheckBox>("checkBox"));
         participantColumn.
-                setCellValueFactory(new PropertyValueFactory<PersonAmount, String>("name"));
+            setCellValueFactory(new PropertyValueFactory<PersonAmount, String>("name"));
         amountColumn.
-                setCellValueFactory(new PropertyValueFactory<PersonAmount, TextField>("textField"));
+            setCellValueFactory(new PropertyValueFactory<PersonAmount, TextField>("textField"));
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         // currency initialiser
         howMuchField.setText("0");
@@ -126,8 +126,8 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             if (!Objects.equals(participant.getName(), whoPaidField.getValue().getName())) {
                 personAmounts.add(new PersonAmount(participant.getName()));
                 personAmountMap.put(participant.getName(), participant);
-           }
-       }
+            }
+        }
     }
 
     public ChoiceBox<Participant> getWhoPaidField(){return whoPaidField;}
@@ -141,8 +141,8 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     public void onAddClick(ActionEvent event2) throws IOException {
 
         if(whatForField.getText() != null && whenField.getValue() != null
-          && howMuchField.getText() != null && (allPeopleField.getText() != null
-          || onlySomePeopleField.getText() != null)) {
+            && howMuchField.getText() != null && (allPeopleField.getText() != null
+            || onlySomePeopleField.getText() != null)) {
 
             //check if the amount people have to pay back is greater than the total amount
             Double total= Double.parseDouble(howMuchField.getText());
@@ -150,7 +150,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             List<PersonAmount> selectedPeople=tableView.getItems();
             for(PersonAmount pa : selectedPeople) {
                 if (pa.getCheckBox().isSelected() &&
-                        !pa.getTextField().getText().isEmpty()) {
+                    !pa.getTextField().getText().isEmpty()) {
                     sum += Double.parseDouble(pa.getTextField().getText());
                 }
             }
@@ -158,7 +158,6 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                 sumIsLarger();
             else {
                 Expense expense1 = createExpense();
-                event.getExpenses().add(expense1);
                 expense = null;
                 mainCtrl.addExpenseToEvent(expense1);
                 mainCtrl.showEventOverview(event.getInvitationID());
@@ -167,14 +166,14 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             Alert alert=new Alert(Alert.AlertType.WARNING);
             switch(locale.getLanguage()) {
                 case "nl":
-                        alert.setTitle("Niet ingevulde velden");
-                        alert.setContentText("Alle velden moeten ingevuld " +
-                                "worden voor het maken van een uitgave");
-                        break;
+                    alert.setTitle("Niet ingevulde velden");
+                    alert.setContentText("Alle velden moeten ingevuld " +
+                        "worden voor het maken van een uitgave");
+                    break;
                 case "en":
-                        alert.setTitle("Empty fields");
-                        alert.setContentText("You need to fill in all fields to create an expense");
-                        break;
+                    alert.setTitle("Empty fields");
+                    alert.setContentText("You need to fill in all fields to create an expense");
+                    break;
                 default:
                     break;
             }
@@ -191,7 +190,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         Alert exceededAmount=new Alert(Alert.AlertType.ERROR);
         exceededAmount.setTitle("Exceeded amount");
         exceededAmount.setContentText("The amount of money people are paying back " +
-                "is larger than the value of the expense");
+            "is larger than the value of the expense");
         exceededAmount.showAndWait();
     }
 
@@ -262,7 +261,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             for(PersonAmount personAmount : personAmounts) {
                 dividePerPerson(personAmount, amount, personAmounts.size());
                 Debt debt = new Debt(personAmountMap.get(personAmount.getName()), whoPaid,
-                        Double.parseDouble(personAmount.getTextField().getText()));
+                    Double.parseDouble(personAmount.getTextField().getText()));
                 debt.setExpense(null);
                 debt=server.createDebt(debt);
                 debtList.add(debt);
@@ -271,7 +270,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             for (PersonAmount personAmount : tableView.getItems()) {
                 if (personAmount.getCheckBox().isSelected()) {
                     Debt debt = new Debt(personAmountMap.get(personAmount.getName()), whoPaid,
-                            Double.parseDouble(personAmount.getTextField().getText()));
+                        Double.parseDouble(personAmount.getTextField().getText()));
                     debt.setExpense(null);
                     debt=server.createDebt(debt);
                     debtList.add(debt);
@@ -314,7 +313,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
 //                if( (double) price== (int) price)
 //                    pa.getTextField().setText(String.valueOf((int) price));
 //                else
-                    pa.getTextField().setText(String.valueOf(price));
+                pa.getTextField().setText(String.valueOf(price));
             }
         }
     }
