@@ -197,20 +197,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             return true;
         }
         if (trimmed.length() < IBAN_MIN_SIZE || trimmed.length() > IBAN_MAX_SIZE) {
-            Alert alert=new Alert(Alert.AlertType.WARNING);
-            switch(locale.getLanguage()) {
-                case "nl":
-                    alert.setTitle("Ongeldige IBAN");
-                    alert.setContentText("Vul een geldige IBAN in");
-                    break;
-                case "en":
-                    alert.setTitle("Non-Valid IBAN");
-                    alert.setContentText("Please enter a valid IBAN");
-                    break;
-                default:
-                    break;
-            }
-            alert.setHeaderText(null);
+            Alert alert = getAlert();
             alert.showAndWait();
             return false;
         }
@@ -220,20 +207,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         for (int i = 0; i < reformat.length(); i++) {
             int charValue = Character.getNumericValue(reformat.charAt(i));
             if (charValue < 0 || charValue > 35) {
-                Alert alert=new Alert(Alert.AlertType.WARNING);
-                switch(locale.getLanguage()) {
-                    case "nl":
-                        alert.setTitle("Ongeldige IBAN");
-                        alert.setContentText("Vul een geldige IBAN in");
-                        break;
-                    case "en":
-                        alert.setTitle("Non-Valid IBAN");
-                        alert.setContentText("Please enter a valid IBAN");
-                        break;
-                    default:
-                        break;
-                }
-                alert.setHeaderText(null);
+                Alert alert = getAlert();
                 alert.showAndWait();
                 return false;
             }
@@ -246,23 +220,28 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             return true;
         }
         else{
-            Alert alert=new Alert(Alert.AlertType.WARNING);
-            switch(locale.getLanguage()) {
-                case "nl":
-                    alert.setTitle("Ongeldige IBAN");
-                    alert.setContentText("Vul een geldige IBAN in");
-                    break;
-                case "en":
-                    alert.setTitle("Non-Valid IBAN");
-                    alert.setContentText("Please enter a valid IBAN");
-                    break;
-                default:
-                    break;
-            }
-            alert.setHeaderText(null);
+            Alert alert = getAlert();
             alert.showAndWait();
             return false;
         }
+    }
+
+    private Alert getAlert() {
+        Alert alert=new Alert(Alert.AlertType.WARNING);
+        switch(locale.getLanguage()) {
+            case "nl":
+                alert.setTitle("Ongeldige IBAN");
+                alert.setContentText("Vul een geldige IBAN in");
+                break;
+            case "en":
+                alert.setTitle("Non-Valid IBAN");
+                alert.setContentText("Please enter a valid IBAN");
+                break;
+            default:
+                break;
+        }
+        alert.setHeaderText(null);
+        return alert;
     }
 
     /**
