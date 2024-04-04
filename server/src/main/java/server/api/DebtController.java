@@ -50,7 +50,7 @@ public class DebtController {
     @PostMapping(path = { "", "/" })
     public ResponseEntity<Debt> addDebt(@RequestBody Debt debt) {
 
-        if (debt.getAmount() == 0 || debt.getFrom() == null || debt.getTo() == null
+        if (debt.getAmount() == 0 || debt.getHasToPay() == null || debt.getWhoPaid() == null
             || debt.getExpense() == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -94,8 +94,8 @@ public class DebtController {
         Debt existingDebt = db.findById(id).get();
         existingDebt.setSettled(debt.isSettled());
         existingDebt.setExpense(debt.getExpense());
-        existingDebt.setFrom(debt.getFrom());
-        existingDebt.setTo(debt.getTo());
+        existingDebt.setHasToPay(debt.getHasToPay());
+        existingDebt.setWhoPaid(debt.getWhoPaid());
         existingDebt.setAmount(debt.getAmount());
 
         Debt updatedDebt = db.save(existingDebt);

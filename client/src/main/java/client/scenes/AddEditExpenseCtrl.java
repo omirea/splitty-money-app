@@ -82,7 +82,15 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     public TableView<PersonAmount> getTableView(){
         return tableView;
     }
-
+    public void setExpense(Expense e) {
+        expense = e;
+        whoPaidField.setValue(e.getDebts().getFirst().getWhoPaid());
+        whatForField.setText(e.getName());
+        howMuchField.setText(String.valueOf(e.getAmount()));
+        currencyField.setValue(e.getCurrency().getDisplayName());
+        whenField.setValue(e.getDateSent());
+        //fill in all the expense stuff
+    }
 
     // expense type tag bar
 //    @FXML
@@ -223,7 +231,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         } else {
             expense.setDateSent(date);
             expense.setAmount(amount);
-            expense.setDescription(whatFor);
+            expense.setName(whatFor);
             expense.setCurrency(currency);
             expense.setType(null);
             expense.setDebts(debtList);

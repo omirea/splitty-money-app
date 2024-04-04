@@ -6,8 +6,10 @@ import com.google.inject.Inject;
 import commons.Event;
 import commons.Expense;
 import commons.Participant;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -30,15 +32,26 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     @FXML private TabPane expensesTabs;
     @FXML private Tab allTab, fromPersonTab, toPersonTab;
 
-    @FXML private ImageView homeView;
     @FXML private Text participantsText, expensesText;
     @FXML private Button homeButton, editTitleButton, sendInvitesButton,
         editParticipantsButton, addExpenseButton, settleDebtsButton;
 
-    @FXML private TableView<Expense> expenseTableViewAll;
-    @FXML private TableColumn<Expense, String> nameColumn;
-    @FXML private TableColumn<Expense, Double> amountColumn;
-    @FXML private TableColumn<Expense, Button> editColumn, deleteButton;
+    //I'm gonna hate myself for doing this...
+    @FXML private TableView<Expense> expenseTableViewAll, expenseTableViewFrom, expenseTableViewTo;
+    @FXML private TableColumn<Expense, String> nameColumnAll, nameColumnFrom, nameColumnTo;
+    @FXML private TableColumn<Expense, Double> amountColumnAll, amountColumnFrom, amountColumnTo;
+    @FXML private TableColumn<Expense, Button> editColumnAll, editColumnFrom, editColumnTo,
+                                            deleteColumnAll, deleteColumnFrom, deleteColumnTo;
+    TableView<Expense>[] expenseTVs =
+        new TableView[]{expenseTableViewAll,expenseTableViewFrom,expenseTableViewTo};
+    TableColumn<Expense, String>[] nameColumns =
+        new TableColumn[]{nameColumnAll, nameColumnFrom, nameColumnTo};
+    TableColumn<Expense, Double>[] amountColumns =
+        new TableColumn[]{amountColumnAll, amountColumnFrom, amountColumnTo};
+    TableColumn<Expense, Button>[] editColumns =
+        new TableColumn[]{editColumnAll, editColumnFrom, editColumnTo};
+    TableColumn<Expense, Button>[] deleteColumns =
+        new TableColumn[]{deleteColumnAll, deleteColumnFrom, deleteColumnTo};
 
 
 
@@ -53,13 +66,64 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      */
     @FXML
     public void initialize() {
-        //set home button
-//        homeView.setFitHeight(25);
-//        homeView.setFitWidth(22);
-        Image setting=new Image(Objects.requireNonNull
-                (getClass().getResourceAsStream("/icons/home.png")));
-        homeView.setImage(setting);
-        homeButton.setGraphic(homeView);
+
+        setupTableViews();
+        setUpImages();
+
+    }
+
+    private void setupTableViews() {
+        nameColumnAll.setCellValueFactory(new PropertyValueFactory<Expense, String>("description"));
+        amountColumnAll.setCellValueFactory(new PropertyValueFactory<Expense, Double>("amount"));
+        editColumnAll.setCellValueFactory(this::createEditButton);
+        deleteColumnAll.setCellValueFactory(this::createDeleteButton);
+//        loadExpenses();
+    }
+
+//    private void loadExpenses() {
+//
+//    }
+//
+//    private void addExpense() {
+//
+//    }
+
+    private SimpleObjectProperty<Button> createEditButton(
+        TableColumn.CellDataFeatures<Expense, Button> q) {
+        Button editButton = new Button();
+        editButton.setOnAction(event -> onEditExpenseClick(q.getValue()));
+        return new SimpleObjectProperty<>(editButton);
+    }
+
+    private SimpleObjectProperty<Button> createDeleteButton(
+        TableColumn.CellDataFeatures<Expense, Button> q) {
+        Button deleteButton = new Button();
+        deleteButton.setOnAction(event -> onDeleteExpenseClick(q.getValue()));
+        setImage(deleteButton, "icons/trash.png");
+        return new SimpleObjectProperty<>(deleteButton);
+    }
+
+    public void onEditExpenseClick(Expense e) {
+        mainCtrl.showAddExpense(event.getInvitationID(), e);
+    }
+
+    public void onDeleteExpenseClick(Expense e) {
+        server.deleteExpense(e.getId());
+        expenseTableViewAll.getItems().remove(e);
+    }
+
+    private void setUpImages() {
+        setImage(homeButton, "/icons/home.png");
+    }
+
+    private void setImage(Button b, String link) {
+        ImageView iv = new ImageView();
+        iv.setFitWidth(20);
+        iv.setFitHeight(20);
+        Image image =new Image(Objects.requireNonNull
+            (getClass().getResourceAsStream(link)));
+        iv.setImage(image);
+        b.setGraphic(iv);
     }
 
 

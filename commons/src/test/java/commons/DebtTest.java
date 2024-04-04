@@ -35,30 +35,30 @@ class DebtTest {
     void getFrom() {
         Participant from2 = new Participant("Person1", "abc@xyz.com", "NL123",
             "123");
-        assertEquals(from2, debt.getFrom());
+        assertEquals(from2, debt.getHasToPay());
     }
 
     @Test
     void setFrom() {
         Participant from3 = new Participant("Person3", "abc@xyz.com", "NL123",
             "123");
-        debt.setFrom(from3);
-        assertEquals(from3, debt.getFrom());
+        debt.setHasToPay(from3);
+        assertEquals(from3, debt.getHasToPay());
     }
 
     @Test
     void getTo() {
         Participant to2 = new Participant("Person2", "def@xyz.com", "NL456",
             "456");
-        assertEquals(to2, debt.getTo());
+        assertEquals(to2, debt.getWhoPaid());
     }
 
     @Test
     void setTo() {
         Participant to3 = new Participant("Person3", "abc@xyz.com", "NL123",
             "123");
-        debt.setTo(to3);
-        assertEquals(to3, debt.getTo());
+        debt.setWhoPaid(to3);
+        assertEquals(to3, debt.getWhoPaid());
     }
 
     @Test

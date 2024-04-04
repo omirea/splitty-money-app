@@ -79,7 +79,7 @@ public class ExpenseController {
             return ResponseEntity.notFound().build();
         }
         Expense existingExpense = db.findById(expense_id).get();
-        existingExpense.setDescription(expense.getDescription());
+        existingExpense.setName(expense.getName());
         existingExpense.setAmount(expense.getAmount());
         existingExpense.setType(expense.getType());
         existingExpense.setDateSent(expense.getDateSent());

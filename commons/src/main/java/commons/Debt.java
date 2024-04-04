@@ -19,32 +19,32 @@ public class Debt {
 
     @ManyToOne
     @JoinColumn(name = "from_id", nullable = false)
-    private Participant from;
+    private Participant hasToPay;
 
     @ManyToOne
     @JoinColumn(name = "to_id", nullable = false)
-    private Participant to;
+    private Participant whoPaid;
 
     private double amount;
 
     /**
      * Constructs a new debt object
-     * @param from participant who pays debt
-     * @param to participant who gets paid
+     * @param hasToPay participant who pays debt
+     * @param whoPaid participant who gets paid
      * @param amount value of the debt
      */
-    public Debt(Participant from, Participant to, double amount) {
-        this.from = from;
-        this.to = to;
+    public Debt(Participant hasToPay, Participant whoPaid, double amount) {
+        this.hasToPay = hasToPay;
+        this.whoPaid = whoPaid;
         this.amount = amount;
         settled = false;
     }
 
-    public Debt(Long id, Expense expense, Participant from, Participant to, double amount) {
+    public Debt(Long id, Expense expense, Participant hasToPay, Participant whoPaid, double amount) {
         this.id = id;
         this.expense = expense;
-        this.from = from;
-        this.to = to;
+        this.hasToPay = hasToPay;
+        this.whoPaid = whoPaid;
         this.amount = amount;
         settled = false;
     }
@@ -87,32 +87,32 @@ public class Debt {
      * getter for participant paying the debt
      * @return participant who is to pay the debt
      */
-    public Participant getFrom() {
-        return from;
+    public Participant getHasToPay() {
+        return hasToPay;
     }
 
     /**
      * setter for participant paying the debt
      * @param from participant who is to pay the debt
      */
-    public void setFrom(Participant from) {
-        this.from = from;
+    public void setHasToPay(Participant from) {
+        this.hasToPay = from;
     }
 
     /**
      * getter for receiver of debt
      * @return participant receiving the debt
      */
-    public Participant getTo() {
-        return to;
+    public Participant getWhoPaid() {
+        return whoPaid;
     }
 
     /**
      * setter for receiver of debt
      * @param to participant receiving the debt
      */
-    public void setTo(Participant to) {
-        this.to = to;
+    public void setWhoPaid(Participant to) {
+        this.whoPaid = to;
     }
 
     /**
@@ -142,8 +142,8 @@ public class Debt {
         if (o == null || getClass() != o.getClass()) return false;
         Debt debt = (Debt) o;
         return settled == debt.settled && Double.compare(amount, debt.amount) == 0
-            && Objects.equals(from, debt.from)
-                && Objects.equals(to, debt.to);
+            && Objects.equals(hasToPay, debt.hasToPay)
+                && Objects.equals(whoPaid, debt.whoPaid);
     }
 
     /**
@@ -152,6 +152,6 @@ public class Debt {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(settled, from, to, amount);
+        return Objects.hash(settled, hasToPay, whoPaid, amount);
     }
 }

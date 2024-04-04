@@ -19,10 +19,10 @@ public class Participant {
     @JoinColumn(name = "event_id")
     private Event event;
 
-    @OneToMany(mappedBy = "from")
+    @OneToMany(mappedBy = "hasToPay")
     private List<Debt> payDebts;
 
-    @OneToMany(mappedBy = "to")
+    @OneToMany(mappedBy = "whoPaid")
     private List<Debt> receiveDebts;
 
     private String name; // name of participant

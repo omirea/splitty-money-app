@@ -7,8 +7,6 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -22,15 +20,7 @@
    <children>
       <VBox layoutX="11.2" layoutY="3.2" prefHeight="387.0" prefWidth="279.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Button fx:id="homeButton" mnemonicParsing="false" onAction="#goBackHome" text="Home">
-               <graphic>
-                  <ImageView fx:id="homeView" fitHeight="22.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../icons/home.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
+            <Button fx:id="homeButton" mnemonicParsing="false" onAction="#goBackHome" text="Home" />
             <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="260.0" spacing="10.0">
                <children>
                   <Text fx:id="eventTitleText" strokeType="OUTSIDE" strokeWidth="0.0" text="[Event Title]" HBox.hgrow="ALWAYS">
@@ -80,44 +70,44 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="expenseTableViewAll" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn editable="false" prefWidth="350.0" text="Name" />
-                                  <TableColumn editable="false" prefWidth="75.0" text="Amount" />
-                                    <TableColumn editable="false" prefWidth="50.0" sortable="false" text="Edit" />
-                                    <TableColumn editable="false" prefWidth="50.0" sortable="false" text="Delete" />
+                                  <TableColumn fx:id="nameColumnAll" editable="false" prefWidth="350.0" text="Name" />
+                                  <TableColumn fx:id="amountColumnAll" editable="false" prefWidth="75.0" text="Amount" />
+                                    <TableColumn fx:id="editColumnAll" editable="false" prefWidth="50.0" sortable="false" text="Edit" />
+                                    <TableColumn fx:id="deleteColumnAll" editable="false" prefWidth="50.0" sortable="false" text="Delete" />
                                 </columns>
                               </TableView>
                            </children>
                         </AnchorPane>
                   </content>
                 </Tab>
-                  <Tab fx:id="fromPersonTab" onSelectionChanged="#onTabSwitch" text="From Person">
+                  <Tab fx:id="fromPersonTab" onSelectionChanged="#onTabSwitch" text="Paid For">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="expenseTableViewFrom" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <columns>
-                                    <TableColumn editable="false" prefWidth="350.0" text="Name" />
-                                    <TableColumn editable="false" prefWidth="75.0" text="Amount" />
-                                    <TableColumn editable="false" prefWidth="50.0" sortable="false" text="Edit" />
-                                    <TableColumn editable="false" prefWidth="50.0" sortable="false" text="Delete" />
+                                    <TableColumn fx:id="nameColumnFrom" editable="false" prefWidth="350.0" text="Name" />
+                                    <TableColumn fx:id="amountColumnFrom" editable="false" prefWidth="75.0" text="Amount" />
+                                    <TableColumn fx:id="editColumnFrom" editable="false" prefWidth="50.0" sortable="false" text="Edit" />
+                                    <TableColumn fx:id="deleteColumnFrom" editable="false" prefWidth="50.0" sortable="false" text="Delete" />
                                  </columns>
                               </TableView>
                            </children>
                         </AnchorPane>
                      </content>
                   </Tab>
-                <Tab fx:id="toPersonTab" onSelectionChanged="#onTabSwitch" text="With Person">
+                <Tab fx:id="toPersonTab" onSelectionChanged="#onTabSwitch" text="Has to Pay">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="expenseTableViewTo" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <columns>
-                                    <TableColumn editable="false" prefWidth="350.0" text="Name" />
-                                    <TableColumn editable="false" prefWidth="75.0" text="Amount" />
-                                    <TableColumn editable="false" prefWidth="50.0" sortable="false" text="Edit" />
-                                    <TableColumn editable="false" prefWidth="50.0" sortable="false" text="Delete" />
+                                    <TableColumn fx:id="nameColumnTo" editable="false" prefWidth="350.0" text="Name" />
+                                    <TableColumn fx:id="amountColumnTo" editable="false" prefWidth="75.0" text="Amount" />
+                                    <TableColumn fx:id="editColumnTo" editable="false" prefWidth="50.0" sortable="false" text="Edit" />
+                                    <TableColumn fx:id="deleteColumnTo" editable="false" prefWidth="50.0" sortable="false" text="Delete" />
                                  </columns>
                               </TableView>
                            </children>
