@@ -77,8 +77,6 @@ public class EventController {
             newE.setCreateDate(event.getCreateDate());
             newE.setLastModified(event.getLastModified());
             newE.setID(event.getID());
-//            event.setParticipants(getParticipantsByInvitationId(invitationID).getBody());
-//            event.setExpenses(getExpenseByInvitationId(invitationID).getBody());
             return ResponseEntity.ok(newE);
         } else {
             return ResponseEntity.notFound().build();
