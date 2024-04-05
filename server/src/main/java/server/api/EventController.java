@@ -69,9 +69,17 @@ public class EventController {
         Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAll()));
         if(tempEvent.isPresent()){
             Event event = tempEvent.get();
-            event.setParticipants(getParticipantsByInvitationId(invitationID).getBody());
-            event.setExpenses(getExpenseByInvitationId(invitationID).getBody());
-            return ResponseEntity.ok(event);
+            String invID = event.getInvitationID();
+            String name = event.getName();
+            List<Expense> exs = getExpenseByInvitationId(invID).getBody();
+            List<Participant> prs = getParticipantsByInvitationId(invID).getBody();
+            Event newE = new Event(name, invID, exs, prs);
+            newE.setCreateDate(event.getCreateDate());
+            newE.setLastModified(event.getLastModified());
+            newE.setID(event.getID());
+//            event.setParticipants(getParticipantsByInvitationId(invitationID).getBody());
+//            event.setExpenses(getExpenseByInvitationId(invitationID).getBody());
+            return ResponseEntity.ok(newE);
         } else {
             return ResponseEntity.notFound().build();
         }

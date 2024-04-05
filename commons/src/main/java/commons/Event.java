@@ -147,6 +147,9 @@ public class Event {
     public Long getID() {
         return id;
     }
+    public void setID(Long id){
+        this.id = id;
+    }
 
     public Date getCreateDate() {
         return createDate;
@@ -154,6 +157,14 @@ public class Event {
 
     public Date getLastModified() {
         return lastModified;
+    }
+
+    public void setLastModified(Date date){
+        this.lastModified = date;
+    }
+
+    public void setCreateDate(Date date){
+        this.createDate = date;
     }
 
 
