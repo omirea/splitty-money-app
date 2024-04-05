@@ -16,7 +16,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -30,11 +31,10 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private  Event event;
-    private ObservableList<Debt> allDebts;
-    private ObservableList<Participant> allParticipants;
-
-    private ObservableList<DebtsTable> debtsTables;
-    private ObservableList<String> debtsString;
+    private final ObservableList<Debt> allDebts;
+    private final ObservableList<Participant> allParticipants;
+    private final ObservableList<DebtsTable> debtsTables;
+    private final ObservableList<Debt> newDebts;
     @FXML
     private Button payAllDebtsButton;
     @FXML
@@ -44,7 +44,9 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     @FXML
     private Button homeButton;
     @FXML
-    private ChoiceBox<Participant> selectedParticipant;
+    private ChoiceBox<Participant> fromParticipantCB;
+    @FXML
+    private ChoiceBox<Participant> toParticipantCB;
     @FXML
     private ImageView homeView;
     @FXML
@@ -52,22 +54,22 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     @FXML
     private TableView<DebtsTable> tableView;
     @FXML
-    private TableColumn<DebtsTable, String> informationCol;
+    private TableColumn<DebtsTable, TreeView<String>> informationCol;
     @FXML
     private TableColumn<DebtsTable, Button> emailCol;
     @FXML
     private TableColumn<DebtsTable, Button> IBANCol;
     @FXML
     private TableColumn<DebtsTable, Button> receivedCol;
-
     @Inject
     public OpenDebtsCtrl(ServerUtils server, MainCtrl mainCtrl){
         this.server=server;
         this.mainCtrl=mainCtrl;
         this.allParticipants = FXCollections.observableArrayList();
         this.allDebts=FXCollections.observableArrayList();
-        this.debtsString=FXCollections.observableArrayList();
+        ObservableList<String> debtsString = FXCollections.observableArrayList();
         this.debtsTables=FXCollections.observableArrayList();
+        newDebts=FXCollections.observableArrayList();
     }
 
     /**
@@ -77,17 +79,18 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     public void initialize(){
         //initialize table view
         informationCol.
-                setCellValueFactory(new PropertyValueFactory<DebtsTable, String>("debtInfo"));
-        emailCol.setCellValueFactory(new PropertyValueFactory<DebtsTable, Button>("email"));
-        IBANCol.setCellValueFactory(new PropertyValueFactory<DebtsTable, Button>("IBAN"));
-        receivedCol.setCellValueFactory(new PropertyValueFactory<DebtsTable, Button>("closeDebt"));
+                setCellValueFactory(new PropertyValueFactory<>("treeView"));
+        emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+        IBANCol.setCellValueFactory(new PropertyValueFactory<>("IBAN"));
+        receivedCol.setCellValueFactory(new PropertyValueFactory<>("closeDebt"));
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         //initialize choice box
-        selectedParticipant.setItems(allParticipants);
-        selectedParticipant.setConverter(new ParticipantStringConverter());
-        //listView.setItems(debtsString);
 
-        //initialize button colours
+        fromParticipantCB.setItems(allParticipants);
+        fromParticipantCB.setConverter(new ParticipantStringConverter());
+        toParticipantCB.setItems(allParticipants);
+        toParticipantCB.setConverter(new ParticipantStringConverter());
         //listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         getPayAllDebts()
                 .setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
@@ -100,6 +103,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         homeView.setImage(setting);
         homeButton.setGraphic(homeView);
     }
+
 
     public ServerUtils getServer() {
         return server;
@@ -182,7 +186,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
             ListView<String> selected = new ListView<>();
 //            for (Object o : listView.getSelectionModel().getSelectedItems())
 //                selected.getItems().add((String) o);
-            mainCtrl.addItemsToClosedDebts(selected);
+            //mainCtrl.addItemsToClosedDebts(selected);
             //listView.getItems().removeAll(listView.getSelectionModel().getSelectedItems());
         }
     }
@@ -199,6 +203,10 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         seeClosedDebtsButton.setText(Main.getLocalizedString("seeClosedDebts"));
     }
 
+    /**
+     * add debts to the table view
+     * @param id of the event
+     */
     public void addDebtsToList(String id) {
         allDebts.clear();
         debtsTables.clear();
@@ -216,9 +224,36 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
      * @param allDebts list of debts of the event
      */
     private void createDebtsTable(ObservableList<Debt> allDebts) {
+        debtsTables.clear();
         for(Debt debt : allDebts){
-            String info=debt.getFrom().getName() + " needs to pay " +
-                    debt.getAmount() + " to " + debt.getTo().getName();
+            //set tree view-debts info + text flow (bold text)
+            TreeView<TextFlow> treeView=new TreeView<>();
+            treeView.setMaxHeight(30);
+            treeView.setOnMouseClicked(event -> {
+                if(treeView.getMaxHeight()==30)
+                    treeView.setMaxHeight(100);
+                else
+                    treeView.setMaxHeight(30);
+            });
+            //set text flow
+            TextFlow textFlow=new TextFlow();
+            Text from=new Text(debt.getFrom().getName());
+            Text howMuch=new Text(String.valueOf(debt.getAmount()));
+            Text currency=new Text(String.valueOf(debt.getExpense().getCurrency()));
+            Text to=new Text(debt.getTo().getName());
+
+            makeTextBold(from, howMuch, currency, to);
+            textFlow.getChildren().addAll(from, new Text(" needs to pay "),
+                    howMuch, new Text(" "), currency, new Text(" to "), to);
+            TreeItem<TextFlow> treeItemRoot=new TreeItem<>(textFlow);
+            TextFlow detailsFlow=new TextFlow();
+            Text details=getExtraDetails(debt);
+            detailsFlow.getChildren().add(details);
+            TreeItem<TextFlow> treeItemDetails=new TreeItem<>(detailsFlow);
+            treeView.setRoot(treeItemRoot);
+            treeItemRoot.getChildren().add(treeItemDetails);
+
+            //set email and iban buttons
             Button viewEmailButton=new Button();
             viewEmailButton.setAlignment(Pos.CENTER);
             Button viewIBANButton=new Button();
@@ -226,12 +261,48 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
             setupEmailPicture(debt.getTo(), viewEmailButton);
             setupIBANPicture(debt.getTo(), viewIBANButton);
 
+            //set closed debts button
             Button closeDebtButton=new Button("Close Debt");
             closeDebtButton.setAlignment(Pos.CENTER);
-            DebtsTable newDebt=new DebtsTable(info, viewEmailButton,
+
+            //create debt
+            DebtsTable newDebt=new DebtsTable(treeView, viewEmailButton,
                     viewIBANButton, closeDebtButton);
             debtsTables.add(newDebt);
         }
+    }
+
+    /**
+     * add drop down details for the debt
+     * @param debt the debt we need details for
+     * @return text with the details
+     */
+    private Text getExtraDetails(Debt debt) {
+        Participant participant=debt.getTo();
+        if(participant.getIBAN().isEmpty())
+            return new Text("No bank information is available for");
+        String info="Bank information available: Transfer money to:\n" +
+                "Account Holder: " + "name \n" +
+                "IBAN: " + participant.getIBAN() + "\n";
+        if(participant.getBIC().isEmpty())
+            info=info + "BIC: unknown";
+        else
+            info=info + "BIC: " + participant.getBIC();
+        return new Text(info);
+    }
+
+    /**
+     * make some text bold
+     * @param from who needs to pay
+     * @param howMuch how much
+     * @param currency currency
+     * @param to who to pay to
+     */
+    private void makeTextBold(Text from, Text howMuch, Text currency, Text to) {
+        from.setStyle("-fx-font-weight: bold");
+        howMuch.setStyle("-fx-font-weight: bold");
+        currency.setStyle("-fx-font-weight: bold");
+        to.setStyle("-fx-font-weight: bold");
     }
 
     /**
@@ -291,6 +362,47 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     }
 
     /**
+     * method to search based on the participant filters chosen
+     */
+    public void searchByParticipant(){
+       Participant to=toParticipantCB.getSelectionModel().getSelectedItem();
+       Participant from=fromParticipantCB.getSelectionModel().getSelectedItem();
+       newDebts.clear();
+       newDebts.addAll(allDebts);
+        if(from!=null && !from.getName().isEmpty()) {
+            ObservableList<Debt> tempDebts=chosenSelectedParticipants(from, 1);
+            newDebts.clear();
+            newDebts.addAll(tempDebts);
+        }
+       if(to!=null && !to.getName().isEmpty()) {
+           ObservableList<Debt> tempDebts=chosenSelectedParticipants(to, 2);
+           newDebts.clear();
+           newDebts.addAll(tempDebts);
+       }
+       createDebtsTable(newDebts);
+       tableView.setItems(debtsTables);
+    }
+
+    /**
+     * show only debts that have the selected From participant
+     * as person who pays
+     */
+    public ObservableList<Debt> chosenSelectedParticipants(Participant participant, int method){
+        ObservableList<Debt> tempDebts= FXCollections.observableArrayList();
+        for(Debt debt : newDebts){
+            Participant p=new Participant();
+            if(method==1)
+                p=debt.getFrom();
+            else
+                p=debt.getTo();
+            if(p.equals(participant))
+                tempDebts.add(debt);
+        }
+        return tempDebts;
+    }
+
+
+    /**
      * add the event participants to the choice box
      * @param id of the event
      */
@@ -298,5 +410,6 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         allParticipants.clear();
         List<Participant> pList = server.getParticipantsByInvitationId(id);
         allParticipants.addAll(pList);
+        allParticipants.add(new Participant("", null, null, null));
     }
 }
