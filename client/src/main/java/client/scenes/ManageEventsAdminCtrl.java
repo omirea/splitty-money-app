@@ -4,6 +4,8 @@ import client.Main;
 import client.utils.ServerUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import commons.Event;
+import commons.Expense;
+import commons.Participant;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -145,6 +147,16 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
         alert.setHeaderText(null);
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK){
+            List<Expense> expenses =
+                server.getExpensesByInvitationId(q.getValue().getInvitationID());
+            for(Expense expense : expenses){
+                server.deleteExpense(expense.getId());
+            }
+            List<Participant> participants =
+                server.getParticipantsByInvitationId(q.getValue().getInvitationID());
+            for(Participant p : participants){
+                server.deleteParticipant(p.getId());
+            }
             server.deleteEvent(q.getValue().getID());
             refresh();
         }
