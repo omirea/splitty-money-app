@@ -3,6 +3,7 @@ package client.scenes;
 import client.Main;
 import client.utils.ServerUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import commons.Debt;
 import commons.Event;
 import commons.Expense;
 import commons.Participant;
@@ -150,6 +151,10 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
             List<Expense> expenses =
                 server.getExpensesByInvitationId(q.getValue().getInvitationID());
             for(Expense expense : expenses){
+                List<Debt> debts = server.getDebtsByExpenseId(expense.getId());
+                for (Debt debt : debts){
+                    server.deleteDebt(debt.getId());
+                }
                 server.deleteExpense(expense.getId());
             }
             List<Participant> participants =
