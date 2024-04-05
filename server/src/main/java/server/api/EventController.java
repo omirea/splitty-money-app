@@ -5,14 +5,20 @@ import commons.Expense;
 import commons.Participant;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.async.DeferredResult;
 import server.database.EventRepository;
 import server.database.ExpenseRepository;
 import server.database.ParticipantRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 @RestController
 @RequestMapping("/event")
@@ -35,6 +41,28 @@ public class EventController {
     @GetMapping(path = { "", "/" })
     public List<Event> getAll() {
         return db.findAll();
+    }
+
+    private Map<Object, Consumer<Event>> listeners = new HashMap<>();
+    @GetMapping("/updates")
+    public DeferredResult<ResponseEntity<Event>> getUpdates() {
+
+        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        var res = new DeferredResult<ResponseEntity<Event>>(5000L, noContent);
+
+        var key = new Object();
+        listeners.put(key, q -> {
+            try {
+                res.setResult(ResponseEntity.ok(q));
+            } catch(Exception e) {
+                // some error handling, don't know what we want
+                e.printStackTrace();
+            }
+        });
+        res.onCompletion(() -> {
+            listeners.remove(key);
+        });
+        return res;
     }
 
 
@@ -78,6 +106,20 @@ public class EventController {
         }
         System.out.println(event);
         Event createdEvent = db.save(event);
+        CompletableFuture<Void> notifyListenersFuture = CompletableFuture.runAsync(() -> {
+            try {
+                listeners.forEach((k, l) -> l.accept(event));
+            } catch(Exception e) {
+                // some error handling, don't know what we want
+                e.printStackTrace();
+            }
+        });
+        notifyListenersFuture.exceptionally(ex -> {
+            // some error handling/ don't know what we want
+            ex.printStackTrace();
+            return null;
+
+        });
         return ResponseEntity.ok(createdEvent);
     }
 
