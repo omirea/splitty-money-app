@@ -27,7 +27,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="yourCurrentDebtsLabel" prefHeight="39.0" prefWidth="238.0" text="Your current debts">
+                  <Label fx:id="yourCurrentDebtsLabel" prefHeight="39.0" prefWidth="238.0" text="Open Debts">
                      <font>
                         <Font name="System Bold" size="27.0" />
                      </font>
@@ -39,7 +39,31 @@
                   </Button>
                </children>
             </HBox>
-            <ChoiceBox fx:id="selectedParticipant" prefHeight="20.0" prefWidth="146.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="From " />
+                  <ChoiceBox fx:id="fromParticipantCB" prefHeight="20.0" prefWidth="146.0">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </ChoiceBox>
+                  <Label text="To">
+                     <HBox.margin>
+                        <Insets left="25.0" />
+                     </HBox.margin>
+                  </Label>
+                  <ChoiceBox fx:id="toParticipantCB" prefWidth="150.0">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </ChoiceBox>
+                  <Button mnemonicParsing="false" onAction="#searchByParticipant" text="Search">
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
             <VBox prefHeight="308.0" prefWidth="558.0">
                <children>
                   <TableView fx:id="tableView" prefHeight="198.0" prefWidth="525.0">

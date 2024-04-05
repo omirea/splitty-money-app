@@ -1,26 +1,29 @@
 package client.nodes;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.TreeView;
+import javafx.scene.text.TextFlow;
 
 public class DebtsTable {
-    private String debtInfo;
+
+    private TreeView<TextFlow> treeView;
     private Button email;
     private Button IBAN;
     private Button closeDebt;
 
-    public DebtsTable(String debtInfo, Button email, Button IBAN, Button closeDebt) {
-        this.debtInfo = debtInfo;
+    public DebtsTable(TreeView<TextFlow> treeView, Button email, Button IBAN, Button closeDebt) {
+        this.treeView=treeView;
         this.email = email;
         this.IBAN = IBAN;
         this.closeDebt = closeDebt;
     }
 
-    public String getDebtInfo() {
-        return debtInfo;
+    public TreeView<TextFlow> getTreeView() {
+        return treeView;
     }
 
-    public void setDebtInfo(String debtInfo) {
-        this.debtInfo = debtInfo;
+    public void setTreeView(TreeView<TextFlow> treeView) {
+        this.treeView = treeView;
     }
 
     public Button getEmail() {
