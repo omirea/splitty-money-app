@@ -34,6 +34,20 @@ public class EventController {
         this.expenseDB=expenseDB;
     }
 
+//    @PostMapping("/json/import")
+//    public ResponseEntity<Event> importEmployees(Event) throws Exception {
+//        try {
+//            String jsonContent = new String(file.getBytes());
+//            ObjectMapper om = new ObjectMapper();
+//            Event eventImport = om.readValue(jsonContent, new TypeReference<>() {
+//            });
+//            db.save(eventImport);
+//            return ResponseEntity.ok(eventImport);
+//        } catch (Exception e) {
+//            throw new Exception("Importing Event JSON Failed, Due to : " + e.getMessage());
+//        }
+//    }
+
     /**
      * Get all events.
      * @return all events
@@ -95,7 +109,20 @@ public class EventController {
         Event e = new Event();
         e.setInvitationID(invitationID);
         Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAll()));
-        return tempEvent.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        if(tempEvent.isPresent()){
+            Event event = tempEvent.get();
+            String invID = event.getInvitationID();
+            String name = event.getName();
+            List<Expense> exs = getExpenseByInvitationId(invID).getBody();
+            List<Participant> prs = getParticipantsByInvitationId(invID).getBody();
+            Event newE = new Event(name, invID, exs, prs);
+            newE.setCreateDate(event.getCreateDate());
+            newE.setLastModified(event.getLastModified());
+            newE.setID(event.getID());
+            return ResponseEntity.ok(newE);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 

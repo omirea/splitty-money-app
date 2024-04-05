@@ -1,11 +1,11 @@
 package commons;
 
 import jakarta.persistence.*;
-import java.util.Objects;
-import java.util.Random;
+
+import java.util.*;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import java.time.Instant;
 
 @Entity
 public class Event {
@@ -32,12 +32,16 @@ public class Event {
      */
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    private Instant createDate;
+    private Date createDate;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    private Instant lastModified;
+    private Date lastModified;
 
+    @Transient
+    private List<Expense> expenses = new ArrayList<>();
+    @Transient
+    private List<Participant> participants = new ArrayList<>();
 
     /**
      * Constructor for an Event object
@@ -50,9 +54,40 @@ public class Event {
         this.invitationID = invitationID;
     }
 
+    public Event(String name,
+                 String invitationID,
+                 List<Expense> expenses,
+                 List<Participant> participants){
+        this.name = name;
+        this.invitationID = invitationID;
+        this.expenses = expenses;
+        this.participants = participants;
+    }
+
     public Event(String name) {
         this.name = name;
         invitationID = generateInvitationID();
+    }
+
+    public Event() {
+    }
+
+
+
+    public List<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public List<Participant> getParticipants() {
+        return participants;
+    }
+
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
+    }
+
+    public void setParticipants(List<Participant> participants) {
+        this.participants = participants;
     }
 
     /**
@@ -70,9 +105,6 @@ public class Event {
             .limit(targetStringLength)
             .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
             .toString();
-    }
-
-    public Event() {
     }
 
     /**
@@ -115,13 +147,24 @@ public class Event {
     public Long getID() {
         return id;
     }
+    public void setID(Long id){
+        this.id = id;
+    }
 
-    public Instant getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public Instant getLastModified() {
+    public Date getLastModified() {
         return lastModified;
+    }
+
+    public void setLastModified(Date date){
+        this.lastModified = date;
+    }
+
+    public void setCreateDate(Date date){
+        this.createDate = date;
     }
 
 

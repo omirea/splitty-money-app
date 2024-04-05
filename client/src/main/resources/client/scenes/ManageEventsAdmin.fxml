@@ -16,14 +16,15 @@
          <children>
             <HBox prefHeight="38.0" prefWidth="280.0">
                <children>
-                  <ToolBar prefHeight="35.0" prefWidth="446.0">
+                  <ToolBar prefHeight="37.0" prefWidth="374.0">
                     <items>
                         <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#onLogOutClick" text="Log Out" />
                     </items>
                   </ToolBar>
-                  <ToolBar HBox.hgrow="NEVER">
+                  <ToolBar prefHeight="37.0" prefWidth="154.0" HBox.hgrow="NEVER">
                     <items>
-                      <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
+                        <Button fx:id="importButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#onImportClick" text="Import" />
+                      <Button fx:id="refreshButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
                     </items>
                   </ToolBar>
                </children>
