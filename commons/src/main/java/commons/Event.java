@@ -70,6 +70,10 @@ public class Event {
         invitationID = generateInvitationID();
     }
 
+    public Event() {
+    }
+
+
 
     public List<Expense> getExpenses() {
         return expenses;
@@ -102,9 +106,6 @@ public class Event {
             .limit(targetStringLength)
             .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
             .toString();
-    }
-
-    public Event() {
     }
 
     /**

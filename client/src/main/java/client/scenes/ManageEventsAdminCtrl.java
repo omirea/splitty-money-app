@@ -3,6 +3,9 @@ package client.scenes;
 import client.Main;
 import client.utils.ServerUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import commons.Debt;
 import commons.Event;
 import commons.Expense;
@@ -21,11 +24,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.stage.FileChooser;
+
 import javax.inject.Inject;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 
@@ -46,6 +48,8 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     private Button logOutButton;
     @FXML
     private Button refreshButton;
+    @FXML
+    private Button importButton;
     @FXML
     ObservableList<Event> allEvents;
     @FXML
@@ -69,6 +73,27 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
+
+    public void onImportClick(){
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(null);
+//        String jsonContent = new String(selectedFile.toString());
+        ObjectMapper om = new ObjectMapper();
+        om.registerModule(new JavaTimeModule());
+        try {
+            TypeReference<Event> typeReference = new TypeReference<>() {};
+            Event eventJson = om.readValue(selectedFile, typeReference);
+            System.out.println(eventJson);
+            server.createEvent(eventJson);
+            refresh();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+
 
     /**
      * method to show start screen when admin wants to log out
@@ -250,6 +275,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
         colInvitationID.setText(Main.getLocalizedString("invitationID"));
         colLastModified.setText(Main.getLocalizedString("lastModified"));
         colDateCreated.setText(Main.getLocalizedString("dateCreated"));
+        importButton.setText(Main.getLocalizedString("Import"));
     }
 
 }

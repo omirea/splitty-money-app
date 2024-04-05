@@ -28,6 +28,20 @@ public class EventController {
         this.expenseDB=expenseDB;
     }
 
+//    @PostMapping("/json/import")
+//    public ResponseEntity<Event> importEmployees(Event) throws Exception {
+//        try {
+//            String jsonContent = new String(file.getBytes());
+//            ObjectMapper om = new ObjectMapper();
+//            Event eventImport = om.readValue(jsonContent, new TypeReference<>() {
+//            });
+//            db.save(eventImport);
+//            return ResponseEntity.ok(eventImport);
+//        } catch (Exception e) {
+//            throw new Exception("Importing Event JSON Failed, Due to : " + e.getMessage());
+//        }
+//    }
+
     /**
      * Get all events.
      * @return all events
