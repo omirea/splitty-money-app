@@ -17,10 +17,8 @@ package client.scenes;
 
 import client.Main;
 import client.nodes.PersonAmount;
-import commons.Debt;
 import commons.Expense;
 import commons.Participant;
-import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
