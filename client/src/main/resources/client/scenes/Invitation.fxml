@@ -13,7 +13,7 @@
    <children>
       <VBox layoutX="10.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="20.799999999999955" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.799999999999955" AnchorPane.topAnchor="0.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" text="New Year Party">
+            <Label fx:id="eventName" alignment="CENTER" contentDisplay="CENTER" text="New Year Party">
                <font>
                   <Font name="System Bold" size="33.0" />
                </font>

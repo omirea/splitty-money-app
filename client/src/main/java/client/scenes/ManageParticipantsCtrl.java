@@ -1,10 +1,8 @@
 package client.scenes;
 
 import client.Main;
-import client.nodes.AddedParticipant;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import commons.Debt;
 import commons.Event;
 import commons.Participant;
 import javafx.beans.property.SimpleObjectProperty;
@@ -17,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -76,8 +73,6 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
             trashCan.setImage(trash);
             deleteParticipant.setGraphic(trashCan);
 
-
-
             deleteParticipant.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -116,6 +111,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
                 public void handle(ActionEvent event) {
                     recentParticipants.getItems().remove(q.getValue());
                     showParticipant(q.getValue());
+                    recentParticipants.refresh();
                 }
             });
             return new SimpleObjectProperty<>(toParticipant);
@@ -214,6 +210,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     /**
      * method to add a random participant
      */
+    /*
     public void addRandomParticipant() {
         Participant participant = new Participant(event, new ArrayList<Debt>(),
                 new ArrayList<Debt>(), "name", "email", "iban", "bic");
@@ -221,7 +218,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         addedParticipants.add(participant);
         HBox hBox = addedParticipant.getNode();
         displayParticipants.getChildren().add(hBox);
-    }
+    }*/
 
     /**
      * method to add participant

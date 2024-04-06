@@ -22,6 +22,9 @@ public class InvitationCtrl implements Main.LanguageSwitch{
     private TextArea emailTextField;
 
     @FXML
+    private Label eventName;
+
+    @FXML
     private Label codeLabel;
 
     @FXML
@@ -79,6 +82,7 @@ public class InvitationCtrl implements Main.LanguageSwitch{
     public void setEvent(String id) {
         event = server.getEventByInvitationId(id);
         codeLabel.setText(event.getInvitationID());
+        eventName.setText(event.getName());
     }
 
     /**
