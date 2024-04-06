@@ -50,14 +50,11 @@ public class StartCtrl implements  Main.LanguageSwitch {
     @FXML
     private TableColumn<Event, Button> openColumn;
 
-
-
     @Inject
     public StartCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
-
 
     /**
      * method to initialize the page view (table, settings icon and admin icon)
@@ -110,7 +107,6 @@ public class StartCtrl implements  Main.LanguageSwitch {
             });
             return row;
         });
-        recentEvents.refresh();
     }
 
     /**
@@ -180,7 +176,6 @@ public class StartCtrl implements  Main.LanguageSwitch {
      */
     public void addEventToBox(Event event) {
         recentEvents.getItems().add(event);
-        //recentEvents.refresh();
     }
 
     private void showEvent(String invID) {
