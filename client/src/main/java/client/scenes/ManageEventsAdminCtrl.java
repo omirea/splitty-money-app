@@ -24,6 +24,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 
 import javax.inject.Inject;
@@ -123,6 +125,18 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
             table.setItems(eventsWithN);
         } else {
             table.setItems(allEvents);
+        }
+
+    }
+
+
+    /**
+     * maps the keyboard shortcuts to this controller/scene
+     * @param e KeyEvent inputted
+     */
+    public void enterKeyPressed(KeyEvent e) {
+        if (Objects.requireNonNull(e.getCode()) == KeyCode.ENTER) {
+            onSearchClick();
         }
     }
 
