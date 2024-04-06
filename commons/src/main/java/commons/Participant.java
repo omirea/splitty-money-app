@@ -27,6 +27,7 @@ public class Participant {
 
     private String name; // name of participant
     private String email; // email of participant
+    private String accountHolder;
     private String IBAN; // IBAN of participant
     private String BIC; // BIC of participant
 
@@ -37,9 +38,11 @@ public class Participant {
      * @param IBAN IBAN of the participant
      * @param BIC BIC of the participant
      */
-    public Participant(String name, String email, String IBAN, String BIC, Event event){
+    public Participant(String name, String email, String accountHolder,
+                       String IBAN, String BIC, Event event){
         this.name=name;
         this.email=email;
+        this.accountHolder=accountHolder;
         this.IBAN=IBAN;
         this.BIC=BIC;
         this.event = event;
@@ -47,9 +50,10 @@ public class Participant {
         receiveDebts = new ArrayList<>();
     }
 
-    public Participant(String name, String email, String IBAN, String BIC){
+    public Participant(String name, String email, String accountHolder, String IBAN, String BIC){
         this.name=name;
         this.email=email;
+        this.accountHolder=accountHolder;
         this.IBAN=IBAN;
         this.BIC=BIC;
         payDebts = new ArrayList<>();
@@ -57,12 +61,13 @@ public class Participant {
     }
 
     public Participant(Event event, List<Debt> payDebts, List<Debt> receiveDebts,
-                       String name, String email, String IBAN, String BIC) {
+                       String name, String email, String accountHolder, String IBAN, String BIC) {
         this.event = event;
         this.payDebts = payDebts;
         this.receiveDebts = receiveDebts;
         this.name = name;
         this.email = email;
+        this.accountHolder=accountHolder;
         this.IBAN = IBAN;
         this.BIC = BIC;
     }
@@ -83,6 +88,22 @@ public class Participant {
      */
     public String getEmail(){
         return email;
+    }
+
+    /**
+     * method to get the account holder of a participant
+     * @return account holder of the participant
+     */
+    public String getAccountHolder() {
+        return accountHolder;
+    }
+
+    /**
+     * method to change the account holder of a participant
+     * @param accountHolder the new account holder of the participant
+     */
+    public void setAccountHolder(String accountHolder) {
+        this.accountHolder = accountHolder;
     }
 
     /**
@@ -155,6 +176,7 @@ public class Participant {
         if (this == o) return true;
         if (!(o instanceof Participant that)) return false;
         return Objects.equals(name, that.name) && Objects.equals(email, that.email)
+                && Objects.equals(accountHolder, that.accountHolder)
             && Objects.equals(IBAN, that.IBAN) && Objects.equals(BIC, that.BIC);
     }
 
@@ -164,7 +186,7 @@ public class Participant {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(name, email, IBAN, BIC);
+        return Objects.hash(name, email, accountHolder, IBAN, BIC);
     }
 
     @Override
@@ -172,6 +194,7 @@ public class Participant {
         return "Participant has " +
                 "name: '" + name + '\'' +
                 ", email: '" + email + '\'' +
+                ", account holder name: " + accountHolder + '\'' +
                 ", IBAN: '" + IBAN + '\'' +
                 ", BIC: '" + BIC + '\'' +
                 ';';

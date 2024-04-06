@@ -242,9 +242,4 @@ public class MainCtrl {
         addEditExpenseCtrl.getTableView().getItems().add(pa);
     }
 
-//    public void addDebtsToClosedDebts(ObservableList<Debt> newDebts) {
-//        for(Debt debt : newDebts)
-//            System.out.println(debt);
-//        closedDebtsCtrl.setAllDebts(newDebts);
-//    }
 }

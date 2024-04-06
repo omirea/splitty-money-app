@@ -38,7 +38,6 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     private TableView<DebtsTable> tableView;
     @FXML
     private Button reopenAllDebts;
-
     @FXML
     private Button homeButton;
     @FXML
@@ -47,6 +46,8 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     private ChoiceBox<Participant> fromParticipantCB;
     @FXML
     private ChoiceBox<Participant> toParticipantCB;
+    @FXML
+    private TableColumn<DebtsTable, CheckBox> checkBoxCol;
     @FXML
     private TableColumn<DebtsTable, TreeView<String>> informationCol;
     @FXML
@@ -72,13 +73,15 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
      */
     public void initialize(){
         //set table view
+
         //initialize table view
+        checkBoxCol.
+                setCellValueFactory(new PropertyValueFactory<>("checkBox"));
         informationCol.
                 setCellValueFactory(new PropertyValueFactory<>("treeView"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
         IBANCol.setCellValueFactory(new PropertyValueFactory<>("IBAN"));
         receivedCol.setCellValueFactory(new PropertyValueFactory<>("closeDebt"));
-        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         //set choice boxes
         fromParticipantCB.setItems(allParticipants);
@@ -115,9 +118,12 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
      * add debts to the table view
      */
     public void addDebtsToList(String id) {
+        debtsTables.clear();
+        newDebts.clear();
         allDebts.clear();
         calculateAllDebts(id);
         createDebtsTable(allDebts);
+        newDebts.addAll(allDebts);
         tableView.setItems(debtsTables);
     }
 
@@ -130,7 +136,6 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         for(Expense expense : expenses){
             List<Debt> debts=server.getDebtsByExpenseId(expense.getId());
             for(Debt debt : debts) {
-                System.out.println(debt.getId());
                 if (debt.isSettled())
                     allDebts.add(debt);
             }
@@ -141,7 +146,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
      * create the debts to be added to the Open Debts page
      * @param allDebts list of debts of the event
      */
-    private void createDebtsTable(ObservableList<Debt> allDebts) {
+    public void createDebtsTable(ObservableList<Debt> allDebts) {
         debtsTables.clear();
         for(Debt debt : allDebts){
             //set tree view-debts info + text flow (bold text)
@@ -179,13 +184,17 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             setupEmailPicture(debt.getTo(), viewEmailButton);
             setupIBANPicture(debt.getTo(), viewIBANButton);
 
-            //set closed debts button
-            Button closeDebtButton=new Button("Close Debt");
-            closeDebtButton.setAlignment(Pos.CENTER);
-
+            //set open debts button
+            Button openDebtButton=new Button("Open Debt");
+            openDebtButton.setAlignment(Pos.CENTER);
+            openDebtButton.setOnAction(x -> {
+                debt.setSettled(false);
+                server.updateDebt(debt, debt.getId());
+                addDebtsToList(event.getInvitationID());
+            });
             //create debt
-            DebtsTable newDebt=new DebtsTable(treeView, viewEmailButton,
-                    viewIBANButton, closeDebtButton);
+            DebtsTable newDebt=new DebtsTable(new CheckBox(), treeView, viewEmailButton,
+                    viewIBANButton, openDebtButton, debt);
             debtsTables.add(newDebt);
         }
     }
@@ -200,7 +209,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         if(participant.getIBAN().isEmpty())
             return new Text("No bank information is available for");
         String info="Bank information available: Transfer money to:\n" +
-                "Account Holder: " + "name \n" +
+                "Account Holder: " +  participant.getAccountHolder()  + "\n" +
                 "IBAN: " + participant.getIBAN() + "\n";
         if(participant.getBIC().isEmpty())
             info=info + "BIC: unknown";
@@ -299,7 +308,12 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         alert.setHeaderText(null);
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK){
-            //mainCtrl.addItemsToOpenDebts(listView);
+            for(Debt debt : newDebts) {
+                debt.setSettled(false);
+                server.updateDebt(debt, debt.getId());
+            }
+            tableView.getItems().clear();
+            calculateAllDebts(event.getInvitationID());
         }
     }
 
@@ -325,12 +339,55 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         alert.setHeaderText(null);
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK){
-            ListView<String> selected=new ListView<>();
-//            for(String s: listView.getSelectionModel().getSelectedItems())
-//                selected.getItems().add(s);
-//            //mainCtrl.addItemsToOpenDebts(selected);
-//            listView.getItems().removeAll(listView.getSelectionModel().getSelectedItems());
+            for(DebtsTable debtRow : debtsTables){
+                if(debtRow.getCheckBox().isSelected()){
+                    Debt debt=debtRow.getDebt();
+                    debt.setSettled(false);
+                    server.updateDebt(debt, debt.getId());
+                }
+            }
+            addDebtsToList(event.getInvitationID());
         }
+    }
+
+    /**
+     * method to search based on the participant filters chosen
+     */
+    public void searchByParticipant(){
+        Participant to=toParticipantCB.getSelectionModel().getSelectedItem();
+        Participant from=fromParticipantCB.getSelectionModel().getSelectedItem();
+        newDebts.clear();
+        newDebts.addAll(allDebts);
+        if(from!=null && !from.getName().isEmpty()) {
+            ObservableList<Debt> tempDebts=chosenSelectedParticipants(from, 1);
+            newDebts.clear();
+            newDebts.addAll(tempDebts);
+        }
+        if(to!=null && !to.getName().isEmpty()) {
+            ObservableList<Debt> tempDebts=chosenSelectedParticipants(to, 2);
+            newDebts.clear();
+            newDebts.addAll(tempDebts);
+        }
+        createDebtsTable(newDebts);
+        tableView.setItems(debtsTables);
+    }
+
+    /**
+     * show only debts that have the selected From participant
+     * as person who pays
+     */
+    public ObservableList<Debt> chosenSelectedParticipants(Participant participant, int method){
+        ObservableList<Debt> tempDebts= FXCollections.observableArrayList();
+        for(Debt debt : newDebts){
+            Participant p;
+            if(method==1)
+                p=debt.getFrom();
+            else
+                p=debt.getTo();
+            if(p.equals(participant))
+                tempDebts.add(debt);
+        }
+        return tempDebts;
     }
 
     @Override
@@ -357,7 +414,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         allParticipants.clear();
         List<Participant> pList = server.getParticipantsByInvitationId(id);
         allParticipants.addAll(pList);
-        allParticipants.add(new Participant("", null, null, null));
+        allParticipants.add(new Participant("", null, null, null, null));
     }
 
     /**
@@ -366,4 +423,9 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     public void showOpenDebts(){
         mainCtrl.showOpenDebts(event.getInvitationID());
     }
+
+    /**
+     * method to show start page
+     */
+    public void showHome(){mainCtrl.showStartScreen();}
 }
