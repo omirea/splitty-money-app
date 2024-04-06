@@ -208,7 +208,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         String pListString = pList.stream().map(Participant::getName).toList().toString();
         pListString = pListString.substring(1, pListString.length()-1);
         participantsListText.setText(pListString);
-        allParticipants.add(new Participant("", null, null, null));
+        allParticipants.add(new Participant("", null, null, null, null));
     }
 
     @Override
