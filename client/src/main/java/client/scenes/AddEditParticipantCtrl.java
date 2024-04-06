@@ -26,6 +26,8 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
     @FXML
     private TextField emailTextField;
     @FXML
+    private TextField accHolderTextField;
+    @FXML
     private TextField ibanTextField;
     @FXML
     private TextField nameTextField;
@@ -59,6 +61,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         emailTextField.clear();
         ibanTextField.clear();
         bicTextField.clear();
+        accHolderTextField.clear();
         mainCtrl.showManageParticipants(event.getInvitationID(), participant);
         participant = null;
     }
@@ -69,14 +72,16 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             && isIbanValid(ibanTextField.getText())){
             String name = nameTextField.getText();
             String email = emailTextField.getText();
+            String accHolder=accHolderTextField.getText();
             String iban = ibanTextField.getText();
             String bic = bicTextField.getText();
 
             if (participant == null) {
-                participant = new Participant(name, email, iban, bic, event);
+                participant = new Participant(name, email, accHolder, iban, bic, event);
             } else {
                 participant.setName(name);
                 participant.setEmail(email);
+                participant.setAccountHolder(accHolder);
                 participant.setIBAN(iban);
                 participant.setBIC(bic);
             }
@@ -101,6 +106,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             participant = null;
             nameTextField.clear();
             emailTextField.clear();
+            accHolderTextField.clear();
             ibanTextField.clear();
             bicTextField.clear();
         }
@@ -122,6 +128,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         this.participant = participant;
         nameTextField.setText(participant.getName());
         emailTextField.setText(participant.getEmail());
+        accHolderTextField.setText(participant.getAccountHolder());
         bicTextField.setText(participant.getBIC());
         ibanTextField.setText(participant.getIBAN());
     }
@@ -134,6 +141,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         return Objects.equals(server, that.server) && Objects.equals(mainCtrl, that.mainCtrl)
             && Objects.equals(bicTextField, that.bicTextField)
             && Objects.equals(emailTextField, that.emailTextField)
+            && Objects.equals(accHolderTextField, that.accHolderTextField)
             && Objects.equals(ibanTextField, that.ibanTextField)
             && Objects.equals(nameTextField, that.nameTextField)
             && Objects.equals(okButton, that.okButton)
@@ -142,8 +150,8 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
 
     @Override
     public int hashCode() {
-        return Objects.hash(server, mainCtrl, bicTextField, emailTextField, ibanTextField,
-            nameTextField, okButton, cancelButton);
+        return Objects.hash(server, mainCtrl, bicTextField, emailTextField,
+                accHolderTextField, ibanTextField, nameTextField, okButton, cancelButton);
     }
 
     /**

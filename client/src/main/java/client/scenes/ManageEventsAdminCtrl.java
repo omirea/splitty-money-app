@@ -77,14 +77,23 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     public void onImportClick(){
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(null);
-//        String jsonContent = new String(selectedFile.toString());
         ObjectMapper om = new ObjectMapper();
         om.registerModule(new JavaTimeModule());
         try {
             TypeReference<Event> typeReference = new TypeReference<>() {};
             Event eventJson = om.readValue(selectedFile, typeReference);
-            System.out.println(eventJson);
             server.createEvent(eventJson);
+            List<Participant> parts = eventJson.getParticipants();
+            List<Expense> expenses = eventJson.getExpenses();
+            Event between = server.getEventByInvitationId(eventJson.getInvitationID());
+            for (Participant p : parts){
+                p.setEvent(between);
+                server.createParticipant(p);
+            }
+            for (Expense e : expenses){
+                e.setEvent(between);
+                server.createExpense(e);
+            }
             refresh();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -253,8 +262,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     private void onJSONClick(Event event) throws JsonProcessingException {
         try {
             Writer writer = new BufferedWriter(new FileWriter(
-                    //"event: " + event.getName() + " , InvitationID: " +
-                    event.getInvitationID() + ".json"));
+                event.getInvitationID() + ".json"));
             System.out.println(server.getParticipantsByInvitationId(event.getInvitationID()));
             System.out.println(server.getExpensesByInvitationId(event.getInvitationID()));
             String string = server.getEventByInvitationIdJSON(event.getInvitationID());
@@ -262,6 +270,21 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
             writer.flush();
             writer.close();
             System.out.println("JSON made with event invitation ID: " + event.getInvitationID());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            switch(locale.getLanguage()) {
+                case "nl":
+                    alert.setTitle("JSON Download Succesvol");
+                    alert.setContentText("JSON document succesvol toegevoegd");
+                    break;
+                case "en":
+                    alert.setTitle("JSON Download Successful");
+                    alert.setContentText("JSON document added successfully");
+                    break;
+                default:
+                    break;
+            }
+            alert.setHeaderText(null);
+            alert.showAndWait();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
