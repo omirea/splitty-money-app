@@ -81,7 +81,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <ListView fx:id="listViewAll" prefHeight="158.0" prefWidth="586.0" />
+                              <ListView fx:id="listViewAll" prefHeight="106.0" prefWidth="524.0" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -90,7 +90,7 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <ListView fx:id="listViewFrom" prefHeight="156.0" prefWidth="259.0" />
+                              <ListView fx:id="listViewFrom" prefHeight="106.0" prefWidth="524.0" />
                            </children>
                         </AnchorPane>
                      </content>
@@ -99,7 +99,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <ListView fx:id="listViewWith" prefHeight="156.0" prefWidth="259.0" />
+                              <ListView fx:id="listViewWith" prefHeight="105.0" prefWidth="524.0" />
                            </children>
                         </AnchorPane>
                   </content>

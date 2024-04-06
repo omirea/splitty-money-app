@@ -1,21 +1,26 @@
 package server.api;
 
 import commons.Debt;
+import commons.Expense;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import server.database.DebtRepository;
-
+import server.database.ExpenseRepository;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/debt")
 public class DebtController {
 
     private final DebtRepository db;
 
-    public DebtController(DebtRepository db) {
+    private final ExpenseRepository expenseDB;
+
+    public DebtController(DebtRepository db, ExpenseRepository expenseDB) {
         this.db = db;
+        this.expenseDB=expenseDB;
     }
 
     /**
@@ -36,11 +41,15 @@ public class DebtController {
     @GetMapping("/{id}")
     @ResponseBody
     public ResponseEntity<Debt> getDebtById(@PathVariable("id") Long id){
-        if (id < 0 || !db.existsById(id)){
+        if (id < 0){
             return ResponseEntity.badRequest().build();
+        }
+        if(!db.existsById(id)) {
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(db.findById(id).get());
     }
+
 
     /**
      * add debt to db
@@ -48,10 +57,10 @@ public class DebtController {
      * @return response status of addition
      */
     @PostMapping(path = { "", "/" })
-    public ResponseEntity<Debt> addDebt(@RequestBody Debt debt) {
+    public ResponseEntity<Debt> createDebt(@RequestBody Debt debt) {
 
-        if (debt.getAmount() == 0 || debt.getFrom() == null || debt.getTo() == null
-            || debt.getExpense() == null) {
+        if (debt.getAmount() == 0 || debt.getFrom() == null || debt.getTo() == null){
+            //|| debt.getExpense() == null) {
             return ResponseEntity.badRequest().build();
         }
         Debt saved = db.save(debt);
@@ -84,7 +93,7 @@ public class DebtController {
     @PutMapping("/{id}")
     public ResponseEntity<Debt> updateDebt
             (@RequestBody Debt debt, @PathVariable("id") long id) {
-        if (debt == null) {
+        if (debt == null || id < 0) {
             return ResponseEntity.badRequest().build();
         }
         if (!db.existsById(id)){
@@ -100,6 +109,23 @@ public class DebtController {
 
         Debt updatedDebt = db.save(existingDebt);
         return ResponseEntity.ok(updatedDebt);
+    }
+
+    @GetMapping("/expense/{expenseID}")
+    @ResponseBody
+    public ResponseEntity<List<Debt>> getDebtsByExpenseId(
+            @PathVariable("expenseID") Long id) {
+
+        Expense expense=new Expense();
+        expense.setId(id);
+
+        Debt debt = new Debt();
+        debt.setExpense(expense);
+        List<Debt> debts = db.findAll(
+                Example.of(debt, ExampleMatcher.matchingAll()));
+        System.out.println(debt);
+
+        return ResponseEntity.ok(debts);
     }
 
 }

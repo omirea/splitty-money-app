@@ -1,32 +1,55 @@
 package server.api;
 
 import commons.Event;
+import commons.Expense;
 import commons.Participant;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.async.DeferredResult;
 import server.database.EventRepository;
+import server.database.ExpenseRepository;
 import server.database.ParticipantRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 @RestController
 @RequestMapping("/event")
 public class EventController {
     private final EventRepository db;
     private final ParticipantRepository participantDB;
+    private final ExpenseRepository expenseDB;
 
-    public EventController(EventRepository db, ParticipantRepository participantDB){
+    public EventController(EventRepository db, ParticipantRepository participantDB,
+                           ExpenseRepository expenseDB){
         this.db=db;
         this.participantDB = participantDB;
+        this.expenseDB=expenseDB;
     }
+
+//    @PostMapping("/json/import")
+//    public ResponseEntity<Event> importEmployees(Event) throws Exception {
+//        try {
+//            String jsonContent = new String(file.getBytes());
+//            ObjectMapper om = new ObjectMapper();
+//            Event eventImport = om.readValue(jsonContent, new TypeReference<>() {
+//            });
+//            db.save(eventImport);
+//            return ResponseEntity.ok(eventImport);
+//        } catch (Exception e) {
+//            throw new Exception("Importing Event JSON Failed, Due to : " + e.getMessage());
+//        }
+//    }
 
     /**
      * Get all events.
-     *
      * @return all events
      */
     @GetMapping(path = { "", "/" })
@@ -34,6 +57,27 @@ public class EventController {
         return db.findAll();
     }
 
+    private Map<Object, Consumer<Event>> listeners = new HashMap<>();
+    @GetMapping("/updates")
+    public DeferredResult<ResponseEntity<Event>> getUpdates() {
+
+        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        var res = new DeferredResult<ResponseEntity<Event>>(5000L, noContent);
+
+        var key = new Object();
+        listeners.put(key, q -> {
+            try {
+                res.setResult(ResponseEntity.ok(q));
+            } catch(Exception e) {
+                // some error handling, don't know what we want
+                e.printStackTrace();
+            }
+        });
+        res.onCompletion(() -> {
+            listeners.remove(key);
+        });
+        return res;
+    }
 
 
     @PutMapping("/{id}")
@@ -65,7 +109,20 @@ public class EventController {
         Event e = new Event();
         e.setInvitationID(invitationID);
         Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAll()));
-        return tempEvent.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        if(tempEvent.isPresent()){
+            Event event = tempEvent.get();
+            String invID = event.getInvitationID();
+            String name = event.getName();
+            List<Expense> exs = getExpenseByInvitationId(invID).getBody();
+            List<Participant> prs = getParticipantsByInvitationId(invID).getBody();
+            Event newE = new Event(name, invID, exs, prs);
+            newE.setCreateDate(event.getCreateDate());
+            newE.setLastModified(event.getLastModified());
+            newE.setID(event.getID());
+            return ResponseEntity.ok(newE);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 
@@ -76,64 +133,22 @@ public class EventController {
         }
         System.out.println(event);
         Event createdEvent = db.save(event);
+        CompletableFuture<Void> notifyListenersFuture = CompletableFuture.runAsync(() -> {
+            try {
+                listeners.forEach((k, l) -> l.accept(event));
+            } catch(Exception e) {
+                // some error handling, don't know what we want
+                e.printStackTrace();
+            }
+        });
+        notifyListenersFuture.exceptionally(ex -> {
+            // some error handling/ don't know what we want
+            ex.printStackTrace();
+            return null;
+
+        });
         return ResponseEntity.ok(createdEvent);
     }
-
-//    /**
-//     * Adds a user to an event.
-//     *
-//     * @param id the id of the event
-//     * @param participant the participant to add
-//     * @return the updated event
-//     */
-//    @PutMapping("/{id}/users")
-//    public ResponseEntity<Event> addUser(@PathVariable("id") long id,
-//                                         @RequestBody Participant participant) {
-//        // TODO should this be a put or a post?
-//        if (!db.existsById(id)) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//
-//        Event event = db.findById(id).get();
-//        event.addParticipant(participant);
-//        try {
-//            db.save(event);
-//        } catch (EntityNotFoundException e) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        return ResponseEntity.ok(event);
-//    }
-
-//    /**
-//     * Removes a user from an event.
-//     *
-//     * @param id id of event from which to remove user
-//     * @param email email of user to remove
-//     * @return successful operation indicator
-//     */
-//    @DeleteMapping("/{id}/users/{email}")
-//    public ResponseEntity<Event> removeUserFromEvent(
-//            @PathVariable("id") long id,
-//            @PathVariable("email") String email) {
-//        if (id <= 0 || isNullOrEmpty(email)) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//        if (!db.existsById(id)) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        Event event = db.getReferenceById(id);
-//        Optional<Participant> toRemove = event.getParticipants()
-//                .stream()
-//                .filter(u -> u.getEmail().equals(email))
-//                .findFirst();
-//        if (toRemove.isEmpty()) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        event.removeParticipant(toRemove.get());
-//        db.save(event);
-//        return ResponseEntity.ok(event);
-//    }
-
 
     @GetMapping("/{invitationID}/participant")
     @ResponseBody
@@ -151,41 +166,30 @@ public class EventController {
         p.setEvent(tempEvent.get());
         List<Participant> participants = participantDB.findAll(
                 Example.of(p, ExampleMatcher.matchingAll()));
-        System.out.println(participants);
+        //System.out.println(participants);
 
         return ResponseEntity.ok(participants);
     }
 
+    @GetMapping("/{invitationID}/expense")
+    @ResponseBody
+    public ResponseEntity<List<Expense>> getExpenseByInvitationId(
+            @PathVariable("invitationID") String invitationID) {
 
-//    /**
-//     * Checks if a string is null or empty.
-//     *
-//     * @param s the string s
-//     * @return true if the string is null or empty
-//     */
-//
-//    TODO: I DONT THINK THIS METHOD IS NEEDED GIVEN OUR NEW STRUCTURE WITH NO EXPENSE LIST
-//    /**
-//     * adding an expense to event
-//     * @param id event id
-//     * @param expense expense to add
-//     * @return response entity
-//     */
-//    @PostMapping("/{id}/expenses")
-//    public ResponseEntity<Expense> addExpenseToEvent(
-//            @PathVariable("id") long id,
-//            @RequestBody Expense expense) {
-//        if (!db.existsById(id) || isNullOrEmpty(expense.getDescription())) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//
-//        expense.setDateSent(java.time.LocalDate.now());
-//
-//        Event event = db.findById(id).get();
-//        event.addExpense(expense);
-//        Expense saved = exRepo.save(expense);
-//        return ResponseEntity.ok(saved);
-//    }
+        Event e = new Event();
+        e.setInvitationID(invitationID);
+        Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAll()));
+        if (tempEvent.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
 
+        Expense expense = new Expense();
+        expense.setEvent(tempEvent.get());
+        List<Expense> expenses = expenseDB.findAll(
+                Example.of(expense, ExampleMatcher.matchingAll()));
+        System.out.println(expenses);
+
+        return ResponseEntity.ok(expenses);
+    }
 
 }

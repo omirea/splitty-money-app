@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -71,11 +70,6 @@
                </VBox.margin></RadioButton>
             <VBox fx:id="peopleVBoxField" prefHeight="141.0" prefWidth="346.0">
                <children>
-                  <ListView fx:id="peopleListViewField" prefHeight="150.0" prefWidth="279.0">
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
-                  </ListView>
                   <TableView fx:id="tableView" prefHeight="399.0" prefWidth="401.0">
                     <columns>
                         <TableColumn fx:id="checkBoxColumn" prefWidth="46.40008199214935" />

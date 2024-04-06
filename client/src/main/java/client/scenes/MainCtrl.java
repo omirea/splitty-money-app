@@ -21,7 +21,6 @@ import commons.Expense;
 import commons.Participant;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -82,6 +81,7 @@ public class MainCtrl {
         Main.switchLocale("translations","en");
 
 
+
         //showEventOverview("123");
         showStartScreen();
         //showSettingsPage();
@@ -116,6 +116,8 @@ public class MainCtrl {
         openDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Open Debts");
         primaryStage.setScene(openDebts);
+        openDebtsCtrl.addDebtsToList(id);
+        openDebtsCtrl.addParticipantsToChoiceBox(id);
     }
 
     /**
@@ -143,6 +145,7 @@ public class MainCtrl {
         addEditExpenseCtrl.setEvent(id);
         primaryStage.setScene(expense);
         addEditExpenseCtrl.addAllRelevantParticipants();
+        addEditExpenseCtrl.clearBoxes();
     }
 
     /**
@@ -206,26 +209,9 @@ public class MainCtrl {
     public void showClosedDebts(String id) {
         closedDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Closed Debts");
-
+        closedDebtsCtrl.addDebtsToList(id);
+        closedDebtsCtrl.addParticipantsToChoiceBox(id);
         primaryStage.setScene(closedDebts);
-    }
-
-    /**
-     * method to add closed debts to the list view
-     * @param listView list view that needs to be added
-     */
-    public void addItemsToClosedDebts(ListView<String> listView) {
-        for(String s: listView.getItems())
-            closedDebtsCtrl.getListView().getItems().add(s);
-    }
-
-    /**
-     * method to add open debts to the list view
-     * @param listView list view that needs to be added
-     */
-    public void addItemsToOpenDebts(ListView<String> listView) {
-        for(String s: listView.getItems())
-            openDebtsCtrl.getListView().getItems().add(s);
     }
 
     /**
@@ -254,4 +240,10 @@ public class MainCtrl {
         PersonAmount pa=new PersonAmount(participant);
         addEditExpenseCtrl.getTableView().getItems().add(pa);
     }
+
+//    public void addDebtsToClosedDebts(ObservableList<Debt> newDebts) {
+//        for(Debt debt : newDebts)
+//            System.out.println(debt);
+//        closedDebtsCtrl.setAllDebts(newDebts);
+//    }
 }

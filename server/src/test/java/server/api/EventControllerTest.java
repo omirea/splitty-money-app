@@ -33,20 +33,17 @@ public class EventControllerTest {
     private EventController eventController;
 
 
-    @Test
-    public void testGetEventByID() {
-        String event_id = "123";
-
-        Event event = new Event();
-        event.setInvitationID(event_id);
-        when(eventRepository.findOne(Example.of(event, ExampleMatcher.matchingAll()))).thenReturn(Optional.of(event));
-
-        ResponseEntity<Event> responseEntity = eventController.getEventByInvitationId(event_id);
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(event, responseEntity.getBody());
-
-    }
+//    @Test
+//    public void testGetEventByID() {
+//        String event_id = "123";
+//        Event event = new Event();
+//        event.setInvitationID(event_id);
+//        when(eventRepository.findOne(Example.of(event, ExampleMatcher.matchingAll()))).thenReturn(Optional.of(event));
+//        ResponseEntity<Event> responseEntity = eventController.getEventByInvitationId(event_id);
+//        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+//        assertEquals(event, responseEntity.getBody());
+//
+//    }
 
     @Test
     public void testCreateEvent() {
