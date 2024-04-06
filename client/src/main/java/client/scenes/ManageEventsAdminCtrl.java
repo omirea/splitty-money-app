@@ -252,8 +252,8 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
      */
     private void onJSONClick(Event event) throws JsonProcessingException {
         try {
-            Writer writer = new BufferedWriter(new FileWriter("event: " +
-                event.getName() +" , InvitationID: " + event.getInvitationID() + ".json"));
+            Writer writer = new BufferedWriter(new FileWriter(
+                event.getInvitationID() + ".json"));
             System.out.println(server.getParticipantsByInvitationId(event.getInvitationID()));
             System.out.println(server.getExpensesByInvitationId(event.getInvitationID()));
             String string = server.getEventByInvitationIdJSON(event.getInvitationID());
@@ -261,6 +261,21 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
             writer.flush();
             writer.close();
             System.out.println("JSON made with event invitation ID: " + event.getInvitationID());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            switch(locale.getLanguage()) {
+                case "nl":
+                    alert.setTitle("JSON Download Succesvol");
+                    alert.setContentText("JSON document succesvol toegevoegd");
+                    break;
+                case "en":
+                    alert.setTitle("JSON Download Successful");
+                    alert.setContentText("JSON document added successfully");
+                    break;
+                default:
+                    break;
+            }
+            alert.setHeaderText(null);
+            alert.showAndWait();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
