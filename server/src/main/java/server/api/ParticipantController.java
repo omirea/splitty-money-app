@@ -1,11 +1,16 @@
 package server.api;
 
+import commons.Event;
+import commons.Expense;
 import commons.Participant;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.database.ParticipantRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/participant")
@@ -75,5 +80,29 @@ public class ParticipantController {
         Participant updatedParticipant = db.save(existingParticipant);
         return ResponseEntity.ok(updatedParticipant);
     }
+
+    @GetMapping("/{name}")
+    @ResponseBody
+    public ResponseEntity<Participant> getParticipantByInvitationId(
+            @PathVariable("name") String invitationID){
+        Event e = new Event();
+        e.setInvitationID(invitationID);
+        Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAll()));
+        if(tempEvent.isPresent()){
+            Event event = tempEvent.get();
+            String invID = event.getInvitationID();
+            String name = event.getName();
+            List<Expense> exs = getExpenseByInvitationId(invID).getBody();
+            List<Participant> prs = getParticipantsByInvitationId(invID).getBody();
+            Event newE = new Event(name, invID, exs, prs);
+            newE.setCreateDate(event.getCreateDate());
+            newE.setLastModified(event.getLastModified());
+            newE.setID(event.getID());
+            return ResponseEntity.ok(newE);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 }
