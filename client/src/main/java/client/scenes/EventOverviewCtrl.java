@@ -136,6 +136,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      */
     public void goBackHome(){
         mainCtrl.showStartScreen();
+
     }
 
     /**
@@ -178,6 +179,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         event.setName(title);
         event = server.updateEvent(event, event.getID());
         eventTitleText.setText(title);
+
     }
 
     /**
