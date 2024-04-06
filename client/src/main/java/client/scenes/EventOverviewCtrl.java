@@ -16,6 +16,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,6 +27,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     Event event;
+    List<Expense> expenses;
 
     @FXML private Text participantsListText, eventTitleText;
     @FXML private ChoiceBox<Participant> participantsMenu;
@@ -36,29 +38,20 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     @FXML private Button homeButton, editTitleButton, sendInvitesButton,
         editParticipantsButton, addExpenseButton, settleDebtsButton;
 
-    //I'm gonna hate myself for doing this...
-    @FXML private TableView<Expense> expenseTableViewAll, expenseTableViewFrom, expenseTableViewTo;
-    @FXML private TableColumn<Expense, String> nameColumnAll, nameColumnFrom, nameColumnTo;
-    @FXML private TableColumn<Expense, Double> amountColumnAll, amountColumnFrom, amountColumnTo;
-    @FXML private TableColumn<Expense, Button> editColumnAll, editColumnFrom, editColumnTo,
-                                            deleteColumnAll, deleteColumnFrom, deleteColumnTo;
-    TableView<Expense>[] expenseTVs =
-        new TableView[]{expenseTableViewAll,expenseTableViewFrom,expenseTableViewTo};
-    TableColumn<Expense, String>[] nameColumns =
-        new TableColumn[]{nameColumnAll, nameColumnFrom, nameColumnTo};
-    TableColumn<Expense, Double>[] amountColumns =
-        new TableColumn[]{amountColumnAll, amountColumnFrom, amountColumnTo};
-    TableColumn<Expense, Button>[] editColumns =
-        new TableColumn[]{editColumnAll, editColumnFrom, editColumnTo};
-    TableColumn<Expense, Button>[] deleteColumns =
-        new TableColumn[]{deleteColumnAll, deleteColumnFrom, deleteColumnTo};
-
+    //I'm going to hate myself for doing this...
+    @FXML private TableView<Expense> expenseTableViewAll,
+        expenseTableViewHasToPay, expenseTableViewPaidFor;
+    @FXML private TableColumn<Expense, String> nameColAll, nameColFrom, nameColTo;
+    @FXML private TableColumn<Expense, Double> amountColAll, amountColFrom, amountColTo;
+    @FXML private TableColumn<Expense, Button> editColAll, editColFrom, editColTo,
+                                            deleteColAll, deleteColFrom, deleteColTo;
 
 
     @Inject
     public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+        expenses = new ArrayList<>();
     }
 
     /**
@@ -66,38 +59,60 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      */
     @FXML
     public void initialize() {
-
+        loadExpenses();
         setupTableViews();
         setUpImages();
-
     }
 
     private void setupTableViews() {
-        nameColumnAll.setCellValueFactory(new PropertyValueFactory<Expense, String>("name"));
-        amountColumnAll.setCellValueFactory(new PropertyValueFactory<Expense, Double>("amount"));
-        editColumnAll.setCellValueFactory(this::createEditButton);
-        deleteColumnAll.setCellValueFactory(this::createDeleteButton);
-        loadExpenses();
+        setupColumns();
+        expenseTableViewAll.getItems().clear();
+        expenseTableViewAll.getItems().addAll(expenses);
+        expenseTableViewPaidFor.getItems().clear();
+        expenseTableViewHasToPay.getItems().clear();
+    }
+
+    private void setupColumns() {
+        // The system won't let me use arrays for some damned reason so here is the result:
+        nameColAll.setCellValueFactory(
+            new PropertyValueFactory<Expense, String>("name"));
+        amountColAll.setCellValueFactory(
+            new PropertyValueFactory<Expense, Double>("amount"));
+        editColAll.setCellValueFactory(this::createEditButton);
+        deleteColAll.setCellValueFactory(this::createDeleteButton);
+
+        nameColTo.setCellValueFactory(
+            new PropertyValueFactory<Expense, String>("name"));
+        amountColTo.setCellValueFactory(
+            new PropertyValueFactory<Expense, Double>("amount"));
+        editColTo.setCellValueFactory(this::createEditButton);
+        deleteColTo.setCellValueFactory(this::createDeleteButton);
+
+        nameColFrom.setCellValueFactory(
+            new PropertyValueFactory<Expense, String>("name"));
+        amountColFrom.setCellValueFactory(
+            new PropertyValueFactory<Expense, Double>("amount"));
+        editColFrom.setCellValueFactory(this::createEditButton);
+        deleteColFrom.setCellValueFactory(this::createDeleteButton);
     }
 
     public void loadExpenses() {
-        expenseTableViewAll.getItems().clear();
         if (event == null) return;
-        List<Expense> expenses = server.getExpensesByInvitationId(event.getInvitationID());
-        for (Expense e : expenses) {
-            expenseTableViewAll.getItems().add(e);
-        }
+        expenses = server.getExpensesByInvitationId(event.getInvitationID());
     }
 
     private SimpleObjectProperty<Button> createEditButton(
         TableColumn.CellDataFeatures<Expense, Button> q) {
+
         Button editButton = new Button();
         editButton.setOnAction(event -> onEditExpenseClick(q.getValue()));
+        // setImage(editButton, "icons/pencil.png");
         return new SimpleObjectProperty<>(editButton);
     }
 
     private SimpleObjectProperty<Button> createDeleteButton(
         TableColumn.CellDataFeatures<Expense, Button> q) {
+
         Button deleteButton = new Button();
         deleteButton.setOnAction(event -> onDeleteExpenseClick(q.getValue()));
 //        setImage(deleteButton, "icons/trash.png");
@@ -105,7 +120,8 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
     public void onEditExpenseClick(Expense e) {
-        mainCtrl.showAddExpense(event.getInvitationID(), e);
+//        mainCtrl.showAddExpense(event.getInvitationID(), e);
+        System.out.println("Editing: " + e);
     }
 
     public void onDeleteExpenseClick(Expense e) {
@@ -115,6 +131,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
 
     private void setUpImages() {
         setImage(homeButton, "/icons/home.png");
+//        setImage(editParticipantsButton, "icons/pencil.png");
     }
 
     private void setImage(Button b, String link) {
@@ -168,7 +185,19 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      * method to refresh the page
      */
     public void onMenuChange() {
-        System.out.println(participantsMenu.getValue());
+        Participant p = participantsMenu.getValue();
+        System.out.println(p);
+        expenseTableViewAll.getItems().clear();
+        expenseTableViewPaidFor.getItems().clear();
+        expenseTableViewHasToPay.getItems().clear();
+        if (p == null) {
+            expenseTableViewAll.getItems().addAll(expenses);
+            return;
+        }
+        for (Expense e : expenses) {
+            server.getDebtsByExpenseId(e.getId());
+        }
+
     }
 
     /**
