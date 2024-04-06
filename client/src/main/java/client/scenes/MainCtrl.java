@@ -81,6 +81,7 @@ public class MainCtrl {
         Main.switchLocale("translations","en");
 
 
+
         //showEventOverview("123");
         showStartScreen();
         //showSettingsPage();
@@ -239,4 +240,10 @@ public class MainCtrl {
         PersonAmount pa=new PersonAmount(participant);
         addEditExpenseCtrl.getTableView().getItems().add(pa);
     }
+
+//    public void addDebtsToClosedDebts(ObservableList<Debt> newDebts) {
+//        for(Debt debt : newDebts)
+//            System.out.println(debt);
+//        closedDebtsCtrl.setAllDebts(newDebts);
+//    }
 }

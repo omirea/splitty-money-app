@@ -69,7 +69,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         this.allDebts=FXCollections.observableArrayList();
         ObservableList<String> debtsString = FXCollections.observableArrayList();
         this.debtsTables=FXCollections.observableArrayList();
-        newDebts=FXCollections.observableArrayList();
+        this.newDebts=FXCollections.observableArrayList();
     }
 
     /**
@@ -77,6 +77,11 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
      */
     @FXML
     public void initialize(){
+        payAllDebtsButton.getStyleClass().add("resources/stylesheets/stylesheet.css");
+
+        //init newDebts
+        newDebts.addAll(allDebts);
+
         //initialize table view
         informationCol.
                 setCellValueFactory(new PropertyValueFactory<>("treeView"));
@@ -91,6 +96,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         fromParticipantCB.setConverter(new ParticipantStringConverter());
         toParticipantCB.setItems(allParticipants);
         toParticipantCB.setConverter(new ParticipantStringConverter());
+
         //listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         getPayAllDebts()
                 .setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
@@ -141,8 +147,13 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         alert.setHeaderText(null);
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK) {
-            //mainCtrl.addItemsToClosedDebts(this.listView);
-            //listView.getItems().clear();
+            for(Debt debt : newDebts) {
+                debt.setSettled(true);
+                server.updateDebt(debt, debt.getId());
+            }
+            //mainCtrl.addDebtsToClosedDebts(newDebts);
+            tableView.getItems().clear();
+            calculateAllDebts(event.getInvitationID());
         }
     }
     public void setEvent(String id) {
@@ -208,15 +219,27 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
      * @param id of the event
      */
     public void addDebtsToList(String id) {
-        allDebts.clear();
         debtsTables.clear();
+        newDebts.clear();
+        allDebts.clear();
+        calculateAllDebts(id);
+        createDebtsTable(allDebts);
+        newDebts.addAll(allDebts);
+        tableView.setItems(debtsTables);
+    }
+
+    /**
+     * calculates all debts of the event that were not closed
+     */
+    private void calculateAllDebts(String id) {
+        allDebts.clear();
         List<Expense> expenses=server.getExpensesByInvitationId(id);
         for(Expense expense : expenses){
             List<Debt> debts=server.getDebtsByExpenseId(expense.getId());
-            allDebts.addAll(debts);
+            for(Debt debt : debts)
+                if(!debt.isSettled())
+                    allDebts.add(debt);
         }
-        createDebtsTable(allDebts);
-        tableView.setItems(debtsTables);
     }
 
     /**
@@ -390,7 +413,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     public ObservableList<Debt> chosenSelectedParticipants(Participant participant, int method){
         ObservableList<Debt> tempDebts= FXCollections.observableArrayList();
         for(Debt debt : newDebts){
-            Participant p=new Participant();
+            Participant p;
             if(method==1)
                 p=debt.getFrom();
             else

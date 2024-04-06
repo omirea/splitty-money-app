@@ -252,8 +252,9 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
      */
     private void onJSONClick(Event event) throws JsonProcessingException {
         try {
-            Writer writer = new BufferedWriter(new FileWriter("event: " +
-                event.getName() +" , InvitationID: " + event.getInvitationID() + ".json"));
+            Writer writer = new BufferedWriter(new FileWriter(
+                    //"event: " + event.getName() + " , InvitationID: " +
+                    event.getInvitationID() + ".json"));
             System.out.println(server.getParticipantsByInvitationId(event.getInvitationID()));
             System.out.println(server.getExpensesByInvitationId(event.getInvitationID()));
             String string = server.getEventByInvitationIdJSON(event.getInvitationID());
