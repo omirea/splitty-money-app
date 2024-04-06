@@ -24,7 +24,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static client.Main.locale;
-import static client.Main.main;
 
 public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     private final ServerUtils server;
