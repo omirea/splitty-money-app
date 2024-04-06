@@ -1,5 +1,6 @@
 package server.api;
 
+import commons.Debt;
 import commons.Event;
 import commons.Expense;
 import commons.Participant;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
+import server.database.DebtRepository;
 import server.database.EventRepository;
 import server.database.ExpenseRepository;
 import server.database.ParticipantRepository;
@@ -26,12 +28,14 @@ public class EventController {
     private final EventRepository db;
     private final ParticipantRepository participantDB;
     private final ExpenseRepository expenseDB;
+    private final DebtRepository debtDB;
 
     public EventController(EventRepository db, ParticipantRepository participantDB,
-                           ExpenseRepository expenseDB){
+                           ExpenseRepository expenseDB, DebtRepository debtRepository){
         this.db=db;
         this.participantDB = participantDB;
         this.expenseDB = expenseDB;
+        this.debtDB = debtRepository;
     }
 
 //    @PostMapping("/json/import")
@@ -190,6 +194,28 @@ public class EventController {
         System.out.println(expenses);
 
         return ResponseEntity.ok(expenses);
+    }
+
+    @GetMapping("/{invitationID}/debts")
+    @ResponseBody
+    public ResponseEntity<List<Debt>> getDebtsByInvitationId(
+        @PathVariable("invitationID") String invitationID) {
+
+        Event e = new Event();
+        e.setInvitationID(invitationID);
+        Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAll()));
+        if (tempEvent.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Debt d = new Debt();
+        Expense expense = new Expense();
+        expense.setEvent(tempEvent.get());
+        d.setExpense(expense);
+        List<Debt> debts = debtDB.findAll(
+            Example.of(d, ExampleMatcher.matchingAll()));
+        System.out.println(debts);
+
+        return ResponseEntity.ok(debts);
     }
 
 }

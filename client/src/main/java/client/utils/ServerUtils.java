@@ -313,6 +313,14 @@ public class ServerUtils {
 		}
 	}
 
+	public List<Debt> getDebtsByInvitationId(String id) {
+		return ClientBuilder.newClient(new ClientConfig())
+			.target(SERVER).path("event/" + id + "/debts")
+			.request(APPLICATION_JSON)
+			.accept(APPLICATION_JSON)
+			.get(new GenericType<List<Debt>>() {});
+	}
+
 	/**
 	 * method to delete a specific debt from the database
 	 * @param id the id of the debt to be deleted

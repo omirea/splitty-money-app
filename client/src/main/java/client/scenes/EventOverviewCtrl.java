@@ -4,6 +4,7 @@ import client.Main;
 import client.nodes.ParticipantStringConverter;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Debt;
 import commons.Event;
 import commons.Expense;
 import commons.Participant;
@@ -30,13 +31,13 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
-    private ObservableList<Participant> allParticipants;
+    private final ObservableList<Participant> allParticipants;
     Event event;
     List<Expense> expenses;
+    List<Debt> debts;
 
     @FXML private Text participantsListText, eventTitleText;
     @FXML private ChoiceBox<Participant> participantsMenu;
-    @FXML private TabPane expensesTabs;
     @FXML private Tab allTab, fromPersonTab, toPersonTab;
 
     @FXML private Text participantsText, expensesText;
@@ -160,6 +161,10 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         eventTitleText.setText(event.getName());
     }
 
+    public void setDebts() {
+        debts = server.getDebtsByInvitationId(event.getInvitationID());
+    }
+
     /**
      * method to open send invite page
      */
@@ -204,9 +209,19 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
             expenseTableViewAll.getItems().addAll(expenses);
             return;
         }
-        for (Expense e : expenses) {
-            server.getDebtsByExpenseId(e.getId());
-        }
+        List<Expense> paidForList = debts.stream()
+            .filter(debt -> debt.getWhoPaid().equals(p))
+            .map(Debt::getExpense)
+            .distinct()
+            .toList();
+        List<Expense> hasToPayList = debts.stream()
+            .filter(debt -> debt.getHasToPay().equals(p))
+            .map(Debt::getExpense)
+            .toList();
+        expenseTableViewPaidFor.getItems().addAll(paidForList);
+        expenseTableViewHasToPay.getItems().addAll(hasToPayList);
+        expenseTableViewAll.getItems().addAll(paidForList);
+        expenseTableViewAll.getItems().addAll(hasToPayList);
 
     }
 
@@ -257,12 +272,14 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      * you will probably change this to use the methods commented out below
      */
     public void addAllParticipants() {
+        allParticipants.clear();
+        allParticipants.add(null);
         List<Participant> pList = server.getParticipantsByInvitationId(event.getInvitationID());
         allParticipants.addAll(pList);
         String pListString = pList.stream().map(Participant::getName).toList().toString();
         pListString = pListString.substring(1, pListString.length()-1);
         participantsListText.setText(pListString);
-        allParticipants.add(null);
+
     }
 
     @Override
