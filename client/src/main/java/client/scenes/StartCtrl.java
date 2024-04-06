@@ -190,6 +190,8 @@ public class StartCtrl implements  Main.LanguageSwitch {
      * method to go to adming log in page
      */
     public void onAdminClick(){
+        joinEventField.clear();
+        createEventField.clear();
         mainCtrl.showAdminLogIn();
     }
 
