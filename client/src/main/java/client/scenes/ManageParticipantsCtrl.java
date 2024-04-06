@@ -84,8 +84,8 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
             toParticipant.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    showParticipant(q.getValue());
                     recentParticipants.getItems().remove(q.getValue());
+                    showParticipant(q.getValue());
                 }
             });
             return new SimpleObjectProperty<>(toParticipant);
