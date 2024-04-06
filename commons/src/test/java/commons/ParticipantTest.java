@@ -84,9 +84,9 @@ public class ParticipantTest {
     public void setAccTest(){
         Participant p=new Participant("Bob", "bob@gmail.com",
                 "Bob LastName", "12345", "123");
-        assertEquals(p.getBIC(), "Bob LastName");
+        assertEquals(p.getAccountHolder(), "Bob LastName");
         p.setAccountHolder("Bob LName");
-        assertEquals(p.getBIC(), "Bob LName");
+        assertEquals(p.getAccountHolder(), "Bob LName");
     }
 
     @Test
