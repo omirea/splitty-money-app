@@ -40,7 +40,7 @@ public class Debt {
         settled = false;
     }
 
-    public Debt(Long id, Expense expense, Participant hasToPay, Participant whoPaid, Double amount) {
+    public Debt(Long id, Expense expense, Participant hasToPay, Participant whoPaid, Double amount){
         this.id = id;
         this.expense = expense;
         this.hasToPay = hasToPay;
