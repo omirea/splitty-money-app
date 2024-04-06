@@ -9,6 +9,10 @@ import commons.Event;
 import commons.Participant;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -28,6 +32,8 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
     private List<Participant> addedParticipants, editedParticipants, deletedParticipants;
+
+    private ObservableList<Participant> data;
     private Event event;
 
     @FXML
@@ -69,12 +75,19 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
                     (getClass().getResourceAsStream("/icons/trash.png")));
             trashCan.setImage(trash);
             deleteParticipant.setGraphic(trashCan);
-            deleteParticipant.setOnAction(participant -> deleteParticipantFromTable(q.getValue()));
+            deleteParticipant.setOnAction(participant -> deleteParticipantFromDb(q.getValue()));
             return new SimpleObjectProperty<>(deleteParticipant);
         });
         editColumn.setCellValueFactory(q -> {
             Button toParticipant = new Button("Edit");
-            toParticipant.setOnAction(participant -> showParticipant(q.getValue()));
+            //toParticipant.setOnAction(participant -> showParticipant(q.getValue()));
+            toParticipant.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    showParticipant(q.getValue());
+                    recentParticipants.getItems().remove(q.getValue());
+                }
+            });
             return new SimpleObjectProperty<>(toParticipant);
         });
         recentParticipants.setRowFactory(participant -> {
@@ -98,9 +111,20 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         mainCtrl.showAddParticipant(event.getInvitationID(), participant);
     }
 
+    private void deleteParticipantFromDb(Participant participant) {
+        recentParticipants.getItems().remove(participant);
+        server.deleteParticipant(participant.getId());
+    }
     private void deleteParticipantFromTable(Participant participant) {
         recentParticipants.getItems().remove(participant);
     }
+
+    public void refresh() {
+        var participants = server.getParticipantsByInvitationId(event.getInvitationID());
+        data = FXCollections.observableList(participants);
+        recentParticipants.setItems(data);
+    }
+
 
     /**
      * method to cancel action
