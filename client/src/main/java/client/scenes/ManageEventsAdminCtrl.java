@@ -77,14 +77,23 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     public void onImportClick(){
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(null);
-//        String jsonContent = new String(selectedFile.toString());
         ObjectMapper om = new ObjectMapper();
         om.registerModule(new JavaTimeModule());
         try {
             TypeReference<Event> typeReference = new TypeReference<>() {};
             Event eventJson = om.readValue(selectedFile, typeReference);
-            System.out.println(eventJson);
             server.createEvent(eventJson);
+            List<Participant> parts = eventJson.getParticipants();
+            List<Expense> expenses = eventJson.getExpenses();
+            Event between = server.getEventByInvitationId(eventJson.getInvitationID());
+            for (Participant p : parts){
+                p.setEvent(between);
+                server.createParticipant(p);
+            }
+            for (Expense e : expenses){
+                e.setEvent(between);
+                server.createExpense(e);
+            }
             refresh();
         } catch (IOException e) {
             throw new RuntimeException(e);
