@@ -75,7 +75,22 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
                     (getClass().getResourceAsStream("/icons/trash.png")));
             trashCan.setImage(trash);
             deleteParticipant.setGraphic(trashCan);
-            deleteParticipant.setOnAction(participant -> deleteParticipantFromDb(q.getValue()));
+
+
+
+            deleteParticipant.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    if(q.getValue().getId()==null) {
+                        deleteParticipant.setDisable(true);
+                    }else{
+                        deleteParticipantFromDb(q.getValue());
+                    }
+
+
+                }
+            });
+
             return new SimpleObjectProperty<>(deleteParticipant);
         });
         editColumn.setCellValueFactory(q -> {
@@ -112,8 +127,10 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     }
 
     private void deleteParticipantFromDb(Participant participant) {
-        recentParticipants.getItems().remove(participant);
-        server.deleteParticipant(participant.getId());
+            recentParticipants.getItems().remove(participant);
+            server.deleteParticipant(participant.getId());
+
+
     }
     private void deleteParticipantFromTable(Participant participant) {
         recentParticipants.getItems().remove(participant);
