@@ -151,7 +151,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
                 debt.setSettled(true);
                 server.updateDebt(debt, debt.getId());
             }
-            mainCtrl.addDebtsToClosedDebts(newDebts);
+            //mainCtrl.addDebtsToClosedDebts(newDebts);
             tableView.getItems().clear();
             calculateAllDebts(event.getInvitationID());
         }

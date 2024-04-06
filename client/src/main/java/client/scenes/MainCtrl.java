@@ -82,6 +82,8 @@ public class MainCtrl {
         this.settingsPage=new Scene(settingsPage.getValue());
         Main.switchLocale("translations","en");
 
+
+
         //showEventOverview("123");
         showStartScreen();
         //showSettingsPage();
@@ -209,7 +211,7 @@ public class MainCtrl {
     public void showClosedDebts(String id) {
         closedDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Closed Debts");
-        closedDebtsCtrl.addDebtsToList();
+        closedDebtsCtrl.addDebtsToList(id);
         closedDebtsCtrl.addParticipantsToChoiceBox(id);
         primaryStage.setScene(closedDebts);
     }
@@ -241,9 +243,9 @@ public class MainCtrl {
         addEditExpenseCtrl.getTableView().getItems().add(pa);
     }
 
-    public void addDebtsToClosedDebts(ObservableList<Debt> newDebts) {
-        for(Debt debt : newDebts)
-            System.out.println(debt);
-        closedDebtsCtrl.setAllDebts(newDebts);
-    }
+//    public void addDebtsToClosedDebts(ObservableList<Debt> newDebts) {
+//        for(Debt debt : newDebts)
+//            System.out.println(debt);
+//        closedDebtsCtrl.setAllDebts(newDebts);
+//    }
 }

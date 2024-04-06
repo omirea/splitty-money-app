@@ -6,6 +6,7 @@ import client.nodes.ParticipantStringConverter;
 import client.utils.ServerUtils;
 import commons.Debt;
 import commons.Event;
+import commons.Expense;
 import commons.Participant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -113,12 +114,27 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     /**
      * add debts to the table view
      */
-    public void addDebtsToList() {
+    public void addDebtsToList(String id) {
+        allDebts.clear();
+        calculateAllDebts(id);
         createDebtsTable(allDebts);
-        System.out.println("dsfds");
-        for(DebtsTable debtsTable : debtsTables)
-            System.out.println(debtsTable);
         tableView.setItems(debtsTables);
+    }
+
+    /**
+     * calculates all debts of the event that were closed
+     */
+    private void calculateAllDebts(String id) {
+        allDebts.clear();
+        List<Expense> expenses=server.getExpensesByInvitationId(id);
+        for(Expense expense : expenses){
+            List<Debt> debts=server.getDebtsByExpenseId(expense.getId());
+            for(Debt debt : debts) {
+                System.out.println(debt.getId());
+                if (debt.isSettled())
+                    allDebts.add(debt);
+            }
+        }
     }
 
     /**
