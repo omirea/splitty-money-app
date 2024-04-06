@@ -17,8 +17,10 @@ package client.scenes;
 
 import client.Main;
 import client.nodes.PersonAmount;
+import commons.Debt;
 import commons.Expense;
 import commons.Participant;
+import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -79,7 +81,6 @@ public class MainCtrl {
         this.settingsPageCtrl = settingsPage.getKey();
         this.settingsPage=new Scene(settingsPage.getValue());
         Main.switchLocale("translations","en");
-
 
         //showEventOverview("123");
         showStartScreen();
@@ -208,7 +209,7 @@ public class MainCtrl {
     public void showClosedDebts(String id) {
         closedDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Closed Debts");
-        closedDebtsCtrl.addDebtsToList(id);
+        closedDebtsCtrl.addDebtsToList();
         closedDebtsCtrl.addParticipantsToChoiceBox(id);
         primaryStage.setScene(closedDebts);
     }
@@ -238,5 +239,11 @@ public class MainCtrl {
     public void addParticipantToWhoShouldPayOption(String participant) {
         PersonAmount pa=new PersonAmount(participant);
         addEditExpenseCtrl.getTableView().getItems().add(pa);
+    }
+
+    public void addDebtsToClosedDebts(ObservableList<Debt> newDebts) {
+        for(Debt debt : newDebts)
+            System.out.println(debt);
+        closedDebtsCtrl.setAllDebts(newDebts);
     }
 }

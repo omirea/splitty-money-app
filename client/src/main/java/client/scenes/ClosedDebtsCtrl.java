@@ -6,13 +6,13 @@ import client.nodes.ParticipantStringConverter;
 import client.utils.ServerUtils;
 import commons.Debt;
 import commons.Event;
-import commons.Expense;
 import commons.Participant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -24,6 +24,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static client.Main.locale;
+import static client.Main.main;
 
 public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     private final ServerUtils server;
@@ -32,7 +33,6 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     private final ObservableList<Participant> allParticipants;
     private final ObservableList<DebtsTable> debtsTables;
     private final ObservableList<Debt> newDebts;
-
     Event event;
     @FXML
     private TableView<DebtsTable> tableView;
@@ -47,6 +47,14 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     private ChoiceBox<Participant> fromParticipantCB;
     @FXML
     private ChoiceBox<Participant> toParticipantCB;
+    @FXML
+    private TableColumn<DebtsTable, TreeView<String>> informationCol;
+    @FXML
+    private TableColumn<DebtsTable, Button> emailCol;
+    @FXML
+    private TableColumn<DebtsTable, Button> IBANCol;
+    @FXML
+    private TableColumn<DebtsTable, Button> receivedCol;
 
 
     @Inject
@@ -63,6 +71,15 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
      * method to initialize close debts page
      */
     public void initialize(){
+        //set table view
+        //initialize table view
+        informationCol.
+                setCellValueFactory(new PropertyValueFactory<>("treeView"));
+        emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
+        IBANCol.setCellValueFactory(new PropertyValueFactory<>("IBAN"));
+        receivedCol.setCellValueFactory(new PropertyValueFactory<>("closeDebt"));
+        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
         //set choice boxes
         fromParticipantCB.setItems(allParticipants);
         fromParticipantCB.setConverter(new ParticipantStringConverter());
@@ -89,19 +106,19 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
 
     public Button getReopenAllDebts() {return reopenAllDebts;}
 
+    public void setAllDebts(ObservableList<Debt> newDebts){
+        this.allDebts.clear();
+        this.allDebts.addAll(newDebts);
+    }
+
     /**
      * add debts to the table view
-     * @param id of the event
      */
-    public void addDebtsToList(String id) {
-        allDebts.clear();
-        debtsTables.clear();
-        List<Expense> expenses=server.getExpensesByInvitationId(id);
-        for(Expense expense : expenses){
-            List<Debt> debts=server.getDebtsByExpenseId(expense.getId());
-            allDebts.addAll(debts);
-        }
+    public void addDebtsToList() {
         createDebtsTable(allDebts);
+        System.out.println("dsfds");
+        for(DebtsTable debtsTable : debtsTables)
+            System.out.println(debtsTable);
         tableView.setItems(debtsTables);
     }
 
@@ -326,5 +343,12 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         List<Participant> pList = server.getParticipantsByInvitationId(id);
         allParticipants.addAll(pList);
         allParticipants.add(new Participant("", null, null, null));
+    }
+
+    /**
+     * method to show open debts page
+     */
+    public void showOpenDebts(){
+        mainCtrl.showOpenDebts(event.getInvitationID());
     }
 }
