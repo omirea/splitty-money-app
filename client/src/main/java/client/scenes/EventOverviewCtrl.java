@@ -1,11 +1,14 @@
 package client.scenes;
 
 import client.Main;
+import client.nodes.ParticipantStringConverter;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
 import commons.Expense;
 import commons.Participant;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -23,6 +26,8 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+
+    private ObservableList<Participant> allParticipants;
     Event event;
     @FXML
     private Text participantsListText, eventTitleText;
@@ -71,6 +76,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.allParticipants= FXCollections.observableArrayList();
     }
 
     /**
@@ -78,6 +84,10 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      */
     @FXML
     public void initialize() {
+        //set choice box
+        participantsMenu.setItems(allParticipants);
+        participantsMenu.setConverter(new ParticipantStringConverter());
+
         //set home button
         homeView.setFitHeight(25);
         homeView.setFitWidth(22);
@@ -143,7 +153,6 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         listViewAll.getItems().clear();
         listViewFrom.getItems().clear();
         listViewWith.getItems().clear();
-
     }
 
     /**
@@ -193,11 +202,13 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      * you will probably change this to use the methods commented out below
      */
     public void addAllParticipants() {
+        allParticipants.clear();
         List<Participant> pList = server.getParticipantsByInvitationId(event.getInvitationID());
-        participantsMenu.getItems().addAll(pList);
+        allParticipants.addAll(pList);
         String pListString = pList.stream().map(Participant::getName).toList().toString();
         pListString = pListString.substring(1, pListString.length()-1);
         participantsListText.setText(pListString);
+        allParticipants.add(new Participant("", null, null, null));
     }
 
     @Override

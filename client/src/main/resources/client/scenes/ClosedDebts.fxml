@@ -32,9 +32,9 @@
                                 <Font name="System Bold" size="27.0" />
                             </font>
                         </Label>
-                        <Button mnemonicParsing="false" text="See open debts">
+                        <Button mnemonicParsing="false" onAction="#showOpenDebts" text="See open debts">
                             <HBox.margin>
-                                <Insets left="205.0" top="5.0" />
+                                <Insets left="222.0" top="5.0" />
                             </HBox.margin>
                         </Button>
                     </children>
