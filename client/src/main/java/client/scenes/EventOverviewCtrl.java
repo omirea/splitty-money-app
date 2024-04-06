@@ -1,12 +1,15 @@
 package client.scenes;
 
 import client.Main;
+import client.nodes.ParticipantStringConverter;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
 import commons.Expense;
 import commons.Participant;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -26,6 +29,8 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+
+    private ObservableList<Participant> allParticipants;
     Event event;
     List<Expense> expenses;
 
@@ -52,6 +57,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         this.server = server;
         this.mainCtrl = mainCtrl;
         expenses = new ArrayList<>();
+        this.allParticipants= FXCollections.observableArrayList();
     }
 
     /**
@@ -59,6 +65,10 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      */
     @FXML
     public void initialize() {
+        //set choice box
+        participantsMenu.setItems(allParticipants);
+        participantsMenu.setConverter(new ParticipantStringConverter());
+
         loadExpenses();
         setupTableViews();
         setUpImages();
@@ -247,11 +257,11 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      * you will probably change this to use the methods commented out below
      */
     public void addAllParticipants() {
-        List<Participant> pList = server.getParticipantsByInvitationId(event.getInvitationID());
-        participantsMenu.getItems().addAll(pList);
+        allParticipants = server.getParticipantsByInvitationId(event.getInvitationID());
         String pListString = pList.stream().map(Participant::getName).toList().toString();
         pListString = pListString.substring(1, pListString.length()-1);
         participantsListText.setText(pListString);
+        allParticipants.add(null);
     }
 
     @Override
@@ -270,12 +280,5 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
 
     }
 
-//    public void addParticipantToMenu(Participant p) {
-//
-//    }
-//
-//    public void addParticipantToText() {
-//
-//    }
 }
 

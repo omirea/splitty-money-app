@@ -26,6 +26,8 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
     @FXML
     private TextField emailTextField;
     @FXML
+    private TextField accHolderTextField;
+    @FXML
     private TextField ibanTextField;
     @FXML
     private TextField nameTextField;
@@ -59,6 +61,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         emailTextField.clear();
         ibanTextField.clear();
         bicTextField.clear();
+        accHolderTextField.clear();
         mainCtrl.showManageParticipants(event.getInvitationID(), participant);
         participant = null;
     }
@@ -66,17 +69,19 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
     @FXML
     void onClickOk() {
         if(checkEmpty() && validateEmail(emailTextField.getText())
-                && isIbanValid(ibanTextField.getText())){
+            && isIbanValid(ibanTextField.getText())){
             String name = nameTextField.getText();
             String email = emailTextField.getText();
+            String accHolder=accHolderTextField.getText();
             String iban = ibanTextField.getText();
             String bic = bicTextField.getText();
 
             if (participant == null) {
-                participant = new Participant(name, email, iban, bic, event);
+                participant = new Participant(name, email, accHolder, iban, bic, event);
             } else {
                 participant.setName(name);
                 participant.setEmail(email);
+                participant.setAccountHolder(accHolder);
                 participant.setIBAN(iban);
                 participant.setBIC(bic);
             }
@@ -101,6 +106,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             participant = null;
             nameTextField.clear();
             emailTextField.clear();
+            accHolderTextField.clear();
             ibanTextField.clear();
             bicTextField.clear();
         }
@@ -122,6 +128,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         this.participant = participant;
         nameTextField.setText(participant.getName());
         emailTextField.setText(participant.getEmail());
+        accHolderTextField.setText(participant.getAccountHolder());
         bicTextField.setText(participant.getBIC());
         ibanTextField.setText(participant.getIBAN());
     }
@@ -134,6 +141,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         return Objects.equals(server, that.server) && Objects.equals(mainCtrl, that.mainCtrl)
             && Objects.equals(bicTextField, that.bicTextField)
             && Objects.equals(emailTextField, that.emailTextField)
+            && Objects.equals(accHolderTextField, that.accHolderTextField)
             && Objects.equals(ibanTextField, that.ibanTextField)
             && Objects.equals(nameTextField, that.nameTextField)
             && Objects.equals(okButton, that.okButton)
@@ -142,8 +150,8 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
 
     @Override
     public int hashCode() {
-        return Objects.hash(server, mainCtrl, bicTextField, emailTextField, ibanTextField,
-            nameTextField, okButton, cancelButton);
+        return Objects.hash(server, mainCtrl, bicTextField, emailTextField,
+                accHolderTextField, ibanTextField, nameTextField, okButton, cancelButton);
     }
 
     /**
@@ -153,9 +161,12 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
     public boolean validateEmail(String email){
         String regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\." +
             "[0-9]{1,3}\\.[0-9]{1,3}\\])" +
-                "|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+            "|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         Pattern p= Pattern.compile(regex);
         Matcher m= p.matcher(email.trim());
+        if(email.equals("")) {
+            return true;
+        }
         if(m.find() && m.group().equals(email.trim())){
             return true;
         }else{
@@ -190,21 +201,11 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         String trimmed=IBAN.trim();
         //String trimmed = ibanTextField.getText().trim();
         //System.out.println(ibanTextField.getText().trim());
+        if(IBAN.equals("")) {
+            return true;
+        }
         if (trimmed.length() < IBAN_MIN_SIZE || trimmed.length() > IBAN_MAX_SIZE) {
-            Alert alert=new Alert(Alert.AlertType.WARNING);
-            switch(locale.getLanguage()) {
-                case "nl":
-                    alert.setTitle("Ongeldige IBAN");
-                    alert.setContentText("Vul een geldige IBAN in");
-                    break;
-                case "en":
-                    alert.setTitle("Non-Valid IBAN");
-                    alert.setContentText("Please enter a valid IBAN");
-                    break;
-                default:
-                    break;
-            }
-            alert.setHeaderText(null);
+            Alert alert = getAlert();
             alert.showAndWait();
             return false;
         }
@@ -214,20 +215,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         for (int i = 0; i < reformat.length(); i++) {
             int charValue = Character.getNumericValue(reformat.charAt(i));
             if (charValue < 0 || charValue > 35) {
-                Alert alert=new Alert(Alert.AlertType.WARNING);
-                switch(locale.getLanguage()) {
-                    case "nl":
-                        alert.setTitle("Ongeldige IBAN");
-                        alert.setContentText("Vul een geldige IBAN in");
-                        break;
-                    case "en":
-                        alert.setTitle("Non-Valid IBAN");
-                        alert.setContentText("Please enter a valid IBAN");
-                        break;
-                    default:
-                        break;
-                }
-                alert.setHeaderText(null);
+                Alert alert = getAlert();
                 alert.showAndWait();
                 return false;
             }
@@ -240,23 +228,28 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             return true;
         }
         else{
-            Alert alert=new Alert(Alert.AlertType.WARNING);
-            switch(locale.getLanguage()) {
-                case "nl":
-                    alert.setTitle("Ongeldige IBAN");
-                    alert.setContentText("Vul een geldige IBAN in");
-                    break;
-                case "en":
-                    alert.setTitle("Non-Valid IBAN");
-                    alert.setContentText("Please enter a valid IBAN");
-                    break;
-                default:
-                    break;
-            }
-            alert.setHeaderText(null);
+            Alert alert = getAlert();
             alert.showAndWait();
             return false;
         }
+    }
+
+    private Alert getAlert() {
+        Alert alert=new Alert(Alert.AlertType.WARNING);
+        switch(locale.getLanguage()) {
+            case "nl":
+                alert.setTitle("Ongeldige IBAN");
+                alert.setContentText("Vul een geldige IBAN in");
+                break;
+            case "en":
+                alert.setTitle("Non-Valid IBAN");
+                alert.setContentText("Please enter a valid IBAN");
+                break;
+            default:
+                break;
+        }
+        alert.setHeaderText(null);
+        return alert;
     }
 
     /**
@@ -265,11 +258,11 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
      */
     public boolean checkEmpty(){
         boolean name= nameTextField.getText().trim().isEmpty();
-        boolean email= emailTextField.getText().trim().isEmpty();
-        boolean iban= ibanTextField.getText().trim().isEmpty();
-        boolean bic= bicTextField.getText().trim().isEmpty();
+//        boolean email= emailTextField.getText().trim().isEmpty();
+//        boolean iban= ibanTextField.getText().trim().isEmpty();
+//        boolean bic= bicTextField.getText().trim().isEmpty();
 
-        if(!(name || email || iban || bic)){
+        if(!(name)){
             return true;
         }
         else{

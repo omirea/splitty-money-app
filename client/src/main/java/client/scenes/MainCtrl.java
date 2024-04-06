@@ -21,7 +21,6 @@ import commons.Expense;
 import commons.Participant;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -80,6 +79,7 @@ public class MainCtrl {
         this.settingsPageCtrl = settingsPage.getKey();
         this.settingsPage=new Scene(settingsPage.getValue());
         Main.switchLocale("translations","en");
+
 
 
         //showEventOverview("123");
@@ -221,27 +221,10 @@ public class MainCtrl {
     public void showClosedDebts(String id) {
         closedDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Closed Debts");
-
+        closedDebtsCtrl.addDebtsToList(id);
+        closedDebtsCtrl.addParticipantsToChoiceBox(id);
         primaryStage.setScene(closedDebts);
     }
-
-    /**
-     * method to add closed debts to the list view
-     * @param listView list view that needs to be added
-     */
-    public void addItemsToClosedDebts(ListView<String> listView) {
-        for(String s: listView.getItems())
-            closedDebtsCtrl.getListView().getItems().add(s);
-    }
-
-//    /**
-//     * method to add open debts to the list view
-//     * @param listView list view that needs to be added
-//     */
-//    public void addItemsToOpenDebts(ListView<String> listView) {
-//        for(String s: listView.getItems())
-//            openDebtsCtrl.getListView().getItems().add(s);
-//    }
 
     /**
      * when a participant is added to the event it becomes a possible option
@@ -261,4 +244,5 @@ public class MainCtrl {
         PersonAmount pa=new PersonAmount(participant);
         addEditExpenseCtrl.getTableView().getItems().add(pa);
     }
+
 }

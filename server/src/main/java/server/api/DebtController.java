@@ -41,8 +41,11 @@ public class DebtController {
     @GetMapping("/{id}")
     @ResponseBody
     public ResponseEntity<Debt> getDebtById(@PathVariable("id") Long id){
-        if (id < 0 || !db.existsById(id)){
+        if (id < 0){
             return ResponseEntity.badRequest().build();
+        }
+        if(!db.existsById(id)) {
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(db.findById(id).get());
     }
@@ -53,7 +56,7 @@ public class DebtController {
      * @return response status of addition
      */
     @PostMapping(path = { "", "/" })
-    public ResponseEntity<Debt> addDebt(@RequestBody Debt debt) {
+    public ResponseEntity<Debt> createDebt(@RequestBody Debt debt) {
 
         if (debt.getAmount() == 0 || debt.getHasToPay() == null || debt.getWhoPaid() == null){
             //|| debt.getExpense() == null) {
@@ -89,7 +92,7 @@ public class DebtController {
     @PutMapping("/{id}")
     public ResponseEntity<Debt> updateDebt
             (@RequestBody Debt debt, @PathVariable("id") long id) {
-        if (debt == null) {
+        if (debt == null || id < 0) {
             return ResponseEntity.badRequest().build();
         }
         if (!db.existsById(id)){

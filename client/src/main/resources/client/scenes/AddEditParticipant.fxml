@@ -5,90 +5,81 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddEditParticipantCtrl">
    <children>
-      <VBox prefHeight="400.0" prefWidth="600.0">
+      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="10.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="addEditParticipantLabel" prefHeight="42.0" prefWidth="274.0" text="Add/Edit Participant">
+            <Label fx:id="addEditParticipantLabel" text="Add/Edit Participant">
                <font>
                   <Font name="System Bold" size="27.0" />
                </font>
                <VBox.margin>
-                  <Insets left="30.0" top="20.0" />
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
             </Label>
-            <HBox prefHeight="18.0" prefWidth="600.0">
+            <GridPane alignment="CENTER" hgap="10.0" prefHeight="213.0" prefWidth="579.0" vgap="10.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="282.3999908447266" minWidth="10.0" prefWidth="139.00001220703126" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="494.4000244140625" minWidth="10.0" prefWidth="429.3999877929688" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
                <children>
-                  <Label fx:id="nameLabel" prefHeight="42.0" prefWidth="77.0" text="Name">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Label>
-                  <TextField id="nameTextField" fx:id="nameTextField" prefHeight="26.0" prefWidth="234.0" />
-               </children>
-               <VBox.margin>
-                  <Insets left="30.0" top="20.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox layoutX="10.0" layoutY="10.0" prefHeight="6.0" prefWidth="600.0">
-               <children>
-                  <Label fx:id="emailLabel" prefHeight="42.0" prefWidth="77.0" text="Email" textAlignment="CENTER">
+                  <Label fx:id="nameLabel" text="Name">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TextField id="emailTextField" fx:id="emailTextField" prefHeight="26.0" prefWidth="234.0" />
-               </children>
-               <VBox.margin>
-                  <Insets left="30.0" top="20.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox layoutX="10.0" layoutY="110.0" prefHeight="10.0" prefWidth="600.0">
-               <children>
-                  <Label fx:id="ibanLabel" prefHeight="42.0" prefWidth="77.0" text="IBAN">
+                  <TextField id="nameTextField" fx:id="nameTextField" prefHeight="43.0" prefWidth="493.0" promptText="John" GridPane.columnIndex="1" />
+                  <Label fx:id="emailLabel" text="Email" textAlignment="CENTER" GridPane.rowIndex="1">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TextField id="ibanTextField" fx:id="ibanTextField" prefHeight="26.0" prefWidth="234.0" />
-               </children>
-               <VBox.margin>
-                  <Insets left="30.0" top="20.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox layoutX="10.0" layoutY="143.0" prefHeight="15.0" prefWidth="600.0">
-               <children>
-                  <Label fx:id="bicLabel" prefHeight="42.0" prefWidth="77.0" text="BIC">
+                  <TextField id="emailTextField" fx:id="emailTextField" prefHeight="42.0" prefWidth="493.0" promptText="johnsmith@gmail.com" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label prefHeight="27.0" prefWidth="98.0" text="Acc. Holder" GridPane.rowIndex="2">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <TextField id="bicTextField" fx:id="bicTextField" prefHeight="26.0" prefWidth="234.0" />
+                  <TextField fx:id="accHolderTextField" prefHeight="26.0" prefWidth="461.0" promptText="John Smith" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label fx:id="ibanLabel" text="IBAN" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField id="ibanTextField" fx:id="ibanTextField" prefHeight="43.0" prefWidth="493.0" promptText="NL12 BANK 1234567890" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label fx:id="bicLabel" text="BIC" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField id="bicTextField" fx:id="bicTextField" prefHeight="72.0" prefWidth="493.0" promptText="HBUKGB4B" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <HBox alignment="BOTTOM_RIGHT" prefHeight="39.0" prefWidth="430.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <children>
+                        <Button id="abortButton" fx:id="cancelButton" mnemonicParsing="false" onAction="#onClickDeleteAll" prefHeight="26.0" prefWidth="62.0" text="Cancel" />
+                        <Button id="okButton" fx:id="okButton" mnemonicParsing="false" onAction="#onClickOk" prefHeight="26.0" prefWidth="62.0" text="Ok">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
-               <VBox.margin>
-                  <Insets left="30.0" top="20.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox layoutX="10.0" layoutY="160.0" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button id="abortButton" fx:id="cancelButton" mnemonicParsing="false" onAction="#onClickDeleteAll" prefHeight="26.0" prefWidth="62.0" text="Cancel" />
-                  <Button id="okButton" fx:id="okButton" mnemonicParsing="false" onAction="#onClickOk" prefHeight="26.0" prefWidth="62.0" text="Ok">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-               <VBox.margin>
-                  <Insets left="210.0" top="25.0" />
-               </VBox.margin>
-            </HBox>
+            </GridPane>
          </children>
       </VBox>
    </children>

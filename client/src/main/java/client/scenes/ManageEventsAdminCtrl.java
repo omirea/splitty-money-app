@@ -3,7 +3,13 @@ package client.scenes;
 import client.Main;
 import client.utils.ServerUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import commons.Debt;
 import commons.Event;
+import commons.Expense;
+import commons.Participant;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -18,7 +24,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.stage.FileChooser;
+
 import javax.inject.Inject;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 
@@ -40,7 +49,9 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     @FXML
     private Button refreshButton;
     @FXML
-    ObservableList<Event> allEvents;
+    private Button importButton;
+    @FXML
+    private ObservableList<Event> allEvents;
     @FXML
     private TableView<Event> table;
     @FXML
@@ -61,6 +72,33 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     public ManageEventsAdminCtrl (ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+    }
+    
+    public void onImportClick(){
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(null);
+        ObjectMapper om = new ObjectMapper();
+        om.registerModule(new JavaTimeModule());
+        try {
+            TypeReference<Event> typeReference = new TypeReference<>() {};
+            Event eventJson = om.readValue(selectedFile, typeReference);
+            server.createEvent(eventJson);
+            List<Participant> parts = eventJson.getParticipants();
+            List<Expense> expenses = eventJson.getExpenses();
+            Event between = server.getEventByInvitationId(eventJson.getInvitationID());
+            for (Participant p : parts){
+                p.setEvent(between);
+                server.createParticipant(p);
+            }
+            for (Expense e : expenses){
+                e.setEvent(between);
+                server.createExpense(e);
+            }
+            refresh();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     /**
@@ -141,6 +179,20 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
         alert.setHeaderText(null);
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK){
+            List<Expense> expenses =
+                server.getExpensesByInvitationId(q.getValue().getInvitationID());
+            for(Expense expense : expenses){
+                List<Debt> debts = server.getDebtsByExpenseId(expense.getId());
+                for (Debt debt : debts){
+                    server.deleteDebt(debt.getId());
+                }
+                server.deleteExpense(expense.getId());
+            }
+            List<Participant> participants =
+                server.getParticipantsByInvitationId(q.getValue().getInvitationID());
+            for(Participant p : participants){
+                server.deleteParticipant(p.getId());
+            }
             server.deleteEvent(q.getValue().getID());
             refresh();
         }
@@ -193,6 +245,13 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
            });
            return row;
         });
+        server.registerForUpdates(q->{
+            allEvents.add(q);
+        });
+    }
+
+    public void stop() {
+        server.stop();
     }
 
 
@@ -201,7 +260,34 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
      * @param event which needs to be exported
      */
     private void onJSONClick(Event event) throws JsonProcessingException {
-//        server.json(event.getInvitationID());
+        try {
+            Writer writer = new BufferedWriter(new FileWriter(
+                event.getInvitationID() + ".json"));
+            System.out.println(server.getParticipantsByInvitationId(event.getInvitationID()));
+            System.out.println(server.getExpensesByInvitationId(event.getInvitationID()));
+            String string = server.getEventByInvitationIdJSON(event.getInvitationID());
+            writer.write(string);
+            writer.flush();
+            writer.close();
+            System.out.println("JSON made with event invitation ID: " + event.getInvitationID());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            switch(locale.getLanguage()) {
+                case "nl":
+                    alert.setTitle("JSON Download Succesvol");
+                    alert.setContentText("JSON document succesvol toegevoegd");
+                    break;
+                case "en":
+                    alert.setTitle("JSON Download Successful");
+                    alert.setContentText("JSON document added successfully");
+                    break;
+                default:
+                    break;
+            }
+            alert.setHeaderText(null);
+            alert.showAndWait();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -217,6 +303,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
         colInvitationID.setText(Main.getLocalizedString("invitationID"));
         colLastModified.setText(Main.getLocalizedString("lastModified"));
         colDateCreated.setText(Main.getLocalizedString("dateCreated"));
+        importButton.setText(Main.getLocalizedString("Import"));
     }
 
 }

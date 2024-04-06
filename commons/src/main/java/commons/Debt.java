@@ -11,8 +11,7 @@ public class Debt {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private boolean settled;
-
+    private Boolean settled;
     @ManyToOne
     @JoinColumn(name = "ex_id")
     private Expense expense;
@@ -71,7 +70,7 @@ public class Debt {
      * getter for settled
      * @return whether the debt has been settled
      */
-    public boolean isSettled() {
+    public Boolean isSettled() {
         return settled;
     }
 
@@ -79,7 +78,7 @@ public class Debt {
      * setter for whether the debt is settled
      * @param settled value to be assigned to settled
      */
-    public void setSettled(boolean settled) {
+    public void setSettled(Boolean settled) {
         this.settled = settled;
     }
 
@@ -129,6 +128,15 @@ public class Debt {
      */
     public void setAmount(Double value) {
         this.amount = value;
+    }
+
+    @Override
+    public String toString() {
+        return "Debt" +
+                ", from=" + from +
+                ", to=" + to +
+                ", amount=" + amount +
+                '}';
     }
 
     /**

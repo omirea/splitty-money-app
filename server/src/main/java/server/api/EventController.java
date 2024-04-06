@@ -5,14 +5,20 @@ import commons.Expense;
 import commons.Participant;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.async.DeferredResult;
 import server.database.EventRepository;
 import server.database.ExpenseRepository;
 import server.database.ParticipantRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 @RestController
 @RequestMapping("/event")
@@ -28,6 +34,20 @@ public class EventController {
         this.expenseDB = expenseDB;
     }
 
+//    @PostMapping("/json/import")
+//    public ResponseEntity<Event> importEmployees(Event) throws Exception {
+//        try {
+//            String jsonContent = new String(file.getBytes());
+//            ObjectMapper om = new ObjectMapper();
+//            Event eventImport = om.readValue(jsonContent, new TypeReference<>() {
+//            });
+//            db.save(eventImport);
+//            return ResponseEntity.ok(eventImport);
+//        } catch (Exception e) {
+//            throw new Exception("Importing Event JSON Failed, Due to : " + e.getMessage());
+//        }
+//    }
+
     /**
      * Get all events.
      * @return all events
@@ -36,6 +56,29 @@ public class EventController {
     public List<Event> getAll() {
         return db.findAll();
     }
+
+    private Map<Object, Consumer<Event>> listeners = new HashMap<>();
+    @GetMapping("/updates")
+    public DeferredResult<ResponseEntity<Event>> getUpdates() {
+
+        var noContent = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        var res = new DeferredResult<ResponseEntity<Event>>(5000L, noContent);
+
+        var key = new Object();
+        listeners.put(key, q -> {
+            try {
+                res.setResult(ResponseEntity.ok(q));
+            } catch(Exception e) {
+                // some error handling, don't know what we want
+                e.printStackTrace();
+            }
+        });
+        res.onCompletion(() -> {
+            listeners.remove(key);
+        });
+        return res;
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Event> updateEvent(@RequestBody Event event,
@@ -66,7 +109,20 @@ public class EventController {
         Event e = new Event();
         e.setInvitationID(invitationID);
         Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAll()));
-        return tempEvent.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+
+        if(tempEvent.isEmpty()) return ResponseEntity.notFound().build();
+
+        Event event = tempEvent.get();
+        String invID = event.getInvitationID();
+        String name = event.getName();
+        List<Expense> exs = getExpenseByInvitationId(invID).getBody();
+        List<Participant> prs = getParticipantsByInvitationId(invID).getBody();
+        Event newE = new Event(name, invID, exs, prs);
+        newE.setCreateDate(event.getCreateDate());
+        newE.setLastModified(event.getLastModified());
+        newE.setID(event.getID());
+        return ResponseEntity.ok(newE);
+
     }
 
 
@@ -77,6 +133,20 @@ public class EventController {
         }
         System.out.println(event);
         Event createdEvent = db.save(event);
+        CompletableFuture<Void> notifyListenersFuture = CompletableFuture.runAsync(() -> {
+            try {
+                listeners.forEach((k, l) -> l.accept(event));
+            } catch(Exception e) {
+                // some error handling, don't know what we want
+                e.printStackTrace();
+            }
+        });
+        notifyListenersFuture.exceptionally(ex -> {
+            // some error handling/ don't know what we want
+            ex.printStackTrace();
+            return null;
+
+        });
         return ResponseEntity.ok(createdEvent);
     }
 
