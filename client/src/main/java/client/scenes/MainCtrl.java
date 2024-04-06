@@ -116,6 +116,7 @@ public class MainCtrl {
         openDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Open Debts");
         primaryStage.setScene(openDebts);
+        openDebts.getStylesheets().add("/stylesheets/openDebts.css");
         openDebtsCtrl.addDebtsToList(id);
         openDebtsCtrl.addParticipantsToChoiceBox(id);
     }
