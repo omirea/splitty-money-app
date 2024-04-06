@@ -18,7 +18,7 @@
             <children>
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <Button fx:id="homeButton" mnemonicParsing="false" text="Home">
+                        <Button fx:id="homeButton" mnemonicParsing="false" onAction="#showHome" text="Home">
                             <graphic>
                                 <ImageView fx:id="homeView" fitHeight="22.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                             </graphic>
@@ -57,7 +57,7 @@
                                 <Insets left="10.0" />
                             </HBox.margin>
                         </ChoiceBox>
-                        <Button mnemonicParsing="false" text="Search">
+                        <Button mnemonicParsing="false" onAction="#searchByParticipant" text="Search">
                             <HBox.margin>
                                 <Insets left="15.0" />
                             </HBox.margin>
@@ -66,24 +66,25 @@
                 </HBox>
                 <VBox prefHeight="308.0" prefWidth="558.0">
                     <children>
-                        <TableView fx:id="tableView" prefHeight="198.0" prefWidth="525.0">
+                        <TableView fx:id="tableView" prefHeight="198.0" prefWidth="121.0">
                             <columns>
-                                <TableColumn fx:id="informationCol" prefWidth="381.6000179052353" text="Information" />
+                                <TableColumn fx:id="checkBoxCol" prefWidth="27" />
+                                <TableColumn fx:id="informationCol" prefWidth="367.2000255584717" text="Information" />
                                 <TableColumn fx:id="emailCol" prefWidth="36.79998779296875" text="Email" />
                                 <TableColumn fx:id="IBANCol" prefWidth="40.0" text="IBAN" />
-                                <TableColumn fx:id="receivedCol" prefWidth="100.79986572265625" />
+                                <TableColumn fx:id="receivedCol" maxWidth="85.0" prefWidth="88.7999267578125" resizable="false" />
                             </columns>
                         </TableView>
                     </children>
                 </VBox>
                 <HBox prefHeight="42.0" prefWidth="558.0">
                     <children>
-                        <Button alignment="TOP_LEFT" mnemonicParsing="false" prefHeight="26.0" prefWidth="137.0" text="Reopen selected debts">
+                        <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#reopenSelectedDebts" prefHeight="26.0" prefWidth="137.0" text="Reopen selected debts">
                             <HBox.margin>
                                 <Insets left="280.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="reopenAllDebts" alignment="BOTTOM_RIGHT" mnemonicParsing="false" prefHeight="26.0" prefWidth="128.0" text="Reopen closed debts">
+                        <Button fx:id="reopenAllDebts" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#reopenAllDebts" prefHeight="26.0" prefWidth="128.0" text="Reopen closed debts">
                             <HBox.margin>
                                 <Insets left="15.0" />
                             </HBox.margin>

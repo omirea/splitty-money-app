@@ -27,14 +27,14 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="yourCurrentDebtsLabel" prefHeight="39.0" prefWidth="238.0" text="Open Debts">
+                  <Label fx:id="yourCurrentDebtsLabel" prefHeight="39.0" prefWidth="167.0" text="Open Debts">
                      <font>
                         <Font name="System Bold" size="27.0" />
                      </font>
                   </Label>
-                  <Button fx:id="seeClosedDebtsButton" mnemonicParsing="false" onAction="#seeClosedDebts" text="See closed debts">
+                  <Button fx:id="seeClosedDebtsButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#seeClosedDebts" text="See closed debts">
                      <HBox.margin>
-                        <Insets left="205.0" top="5.0" />
+                        <Insets left="285.0" top="5.0" />
                      </HBox.margin>
                   </Button>
                </children>
@@ -66,26 +66,27 @@
             </HBox>
             <VBox prefHeight="308.0" prefWidth="558.0">
                <children>
-                  <TableView fx:id="tableView" prefHeight="198.0" prefWidth="525.0">
+                  <TableView fx:id="tableView" prefHeight="198.0" prefWidth="250.0">
                     <columns>
-                      <TableColumn fx:id="informationCol" prefWidth="381.6000179052353" text="Information" />
+                        <TableColumn fx:id="checkBoxCol" prefWidth="27" />
+                      <TableColumn fx:id="informationCol" prefWidth="367.2000255584717" text="Information" />
                       <TableColumn fx:id="emailCol" prefWidth="36.79998779296875" text="Email" />
                         <TableColumn fx:id="IBANCol" prefWidth="40.0" text="IBAN" />
-                        <TableColumn fx:id="receivedCol" prefWidth="100.79986572265625" />
+                        <TableColumn fx:id="receivedCol" maxWidth="85.0" prefWidth="88.7999267578125" resizable="false" />
                     </columns>
                   </TableView>
                </children>
             </VBox>
             <HBox prefHeight="42.0" prefWidth="558.0">
                <children>
-                  <Button fx:id="paySelectedDebtsButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#paySelectedDebts" prefHeight="26.0" prefWidth="114.0" text="Pay selected debts">
+                  <Button fx:id="paySelectedDebtsButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#closeSelectedDebts" prefHeight="26.0" prefWidth="114.0" text="Pay selected debts">
                      <HBox.margin>
-                        <Insets left="342.0" />
+                        <Insets left="338.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="payAllDebtsButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#markAllDebtsAsPaid" prefHeight="26.0" prefWidth="87.0" text="Pay all debts">
+                  <Button fx:id="payAllDebtsButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#closeAllDebts" prefHeight="26.0" prefWidth="87.0" text="Pay all debts">
                      <HBox.margin>
-                        <Insets left="15.0" />
+                        <Insets left="18.0" />
                      </HBox.margin>
                   </Button>
                </children>
