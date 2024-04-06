@@ -83,7 +83,8 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
                             case "nl":
                                 alert.setTitle("Niet-opgeslagen deelnemer");
                                 alert.setContentText
-                                        ("Klik eerst op de knop Voltooien om de deelnemer op te slaan");
+                                        ("Klik eerst op de knop Voltooien " +
+                                                "om de deelnemer op te slaan");
                                 break;
                             case "en":
                                 alert.setTitle
