@@ -160,10 +160,10 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             });
             //set text flow
             TextFlow textFlow=new TextFlow();
-            Text from=new Text(debt.getFrom().getName());
+            Text from=new Text(debt.getHasToPay().getName());
             Text howMuch=new Text(String.valueOf(debt.getAmount()));
             Text currency=new Text(String.valueOf(debt.getExpense().getCurrency()));
-            Text to=new Text(debt.getTo().getName());
+            Text to=new Text(debt.getWhoPaid().getName());
 
             makeTextBold(from, howMuch, currency, to);
             textFlow.getChildren().addAll(from, new Text(" needs to pay "),
@@ -181,8 +181,8 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             viewEmailButton.setAlignment(Pos.CENTER);
             Button viewIBANButton=new Button();
             viewIBANButton.setAlignment(Pos.CENTER);
-            setupEmailPicture(debt.getTo(), viewEmailButton);
-            setupIBANPicture(debt.getTo(), viewIBANButton);
+            setupEmailPicture(debt.getWhoPaid(), viewEmailButton);
+            setupIBANPicture(debt.getWhoPaid(), viewIBANButton);
 
             //set open debts button
             Button openDebtButton=new Button("Open Debt");
@@ -205,7 +205,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
      * @return text with the details
      */
     private Text getExtraDetails(Debt debt) {
-        Participant participant=debt.getTo();
+        Participant participant=debt.getWhoPaid();
         if(participant.getIBAN().isEmpty())
             return new Text("No bank information is available for");
         String info="Bank information available: Transfer money to:\n" +
@@ -381,9 +381,9 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         for(Debt debt : newDebts){
             Participant p;
             if(method==1)
-                p=debt.getFrom();
+                p=debt.getHasToPay();
             else
-                p=debt.getTo();
+                p=debt.getWhoPaid();
             if(p.equals(participant))
                 tempDebts.add(debt);
         }

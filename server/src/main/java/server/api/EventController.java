@@ -115,7 +115,7 @@ public class EventController {
         Event event = tempEvent.get();
         String invID = event.getInvitationID();
         String name = event.getName();
-        List<Expense> exs = getExpenseByInvitationId(invID).getBody();
+        List<Expense> exs = getExpensesByInvitationId(invID).getBody();
         List<Participant> prs = getParticipantsByInvitationId(invID).getBody();
         Event newE = new Event(name, invID, exs, prs);
         newE.setCreateDate(event.getCreateDate());

@@ -257,7 +257,8 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      * you will probably change this to use the methods commented out below
      */
     public void addAllParticipants() {
-        allParticipants = server.getParticipantsByInvitationId(event.getInvitationID());
+        List<Participant> pList = server.getParticipantsByInvitationId(event.getInvitationID());
+        allParticipants.addAll(pList);
         String pListString = pList.stream().map(Participant::getName).toList().toString();
         pListString = pListString.substring(1, pListString.length()-1);
         participantsListText.setText(pListString);

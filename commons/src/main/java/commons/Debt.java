@@ -133,8 +133,8 @@ public class Debt {
     @Override
     public String toString() {
         return "Debt" +
-                ", from=" + from +
-                ", to=" + to +
+                ", from=" + hasToPay +
+                ", to=" + whoPaid +
                 ", amount=" + amount +
                 '}';
     }
