@@ -83,6 +83,21 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
                 public void handle(ActionEvent event) {
                     if(q.getValue().getId()==null) {
                         deleteParticipant.setDisable(true);
+                        Alert alert=new Alert(Alert.AlertType.WARNING);
+                        switch(locale.getLanguage()) {
+                            case "nl":
+                                alert.setTitle("Niet-opgeslagen deelnemer");
+                                alert.setContentText("Klik eerst op de knop Voltooien om de deelnemer op te slaan");
+                                break;
+                            case "en":
+                                alert.setTitle("Unsaved Participant");
+                                alert.setContentText("First Click The Finish Button To Save The Participant");
+                                break;
+                            default:
+                                break;
+                        }
+                        alert.setHeaderText(null);
+                        alert.showAndWait();
                     }else{
                         deleteParticipantFromDb(q.getValue());
                     }
