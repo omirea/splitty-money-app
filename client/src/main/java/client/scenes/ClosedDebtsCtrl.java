@@ -6,7 +6,6 @@ import client.nodes.ParticipantStringConverter;
 import client.utils.ServerUtils;
 import commons.Debt;
 import commons.Event;
-import commons.Expense;
 import commons.Participant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
