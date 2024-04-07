@@ -56,7 +56,8 @@ public class StartCtrl implements  Main.LanguageSwitch {
     private LanguageSwitch languageSwitch;
 
     @Inject
-    public StartCtrl(ServerUtils server, MainCtrl mainCtrl, ConnectionSetup cs, LanguageSwitch languageSwitch) {
+    public StartCtrl(ServerUtils server, MainCtrl mainCtrl, ConnectionSetup cs,
+                     LanguageSwitch languageSwitch) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.connectionSetup = cs;
