@@ -117,7 +117,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
 
         Button editButton = new Button();
         editButton.setOnAction(event -> onEditExpenseClick(q.getValue()));
-        // setImage(editButton, "icons/pencil.png");
+         setImage(editButton, "/icons/pencil.png");
         return new SimpleObjectProperty<>(editButton);
     }
 
@@ -126,7 +126,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
 
         Button deleteButton = new Button();
         deleteButton.setOnAction(event -> onDeleteExpenseClick(q.getValue()));
-//        setImage(deleteButton, "icons/trash.png");
+        setImage(deleteButton, "/icons/trash.png");
         return new SimpleObjectProperty<>(deleteButton);
     }
 
