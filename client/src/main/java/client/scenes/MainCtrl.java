@@ -137,6 +137,7 @@ public class MainCtrl {
         primaryStage.setTitle("Splitty: Start");
         primaryStage.setScene(start);
         startCtrl.setUpConnection();
+        startCtrl.setUpLanguage();
     }
 
     /**

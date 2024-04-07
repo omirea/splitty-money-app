@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.Main;
 import client.nodes.ConnectionSetup;
+import client.nodes.LanguageSwitch;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
@@ -52,11 +53,15 @@ public class StartCtrl implements  Main.LanguageSwitch {
     private TableColumn<Event, Button> openColumn;
     ConnectionSetup connectionSetup;
 
+    private LanguageSwitch languageSwitch;
+
     @Inject
-    public StartCtrl(ServerUtils server, MainCtrl mainCtrl, ConnectionSetup cs) {
+    public StartCtrl(ServerUtils server, MainCtrl mainCtrl, ConnectionSetup cs,
+                     LanguageSwitch languageSwitch) {
         this.server = server;
         this.mainCtrl = mainCtrl;
-        connectionSetup = cs;
+        this.connectionSetup = cs;
+        this.languageSwitch=languageSwitch;
     }
 
     public void setUpConnection() {
@@ -65,6 +70,11 @@ public class StartCtrl implements  Main.LanguageSwitch {
             return;
         }
         connectionSetup.promptUser();
+    }
+
+    public void setUpLanguage(){
+        String[] lg=languageSwitch.getLanguage().split("_");
+        Main.switchLocale(lg[0], lg[1]);
     }
 
     /**
