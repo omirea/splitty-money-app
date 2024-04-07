@@ -347,7 +347,7 @@ public class ServerUtils {
 	public List<Debt> getDebtsByExpense(Long id) {
 		try {
 			return ClientBuilder.newClient(new ClientConfig())
-					.target(SERVER).path("debt/expense/" + id)
+					.target(server).path("debt/expense/" + id)
 					.request(APPLICATION_JSON)
 					.accept(APPLICATION_JSON)
 					.get(new GenericType<List<Debt>>() {});
