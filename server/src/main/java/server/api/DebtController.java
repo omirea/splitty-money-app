@@ -1,14 +1,15 @@
 package server.api;
 
 import commons.Debt;
-import commons.Expense;
+import commons.Event;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import server.database.DebtRepository;
-import server.database.ExpenseRepository;
+import server.database.EventRepository;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/debt")
@@ -16,11 +17,11 @@ public class DebtController {
 
     private final DebtRepository db;
 
-    private final ExpenseRepository expenseDB;
+    private final EventRepository eventDB;
 
-    public DebtController(DebtRepository db, ExpenseRepository expenseDB) {
+    public DebtController(DebtRepository db, EventRepository eventDB) {
         this.db = db;
-        this.expenseDB=expenseDB;
+        this.eventDB=eventDB;
     }
 
     /**
@@ -102,7 +103,7 @@ public class DebtController {
 
         Debt existingDebt = db.findById(id).get();
         existingDebt.setSettled(debt.isSettled());
-        existingDebt.setExpense(debt.getExpense());
+        existingDebt.setEvent(debt.getEvent());
         existingDebt.setFrom(debt.getFrom());
         existingDebt.setTo(debt.getTo());
         existingDebt.setAmount(debt.getAmount());
@@ -111,19 +112,22 @@ public class DebtController {
         return ResponseEntity.ok(updatedDebt);
     }
 
-    @GetMapping("/expense/{expenseID}")
+    @GetMapping("/event/{invitationID}")
     @ResponseBody
-    public ResponseEntity<List<Debt>> getDebtsByExpenseId(
-            @PathVariable("expenseID") Long id) {
+    public ResponseEntity<List<Debt>> getDebtByInvitationId(
+            @PathVariable("invitationID") String invitationID) {
 
-        Expense expense=new Expense();
-        expense.setId(id);
+        Event e = new Event();
+        e.setInvitationID(invitationID);
+        Optional<Event> tempEvent = eventDB.findOne(Example.of(e, ExampleMatcher.matchingAll()));
+        if (tempEvent.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
 
         Debt debt = new Debt();
-        debt.setExpense(expense);
-        List<Debt> debts = db.findAll(
-                Example.of(debt, ExampleMatcher.matchingAll()));
-        System.out.println(debt);
+        debt.setEvent(tempEvent.get());
+        List<Debt> debts = db.findAll(Example.of(debt, ExampleMatcher.matchingAll()));
+        System.out.println(db);
 
         return ResponseEntity.ok(debts);
     }

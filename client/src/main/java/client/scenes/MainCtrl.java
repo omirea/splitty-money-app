@@ -116,6 +116,7 @@ public class MainCtrl {
         openDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Open Debts");
         primaryStage.setScene(openDebts);
+        openDebts.getStylesheets().add("/stylesheets/openDebts.css");
         openDebtsCtrl.addDebtsToList(id);
         openDebtsCtrl.addParticipantsToChoiceBox(id);
     }
@@ -135,6 +136,7 @@ public class MainCtrl {
     public void showStartScreen() {
         primaryStage.setTitle("Splitty: Start");
         primaryStage.setScene(start);
+        startCtrl.setUpConnection();
     }
 
     /**

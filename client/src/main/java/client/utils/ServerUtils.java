@@ -35,10 +35,36 @@ import java.util.function.Consumer;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
-	private static final String SERVER = "http://localhost:8080/";
+	private static String server;
+
+	/**
+	 * sets the URL for the server
+	 * @param server URL of the server
+	 */
+	public void setServer(String server) {
+		ServerUtils.server = server;
+	}
+
+	/**
+	 * tests the connection using the inputted URL
+	 * @param server URL of the server
+	 * @return true if connected properly, false otherwise.
+	 */
+	public boolean testConnection(String server) {
+		try {
+            return ClientBuilder.newClient(new ClientConfig())
+				.target(server).path("test/")
+				.request(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.get().readEntity(Boolean.class);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 	public String getEventByInvitationIdJSON(String invitationID){
 		return ClientBuilder.newClient(new ClientConfig())
-			.target(SERVER).path("event/" + invitationID)
+			.target(server).path("event/" + invitationID)
 			.request(APPLICATION_JSON)
 			.accept(APPLICATION_JSON)
 			.get().readEntity(String.class);
@@ -50,7 +76,7 @@ public class ServerUtils {
 	 */
 	public List<Participant> getAllParticipants(){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("participant")
+				.target(server).path("participant")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<List<Participant>>() {});
@@ -63,7 +89,7 @@ public class ServerUtils {
 	 */
 	public Participant getParticipantById(Long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("participant/" + id)
+				.target(server).path("participant/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<Participant>() {});
@@ -76,7 +102,7 @@ public class ServerUtils {
 	 */
 	public Participant deleteParticipant(Long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("participant/" + id)
+				.target(server).path("participant/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.delete(new GenericType<Participant>() {});
@@ -89,7 +115,7 @@ public class ServerUtils {
 	 */
 	public Participant createParticipant(Participant participant){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("participant")
+				.target(server).path("participant")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.post(Entity.entity(participant , APPLICATION_JSON),
@@ -103,7 +129,7 @@ public class ServerUtils {
 	 */
 	public Participant updateParticipant(Participant participant, Long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("participant/" + id)
+				.target(server).path("participant/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.put(Entity.entity(participant, APPLICATION_JSON),
@@ -117,7 +143,7 @@ public class ServerUtils {
 	 */
 	public List<Participant> getParticipantsByInvitationId(String invitationId) {
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("event/" + invitationId + "/participant")
+				.target(server).path("event/" + invitationId + "/participant")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<List<Participant>>() {});
@@ -130,7 +156,7 @@ public class ServerUtils {
 	 */
 	public List<Expense> getExpensesByInvitationId(String invitationId) {
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("event/" + invitationId + "/expense")
+				.target(server).path("event/" + invitationId + "/expense")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<List<Expense>>() {});
@@ -142,7 +168,7 @@ public class ServerUtils {
 	 */
 	public List<Event> getAllEvents(){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("event")
+				.target(server).path("event")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<List<Event>>() {});
@@ -156,7 +182,7 @@ public class ServerUtils {
 	 */
 	public Event getEventByInvitationId(String invitationID){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("event/" + invitationID)
+				.target(server).path("event/" + invitationID)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<Event>() {});
@@ -169,7 +195,7 @@ public class ServerUtils {
 	 */
 	public Event deleteEvent (Long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("event/delete/" + id)
+				.target(server).path("event/delete/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.delete(new GenericType<Event>() {});
@@ -182,7 +208,7 @@ public class ServerUtils {
 	 */
 	public Event createEvent(Event event){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("event")
+				.target(server).path("event")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.post(Entity.entity(event, APPLICATION_JSON),
@@ -196,7 +222,7 @@ public class ServerUtils {
 	 */
 	public Event updateEvent(Event event, Long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("event/" + id)
+				.target(server).path("event/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.put(Entity.entity(event, APPLICATION_JSON),
@@ -211,7 +237,7 @@ public class ServerUtils {
 	 */
 	public Expense createExpense(Expense expense) {
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("expense")
+				.target(server).path("expense")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.post(Entity.entity(expense, APPLICATION_JSON),
@@ -225,7 +251,7 @@ public class ServerUtils {
 	 */
 	public Expense getExpenseByID(Long id) {
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("expense/" + id)
+				.target(server).path("expense/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<Expense>() {});
@@ -237,7 +263,7 @@ public class ServerUtils {
 	 */
 	public List<Expense> getAllExpenses() {
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("expense")
+				.target(server).path("expense")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<List<Expense>>() {});
@@ -249,7 +275,7 @@ public class ServerUtils {
 	 */
 	public Expense deleteExpense(Long id) {
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("expense/" + id)
+				.target(server).path("expense/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.delete(new GenericType<Expense>() {});
@@ -263,7 +289,7 @@ public class ServerUtils {
 	 */
 	public Expense updateExpense(Expense expense, Long id) {
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("expense/" + id)
+				.target(server).path("expense/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.put(Entity.entity(expense, APPLICATION_JSON), Expense.class);
@@ -275,7 +301,7 @@ public class ServerUtils {
 	 */
 	public List<Debt> getAllDebts(){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("debt")
+				.target(server).path("debt")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<List<Debt>>() {});
@@ -288,7 +314,7 @@ public class ServerUtils {
 	 */
 	public Debt getDebtById(Long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("debt/" + id)
+				.target(server).path("debt/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.get(new GenericType<Debt>() {});
@@ -299,10 +325,10 @@ public class ServerUtils {
 	 * @param id the id of the expense from the current event
 	 * @return list of debts from an expense
 	 */
-	public List<Debt> getDebtsByExpenseId(Long id) {
+	public List<Debt> getDebtsByInvitationId(String id) {
 		try {
 			return ClientBuilder.newClient(new ClientConfig())
-					.target(SERVER).path("debt/expense/" + id)
+					.target(server).path("debt/event/" + id)
 					.request(APPLICATION_JSON)
 					.accept(APPLICATION_JSON)
 					.get(new GenericType<List<Debt>>() {});
@@ -320,7 +346,7 @@ public class ServerUtils {
 	 */
 	public Debt deleteDebt(Long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("debt/" + id)
+				.target(server).path("debt/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.delete(new GenericType<Debt>() {});
@@ -333,7 +359,7 @@ public class ServerUtils {
 	 */
 	public Debt createDebt(Debt debt){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("debt")
+				.target(server).path("debt")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.post(Entity.entity(debt, APPLICATION_JSON),
@@ -347,7 +373,7 @@ public class ServerUtils {
 	 */
 	public Debt updateDebt(Debt debt, Long id){
 		return ClientBuilder.newClient(new ClientConfig())
-				.target(SERVER).path("debt/" + id)
+				.target(server).path("debt/" + id)
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
 				.put(Entity.entity(debt, APPLICATION_JSON),
@@ -361,7 +387,7 @@ public class ServerUtils {
 	 */
 	public boolean checkPassword(String password) {
 		return ClientBuilder.newClient(new ClientConfig())
-			.target(SERVER).path("admin/" + password)
+			.target(server).path("admin/" + password)
 			.request(APPLICATION_JSON)
 			.accept(APPLICATION_JSON)
 			.get(new GenericType<>() {});
@@ -372,7 +398,7 @@ public class ServerUtils {
 	 */
 	public void generatePassword() {
 		ClientBuilder.newClient(new ClientConfig())
-			.target(SERVER).path("admin/")
+			.target(server).path("admin/")
 			.request(APPLICATION_JSON)
 			.accept(APPLICATION_JSON)
 				.get();
@@ -383,7 +409,7 @@ public class ServerUtils {
 		EXEC.submit(() -> {
 			while(!Thread.interrupted()) {
 				var res = ClientBuilder.newClient(new ClientConfig())
-						.target(SERVER).path("event/updates")
+						.target(server).path("event/updates")
 						.request(APPLICATION_JSON)
 						.accept(APPLICATION_JSON)
 						.get(Response.class);
