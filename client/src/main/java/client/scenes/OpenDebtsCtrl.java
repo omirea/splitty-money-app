@@ -101,8 +101,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         toParticipantCB.setConverter(new ParticipantStringConverter());
 
         //listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        getPayAllDebts()
-                .setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
+        //getPayAllDebts()
+                //.setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
 
         //set home button
         homeView.setFitHeight(25);
@@ -216,7 +216,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         //eventLabel.setText(Main.getLocalizedString("Event"));
         //amountLabel.setText(Main.getLocalizedString("Amount"));
         //paySelectedDebtsButton.setText(Main.getLocalizedString("paySelectedDebts"));
-        payAllDebtsButton.setText(Main.getLocalizedString("payAllDebts"));
+        //payAllDebtsButton.setText(Main.getLocalizedString("payAllDebts"));
         //seeClosedDebtsButton.setText(Main.getLocalizedString("seeClosedDebts"));
     }
 

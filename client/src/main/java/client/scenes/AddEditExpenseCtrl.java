@@ -226,8 +226,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             for(Debt debt:debtList){
                 debt.setExpense(expense);
                 debt=server.updateDebt(debt, debt.getId());
-            }
-        } else {
+            }        } else {
             List<Debt> debts=server.getDebtsByExpenseId(expense.getId());
             for(Debt debt : debts)
                 server.deleteDebt(debt.getId());

@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.OpenDebtsCtrl">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../stylesheets/openDebts.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.OpenDebtsCtrl">
    <children>
       <VBox layoutX="11.2" layoutY="72.0" prefHeight="200.0" prefWidth="579.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
@@ -41,16 +41,22 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="From " />
+                  <Label fx:id="from" text="From ">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
                   <ChoiceBox fx:id="fromParticipantCB" prefHeight="20.0" prefWidth="146.0">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </ChoiceBox>
-                  <Label text="To">
+                  <Label fx:id="to" text="To">
                      <HBox.margin>
                         <Insets left="25.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Label>
                   <ChoiceBox fx:id="toParticipantCB" prefWidth="150.0">
                      <HBox.margin>
@@ -79,7 +85,7 @@
             </VBox>
             <HBox prefHeight="42.0" prefWidth="558.0">
                <children>
-                  <Button fx:id="paySelectedDebtsButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#closeSelectedDebts" prefHeight="26.0" prefWidth="114.0" text="Pay selected debts">
+                  <Button fx:id="paySelectedDebtsButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#closeSelectedDebts" prefHeight="27.0" prefWidth="117.0" text="Pay selected debts">
                      <HBox.margin>
                         <Insets left="338.0" />
                      </HBox.margin>
