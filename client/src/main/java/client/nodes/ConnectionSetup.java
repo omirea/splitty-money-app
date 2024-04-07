@@ -18,15 +18,9 @@ public class ConnectionSetup {
         this.serverUtils = serverUtils;
 
         prop = new Properties();
-        fileName = "config.properties";
-        try (InputStream inputStream =
-                 ConnectionSetup.class
-                     .getClassLoader()
-                     .getResourceAsStream(fileName)) {
-            if (inputStream == null) {
-                throw new FileNotFoundException("file not found in the classpath");
-            }
-            prop.load(inputStream);
+        fileName = "src/main/resources/config.properties";
+        try (FileInputStream fileInputStream = new FileInputStream(fileName)) {
+            prop.load(fileInputStream);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -38,24 +32,17 @@ public class ConnectionSetup {
      * @return true if it worked, false otherwise.
      */
     private void setServer(String server) {
+        saveToConfig(server);
+        serverUtils.setServer(prop.getProperty("server"));
+    }
+
+    private void saveToConfig(String server) {
         prop.setProperty("server", server);
         try (OutputStream outputStream = new FileOutputStream(fileName)) {
             prop.store(outputStream, "Updated configuration");
-            System.out.println("[SET] stored");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        prop = new Properties();
-        // Reload properties from the file to reflect the changes
-        try (InputStream inputStream = new FileInputStream(fileName)) {
-            prop.load(inputStream);
-            System.out.println("[SET] Reloaded properties:");
-            System.out.println("[SET] " + prop.getProperty("server"));
-        } catch (IOException e) {
-            throw new RuntimeException("Error loading properties file", e);
-        }
-
-        serverUtils.setServer(prop.getProperty("server"));
     }
 
     /**
@@ -65,10 +52,8 @@ public class ConnectionSetup {
     public String getConfiguredServer() {
         String server = prop.getProperty("server");
         if (server.isEmpty()) {
-            System.out.println("[GET] Configuration is currently empty");
             return null;
         }
-        System.out.println("[GET] Current server: " + server);
         return server;
     }
 
@@ -93,9 +78,8 @@ public class ConnectionSetup {
             if (result.isPresent()){
                 String res = result.get();
                 if (!serverUtils.testConnection(res)) continue;
-                System.out.println("[PU] connection established");
+                done = true;
                 setServer(res);
-                System.out.println("[PU] server has been set to: " + getConfiguredServer());
                 break;
             }
             if (hasConfiguredServer()) break;
