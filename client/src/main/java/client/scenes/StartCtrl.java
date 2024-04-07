@@ -184,6 +184,7 @@ public class StartCtrl implements  Main.LanguageSwitch {
 
     private void deleteEventFromTable(Event event) {
         recentEvents.getItems().remove(event);
+        recentEvents.refresh();
     }
 
     /**
