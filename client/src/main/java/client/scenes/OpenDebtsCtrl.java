@@ -238,10 +238,42 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
      */
     private void calculateAllDebts(String id) {
         allDebts.clear();
-        List<Debt> debts=server.getDebtsByInvitationId(event.getInvitationID());
-        for(Debt debt : debts)
-            if(!debt.isSettled())
-                allDebts.add(debt);
+
+        List<Debt> debts = server.getDebtsByInvitationId(event.getInvitationID());
+        for (int i = 0; i < debts.size(); i++) {
+
+            Debt debt1 = debts.get(i);
+            if (debt1.isSettled()) {
+                debts.remove(debt1);
+                i--;
+            }
+
+            Long fromID = debt1.getFrom().getId();
+            Long toID = debt1.getTo().getId();
+
+            for (int j = i + 1; j < debts.size(); j++) {
+
+                Debt debt2 = debts.get(j);
+                if (debt2.isSettled()) {
+                    debts.remove(debt2);
+                    j--;
+                }
+
+                if (Objects.equals(debt2.getFrom().getId(), fromID)
+                        && Objects.equals(debt2.getTo().getId(), toID)) {
+                    debt1.setAmount(debt1.getAmount() + debt2.getAmount());
+                    debts.remove(debt2);
+                    j--;
+                } else if (Objects.equals(debt2.getFrom().getId(), toID)
+                        && Objects.equals(debt2.getTo().getId(), fromID)) {
+                    debt1.setAmount(debt1.getAmount() - debt2.getAmount());
+                    debts.remove(debt2);
+                    j--;
+                }
+            }
+        }
+
+        allDebts.addAll(debts);
     }
 
     /**
