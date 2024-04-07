@@ -265,8 +265,8 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                 dividePerPerson(personAmount, amount, personAmounts.size());
                 System.out.println(event);
                 System.out.println(expense);
-                Debt debt = new Debt(event, expense, personAmountMap.get(personAmount.getName()), whoPaid,
-                    Double.parseDouble(personAmount.getTextField().getText()));
+                Debt debt = new Debt(event, expense, personAmountMap.get(personAmount.getName()),
+                        whoPaid, Double.parseDouble(personAmount.getTextField().getText()));
                 server.createDebt(debt);
             }
 
