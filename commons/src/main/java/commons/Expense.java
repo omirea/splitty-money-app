@@ -17,6 +17,9 @@ import java.util.*;
     @JoinColumn(name = "event_id")
     private Event event;
 
+//    @OneToMany(mappedBy = "expense")
+//    private List<Debt> debts;
+
     private String description; // Description by the participant
 
     private Double amount; // Value of the expense
@@ -197,15 +200,13 @@ import java.util.*;
         return id;
     }
 
+    public void setId(Long id){this.id=id;};
+
     public void setEvent(Event event) {
         this.event = event;
     }
 
     public Event getEvent() {
         return event;
-    }
-
-    public void setID(Long id) {
-        this.id = id;
     }
 }
