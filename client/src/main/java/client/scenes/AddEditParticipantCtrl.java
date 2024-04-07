@@ -74,11 +74,13 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
 
             if (participant == null) {
                 participant = new Participant(name, email, iban, bic, event);
+                //server.createParticipant(participant);
             } else {
                 participant.setName(name);
                 participant.setEmail(email);
                 participant.setIBAN(iban);
                 participant.setBIC(bic);
+                //server.updateParticipant(participant, participant.getId());
             }
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

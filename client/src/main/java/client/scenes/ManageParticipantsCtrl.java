@@ -76,6 +76,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
             deleteParticipant.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
+                    /*
                     if(q.getValue().getId()==null) {
                         deleteParticipant.setDisable(true);
                         Alert alert=new Alert(Alert.AlertType.WARNING);
@@ -97,9 +98,9 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
                         }
                         alert.setHeaderText(null);
                         alert.showAndWait();
-                    }else{
-                        deleteParticipantFromDb(q.getValue());
-                    }
+                    }else{*/
+                    deletedParticipants.add(q.getValue());
+                    deleteParticipantFromTable(q.getValue());
 
 
                 }
@@ -134,7 +135,10 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     }
 
     public void addParticipantToBox(Participant participant) {
+        Participant p = server.createParticipant(participant);
+        participant.setId(p.getId());
         recentParticipants.getItems().add(participant);
+        recentParticipants.refresh();
     }
 
     private void showParticipant(Participant participant) {
@@ -194,13 +198,14 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
      */
     public void onFinishClick() {
         System.out.println("Complete changes and return to event");
+        /*
         for (Participant participant : addedParticipants) {
             Participant p = server.createParticipant(participant);
             participant.setId(p.getId());
         }
         for (Participant participant : editedParticipants) {
             server.updateParticipant(participant, participant.getId());
-        }
+        }*/
         for (Participant participant : deletedParticipants) {
             server.deleteParticipant(participant.getId());
         }
@@ -231,7 +236,9 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         recentParticipants.getItems().clear();
         List<Participant> pList = server.getParticipantsByInvitationId(event.getInvitationID());
         for (Participant participant : pList) {
+            //server.createParticipant(participant);
             addParticipantToBox(participant);
+
         }
     }
 
@@ -257,10 +264,12 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         event = server.getEventByInvitationId(id);
     }
     public void addAddedParticipant(Participant participant) {
+        //server.createParticipant(participant);
         addedParticipants.add(participant);
     }
 
     public void addEditedParticipant(Participant participant) {
+        server.updateParticipant(participant, participant.getId());
         editedParticipants.add(participant);
     }
 

@@ -110,7 +110,6 @@ public class StartCtrl implements  Main.LanguageSwitch {
             });
             return row;
         });
-        recentEvents.refresh();
     }
 
     /**
@@ -180,7 +179,6 @@ public class StartCtrl implements  Main.LanguageSwitch {
      */
     public void addEventToBox(Event event) {
         recentEvents.getItems().add(event);
-        //recentEvents.refresh();
     }
 
     private void showEvent(String invID) {
@@ -189,6 +187,7 @@ public class StartCtrl implements  Main.LanguageSwitch {
 
     private void deleteEventFromTable(Event event) {
         recentEvents.getItems().remove(event);
+        recentEvents.refresh();
     }
 
     /**
