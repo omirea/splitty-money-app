@@ -26,8 +26,11 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
@@ -35,7 +38,31 @@ import java.util.function.Consumer;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
-	private static final String SERVER = "http://localhost:8080/";
+	private static String SERVER = "http://localhost:8080/";
+
+	/**
+	 * sets the URL for the server
+	 * @param server URL of the server
+	 */
+	public void setServer(String server) {
+		SERVER = server;
+	}
+
+	/**
+	 * tests the connection using the inputted URL
+	 * @param server URL of the server
+	 * @return true if connected properly, false otherwise.
+	 */
+	public boolean testConnection(String server) {
+		var	result = ClientBuilder.newClient(new ClientConfig())
+			.target(server).path("test/")
+			.request(APPLICATION_JSON)
+			.accept(APPLICATION_JSON)
+			.get(Response.class);
+		return result.getStatus() == 204;
+
+	}
+
 	public String getEventByInvitationIdJSON(String invitationID){
 		return ClientBuilder.newClient(new ClientConfig())
 			.target(SERVER).path("event/" + invitationID)

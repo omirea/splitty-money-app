@@ -135,6 +135,7 @@ public class MainCtrl {
     public void showStartScreen() {
         primaryStage.setTitle("Splitty: Start");
         primaryStage.setScene(start);
+        startCtrl.setUpConnection();
     }
 
     /**
