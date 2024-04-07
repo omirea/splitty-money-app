@@ -40,8 +40,8 @@
             </MenuButton>
             <MenuButton fx:id="themeButton" alignment="CENTER" mnemonicParsing="false" popupSide="RIGHT" text="Theme" textAlignment="CENTER">
               <items>
-                  <RadioMenuItem fx:id="lightModeButton" mnemonicParsing="false" text="Light Mode" />
-                  <RadioMenuItem fx:id="darkModeButton" mnemonicParsing="false" text="Dark Mode" />
+                  <RadioMenuItem fx:id="lightModeButton" mnemonicParsing="false" onAction="#lightMode" text="Light Mode" />
+                  <RadioMenuItem fx:id="darkModeButton"  mnemonicParsing="false" onAction="#darkMode"  text="Dark Mode" />
               </items>
                <VBox.margin>
                   <Insets />

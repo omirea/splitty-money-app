@@ -245,4 +245,51 @@ public class MainCtrl {
         addEditExpenseCtrl.getTableView().getItems().add(pa);
     }
 
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public Scene getAddEditParticipant() {
+        return addEditParticipant;
+    }
+
+    public Scene getOpenDebts() {
+        return openDebts;
+    }
+
+    public Scene getInvitation() {
+        return invitation;
+    }
+
+    public Scene getExpense() {
+        return expense;
+    }
+
+    public Scene getOverview() {
+        return overview;
+    }
+
+    public Scene getManageParticipants() {
+        return manageParticipants;
+    }
+
+    public Scene getStart() {
+        return start;
+    }
+
+    public Scene getLogInAdmin() {
+        return logInAdmin;
+    }
+
+    public Scene getClosedDebts() {
+        return closedDebts;
+    }
+
+    public Scene getEventsAdmin() {
+        return eventsAdmin;
+    }
+
+    public Scene getSettingsPage() {
+        return settingsPage;
+    }
 }
