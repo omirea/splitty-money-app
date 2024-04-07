@@ -60,7 +60,10 @@ public class StartCtrl implements  Main.LanguageSwitch {
     }
 
     public void setUpConnection() {
-        if (connectionSetup.hasConfiguredServer()) return;
+        if (connectionSetup.hasConfiguredServer()) {
+            server.setServer(connectionSetup.getConfiguredServer());
+            return;
+        }
         connectionSetup.promptUser();
     }
 
