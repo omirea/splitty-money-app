@@ -205,12 +205,15 @@ public class StartCtrl implements  Main.LanguageSwitch {
 
     private void deleteEventFromTable(Event event) {
         recentEvents.getItems().remove(event);
+        recentEvents.refresh();
     }
 
     /**
      * method to go to adming log in page
      */
     public void onAdminClick(){
+        joinEventField.clear();
+        createEventField.clear();
         mainCtrl.showAdminLogIn();
     }
 

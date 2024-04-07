@@ -325,10 +325,10 @@ public class ServerUtils {
 	 * @param id the id of the expense from the current event
 	 * @return list of debts from an expense
 	 */
-	public List<Debt> getDebtsByExpenseId(Long id) {
+	public List<Debt> getDebtsByInvitationId(String id) {
 		try {
 			return ClientBuilder.newClient(new ClientConfig())
-					.target(server).path("debt/expense/" + id)
+					.target(server).path("debt/event/" + id)
 					.request(APPLICATION_JSON)
 					.accept(APPLICATION_JSON)
 					.get(new GenericType<List<Debt>>() {});

@@ -24,6 +24,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 
 import javax.inject.Inject;
@@ -122,21 +124,19 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
             ObservableList<Event> eventsWithN = FXCollections.observableList(eventsWithName);
             table.setItems(eventsWithN);
         } else {
-            Alert alertEmpty = new Alert(Alert.AlertType.WARNING);
-            switch(locale.getLanguage()){
-                case "nl":
-                    alertEmpty.setTitle("Lege Velden");
-                    alertEmpty.setContentText("Vul het zoek veld in AUB");
-                    break;
-                case "en":
-                    alertEmpty.setTitle("Empty Field");
-                    alertEmpty.setContentText("Please Fill In The Search Field");
-                    break;
-                default:
-                    break;
-            }
-            alertEmpty.setHeaderText(null);
-            alertEmpty.showAndWait();
+            table.setItems(allEvents);
+        }
+
+    }
+
+
+    /**
+     * maps the keyboard shortcuts to this controller/scene
+     * @param e KeyEvent inputted
+     */
+    public void enterKeyPressed(KeyEvent e) {
+        if (Objects.requireNonNull(e.getCode()) == KeyCode.ENTER) {
+            onSearchClick();
         }
     }
 
@@ -182,7 +182,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
             List<Expense> expenses =
                 server.getExpensesByInvitationId(q.getValue().getInvitationID());
             for(Expense expense : expenses){
-                List<Debt> debts = server.getDebtsByExpenseId(expense.getId());
+                List<Debt> debts = server.getDebtsByInvitationId(q.getValue().getInvitationID());
                 for (Debt debt : debts){
                     server.deleteDebt(debt.getId());
                 }
@@ -296,7 +296,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     @Override
     public void LanguageSwitch() {
         logOutButton.setText(Main.getLocalizedString("logOut"));
-        eventNameTextField.setText(Main.getLocalizedString("searchEvent"));
+        eventNameTextField.setPromptText(Main.getLocalizedString("searchEvent"));
         searchButton.setText(Main.getLocalizedString("Search"));
         refreshButton.setText(Main.getLocalizedString("Refresh"));
         colEventTitle.setText(Main.getLocalizedString("Title"));
