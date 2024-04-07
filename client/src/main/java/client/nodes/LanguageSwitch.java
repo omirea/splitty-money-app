@@ -20,7 +20,7 @@ public class LanguageSwitch {
         this.serverUtils = serverUtils;
 
         prop = new Properties();
-        fileName = "client/src/main/resources/config.properties";
+        fileName = "src/main/resources/config.properties";
         try (FileInputStream fileInputStream = new FileInputStream(fileName)) {
             prop.load(fileInputStream);
         } catch (IOException ex) {
