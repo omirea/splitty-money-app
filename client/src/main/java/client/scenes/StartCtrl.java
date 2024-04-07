@@ -50,14 +50,11 @@ public class StartCtrl implements  Main.LanguageSwitch {
     @FXML
     private TableColumn<Event, Button> openColumn;
 
-
-
     @Inject
     public StartCtrl(ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
     }
-
 
     /**
      * method to initialize the page view (table, settings icon and admin icon)

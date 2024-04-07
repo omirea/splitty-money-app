@@ -30,7 +30,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-    private  Event event;
+    private Event event;
     private final ObservableList<Debt> allDebts;
     private final ObservableList<Participant> allParticipants;
     private final ObservableList<DebtsTable> debtsTables;
@@ -53,6 +53,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     private Label yourCurrentDebtsLabel;
     @FXML
     private TableView<DebtsTable> tableView;
+    @FXML
+    private TableColumn<DebtsTable, CheckBox> checkBoxCol;
     @FXML
     private TableColumn<DebtsTable, TreeView<String>> informationCol;
     @FXML
@@ -83,12 +85,13 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         newDebts.addAll(allDebts);
 
         //initialize table view
+        checkBoxCol.
+                setCellValueFactory(new PropertyValueFactory<>("checkBox"));
         informationCol.
                 setCellValueFactory(new PropertyValueFactory<>("treeView"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
         IBANCol.setCellValueFactory(new PropertyValueFactory<>("IBAN"));
         receivedCol.setCellValueFactory(new PropertyValueFactory<>("closeDebt"));
-        tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         //initialize choice box
 
@@ -130,7 +133,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     /**
      * method to mark all debts as paid
      */
-    public void markAllDebtsAsPaid(){
+    public void closeAllDebts(){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
         switch(locale.getLanguage()) {
             case "nl":
@@ -175,7 +178,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     /**
      * method to mark all selected debts as paid
      */
-    public void paySelectedDebts(){
+    public void closeSelectedDebts(){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
         switch(locale.getLanguage()) {
             case "nl":
@@ -194,24 +197,27 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         alert.setHeaderText(null);
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK) {
-            ListView<String> selected = new ListView<>();
-//            for (Object o : listView.getSelectionModel().getSelectedItems())
-//                selected.getItems().add((String) o);
-            //mainCtrl.addItemsToClosedDebts(selected);
-            //listView.getItems().removeAll(listView.getSelectionModel().getSelectedItems());
+            for(DebtsTable debtRow : debtsTables){
+                if(debtRow.getCheckBox().isSelected()){
+                    Debt debt=debtRow.getDebt();
+                    debt.setSettled(true);
+                    server.updateDebt(debt, debt.getId());
+                }
+            }
+            addDebtsToList(event.getInvitationID());
         }
     }
 
     @Override
     public void LanguageSwitch() {
         homeButton.setText(Main.getLocalizedString("Home"));
-        yourCurrentDebtsLabel.setText(Main.getLocalizedString("yourCurrentDebts"));
+        //yourCurrentDebtsLabel.setText(Main.getLocalizedString("yourCurrentDebts"));
         //youShouldPayToLabel.setText(Main.getLocalizedString("youShouldPayTo"));
         //eventLabel.setText(Main.getLocalizedString("Event"));
         //amountLabel.setText(Main.getLocalizedString("Amount"));
-        paySelectedDebtsButton.setText(Main.getLocalizedString("paySelectedDebts"));
+        //paySelectedDebtsButton.setText(Main.getLocalizedString("paySelectedDebts"));
         payAllDebtsButton.setText(Main.getLocalizedString("payAllDebts"));
-        seeClosedDebtsButton.setText(Main.getLocalizedString("seeClosedDebts"));
+        //seeClosedDebtsButton.setText(Main.getLocalizedString("seeClosedDebts"));
     }
 
     /**
@@ -246,7 +252,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
      * create the debts to be added to the Open Debts page
      * @param allDebts list of debts of the event
      */
-    private void createDebtsTable(ObservableList<Debt> allDebts) {
+    public void createDebtsTable(ObservableList<Debt> allDebts) {
         debtsTables.clear();
         for(Debt debt : allDebts){
             //set tree view-debts info + text flow (bold text)
@@ -286,14 +292,20 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
             //set closed debts button
             Button closeDebtButton=new Button("Close Debt");
+            closeDebtButton.setOnAction(x -> {
+                debt.setSettled(true);
+                server.updateDebt(debt, debt.getId());
+                addDebtsToList(event.getInvitationID());
+            });
             closeDebtButton.setAlignment(Pos.CENTER);
 
             //create debt
-            DebtsTable newDebt=new DebtsTable(treeView, viewEmailButton,
-                    viewIBANButton, closeDebtButton);
+            DebtsTable newDebt=new DebtsTable(new CheckBox(), treeView, viewEmailButton,
+                    viewIBANButton, closeDebtButton, debt);
             debtsTables.add(newDebt);
         }
     }
+
 
     /**
      * add drop down details for the debt
@@ -305,7 +317,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         if(participant.getIBAN().isEmpty())
             return new Text("No bank information is available for");
         String info="Bank information available: Transfer money to:\n" +
-                "Account Holder: " + "name \n" +
+                "Account Holder: " + participant.getAccountHolder()  + "\n" +
                 "IBAN: " + participant.getIBAN() + "\n";
         if(participant.getBIC().isEmpty())
             info=info + "BIC: unknown";
@@ -433,6 +445,6 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         allParticipants.clear();
         List<Participant> pList = server.getParticipantsByInvitationId(id);
         allParticipants.addAll(pList);
-        allParticipants.add(new Participant("", null, null, null));
+        allParticipants.add(new Participant("", null, null, null, null));
     }
 }

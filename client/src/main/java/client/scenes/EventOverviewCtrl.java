@@ -179,7 +179,6 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         event.setName(title);
         event = server.updateEvent(event, event.getID());
         eventTitleText.setText(title);
-
     }
 
     /**
@@ -210,7 +209,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         String pListString = pList.stream().map(Participant::getName).toList().toString();
         pListString = pListString.substring(1, pListString.length()-1);
         participantsListText.setText(pListString);
-        allParticipants.add(new Participant("", null, null, null));
+        allParticipants.add(new Participant("", null, null, null, null));
     }
 
     @Override
