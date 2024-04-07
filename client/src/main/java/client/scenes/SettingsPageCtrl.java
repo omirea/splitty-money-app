@@ -10,6 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.Objects;
 
 public class SettingsPageCtrl implements Main.LanguageSwitch {
@@ -70,20 +72,21 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
         Main.switchLocale("translations", "nl");
     }
 
-    public void darkMode(ActionEvent event) {
+    public void darkMode(ActionEvent event) throws MalformedURLException {
         lightModeButton.setSelected(false);
-        mainCtrl.getSettingsPage().getStylesheets().add("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getClosedDebts().getStylesheets().add("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getExpense().getStylesheets().add("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getInvitation().getStylesheets().add("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getStart().getStylesheets().add("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getOverview().getStylesheets().add("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getManageParticipants().getStylesheets().add("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getEventsAdmin().getStylesheets().add("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getLogInAdmin().getStylesheets().add("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getOpenDebts().getStylesheets().add("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getAddEditParticipant().getStylesheets().add("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getAddEditParticipant().getStylesheets().add("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
+        File style = new File("./src/main/resources/style.css");
+        mainCtrl.getSettingsPage().getStylesheets().add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getClosedDebts().getStylesheets().add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getExpense().getStylesheets().add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getInvitation().getStylesheets().add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getStart().getStylesheets().add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getOverview().getStylesheets().add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getManageParticipants().getStylesheets().add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getEventsAdmin().getStylesheets().add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getLogInAdmin().getStylesheets().add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getOpenDebts().getStylesheets().add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getAddEditParticipant().getStylesheets().add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getAddEditParticipant().getStylesheets().add(style.toURI().toURL().toExternalForm());
     }
 
 
@@ -98,20 +101,21 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
 
     }
 
-    public void lightMode(ActionEvent actionEvent) {
+    public void lightMode(ActionEvent actionEvent) throws MalformedURLException {
         darkModeButton.setSelected(false);
-        mainCtrl.getSettingsPage().getStylesheets().remove("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getClosedDebts().getStylesheets().remove("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getExpense().getStylesheets().remove("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getInvitation().getStylesheets().remove("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getStart().getStylesheets().remove("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getOverview().getStylesheets().remove("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getManageParticipants().getStylesheets().remove("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getEventsAdmin().getStylesheets().remove("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getLogInAdmin().getStylesheets().remove("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getOpenDebts().getStylesheets().remove("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getAddEditParticipant().getStylesheets().remove("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
-        mainCtrl.getAddEditParticipant().getStylesheets().remove("https://raw.githubusercontent.com/antoniopelusi/JavaFX-Dark-Theme/main/style.css");
+        File style = new File("./src/main/resources/style.css");
+        mainCtrl.getSettingsPage().getStylesheets().remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getClosedDebts().getStylesheets().remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getExpense().getStylesheets().remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getInvitation().getStylesheets().remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getStart().getStylesheets().remove(style.toURI().toURL().toExternalForm());;
+        mainCtrl.getOverview().getStylesheets().remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getManageParticipants().getStylesheets().remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getEventsAdmin().getStylesheets().remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getLogInAdmin().getStylesheets().remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getOpenDebts().getStylesheets().remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getAddEditParticipant().getStylesheets().remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getAddEditParticipant().getStylesheets().remove(style.toURI().toURL().toExternalForm());
 
     }
 }
