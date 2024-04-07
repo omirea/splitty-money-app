@@ -1,10 +1,8 @@
 package client.scenes;
 
 import client.Main;
-import client.nodes.AddedParticipant;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import commons.Debt;
 import commons.Event;
 import commons.Participant;
 import javafx.beans.property.SimpleObjectProperty;
@@ -17,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -75,7 +72,40 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
                     (getClass().getResourceAsStream("/icons/trash.png")));
             trashCan.setImage(trash);
             deleteParticipant.setGraphic(trashCan);
-            deleteParticipant.setOnAction(participant -> deleteParticipantFromDb(q.getValue()));
+
+            deleteParticipant.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    /*
+                    if(q.getValue().getId()==null) {
+                        deleteParticipant.setDisable(true);
+                        Alert alert=new Alert(Alert.AlertType.WARNING);
+                        switch(locale.getLanguage()) {
+                            case "nl":
+                                alert.setTitle("Niet-opgeslagen deelnemer");
+                                alert.setContentText
+                                        ("Klik eerst op de knop Voltooien " +
+                                                "om de deelnemer op te slaan");
+                                break;
+                            case "en":
+                                alert.setTitle
+                                        ("Unsaved Participant");
+                                alert.setContentText
+                                        ("First Click The Finish Button To Save The Participant");
+                                break;
+                            default:
+                                break;
+                        }
+                        alert.setHeaderText(null);
+                        alert.showAndWait();
+                    }else{*/
+                    deletedParticipants.add(q.getValue());
+                    deleteParticipantFromTable(q.getValue());
+
+
+                }
+            });
+
             return new SimpleObjectProperty<>(deleteParticipant);
         });
         editColumn.setCellValueFactory(q -> {
@@ -86,6 +116,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
                 public void handle(ActionEvent event) {
                     recentParticipants.getItems().remove(q.getValue());
                     showParticipant(q.getValue());
+                    recentParticipants.refresh();
                 }
             });
             return new SimpleObjectProperty<>(toParticipant);
@@ -104,7 +135,10 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     }
 
     public void addParticipantToBox(Participant participant) {
+        Participant p = server.createParticipant(participant);
+        participant.setId(p.getId());
         recentParticipants.getItems().add(participant);
+        recentParticipants.refresh();
     }
 
     private void showParticipant(Participant participant) {
@@ -112,8 +146,10 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     }
 
     private void deleteParticipantFromDb(Participant participant) {
-        recentParticipants.getItems().remove(participant);
-        server.deleteParticipant(participant.getId());
+            recentParticipants.getItems().remove(participant);
+            server.deleteParticipant(participant.getId());
+
+
     }
     private void deleteParticipantFromTable(Participant participant) {
         recentParticipants.getItems().remove(participant);
@@ -162,13 +198,14 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
      */
     public void onFinishClick() {
         System.out.println("Complete changes and return to event");
+        /*
         for (Participant participant : addedParticipants) {
             Participant p = server.createParticipant(participant);
             participant.setId(p.getId());
         }
         for (Participant participant : editedParticipants) {
             server.updateParticipant(participant, participant.getId());
-        }
+        }*/
         for (Participant participant : deletedParticipants) {
             server.deleteParticipant(participant.getId());
         }
@@ -182,15 +219,15 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     /**
      * method to add a random participant
      */
+    /*
     public void addRandomParticipant() {
         Participant participant = new Participant(event, new ArrayList<Debt>(),
-                new ArrayList<Debt>(), "name", "email",
-                "acc holder", "iban", "bic");
+                new ArrayList<Debt>(), "name", "email", "iban", "bic");
         AddedParticipant addedParticipant = new AddedParticipant(participant, this);
         addedParticipants.add(participant);
         HBox hBox = addedParticipant.getNode();
         displayParticipants.getChildren().add(hBox);
-    }
+    }*/
 
     /**
      * method to add participant
@@ -199,7 +236,9 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         recentParticipants.getItems().clear();
         List<Participant> pList = server.getParticipantsByInvitationId(event.getInvitationID());
         for (Participant participant : pList) {
+            //server.createParticipant(participant);
             addParticipantToBox(participant);
+
         }
     }
 
@@ -225,10 +264,12 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         event = server.getEventByInvitationId(id);
     }
     public void addAddedParticipant(Participant participant) {
+        //server.createParticipant(participant);
         addedParticipants.add(participant);
     }
 
     public void addEditedParticipant(Participant participant) {
+        server.updateParticipant(participant, participant.getId());
         editedParticipants.add(participant);
     }
 

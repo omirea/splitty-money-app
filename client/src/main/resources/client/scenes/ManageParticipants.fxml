@@ -22,11 +22,11 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TableView fx:id="recentParticipants" prefHeight="305.0" prefWidth="405.0">
+            <TableView fx:id="recentParticipants" prefHeight="293.0" prefWidth="461.0">
               <columns>
-                <TableColumn fx:id="nameColumn" prefWidth="144.79999577999115" text="Name" />
-                <TableColumn fx:id="editColumn" prefWidth="118.40003967285156" />
-                  <TableColumn fx:id="deleteColumn" prefWidth="118.40003967285156" />
+                <TableColumn fx:id="nameColumn" prefWidth="131.1999591588974" text="Name" />
+                <TableColumn fx:id="editColumn" minWidth="7.20001220703125" prefWidth="136.80006408691406" />
+                  <TableColumn fx:id="deleteColumn" minWidth="7.20001220703125" prefWidth="136.80006408691406" />
               </columns>
             </TableView>
             <HBox alignment="CENTER" prefHeight="43.0" prefWidth="288.0" spacing="20.0">
@@ -34,7 +34,6 @@
                   <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancelClick" text="Cancel" />
                   <Button fx:id="finishButton" mnemonicParsing="false" onAction="#onFinishClick" text="Finish" />
                   <Button fx:id="addButton" mnemonicParsing="false" onAction="#showAddParticipant" text="Add" />
-                  <Button mnemonicParsing="false" onAction="#addRandomParticipant" text="test" />
                </children>
             </HBox>
          </children>
