@@ -1,6 +1,8 @@
 package client.scenes;
 
 import client.Main;
+import client.nodes.ConnectionSetup;
+import client.nodes.LanguageSwitch;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
@@ -49,15 +51,31 @@ public class StartCtrl implements  Main.LanguageSwitch {
     private TableColumn<Event, Button> deleteColumn;
     @FXML
     private TableColumn<Event, Button> openColumn;
+    ConnectionSetup connectionSetup;
 
-
+    private LanguageSwitch languageSwitch;
 
     @Inject
-    public StartCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public StartCtrl(ServerUtils server, MainCtrl mainCtrl, ConnectionSetup cs,
+                     LanguageSwitch languageSwitch) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.connectionSetup = cs;
+        this.languageSwitch=languageSwitch;
     }
 
+    public void setUpConnection() {
+        if (connectionSetup.hasConfiguredServer()) {
+            server.setServer(connectionSetup.getConfiguredServer());
+            return;
+        }
+        connectionSetup.promptUser();
+    }
+
+    public void setUpLanguage(){
+        String[] lg=languageSwitch.getLanguage().split("_");
+        Main.switchLocale(lg[0], lg[1]);
+    }
 
     /**
      * method to initialize the page view (table, settings icon and admin icon)
@@ -110,7 +128,6 @@ public class StartCtrl implements  Main.LanguageSwitch {
             });
             return row;
         });
-        recentEvents.refresh();
     }
 
     /**
@@ -126,22 +143,27 @@ public class StartCtrl implements  Main.LanguageSwitch {
             mainCtrl.showEventOverview(e.getInvitationID());
             createEventField.setText("");
         } else {
-            Alert alertNameEmpty = new Alert(Alert.AlertType.WARNING);
-            switch(locale.getLanguage()){
-                case "nl":
-                    alertNameEmpty.setTitle("Geen Evenement Naam");
-                    alertNameEmpty.setContentText("Vul een naam voor het evenement in AUB");
-                    break;
-                case "en":
-                    alertNameEmpty.setTitle("Empty Event Title Field");
-                    alertNameEmpty.setContentText("Please fill in the event title field");
-                    break;
-                default:
-                    break;
-            }
-            alertNameEmpty.setHeaderText(null);
+            Alert alertNameEmpty = getAlertNameEmpty();
             alertNameEmpty.showAndWait();
         }
+    }
+
+    private static Alert getAlertNameEmpty() {
+        Alert alertNameEmpty = new Alert(Alert.AlertType.WARNING);
+        switch(locale.getLanguage()){
+            case "nl":
+                alertNameEmpty.setTitle("Geen Evenement Naam");
+                alertNameEmpty.setContentText("Vul een naam voor het evenement in AUB");
+                break;
+            case "en":
+                alertNameEmpty.setTitle("Empty Event Title Field");
+                alertNameEmpty.setContentText("Please fill in the event title field");
+                break;
+            default:
+                break;
+        }
+        alertNameEmpty.setHeaderText(null);
+        return alertNameEmpty;
     }
 
     /**
@@ -156,23 +178,28 @@ public class StartCtrl implements  Main.LanguageSwitch {
             addEventToBox(e);
             joinEventField.setText("");
         } catch (Exception e) {
-            Alert alert=new Alert(Alert.AlertType.WARNING);
-            switch(locale.getLanguage()) {
-                case "nl":
-                    alert.setTitle("Uitnodigingscode niet gevonden");
-                    alert.setContentText("Check je uitnodigingscode opnieuw AUB");
-                    break;
-                case "en":
-                    alert.setTitle("Invitation code not found");
-                    alert.setContentText("Please check your invitation code again");
-                    break;
-                default:
-                    break;
-            }
-            alert.setHeaderText(null);
+            Alert alert = getAlertIncorrectInvitationId();
             alert.show();
             throw e;
         }
+    }
+
+    private static Alert getAlertIncorrectInvitationId() {
+        Alert alert=new Alert(Alert.AlertType.WARNING);
+        switch(locale.getLanguage()) {
+            case "nl":
+                alert.setTitle("Uitnodigingscode niet gevonden");
+                alert.setContentText("Check je uitnodigingscode opnieuw AUB");
+                break;
+            case "en":
+                alert.setTitle("Invitation code not found");
+                alert.setContentText("Please check your invitation code again");
+                break;
+            default:
+                break;
+        }
+        alert.setHeaderText(null);
+        return alert;
     }
 
     /**
@@ -180,7 +207,6 @@ public class StartCtrl implements  Main.LanguageSwitch {
      */
     public void addEventToBox(Event event) {
         recentEvents.getItems().add(event);
-        //recentEvents.refresh();
     }
 
     private void showEvent(String invID) {
@@ -189,12 +215,15 @@ public class StartCtrl implements  Main.LanguageSwitch {
 
     private void deleteEventFromTable(Event event) {
         recentEvents.getItems().remove(event);
+        recentEvents.refresh();
     }
 
     /**
      * method to go to adming log in page
      */
     public void onAdminClick(){
+        joinEventField.clear();
+        createEventField.clear();
         mainCtrl.showAdminLogIn();
     }
 
