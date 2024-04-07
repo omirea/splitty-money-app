@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.Main;
 import client.nodes.ConnectionSetup;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.RadioMenuItem;
@@ -9,12 +10,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.Objects;
 
 public class SettingsPageCtrl implements Main.LanguageSwitch {
 
 
     ConnectionSetup connectionSetup;
+
+    private final MainCtrl mainCtrl;
 
     @FXML
     private RadioMenuItem englishButton;
@@ -36,8 +41,9 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
 
 
     @Inject
-    public SettingsPageCtrl(ConnectionSetup cs){
+    public SettingsPageCtrl(ConnectionSetup cs, MainCtrl mainCtrl){
         connectionSetup = cs;
+        this.mainCtrl=mainCtrl;
     }
 
     @FXML
@@ -72,14 +78,72 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
         connectionSetup.promptUser();
     }
 
+
+    public void darkMode(ActionEvent event) throws MalformedURLException {
+        lightModeButton.setSelected(false);
+        File style = new File("./src/main/resources/style.css");
+        mainCtrl.getSettingsPage().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getClosedDebts().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getExpense().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getInvitation().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getStart().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getOverview().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getManageParticipants().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getEventsAdmin().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getLogInAdmin().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getOpenDebts().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getAddEditParticipant().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getAddEditParticipant().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+    }
+
+
+    public void lightMode(ActionEvent actionEvent) throws MalformedURLException {
+        darkModeButton.setSelected(false);
+        File style = new File("./src/main/resources/style.css");
+        mainCtrl.getSettingsPage().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getClosedDebts().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getExpense().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getInvitation().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getStart().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());;
+        mainCtrl.getOverview().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getManageParticipants().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getEventsAdmin().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getLogInAdmin().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getOpenDebts().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getAddEditParticipant().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getAddEditParticipant().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+
+    }
+
+    /**
+     *
+     */
     @Override
     public void LanguageSwitch() {
-        languageMenuButton.setText(Main.getLocalizedString("Language"));
-        themeButton.setText(Main.getLocalizedString("Theme"));
-        englishButton.setText(Main.getLocalizedString("English"));
-        dutchButton.setText(Main.getLocalizedString("Dutch"));
-        lightModeButton.setText(Main.getLocalizedString("lightMode"));
-        darkModeButton.setText(Main.getLocalizedString("darkMode"));
 
     }
 }
