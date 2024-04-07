@@ -38,7 +38,7 @@ import java.util.function.Consumer;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
-	private static String SERVER = "http://localhost:8080/";
+	private static String SERVER;
 
 	/**
 	 * sets the URL for the server
@@ -54,12 +54,17 @@ public class ServerUtils {
 	 * @return true if connected properly, false otherwise.
 	 */
 	public boolean testConnection(String server) {
-		var	result = ClientBuilder.newClient(new ClientConfig())
-			.target(server).path("test/")
-			.request(APPLICATION_JSON)
-			.accept(APPLICATION_JSON)
-			.get(Response.class);
-		return result.getStatus() == 204;
+		try {
+			var result = ClientBuilder.newClient(new ClientConfig())
+				.target(server).path("test/")
+				.request(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.get(Response.class);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+
 
 	}
 
