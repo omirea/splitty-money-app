@@ -2,6 +2,7 @@ package client.scenes;
 
 import client.Main;
 import client.nodes.ConnectionSetup;
+import client.nodes.LanguageSwitch;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.RadioMenuItem;
@@ -14,7 +15,9 @@ import java.util.Objects;
 public class SettingsPageCtrl implements Main.LanguageSwitch {
 
 
-    ConnectionSetup connectionSetup;
+    private ConnectionSetup connectionSetup;
+
+    private LanguageSwitch languageSwitch;
 
     @FXML
     private RadioMenuItem englishButton;
@@ -36,8 +39,9 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
 
 
     @Inject
-    public SettingsPageCtrl(ConnectionSetup cs){
+    public SettingsPageCtrl(ConnectionSetup cs, LanguageSwitch ls){
         connectionSetup = cs;
+        languageSwitch = ls;
     }
 
     @FXML
@@ -61,10 +65,12 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
 
     public void onEnglishSwitchClick() {
         dutchButton.setSelected(false);
+        languageSwitch.saveToConfig("translations_en");
         Main.switchLocale("translations", "en");
     }
     public void onDutchSwitchClick() {
         englishButton.setSelected(false);
+        languageSwitch.saveToConfig("translations_nl");
         Main.switchLocale("translations", "nl");
     }
 
