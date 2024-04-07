@@ -12,6 +12,6 @@ public class TestController {
     @GetMapping(path = { "", "/" })
     @ResponseBody
     public ResponseEntity<Boolean> testConnection() {
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(true);
     }
 }

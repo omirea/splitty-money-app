@@ -52,17 +52,14 @@ public class ServerUtils {
 	 */
 	public boolean testConnection(String server) {
 		try {
-			ClientBuilder.newClient(new ClientConfig())
+            return ClientBuilder.newClient(new ClientConfig())
 				.target(server).path("test/")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
-				.get(Response.class);
-			return true;
+				.get().readEntity(Boolean.class);
 		} catch (Exception e) {
 			return false;
 		}
-
-
 	}
 
 	public String getEventByInvitationIdJSON(String invitationID){
