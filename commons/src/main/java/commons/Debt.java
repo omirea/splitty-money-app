@@ -17,6 +17,10 @@ public class Debt {
     private Event event;
 
     @ManyToOne
+    @JoinColumn(name = "expense_id")
+    private Expense expense;
+
+    @ManyToOne
     @JoinColumn(name = "from_id", nullable = false)
     private Participant from;
 
@@ -39,8 +43,9 @@ public class Debt {
         settled = false;
     }
 
-    public Debt(Event event, Participant from, Participant to, Double amount) {
+    public Debt(Event event, Expense expense, Participant from, Participant to, Double amount) {
         this.event = event;
+        this.expense = expense;
         this.from = from;
         this.to = to;
         this.amount = amount;
@@ -63,6 +68,14 @@ public class Debt {
 
     public void setEvent(Event event) {
         this.event = event;
+    }
+
+    public Expense getExpense() {
+        return expense;
+    }
+
+    public void setExpense(Expense expense) {
+        this.expense = expense;
     }
 
     /**
