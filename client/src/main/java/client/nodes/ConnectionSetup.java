@@ -2,6 +2,7 @@ package client.nodes;
 
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 
 import java.io.*;
@@ -77,12 +78,22 @@ public class ConnectionSetup {
             Optional<String> result = tid.showAndWait();
             if (result.isPresent()){
                 String res = result.get();
-                if (!serverUtils.testConnection(res)) continue;
+                if (!serverUtils.testConnection(res)) {
+                    getAlert().showAndWait();
+                    continue;
+                }
                 done = true;
                 setServer(res);
                 break;
             }
             if (hasConfiguredServer()) break;
         }
+    }
+
+    public Alert getAlert(){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Connection error");
+        alert.setContentText("The server you tried to connect to does not exist.");
+        return alert;
     }
 }

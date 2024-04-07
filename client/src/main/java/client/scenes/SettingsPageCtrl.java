@@ -2,7 +2,6 @@ package client.scenes;
 
 import client.Main;
 import client.nodes.ConnectionSetup;
-import client.utils.ServerUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.RadioMenuItem;
