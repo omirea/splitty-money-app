@@ -295,9 +295,9 @@ public class ServerUtils {
 	}
 
 	/**
-	 * method to return only debts of a certain event
-	 * @param id the invitation id of the event
-	 * @return list of debts from an event
+	 * method to return only debts of a certain expense
+	 * @param id the id of the expense from the current event
+	 * @return list of debts from an expense
 	 */
 	public List<Debt> getDebtsByInvitationId(String id) {
 		try {
@@ -307,25 +307,6 @@ public class ServerUtils {
 					.accept(APPLICATION_JSON)
 					.get(new GenericType<List<Debt>>() {});
 		}catch (Exception e) {
-			// Handle exceptions (e.g., IOException, ProcessingException)
-			e.printStackTrace();
-			return Collections.emptyList();
-		}
-	}
-
-	/**
-	 * method to return only debts of a certain expense
-	 * @param id the id of the expense from the current event
-	 * @return list of debts from an expense
-	 */
-	public List<Debt> getDebtsByExpense(Long id) {
-		try {
-			return ClientBuilder.newClient(new ClientConfig())
-					.target(SERVER).path("debt/expense/" + id)
-					.request(APPLICATION_JSON)
-					.accept(APPLICATION_JSON)
-					.get(new GenericType<List<Debt>>() {});
-		} catch (Exception e) {
 			// Handle exceptions (e.g., IOException, ProcessingException)
 			e.printStackTrace();
 			return Collections.emptyList();
