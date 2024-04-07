@@ -143,9 +143,7 @@ public class DebtController {
     public ResponseEntity<List<Debt>> getDebtByExpense(
             @PathVariable("id") Long id) {
 
-        Expense e = new Expense();
-        e.setID(id);
-        Optional<Expense> tempExpense = expenseDB.findOne(Example.of(e, ExampleMatcher.matchingAll()));
+        Optional<Expense> tempExpense = expenseDB.findById(id);
         if (tempExpense.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
