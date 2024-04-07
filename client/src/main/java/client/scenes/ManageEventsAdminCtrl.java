@@ -182,7 +182,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
             List<Expense> expenses =
                 server.getExpensesByInvitationId(q.getValue().getInvitationID());
             for(Expense expense : expenses){
-                List<Debt> debts = server.getDebtsByExpenseId(expense.getId());
+                List<Debt> debts = server.getDebtsByInvitationId(q.getValue().getInvitationID());
                 for (Debt debt : debts){
                     server.deleteDebt(debt.getId());
                 }

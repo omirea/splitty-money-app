@@ -223,17 +223,28 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             expense = new Expense(event,whatFor, amount, null, date, currency);
             expense.setEvent(event);
             expense=server.createExpense(expense);
-            for(Debt debt:debtList){
-                debt.setExpense(expense);
-                debt=server.updateDebt(debt, debt.getId());
-            }
         } else {
-            List<Debt> debts=server.getDebtsByExpenseId(expense.getId());
-            for(Debt debt : debts)
-                server.deleteDebt(debt.getId());
-            for(Debt debt:debtList){
-                debt.setExpense(expense);
-                debt=server.updateDebt(debt, debt.getId());
+            //check if the debt already exists between these 2 participants
+            //if it exists, update it
+            //if it doesn't exist, create it
+            List<Debt> debtsDB=server.getDebtsByInvitationId(event.getInvitationID());
+            for(Debt debt : debtList){
+                Participant from=debt.getFrom();
+                Participant to=debt.getTo();
+                boolean exists=false;
+                for(Debt debtDB : debtsDB){
+                    if(debtDB.getFrom().equals(from) && debtDB.getTo().equals(to)){
+                        exists=true;
+                        Double amountDB=debtDB.getAmount();
+                        Double newAmount=debt.getAmount();
+                        debtDB.setAmount(amountDB+newAmount);
+                        server.updateDebt(debtDB, debtDB.getId());
+                    }
+                }
+                if(!exists){
+                    debt.setEvent(event);
+                    server.createDebt(debt);
+                }
             }
             expense.setDateSent(date);
             expense.setAmount(amount);
@@ -264,8 +275,6 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                 //List<Expense> expenses=server.getExpensesByInvitationId(event.getInvitationID());
                 Debt debt = new Debt(personAmountMap.get(personAmount.getName()), whoPaid,
                     Double.parseDouble(personAmount.getTextField().getText()));
-                debt.setExpense(null);
-                debt=server.createDebt(debt);
                 debtList.add(debt);
             }
         } else {
@@ -273,10 +282,32 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                 if (personAmount.getCheckBox().isSelected()) {
                     Debt debt = new Debt(personAmountMap.get(personAmount.getName()), whoPaid,
                         Double.parseDouble(personAmount.getTextField().getText()));
-                    debt.setExpense(null);
+
                     debt=server.createDebt(debt);
                     debtList.add(debt);
                 }
+            }
+        }
+        //check if the debt already exists between these 2 participants
+        //if it exists, update it
+        //if it doesn't exist, create it
+        List<Debt> debtsDB=server.getDebtsByInvitationId(event.getInvitationID());
+        for(Debt debt : debtList){
+            Participant from=debt.getFrom();
+            Participant to=debt.getTo();
+            boolean exists=false;
+            for(Debt debtDB : debtsDB){
+                if(debtDB.getFrom().equals(from) && debtDB.getTo().equals(to)){
+                    exists=true;
+                    Double amountDB=debtDB.getAmount();
+                    Double newAmount=debt.getAmount();
+                    debtDB.setAmount(amountDB+newAmount);
+                    server.updateDebt(debtDB, debtDB.getId());
+                }
+            }
+            if(!exists){
+                debt.setEvent(event);
+                server.createDebt(debt);
             }
         }
     }
