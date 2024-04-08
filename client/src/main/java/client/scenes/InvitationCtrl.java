@@ -25,6 +25,7 @@ public class InvitationCtrl implements Main.LanguageSwitch{
 
     Event event;
 
+
     @FXML
     private TextArea emailTextField;
 
@@ -48,6 +49,7 @@ public class InvitationCtrl implements Main.LanguageSwitch{
 
     @FXML
     private Label inviteEmailLabel;
+
 
 
     @Inject
