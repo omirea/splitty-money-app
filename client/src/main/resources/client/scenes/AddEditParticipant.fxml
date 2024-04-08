@@ -12,13 +12,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddEditParticipantCtrl">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../stylesheets/addEditParticipant.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddEditParticipantCtrl">
    <children>
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="10.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="addEditParticipantLabel" text="Add/Edit Participant">
                <font>
-                  <Font name="System Bold" size="27.0" />
+                  <Font name="Calibri Bold" size="30.0" />
                </font>
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -40,31 +40,31 @@
                <children>
                   <Label fx:id="nameLabel" text="Name">
                      <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font name="Calibri Bold" size="20.0" />
                      </font>
                   </Label>
                   <TextField id="nameTextField" fx:id="nameTextField" prefHeight="43.0" prefWidth="493.0" promptText="John" GridPane.columnIndex="1" />
                   <Label fx:id="emailLabel" text="Email" textAlignment="CENTER" GridPane.rowIndex="1">
                      <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font name="Calibri Bold" size="20.0" />
                      </font>
                   </Label>
                   <TextField id="emailTextField" fx:id="emailTextField" prefHeight="42.0" prefWidth="493.0" promptText="johnsmith@gmail.com" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label prefHeight="27.0" prefWidth="98.0" text="Acc. Holder" GridPane.rowIndex="2">
                      <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font name="Calibri Bold" size="20.0" />
                      </font>
                   </Label>
                   <TextField fx:id="accHolderTextField" prefHeight="26.0" prefWidth="461.0" promptText="John Smith" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label fx:id="ibanLabel" text="IBAN" GridPane.rowIndex="3">
                      <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font name="Calibri Bold" size="20.0" />
                      </font>
                   </Label>
                   <TextField id="ibanTextField" fx:id="ibanTextField" prefHeight="43.0" prefWidth="493.0" promptText="NL12 BANK 1234567890" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Label fx:id="bicLabel" text="BIC" GridPane.rowIndex="4">
                      <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font name="Calibri Bold" size="20.0" />
                      </font>
                   </Label>
                   <TextField id="bicTextField" fx:id="bicTextField" prefHeight="72.0" prefWidth="493.0" promptText="HBUKGB4B" GridPane.columnIndex="1" GridPane.rowIndex="4" />

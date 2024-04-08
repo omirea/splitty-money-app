@@ -2,13 +2,8 @@
     -fx-background-color: #f8f4e5;
 }
 
-.text-field{
-    -fx-background-color: #fdfcf6;
-    -fx-border-color: #bbb6ac;
-}
-
 .choice-box{
-    -fx-background-color:  #fdfcf6;
+    -fx-background-color:  white;
     -fx-border-color: #bbb6ac;
 }
 
@@ -35,7 +30,7 @@
     -fx-border-image-width: 3;
 }
 
-#recentEvents{
+#tableView{
     -fx-background-color: #fdfcf6;
     -fx-border-color: #bbb6ac;
 }
@@ -45,7 +40,7 @@
 }
 
 .table-view .cell{
-    -fx-background-color: #fdfcf6;
+    -fx-background-color: white;
 }
 
 #tableview .tool-bar .filler{

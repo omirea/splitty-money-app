@@ -2,14 +2,9 @@
     -fx-background-color: #f8f4e5;
 }
 
-.text-field{
-    -fx-background-color: #fdfcf6;
-    -fx-border-color: #bbb6ac;
-}
-
 .choice-box{
     -fx-background-color:  #fdfcf6;
-    -fx-border-color: #bbb6ac;
+    -fx-border-color: #354ed5;
 }
 
 .choice-box .label{
@@ -18,10 +13,6 @@
 
 .label{
     -fx-text-fill: black;
-}
-
-#from, #to{
-    -fx-font-weight: bold;
 }
 
 .label .text-field{
@@ -35,7 +26,7 @@
     -fx-border-image-width: 3;
 }
 
-#recentEvents{
+#recentParticipants{
     -fx-background-color: #fdfcf6;
     -fx-border-color: #bbb6ac;
 }
@@ -45,9 +36,5 @@
 }
 
 .table-view .cell{
-    -fx-background-color: #fdfcf6;
-}
-
-#tableview .tool-bar .filler{
-    -fx-background-color: red;
+    -fx-background-color: white;
 }
