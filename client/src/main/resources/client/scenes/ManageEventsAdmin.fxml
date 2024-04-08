@@ -21,13 +21,13 @@
                         <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#onLogOutClick" text="Log Out" />
                     </items>
                   </ToolBar>
-                  <ToolBar prefHeight="45.0" prefWidth="189.0">
+                  <ToolBar prefHeight="37.0" prefWidth="218.0">
                     <items>
                         <Button fx:id="importButton" alignment="TOP_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onImportClick" text="Importeren" />
                       <Button fx:id="refreshButton" alignment="TOP_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#refresh" text="Herladen" />
                     </items>
                      <padding>
-                        <Insets left="27.0" />
+                        <Insets left="70.0" />
                      </padding>
                      <HBox.margin>
                         <Insets />
