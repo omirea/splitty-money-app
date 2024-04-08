@@ -4,6 +4,7 @@ import client.Main;
 import client.utils.ServerUtils;
 import commons.Event;
 import commons.Participant;
+import jakarta.mail.Part;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -11,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -77,6 +79,23 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             String iban = ibanTextField.getText();
             String bic = bicTextField.getText();
 
+            if(!hasUniqueName(name)){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                switch(locale.getLanguage()) {
+                    case "nl":
+                        alert.setTitle("Naam is al bezet");
+                        alert.setContentText("Deze naam is al bezet, kies een andere naam.");
+                        break;
+                    case "en":
+                        alert.setTitle("Name is already chose");
+                        alert.setContentText("This name is already chosen, fill in another name");
+                        break;
+                    default:
+                        break;
+                }
+                alert.setHeaderText(null);
+                alert.showAndWait();
+            }
             if (participant == null) {
                 participant = new Participant(name, email, accHolder, iban, bic, event);
             } else {
@@ -112,6 +131,18 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             ibanTextField.clear();
             bicTextField.clear();
         }
+    }
+
+    private boolean hasUniqueName(String name) {
+        List<Participant> allP = server.getParticipantsByInvitationId(event.getInvitationID());
+        boolean bool = true;
+        for(Participant p : allP){
+            if(p.getName().equals(name)){
+                bool = false;
+                return bool;
+            }
+        }
+        return bool;
     }
 
     public ServerUtils getServer() {
