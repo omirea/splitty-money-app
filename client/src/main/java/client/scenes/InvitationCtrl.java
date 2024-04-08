@@ -3,15 +3,20 @@ package client.scenes;
 import client.Main;
 import client.utils.ServerUtils;
 import commons.Event;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import javafx.util.Duration;
 
 import javax.inject.Inject;
+
+import static client.Main.locale;
 
 public class InvitationCtrl implements Main.LanguageSwitch{
 
@@ -112,5 +117,24 @@ public class InvitationCtrl implements Main.LanguageSwitch{
         ClipboardContent content = new ClipboardContent();
         content.putString(invitation);
         clipboard.setContent(content);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        switch (locale.getLanguage()) {
+            case "nl":
+                alert.setTitle("Kopiëren succesvol");
+                alert.setContentText("Code succesvol gekopieerd");
+                break;
+            case "en":
+                alert.setTitle("Copying Successful");
+                alert.setContentText("Code Copied Successfully");
+                break;
+            default:
+                break;
+        }
+        alert.setHeaderText(null);
+        alert.show();
+        PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+        pause.setOnFinished(e ->
+                alert.hide());
+        pause.play();
     }
 }
