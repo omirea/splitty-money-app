@@ -95,6 +95,9 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
                 (getClass().getResourceAsStream("/icons/home.png")));
         homeView.setImage(setting);
         homeButton.setGraphic(homeView);
+        server.registerForMessages("/topic/participants", p ->{
+            allParticipants.add(p);
+        });
     }
 
 

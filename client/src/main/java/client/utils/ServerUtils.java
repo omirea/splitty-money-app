@@ -25,9 +25,18 @@ import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.simp.stomp.StompFrameHandler;
+import org.springframework.messaging.simp.stomp.StompHeaders;
+import org.springframework.messaging.simp.stomp.StompSession;
+import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
 
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
@@ -427,8 +436,42 @@ public class ServerUtils {
 		EXEC.shutdownNow();
 	}
 
+	private StompSession session=connect("ws://localhost:8080/websocket");
 
-	public void registerForMessages(Consumer<Participant> consumer){
+	private StompSession connect(String url){
+		//System.out.println(server);
+//		String urlTest="ws";
+//		String[] serverSplit=server.split("http");
+//		urlTest=urlTest+serverSplit[1] + "websocket";
+//		System.out.println(urlTest);
+		var client = new StandardWebSocketClient();
+		var stomp = new WebSocketStompClient(client);
+		stomp.setMessageConverter(new MappingJackson2MessageConverter());
+		try{
+			return  stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
+		}catch (InterruptedException e){
+			Thread.currentThread().interrupt();
+		}catch (ExecutionException e) {
+			throw new RuntimeException(e);
+		}
+		throw new IllegalStateException();
+	}
 
+	public void registerForMessages(String dest, Consumer<Participant> consumer){
+		session.subscribe(dest, new StompFrameHandler() {
+			@Override
+			public Type getPayloadType(StompHeaders headers) {
+				return Participant.class;
+			}
+
+			@Override
+			public void handleFrame(StompHeaders headers, Object payload) {
+				consumer.accept((Participant) payload);
+			}
+		});
+	}
+
+	public void send(String dest, Object o){
+		session.send(dest, o);
 	}
 }

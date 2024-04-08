@@ -55,6 +55,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         this.server=server;
         this.mainCtrl=mainCtrl;
     }
+
     @FXML
     private void onClickDeleteAll() {
         nameTextField.clear();
@@ -85,6 +86,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
                 participant.setIBAN(iban);
                 participant.setBIC(bic);
             }
+            server.send("/app/participants", participant);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             switch(locale.getLanguage()) {

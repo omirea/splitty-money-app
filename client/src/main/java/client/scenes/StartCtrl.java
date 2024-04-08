@@ -82,6 +82,11 @@ public class StartCtrl implements  Main.LanguageSwitch {
      */
     @FXML
     public void initialize() {
+        String serv=connectionSetup.getConfiguredServer();
+        String url="ws";
+        String[] serverSplit=serv.split("http");
+		url=url+serverSplit[1] + "websocket";
+        System.out.println(url);
         //set settings button
         settingsView.setFitHeight(25);
         settingsView.setFitWidth(22);
