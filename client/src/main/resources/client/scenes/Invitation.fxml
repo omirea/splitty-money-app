@@ -24,13 +24,16 @@
                      <font>
                         <Font size="17.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
                   </Label>
                   <Label fx:id="codeLabel">
                      <font>
                         <Font name="System Bold" size="22.0" />
                      </font>
                      <HBox.margin>
-                        <Insets left="-50.0" top="7.0" />
+                        <Insets top="7.0" />
                      </HBox.margin>
                   </Label>
                   <Button fx:id="copyButton" mnemonicParsing="false" onAction="#copy" text="Copy The Code">
