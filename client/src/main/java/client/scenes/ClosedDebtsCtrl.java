@@ -166,6 +166,16 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
                     j--;
                 }
             }
+
+            if (debt1.getAmount() < 0) {
+                Participant newFrom = debt1.getTo();
+                debt1.setTo(debt1.getFrom());
+                debt1.setFrom(newFrom);
+                debt1.setAmount(-debt1.getAmount());
+            } else if (debt1.getAmount() == 0) {
+                debts.remove(debt1);
+                i--;
+            }
         }
 
         allDebts.addAll(debts);
