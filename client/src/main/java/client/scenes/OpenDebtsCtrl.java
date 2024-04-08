@@ -110,6 +110,11 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
                 (getClass().getResourceAsStream("/icons/home.png")));
         homeView.setImage(setting);
         homeButton.setGraphic(homeView);
+
+        //websocket
+        server.registerForMessages("/topic/debts", debt ->{
+            allDebts.add(debt);
+        });
     }
 
 
@@ -229,6 +234,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         allDebts.clear();
         calculateAllDebts(id);
         createDebtsTable(allDebts);
+        for(Debt debt : allDebts)
+            server.send("/app/debts", debt);
         newDebts.addAll(allDebts);
         tableView.setItems(debtsTables);
     }

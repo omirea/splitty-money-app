@@ -25,9 +25,18 @@ import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.simp.stomp.StompFrameHandler;
+import org.springframework.messaging.simp.stomp.StompHeaders;
+import org.springframework.messaging.simp.stomp.StompSession;
+import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
 
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
@@ -425,5 +434,41 @@ public class ServerUtils {
 
 	public void stop() {
 		EXEC.shutdownNow();
+	}
+
+	private StompSession session=connect("ws:");
+
+	private StompSession connect(String url){
+		String[] serverSplit=server.split("http:");
+		url=url+serverSplit[1]+"websocket";
+		var client=new StandardWebSocketClient();
+		var stomp=new WebSocketStompClient(client);
+		stomp.setMessageConverter(new MappingJackson2MessageConverter());
+		try{
+			return stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
+		}catch (InterruptedException e){
+			Thread.currentThread().interrupt();
+		}catch (ExecutionException e){
+			throw new RuntimeException();
+		}
+		throw new IllegalStateException();
+	}
+
+	public void registerForMessages(String dest, Consumer<Debt> consumer){
+		session.subscribe(dest, new StompFrameHandler() {
+			@Override
+			public Type getPayloadType(StompHeaders headers) {
+				return Debt.class;
+			}
+
+			@Override
+			public void handleFrame(StompHeaders headers, Object payload) {
+				consumer.accept((Debt) payload);
+			}
+		});
+	}
+
+	public void send(String dest, Object o){
+		session.send(dest, o);
 	}
 }

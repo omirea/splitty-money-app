@@ -5,6 +5,8 @@ import commons.Event;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import server.database.DebtRepository;
 import server.database.EventRepository;
@@ -32,6 +34,13 @@ public class DebtController {
     @ResponseBody
     public List<Debt> getAllDebts() {
         return db.findAll();
+    }
+
+    @MessageMapping("/debts") // /app/debts -> as configured in ws config
+    @SendTo("/topic/debts")
+    public Debt addMessage(Debt debt){
+        createDebt(debt);
+        return debt;
     }
 
     /**
