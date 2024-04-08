@@ -172,7 +172,9 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     /**
      * method to open closed debts page
      */
-    public void seeClosedDebts(){mainCtrl.showClosedDebts(event.getInvitationID());}
+    public void seeClosedDebts() {
+        mainCtrl.showClosedDebts(event.getInvitationID());
+    }
 
     /**
      * method to mark all selected debts as paid

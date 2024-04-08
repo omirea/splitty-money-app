@@ -213,7 +213,7 @@ public class MainCtrl {
     public void showClosedDebts(String id) {
         closedDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Closed Debts");
-        closedDebtsCtrl.addDebtsToList(id);
+        closedDebtsCtrl.addDebtsToList();
         closedDebtsCtrl.addParticipantsToChoiceBox(id);
         primaryStage.setScene(closedDebts);
     }

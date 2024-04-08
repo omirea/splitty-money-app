@@ -118,11 +118,11 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     /**
      * add debts to the table view
      */
-    public void addDebtsToList(String id) {
+    public void addDebtsToList() {
         debtsTables.clear();
         newDebts.clear();
         allDebts.clear();
-        calculateAllDebts(id);
+        calculateAllDebts();
         createDebtsTable(allDebts);
         newDebts.addAll(allDebts);
         tableView.setItems(debtsTables);
@@ -131,7 +131,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     /**
      * calculates all debts of the event that were closed
      */
-    private void calculateAllDebts(String id) {
+    private void calculateAllDebts() {
         allDebts.clear();
 
         List<Debt> debts = server.getDebtsByInvitationId(event.getInvitationID());
@@ -219,7 +219,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             openDebtButton.setOnAction(x -> {
                 debt.setSettled(false);
                 server.updateDebt(debt, debt.getId());
-                addDebtsToList(event.getInvitationID());
+                addDebtsToList();
             });
             //create debt
             DebtsTable newDebt=new DebtsTable(new CheckBox(), treeView, viewEmailButton,
@@ -342,7 +342,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
                 server.updateDebt(debt, debt.getId());
             }
             tableView.getItems().clear();
-            calculateAllDebts(event.getInvitationID());
+            calculateAllDebts();
         }
     }
 
@@ -375,7 +375,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
                     server.updateDebt(debt, debt.getId());
                 }
             }
-            addDebtsToList(event.getInvitationID());
+            addDebtsToList();
         }
     }
 
