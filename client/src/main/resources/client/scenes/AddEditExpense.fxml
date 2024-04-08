@@ -1,23 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="427.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddEditExpenseCtrl">
+<AnchorPane prefHeight="400.0" prefWidth="427.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddEditExpenseCtrl">
    <children>
       <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
@@ -44,12 +32,12 @@
                   <Text fx:id="whatForText" strokeType="OUTSIDE" strokeWidth="0.0" text="What for?" GridPane.rowIndex="1" />
                   <Text fx:id="whoPaidText" strokeType="OUTSIDE" strokeWidth="0.0" text="Who Paid?" />
                   <Text fx:id="whenText" strokeType="OUTSIDE" strokeWidth="0.0" text="When?" GridPane.rowIndex="3" />
+                  <ChoiceBox fx:id="whoPaidField" onAction="#onWhoPaidChange" prefHeight="26.0" prefWidth="174.0" GridPane.columnIndex="1" />
                   <TextField fx:id="whatForField" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets right="44.0" />
                      </GridPane.margin></TextField>
                   <DatePicker fx:id="whenField" prefHeight="26.0" prefWidth="176.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <ChoiceBox fx:id="whoPaidField" onAction="#onWhoPaidChange" prefHeight="26.0" prefWidth="174.0" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <Text fx:id="howToSplitText" strokeType="OUTSIDE" strokeWidth="0.0" text="How to Split">
