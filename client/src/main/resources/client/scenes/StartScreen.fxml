@@ -14,13 +14,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="520.0" stylesheets="@../../stylesheets/startPage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.StartCtrl">
+<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../stylesheets/startPage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.StartCtrl">
    <children>
       <VBox layoutY="10.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
             <HBox prefHeight="21.0" prefWidth="457.0">
                <children>
-                  <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#showSettingsPage" prefHeight="30.0" prefWidth="91.0" text="Settings">
+                  <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#showSettingsPage" prefHeight="32.0" prefWidth="90.0" text="Settings">
                      <graphic>
                         <ImageView fx:id="settingsView" fitHeight="22.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -29,17 +29,17 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Label contentDisplay="CENTER" prefHeight="51.0" prefWidth="123.0" text="Splitty">
+                  <Label contentDisplay="CENTER" prefHeight="51.0" prefWidth="142.0" text="Splitty">
                      <font>
                         <Font name="Arial Black" size="34.0" />
                      </font>
                      <HBox.margin>
-                        <Insets left="90.0" />
+                        <Insets left="120.0" />
                      </HBox.margin>
                   </Label>
                   <Button fx:id="adminButton" alignment="TOP_RIGHT" mnemonicParsing="false" onAction="#onAdminClick" prefHeight="30.0" prefWidth="80.0" text="Admin">
                      <HBox.margin>
-                        <Insets left="115.0" />
+                        <Insets left="150.0" />
                      </HBox.margin>
                      <graphic>
                         <ImageView fx:id="adminView" fitHeight="22.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">

@@ -36,6 +36,8 @@ public class Main extends Application {
     @Override
 
     public void start(Stage stage) {
+        Stage anotherStage=new Stage();
+
         var participant = FXML.load(AddEditParticipantCtrl.class, "client", "scenes",
             "AddEditParticipant.fxml");
         var start = FXML.load(StartCtrl.class, "client", "scenes", "StartScreen.fxml");
@@ -59,7 +61,7 @@ public class Main extends Application {
             "ManageEventsAdmin.fxml");
         var settingsPage=FXML.load(SettingsPageCtrl.class, "client", "scenes",
                 "SettingsPage.fxml");
-        mainCtrl.initialize(stage, start, overview, invitation, participant, expense, openDebts,
+        mainCtrl.initialize(stage, anotherStage, start, overview, invitation, participant, expense, openDebts,
             manageParticipants, logInAdmin, closedDebts, eventsAdmin, settingsPage);
         stage.setOnCloseRequest(e -> {
             eventsAdmin.getKey().stop();
