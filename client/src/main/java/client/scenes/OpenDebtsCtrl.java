@@ -101,7 +101,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
         //listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         //getPayAllDebts()
-                //.setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
+                //.setStyle("-fx-background-color:
+        // linear-gradient(to top right, #f5dce7, #e781c9)");
 
         //set home button
         homeView.setFitHeight(25);
