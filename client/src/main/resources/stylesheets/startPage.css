@@ -2,6 +2,11 @@
     -fx-background-color: #f8f4e5;
 }
 
+.text-field{
+    -fx-background-color: #fdfcf6;
+    -fx-border-color: #354ed5;
+}
+
 .choice-box{
     -fx-background-color:  #fdfcf6;
     -fx-border-color: #053ba4;
@@ -30,9 +35,9 @@
     -fx-border-image-width: 3;
 }
 
-#tableView{
+#recentEvents{
     -fx-background-color: #fdfcf6;
-    -fx-border-color: #081469;
+    -fx-border-color: #354ed5;
 }
 
 .table-view .label{
