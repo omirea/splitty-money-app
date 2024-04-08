@@ -68,7 +68,7 @@ public class DebtControllerTest {
 
     @Test
     public void testCreateDebt() {
-        Debt debt = new Debt(new Event() ,new Participant(), new Participant(),20.00);
+        Debt debt = new Debt(new Event(), new Expense(), new Participant(), new Participant(),20.00);
         when(debtRepository.save(debt)).thenReturn(debt);
         ResponseEntity<Debt> responseEntity = debtController.createDebt(debt);
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
@@ -77,7 +77,7 @@ public class DebtControllerTest {
 
     @Test
     public void testCreateDebtAmountZero() {
-        Debt debt = new Debt(new Event() ,new Participant(), new Participant(),0.00);
+        Debt debt = new Debt(new Event(), new Expense(), new Participant(), new Participant(),0.00);
         ResponseEntity<Debt> responseEntity = debtController.createDebt(debt);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }
@@ -91,14 +91,14 @@ public class DebtControllerTest {
 
     @Test
     public void testCreateDebtGetFromNull() {
-        Debt debt = new Debt(new Event() ,null, new Participant(),20.00);
+        Debt debt = new Debt(new Event(), new Expense(), null, new Participant(), 20.00);
         ResponseEntity<Debt> responseEntity = debtController.createDebt(debt);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }
 
     @Test
     public void testCreateDebtGetToNull() {
-        Debt debt = new Debt(new Event() ,new Participant(), null,20.00);
+        Debt debt = new Debt(new Event(), new Expense(), new Participant(), null, 20.00);
         ResponseEntity<Debt> responseEntity = debtController.createDebt(debt);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }
