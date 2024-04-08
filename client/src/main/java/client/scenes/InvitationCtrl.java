@@ -8,6 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.MouseEvent;
 
 import javax.inject.Inject;
 
@@ -85,6 +88,7 @@ public class InvitationCtrl implements Main.LanguageSwitch{
         eventName.setText(event.getName());
     }
 
+
     /**
      * method to go back to event page
      */
@@ -98,5 +102,13 @@ public class InvitationCtrl implements Main.LanguageSwitch{
         inviteEmailLabel.setText(Main.getLocalizedString("inviteFollowingPeopleByEmail"));
         back.setText(Main.getLocalizedString("Back"));
         sendInvitesButton.setText(Main.getLocalizedString("sendInvites"));
+    }
+
+    public void copy(MouseEvent mouseEvent) {
+        String invitation=codeLabel.getText();
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+        ClipboardContent content = new ClipboardContent();
+        content.putString(invitation);
+        clipboard.setContent(content);
     }
 }
