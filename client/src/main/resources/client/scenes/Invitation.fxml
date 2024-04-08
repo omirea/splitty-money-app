@@ -20,12 +20,12 @@
             </Label>
             <HBox prefHeight="54.0" prefWidth="601.0">
                <children>
-                  <Label fx:id="giveInviteCodeLabel"  prefHeight="46.0" prefWidth="347.0" text="Give people the following Invite Code:">
+                  <Label fx:id="giveInviteCodeLabel" prefHeight="46.0" prefWidth="347.0" text="Give people the following Invite Code:">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <Label fx:id="codeLabel" onMouseClicked="#copy">
+                  <Label fx:id="codeLabel">
                      <font>
                         <Font name="System Bold" size="22.0" />
                      </font>
@@ -33,6 +33,11 @@
                         <Insets left="-50.0" top="7.0" />
                      </HBox.margin>
                   </Label>
+                  <Button fx:id="copyButton" mnemonicParsing="false" onAction="#copy" text="Copy The Code">
+                     <HBox.margin>
+                        <Insets left="20.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
             </HBox>
             <Label fx:id="inviteEmailLabel" text="Invite the following people by email (one address per line):">

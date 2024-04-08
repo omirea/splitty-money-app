@@ -10,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.MouseEvent;
 
 import javax.inject.Inject;
 
@@ -29,6 +28,9 @@ public class InvitationCtrl implements Main.LanguageSwitch{
 
     @FXML
     private Label codeLabel;
+
+    @FXML
+    private Button copyButton;
 
     @FXML
     private Button sendInvitesButton;
@@ -104,7 +106,7 @@ public class InvitationCtrl implements Main.LanguageSwitch{
         sendInvitesButton.setText(Main.getLocalizedString("sendInvites"));
     }
 
-    public void copy(MouseEvent mouseEvent) {
+    public void copy(ActionEvent event) {
         String invitation=codeLabel.getText();
         Clipboard clipboard = Clipboard.getSystemClipboard();
         ClipboardContent content = new ClipboardContent();
