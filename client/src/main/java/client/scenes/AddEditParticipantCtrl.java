@@ -4,11 +4,14 @@ import client.Main;
 import client.utils.ServerUtils;
 import commons.Event;
 import commons.Participant;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -50,6 +53,50 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
 
     Event event;
     Participant participant;
+
+    @FXML
+    public void initialize(){
+        nameTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.ENTER)) {
+                    emailTextField.requestFocus();
+                }
+            }
+        });
+        emailTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.ENTER)) {
+                    accHolderTextField.requestFocus();
+                }
+            }
+        });
+        accHolderTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.ENTER)) {
+                    ibanTextField.requestFocus();
+                }
+            }
+        });
+        ibanTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.ENTER)) {
+                    bicTextField.requestFocus();
+                }
+            }
+        });
+        bicTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.ENTER)) {
+                    onClickOk();
+                }
+            }
+        });
+    }
 
     @Inject
     public AddEditParticipantCtrl(ServerUtils server, MainCtrl mainCtrl){
