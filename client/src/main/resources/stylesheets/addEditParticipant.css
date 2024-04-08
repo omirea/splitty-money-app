@@ -3,7 +3,7 @@
 }
 
 .choice-box{
-    -fx-background-color:  #fdfcf6;
+    -fx-background-color:  white;
     -fx-border-color: #bbb6ac;
 }
 
@@ -15,10 +15,6 @@
     -fx-text-fill: black;
 }
 
-#from, #to{
-    -fx-font-weight: bold;
-}
-
 .label .text-field{
     -fx-border-color: #ffffff;
 }
@@ -28,21 +24,4 @@
     -fx-background-color: #354ed5;
     -fx-border-color: #081469;
     -fx-border-image-width: 3;
-}
-
-#tableView{
-    -fx-background-color: #fdfcf6;
-    -fx-border-color: #bbb6ac;
-}
-
-.table-view .label{
-    -fx-text-fill: black;
-}
-
-.table-view .cell{
-    -fx-background-color: white;
-}
-
-#tableview .tool-bar .filler{
-    -fx-background-color: red;
 }

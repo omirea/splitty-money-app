@@ -54,10 +54,13 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </HBox>
-            <Text fx:id="createNewEventText" strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Event">
+            <Text fx:id="createNewEventText" strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Event" wrappingWidth="111.58447265625">
                <VBox.margin>
                   <Insets top="20.0" />
-               </VBox.margin></Text>
+               </VBox.margin>
+               <font>
+                  <Font name="Calibri" size="15.0" />
+               </font></Text>
             <VBox prefHeight="110.0" prefWidth="500.0">
                <children>
                   <HBox prefHeight="25.0" prefWidth="200.0" spacing="10.0">
@@ -77,6 +80,9 @@
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
+                     <font>
+                        <Font name="Calibri" size="15.0" />
+                     </font>
                   </Text>
                   <HBox prefHeight="25.0" prefWidth="200.0" spacing="10.0">
                      <children>
@@ -88,6 +94,9 @@
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
+                     <font>
+                        <Font name="Calibri" size="15.0" />
+                     </font>
                   </Text>
                   <VBox fx:id="recentEventsBox" prefHeight="205.0" prefWidth="569.0" />
                </children>

@@ -41,7 +41,10 @@
                 </HBox>
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <Label text="From " />
+                        <Label text="From ">
+                     <font>
+                        <Font name="Calibri" size="15.0" />
+                     </font></Label>
                         <ChoiceBox fx:id="fromParticipantCB" prefHeight="20.0" prefWidth="146.0">
                             <HBox.margin>
                                 <Insets left="10.0" />
@@ -51,6 +54,9 @@
                             <HBox.margin>
                                 <Insets left="25.0" />
                             </HBox.margin>
+                     <font>
+                        <Font name="Calibri" size="15.0" />
+                     </font>
                         </Label>
                         <ChoiceBox fx:id="toParticipantCB" prefWidth="150.0">
                             <HBox.margin>
