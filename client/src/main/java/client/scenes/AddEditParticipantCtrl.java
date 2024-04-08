@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -69,47 +70,77 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
     @FXML
     void onClickOk() {
         if(checkEmpty() && validateEmail(emailTextField.getText())
-                && isIbanValid(ibanTextField.getText())){
+                && isIbanValid(ibanTextField.getText())) {
             String name = nameTextField.getText();
             String email = emailTextField.getText();
-            String accHolder=accHolderTextField.getText();
+            String accHolder = accHolderTextField.getText();
             String iban = ibanTextField.getText();
             String bic = bicTextField.getText();
 
-            if (participant == null) {
-                participant = new Participant(name, email, accHolder, iban, bic, event);
+            if (!hasUniqueName(name)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                switch (locale.getLanguage()) {
+                    case "nl":
+                        alert.setTitle("Naam is al bezet");
+                        alert.setContentText("Deze naam is al bezet, kies een andere naam.");
+                        break;
+                    case "en":
+                        alert.setTitle("Name is already chose");
+                        alert.setContentText("This name is already chosen, fill in another name");
+                        break;
+                    default:
+                        break;
+                }
+                alert.setHeaderText(null);
+                alert.showAndWait();
             } else {
-                participant.setName(name);
-                participant.setEmail(email);
-                participant.setAccountHolder(accHolder);
-                participant.setIBAN(iban);
-                participant.setBIC(bic);
-            }
+                if (participant == null) {
+                    participant = new Participant(name, email, accHolder, iban, bic, event);
+                } else {
+                    participant.setName(name);
+                    participant.setEmail(email);
+                    participant.setAccountHolder(accHolder);
+                    participant.setIBAN(iban);
+                    participant.setBIC(bic);
+                }
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            switch(locale.getLanguage()) {
-                case "nl":
-                    alert.setTitle("Succesvol toevoegen");
-                    alert.setContentText("Deelnemer succesvol toegevoegd");
-                    break;
-                case "en":
-                    alert.setTitle("Adding Successful");
-                    alert.setContentText("Participant Added Successfully");
-                    break;
-                default:
-                    break;
-            }
-            alert.setHeaderText(null);
-            alert.showAndWait();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                switch (locale.getLanguage()) {
+                    case "nl":
+                        alert.setTitle("Succesvol toevoegen");
+                        alert.setContentText("Deelnemer succesvol toegevoegd");
+                        break;
+                    case "en":
+                        alert.setTitle("Adding Successful");
+                        alert.setContentText("Participant Added Successfully");
+                        break;
+                    default:
+                        break;
+                }
+                alert.setHeaderText(null);
+                alert.showAndWait();
 
-            mainCtrl.showManageParticipants(this.event.getInvitationID(), participant);
-            participant = null;
-            nameTextField.clear();
-            emailTextField.clear();
-            accHolderTextField.clear();
-            ibanTextField.clear();
-            bicTextField.clear();
+                mainCtrl.showManageParticipants(this.event.getInvitationID(), participant);
+                participant = null;
+                nameTextField.clear();
+                emailTextField.clear();
+                accHolderTextField.clear();
+                ibanTextField.clear();
+                bicTextField.clear();
+            }
         }
+    }
+
+    private boolean hasUniqueName(String name) {
+        List<Participant> allP = server.getParticipantsByInvitationId(event.getInvitationID());
+        boolean bool = true;
+        for(Participant p : allP){
+            if(p.getName().equals(name)){
+                bool = false;
+                return bool;
+            }
+        }
+        return bool;
     }
 
     public ServerUtils getServer() {
