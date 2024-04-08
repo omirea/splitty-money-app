@@ -71,7 +71,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     @FXML
     private Button settleDebtsButton;
 
-    StartCtrl start;
+    private final StartCtrl start;
 
 
     @Inject
