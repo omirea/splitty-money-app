@@ -12,7 +12,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
+
 import java.util.Objects;
 
 import static client.Main.locale;
@@ -133,6 +135,18 @@ public class StartCtrl implements  Main.LanguageSwitch {
             });
             return row;
         });
+
+        createEventField.setOnKeyPressed(event -> {
+            if(event.getCode().equals(KeyCode.ENTER)){
+                onCreateClick();
+            }
+        });
+
+        joinEventField.setOnKeyPressed(event -> {
+            if(event.getCode().equals(KeyCode.ENTER)){
+                onJoinClick();
+            }
+        });
     }
 
     /**
@@ -206,6 +220,7 @@ public class StartCtrl implements  Main.LanguageSwitch {
         alert.setHeaderText(null);
         return alert;
     }
+
 
     /**
      * method to add event to table view
