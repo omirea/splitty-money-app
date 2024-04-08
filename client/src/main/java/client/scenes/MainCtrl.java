@@ -45,7 +45,7 @@ public class MainCtrl {
         logInAdmin, closedDebts, eventsAdmin, settingsPage;
 
 
-    public void initialize(Stage primaryStage, Stage anotherStage,
+    public void initialize(Stage primaryStage,
                            Pair<StartCtrl, Parent> start,
                            Pair<EventOverviewCtrl, Parent> overview,
                            Pair<InvitationCtrl, Parent> invitation,
@@ -58,7 +58,7 @@ public class MainCtrl {
                            Pair<ManageEventsAdminCtrl, Parent> eventsAdmin,
                             Pair<SettingsPageCtrl, Parent> settingsPage) {
         this.primaryStage = primaryStage;
-        this.anotherStage = anotherStage;
+        this.anotherStage = new Stage();
         this.startCtrl = start.getKey();
         this.start = new Scene(start.getValue());
         this.overviewCtrl = overview.getKey();
@@ -181,7 +181,8 @@ public class MainCtrl {
     public void showManageParticipants(String invitationId, Participant participantToAdd) {
         anotherStage.close();
         manageParticipantsCtrl.setEvent(invitationId);
-        manageParticipantsCtrl.addNewParticipant(participantToAdd);manageParticipants.getStylesheets().add("stylesheets/manageParticipants.css");
+        manageParticipantsCtrl.addNewParticipant(participantToAdd);
+        manageParticipants.getStylesheets().add("stylesheets/manageParticipants.css");
         primaryStage.setTitle("Splitty: Manage Participants");
         primaryStage.setScene(manageParticipants);
     }
