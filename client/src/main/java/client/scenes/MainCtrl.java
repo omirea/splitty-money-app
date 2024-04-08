@@ -118,7 +118,7 @@ public class MainCtrl {
         openDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Open Debts");
         primaryStage.setScene(openDebts);
-        openDebts.getStylesheets().add("/stylesheets/openDebts.css");
+        openDebts.getStylesheets().add("/stylesheets/debts.css");
         openDebtsCtrl.addDebtsToList(id);
         openDebtsCtrl.addParticipantsToChoiceBox(id);
     }
@@ -138,6 +138,7 @@ public class MainCtrl {
     public void showStartScreen() {
         primaryStage.setTitle("Splitty: Start");
         primaryStage.setScene(start);
+        start.getStylesheets().add("/stylesheets/startPage.css");
         startCtrl.setUpConnection();
         startCtrl.setUpLanguage();
     }
@@ -215,6 +216,7 @@ public class MainCtrl {
     public void showClosedDebts(String id) {
         closedDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Closed Debts");
+        closedDebts.getStylesheets().add("/stylesheets/debts.css");
         closedDebtsCtrl.addDebtsToList(id);
         closedDebtsCtrl.addParticipantsToChoiceBox(id);
         primaryStage.setScene(closedDebts);

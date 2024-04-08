@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ClosedDebtsCtrl">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../stylesheets/debts.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ClosedDebtsCtrl">
     <children>
         <VBox layoutX="11.2" layoutY="72.0" prefHeight="200.0" prefWidth="579.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <children>
@@ -34,7 +34,7 @@
                         </Label>
                         <Button mnemonicParsing="false" onAction="#showOpenDebts" text="See open debts">
                             <HBox.margin>
-                                <Insets left="222.0" top="5.0" />
+                                <Insets left="220.0" top="5.0" />
                             </HBox.margin>
                         </Button>
                     </children>
@@ -66,7 +66,7 @@
                 </HBox>
                 <VBox prefHeight="308.0" prefWidth="558.0">
                     <children>
-                        <TableView fx:id="tableView" prefHeight="198.0" prefWidth="121.0">
+                        <TableView fx:id="tableView" prefHeight="198.0" prefWidth="121.0" stylesheets="@../../stylesheets/debts.css">
                             <columns>
                                 <TableColumn fx:id="checkBoxCol" prefWidth="27" />
                                 <TableColumn fx:id="informationCol" prefWidth="367.2000255584717" text="Information" />
@@ -79,12 +79,12 @@
                 </VBox>
                 <HBox prefHeight="42.0" prefWidth="558.0">
                     <children>
-                        <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#reopenSelectedDebts" prefHeight="26.0" prefWidth="137.0" text="Reopen selected debts">
+                        <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#reopenSelectedDebts" prefHeight="27.0" prefWidth="138.0" text="Reopen selected debts">
                             <HBox.margin>
-                                <Insets left="280.0" />
+                                <Insets left="274.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="reopenAllDebts" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#reopenAllDebts" prefHeight="26.0" prefWidth="128.0" text="Reopen closed debts">
+                        <Button fx:id="reopenAllDebts" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#reopenAllDebts" prefHeight="27.0" prefWidth="130.0" text="Reopen closed debts">
                             <HBox.margin>
                                 <Insets left="15.0" />
                             </HBox.margin>
