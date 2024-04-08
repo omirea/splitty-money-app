@@ -71,7 +71,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
     @FXML
     void onClickOk() {
         if(checkEmpty() && validateEmail(emailTextField.getText())
-            && isIbanValid(ibanTextField.getText())){
+                && isIbanValid(ibanTextField.getText())){
             String name = nameTextField.getText();
             String email = emailTextField.getText();
             String accHolder=accHolderTextField.getText();
@@ -170,13 +170,13 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         if (o == null || getClass() != o.getClass()) return false;
         AddEditParticipantCtrl that = (AddEditParticipantCtrl) o;
         return Objects.equals(server, that.server) && Objects.equals(mainCtrl, that.mainCtrl)
-            && Objects.equals(bicTextField, that.bicTextField)
-            && Objects.equals(emailTextField, that.emailTextField)
-            && Objects.equals(accHolderTextField, that.accHolderTextField)
-            && Objects.equals(ibanTextField, that.ibanTextField)
-            && Objects.equals(nameTextField, that.nameTextField)
-            && Objects.equals(okButton, that.okButton)
-            && Objects.equals(cancelButton, that.cancelButton);
+                && Objects.equals(bicTextField, that.bicTextField)
+                && Objects.equals(emailTextField, that.emailTextField)
+                && Objects.equals(accHolderTextField, that.accHolderTextField)
+                && Objects.equals(ibanTextField, that.ibanTextField)
+                && Objects.equals(nameTextField, that.nameTextField)
+                && Objects.equals(okButton, that.okButton)
+                && Objects.equals(cancelButton, that.cancelButton);
     }
 
     @Override
@@ -191,8 +191,8 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
      */
     public boolean validateEmail(String email){
         String regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\." +
-            "[0-9]{1,3}\\.[0-9]{1,3}\\])" +
-            "|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+                "[0-9]{1,3}\\.[0-9]{1,3}\\])" +
+                "|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         Pattern p= Pattern.compile(regex);
         Matcher m= p.matcher(email.trim());
         if(email.equals("")) {

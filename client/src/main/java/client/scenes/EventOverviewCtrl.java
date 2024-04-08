@@ -138,6 +138,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         mainCtrl.showStartScreen();
     }
 
+
     /**
      * method to open the open debts page
      */
