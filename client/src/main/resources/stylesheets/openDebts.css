@@ -1,7 +1,48 @@
-.body{
-    background: #ada70d;
+#anchorPane{
+    -fx-background-color: #f8f4e5;
+}
+
+.choice-box{
+    -fx-background-color:  #fdfcf6;
+    -fx-border-color: #053ba4;
+}
+
+.choice-box .label{
+    -fx-text-fill: black;
+}
+
+.label{
+    -fx-text-fill: black;
+}
+
+#from, #to{
+    -fx-font-weight: bold;
+}
+
+.label .text-field{
+    -fx-border-color: #ffffff;
 }
 
 .button{
-    color: aqua;
+    -fx-text-fill: white;
+    -fx-background-color: #354ed5;
+    -fx-border-color: #081469;
+    -fx-border-image-width: 3;
+}
+
+#tableView{
+    -fx-background-color: #fdfcf6;
+    -fx-border-color: #081469;
+}
+
+.table-view .label{
+    -fx-text-fill: black;
+}
+
+.table-view .cell{
+    -fx-background-color: white;
+}
+
+#tableview .tool-bar .filler{
+    -fx-background-color: red;
 }
