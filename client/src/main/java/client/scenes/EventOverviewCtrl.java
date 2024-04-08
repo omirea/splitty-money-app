@@ -71,11 +71,14 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     @FXML
     private Button settleDebtsButton;
 
+    StartCtrl start;
+
 
     @Inject
-    public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl, StartCtrl start) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.start = start;
         this.allParticipants= FXCollections.observableArrayList();
     }
 
@@ -179,9 +182,11 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         }
         tid.showAndWait();
         String title = tid.getEditor().getText();
+        start.deleteEventFromTable(event);
         event.setName(title);
         event = server.updateEvent(event, event.getID());
         eventTitleText.setText(title);
+        start.addEventToBox(event);
     }
 
     /**

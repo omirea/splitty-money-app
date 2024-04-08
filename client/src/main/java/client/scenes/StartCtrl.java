@@ -220,7 +220,7 @@ public class StartCtrl implements  Main.LanguageSwitch {
         mainCtrl.showEventOverview(invID);
     }
 
-    private void deleteEventFromTable(Event event) {
+    public void deleteEventFromTable(Event event) {
         recentEvents.getItems().remove(event);
         recentEvents.refresh();
     }
