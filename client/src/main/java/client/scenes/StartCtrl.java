@@ -175,7 +175,9 @@ public class StartCtrl implements  Main.LanguageSwitch {
      * method to add event to table view
      */
     public void addEventToBox(Event event) {
-        recentEvents.getItems().add(event);
+        if(!recentEvents.getItems().contains(event)){
+            recentEvents.getItems().add(event);
+        }
     }
 
     private void showEvent(String invID) {
