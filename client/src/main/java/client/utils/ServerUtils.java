@@ -426,4 +426,9 @@ public class ServerUtils {
 	public void stop() {
 		EXEC.shutdownNow();
 	}
+
+
+	public void registerForMessages(Consumer<Participant> consumer){
+
+	}
 }

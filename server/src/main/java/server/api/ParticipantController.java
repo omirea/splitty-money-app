@@ -2,6 +2,8 @@ package server.api;
 
 import commons.Participant;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import server.database.ParticipantRepository;
 
@@ -30,6 +32,13 @@ public class ParticipantController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(db.findById(id).get());
+    }
+
+    @MessageMapping("/participants") // /app/participants
+    @SendTo("/topic/participants")
+    public Participant addParticipant(Participant p){
+        createParticipant(p);
+        return p;
     }
 
     @DeleteMapping("/{id}")
