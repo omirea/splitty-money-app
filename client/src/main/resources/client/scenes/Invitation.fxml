@@ -27,6 +27,9 @@
                      <font>
                         <Font name="Calibri" size="16.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
                   </Label>
                   <Label fx:id="codeLabel">
                      <font>
@@ -36,6 +39,11 @@
                         <Insets left="-86.0" />
                      </HBox.margin>
                   </Label>
+                  <Button fx:id="copyButton" mnemonicParsing="false" onAction="#copy" text="Copy The Code">
+                     <HBox.margin>
+                        <Insets left="20.0" top="10.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
             </HBox>
             <Label fx:id="inviteEmailLabel" text="Invite the following people by email (one address per line):">
