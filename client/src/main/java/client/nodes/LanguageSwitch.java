@@ -11,13 +11,10 @@ import java.util.Properties;
 
 public class LanguageSwitch {
 
-    ServerUtils serverUtils;
     Properties prop;
     String fileName;
 
-    @Inject
-    public LanguageSwitch(ServerUtils serverUtils) {
-        this.serverUtils = serverUtils;
+    public LanguageSwitch() {
 
         prop = new Properties();
         fileName = "src/main/resources/config.properties";
