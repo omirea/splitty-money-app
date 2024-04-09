@@ -256,6 +256,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
             if (debt1.isSettled()) {
                 debts.remove(debt1);
                 i--;
+                continue;
             }
 
             Long fromID = debt1.getFrom().getId();
@@ -267,6 +268,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
                 if (debt2.isSettled()) {
                     debts.remove(debt2);
                     j--;
+                    continue;
                 }
 
                 if (Objects.equals(debt2.getFrom().getId(), fromID)

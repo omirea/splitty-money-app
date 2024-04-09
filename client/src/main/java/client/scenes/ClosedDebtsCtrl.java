@@ -135,12 +135,14 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         allDebts.clear();
 
         List<Debt> debts = server.getDebtsByInvitationId(event.getInvitationID());
+        System.out.println(debts);
         for (int i = 0; i < debts.size(); i++) {
 
             Debt debt1 = debts.get(i);
             if (!debt1.isSettled()) {
                 debts.remove(debt1);
                 i--;
+                continue;
             }
 
             Long fromID = debt1.getFrom().getId();
