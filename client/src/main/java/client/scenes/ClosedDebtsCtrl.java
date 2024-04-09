@@ -152,6 +152,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
                 if (!debt2.isSettled()) {
                     debts.remove(debt2);
                     j--;
+                    continue;
                 }
 
                 if (Objects.equals(debt2.getFrom().getId(), fromID)
@@ -346,8 +347,8 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         }
         alert.setHeaderText(null);
         Optional<ButtonType> result=alert.showAndWait();
-        if(result.get()==ButtonType.OK){
-            for(Debt debt : newDebts) {
+        if (result.isPresent() && result.get() == ButtonType.OK){
+            for (Debt debt : newDebts) {
                 debt.setSettled(false);
                 server.updateDebt(debt, debt.getId());
             }
@@ -377,12 +378,20 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         }
         alert.setHeaderText(null);
         Optional<ButtonType> result=alert.showAndWait();
-        if(result.get()==ButtonType.OK){
-            for(DebtsTable debtRow : debtsTables){
-                if(debtRow.getCheckBox().isSelected()){
-                    Debt debt=debtRow.getDebt();
-                    debt.setSettled(false);
-                    server.updateDebt(debt, debt.getId());
+        if(result.isPresent() && result.get() == ButtonType.OK){
+            for (DebtsTable debtRow : debtsTables){
+                if (debtRow.getCheckBox().isSelected()){
+                    Debt debt = debtRow.getDebt();
+                    List<Debt> settledDebts =
+                            server.getDebtsByInvitationId(event.getInvitationID())
+                                    .stream().filter(Debt::isSettled).toList();
+                    for (Debt existingDebt : settledDebts) {
+                        if (existingDebt.getFrom().equals(debt.getFrom())
+                                && existingDebt.getTo().equals(debt.getTo())) {
+                            existingDebt.setSettled(false);
+                            server.updateDebt(existingDebt, existingDebt.getId());
+                        }
+                    }
                 }
             }
             addDebtsToList();

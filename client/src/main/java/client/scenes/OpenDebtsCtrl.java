@@ -238,7 +238,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         newDebts.clear();
         allDebts.clear();
         calculateAllDebts(id);
-        createDebtsTable(allDebts);
+        createDebtsTable();
         newDebts.addAll(allDebts);
         tableView.setItems(debtsTables);
     }
@@ -299,9 +299,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
     /**
      * create the debts to be added to the Open Debts page
-     * @param allDebts list of debts of the event
      */
-    public void createDebtsTable(ObservableList<Debt> allDebts) {
+    public void createDebtsTable() {
         debtsTables.clear();
         for(Debt debt : allDebts){
             //set tree view-debts info + text flow (bold text)
@@ -449,8 +448,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
      * method to search based on the participant filters chosen
      */
     public void searchByParticipant(){
-       Participant to=toParticipantCB.getSelectionModel().getSelectedItem();
-       Participant from=fromParticipantCB.getSelectionModel().getSelectedItem();
+       Participant to = toParticipantCB.getSelectionModel().getSelectedItem();
+       Participant from = fromParticipantCB.getSelectionModel().getSelectedItem();
        newDebts.clear();
        newDebts.addAll(allDebts);
         if(from!=null && !from.getName().isEmpty()) {
@@ -463,7 +462,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
            newDebts.clear();
            newDebts.addAll(tempDebts);
        }
-       createDebtsTable(newDebts);
+       createDebtsTable();
        tableView.setItems(debtsTables);
     }
 
