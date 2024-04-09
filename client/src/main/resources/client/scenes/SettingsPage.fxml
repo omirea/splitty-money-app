@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="227.0" prefWidth="151.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SettingsPageCtrl">
+<AnchorPane fx:id="anchorPane" prefHeight="227.0" prefWidth="151.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.SettingsPageCtrl">
    <children>
-      <VBox alignment="CENTER" prefHeight="239.0" prefWidth="193.0" spacing="25.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <VBox alignment="CENTER" prefHeight="239.0" prefWidth="193.0" spacing="25.0" stylesheets="@../../stylesheets/settingsPage.fxml.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
             <MenuButton fx:id="languageMenuButton" alignment="CENTER" mnemonicParsing="false" popupSide="RIGHT" text="Language">
                <VBox.margin>
@@ -41,7 +41,7 @@
             <MenuButton fx:id="themeButton" alignment="CENTER" mnemonicParsing="false" popupSide="RIGHT" text="Theme" textAlignment="CENTER">
               <items>
                   <RadioMenuItem fx:id="lightModeButton" mnemonicParsing="false" onAction="#lightMode" text="Light Mode" />
-                  <RadioMenuItem fx:id="darkModeButton"  mnemonicParsing="false" onAction="#darkMode"  text="Dark Mode" />
+                  <RadioMenuItem fx:id="darkModeButton" mnemonicParsing="false" onAction="#darkMode" text="Dark Mode" />
               </items>
                <VBox.margin>
                   <Insets />
