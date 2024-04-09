@@ -13,14 +13,11 @@ import java.util.*;
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne
     @JoinColumn(name = "event_id")
     private Event event;
 
-//    @OneToMany(mappedBy = "expense")
-//    private List<Debt> debts;
-
-    private String name; // Description by the participant
+    private String description; // Description by the participant
 
     private Double amount; // Value of the expense
 
@@ -32,26 +29,26 @@ import java.util.*;
 
     /**
      * Constructor for expense
-     * @param name description of the participant
+     * @param description description of the participant
      * @param amount value of the expense
      * @param type type of the expense
      * @param dateSent date when the request for the expense has been made
      * @param currency currency of the expense
      */
-    public Expense(String name, Double amount, String type,
+    public Expense(String description, Double amount, String type,
                    LocalDate dateSent, Currency currency) {
-        this.name = name;
+        this.description = description;
         this.amount = amount;
         this.type = type;
         this.dateSent = dateSent;
         this.currency = currency;
     }
 
-    public Expense(Event event, List<Debt> debts, String name,
+    public Expense(Event event, String description,
                    Double amount, String type, LocalDate dateSent, Currency currency) {
         this.event = event;
-        //this.debts = debts;
-        this.name = name;
+        //.debts = debts;
+        this.description = description;
         this.amount = amount;
         this.type = type;
         this.dateSent = dateSent;
@@ -61,12 +58,13 @@ import java.util.*;
     public Expense() {}
 
 
+
     /**
      * Getter for description
      * @return the description of the expense
      */
-    public String getName() {
-        return name;
+    public String getDescription() {
+        return description;
     }
 
     /**
@@ -106,8 +104,8 @@ import java.util.*;
      * Setter for the description of the expense
      * @param description the description of the expense
      */
-    public void setName(String description) {
-        this.name = description;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -154,7 +152,7 @@ import java.util.*;
         if (o == null || getClass() != o.getClass()) return false;
         Expense expense = (Expense) o;
         return Double.compare(amount, expense.amount) == 0 &&
-                Objects.equals(name, expense.name) &&
+                Objects.equals(description, expense.description) &&
                 Objects.equals(type, expense.type) &&
                 Objects.equals(dateSent, expense.dateSent) &&
                 Objects.equals(currency, expense.currency);
@@ -170,7 +168,7 @@ import java.util.*;
      */
     @Override
     public int hashCode() {
-        return Objects.hash(name, amount, type, dateSent, currency);
+        return Objects.hash(description, amount, type, dateSent, currency);
     }
 
     /**
@@ -182,8 +180,8 @@ import java.util.*;
         return "Expense{" +
                 "ex_id=" + id +
                 ", event_id=" + event +
-//                ", debts=" + debts +
-                ", description='" + name + '\'' +
+                //", debts=" + debts +
+                ", description='" + description + '\'' +
                 ", value=" + amount +
                 ", type='" + type + '\'' +
                 ", dateSent=" + dateSent +
@@ -199,13 +197,15 @@ import java.util.*;
         return id;
     }
 
-    public void setId(Long id){this.id=id;};
-
     public void setEvent(Event event) {
         this.event = event;
     }
 
     public Event getEvent() {
         return event;
+    }
+
+    public void setID(Long id) {
+        this.id = id;
     }
 }

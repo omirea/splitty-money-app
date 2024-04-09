@@ -29,7 +29,7 @@ import static client.Main.locale;
 
 public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     private ObservableList<String> currencyList =
-            FXCollections.observableArrayList("EUR", "USD", "GBP");
+        FXCollections.observableArrayList("EUR", "USD", "GBP");
     // Add expense
     private ObservableList<Participant> participants;
     private ObservableList<PersonAmount> personAmounts;
@@ -86,18 +86,6 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         return tableView;
     }
 
-    public void setExpense(Expense e) {
-        expense = e;
-        List<Debt> debts = server.getAllDebts();
-        whoPaidField.setValue(debts.getFirst().getWhoPaid());
-        whatForField.setText(e.getName());
-        howMuchField.setText(String.valueOf(e.getAmount()));
-        currencyField.setValue(e.getCurrency().getDisplayName());
-        whenField.setValue(e.getDateSent());
-        //fill in all the expense stuff
-
-    }
-
     /**
      * initialise method
      */
@@ -145,7 +133,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
      * add all items to the tableView
      */
     public void addAllItems() {
-        if(participants == null) return;
+        if (participants == null) return;
         for (Participant participant : participants) {
             if (!Objects.equals(participant.getName(), whoPaidField.getValue().getName())) {
                 personAmounts.add(new PersonAmount(participant.getName()));
@@ -164,51 +152,46 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     @FXML
     public void onAddClick(ActionEvent event2) throws IOException {
 
-        if(whatForField.getText() != null && whenField.getValue() != null
+        if (whatForField.getText() != null && whenField.getValue() != null
             && howMuchField.getText() != null && (allPeopleField.getText() != null
             || onlySomePeopleField.getText() != null)) {
 
             //check if the amount people have to pay back is greater than the total amount
-            Double total= Double.parseDouble(howMuchField.getText());
-            double sum=0;
-            List<PersonAmount> selectedPeople=tableView.getItems();
+            Double total = Double.parseDouble(howMuchField.getText());
+            double sum = 0;
+            List<PersonAmount> selectedPeople = tableView.getItems();
             for(PersonAmount pa : selectedPeople) {
                 if (pa.getCheckBox().isSelected() &&
                     !pa.getTextField().getText().isEmpty()) {
                     sum += Double.parseDouble(pa.getTextField().getText());
                 }
             }
-            if(sum>total)
+            if (sum > total)
                 sumIsLarger();
             else {
                 Expense expense1 = createExpense();
                 expense = null;
                 mainCtrl.showEventOverview(event.getInvitationID());
             }
-        }else{
-            Alert alert = getAlert();
-            alert.showAndWait();
-        }
-
-    }
-
-    private static Alert getAlert() {
-        Alert alert=new Alert(Alert.AlertType.WARNING);
-        switch(locale.getLanguage()) {
-            case "nl":
+        } else {
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            switch(locale.getLanguage()) {
+                case "nl":
                     alert.setTitle("Niet ingevulde velden");
                     alert.setContentText("Alle velden moeten ingevuld " +
-                            "worden voor het maken van een uitgave");
+                        "worden voor het maken van een uitgave");
                     break;
-            case "en":
+                case "en":
                     alert.setTitle("Empty fields");
                     alert.setContentText("You need to fill in all fields to create an expense");
                     break;
-            default:
-                break;
+                default:
+                    break;
+            }
+            alert.setHeaderText(null);
+            alert.showAndWait();
         }
-        alert.setHeaderText(null);
-        return alert;
+
     }
 
     /**
@@ -237,113 +220,112 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
      * @return create Expense
      */
     public Expense createExpense(){
-        Participant whoPaid=whoPaidField.getSelectionModel().getSelectedItem();
-        String whatFor=whatForField.getText();
-        Double amount= Double.parseDouble(howMuchField.getText());
-        Currency currency= Currency.getInstance(currencyField.getSelectionModel()
+
+        Participant whoPaid = whoPaidField.getSelectionModel().getSelectedItem();
+        String whatFor = whatForField.getText();
+        Double amount = Double.parseDouble(howMuchField.getText());
+        Currency currency = Currency.getInstance(currencyField.getSelectionModel()
             .getSelectedItem());
-        LocalDate date=whenField.getValue();
-        List<Debt> debtList = new ArrayList<>();
-        fillDebtList(amount, debtList, whoPaid);
+        LocalDate date = whenField.getValue();
+
         if (expense == null) {
             //expense = new Expense(event, debtList, whatFor, amount, null, date, currency);
             expense = new Expense(event, whatFor, amount, null, date, currency);
             expense.setEvent(event);
-            expense=server.createExpense(expense);
+            expense = server.createExpense(expense);
         } else {
+            expense.setDateSent(date);
+            expense.setAmount(amount);
+            expense.setDescription(whatFor);
+            expense.setCurrency(currency);
+            expense.setType(null);
+//            expense.setEvent(event);
+            expense = server.updateExpense(expense, expense.getId());
             //check if the debt already exists between these 2 participants
             //if it exists, update it
             //if it doesn't exist, create it
-            List<Debt> debtsDB=server.getDebtsByInvitationId(event.getInvitationID());
-            for(Debt debt : debtList){
-                Participant from=debt.getHasToPay();
-                Participant to=debt.getWhoPaid();
-                boolean exists=false;
-                for(Debt debtDB : debtsDB){
-                    if(debtDB.getHasToPay().equals(from) && debtDB.getWhoPaid().equals(to)){
-                        exists=true;
-                        Double amountDB=debtDB.getAmount();
-                        Double newAmount=debt.getAmount();
-                        debtDB.setAmount(amountDB+newAmount);
-                        server.updateDebt(debtDB, debtDB.getId());
-                    }
-                }
-                if(!exists){
-                    debt.setEvent(event);
-                    server.createDebt(debt);
-                }
-            }
-            expense.setDateSent(date);
-            expense.setAmount(amount);
-            expense.setName(whatFor);
-            expense.setCurrency(currency);
-            expense.setType(null);
-            //expense.setDebts(debtList);
-            expense.setEvent(event);
-            expense=server.updateExpense(expense, expense.getId());
+//            List<Debt> debtsDB=server.getDebtsByInvitationId(event.getInvitationID());
+//            for(Debt debt : debtList){
+//                Participant from=debt.getFrom();
+//                Participant to=debt.getTo();
+//                boolean exists=false;
+//                for(Debt debtDB : debtsDB){
+//                    if(debtDB.getFrom().equals(from) && debtDB.getTo().equals(to)){
+//                        exists=true;
+//                        Double amountDB=debtDB.getAmount();
+//                        Double newAmount=debt.getAmount();
+//                        debtDB.setAmount(amountDB+newAmount);
+//                        server.updateDebt(debtDB, debtDB.getId());
+//                    }
+//                }
+//                if(!exists){
+//                    debt.setEvent(event);
+//                    server.createDebt(debt);
+//                }
+//            }
         }
+        fillDebtList(amount, whoPaid);
         return expense;
     }
 
     /**
      * fills debtList for expense object
      * @param amount amount
-     * @param debtList debtList
      * @param whoPaid whoPaid
      */
-    private void fillDebtList(Double amount, List<Debt> debtList, Participant whoPaid) {
-        if(allPeopleField.isSelected()) {
-            for(PersonAmount personAmount : personAmounts) {
+    private void fillDebtList(Double amount, Participant whoPaid) {
+
+        if (allPeopleField.isSelected()) {
+
+            for (PersonAmount personAmount : personAmounts) {
                 personAmount.getCheckBox().selectedProperty().set(true);
             }
 
-            for(PersonAmount personAmount : personAmounts) {
+            for (PersonAmount personAmount : personAmounts) {
                 dividePerPerson(personAmount, amount, personAmounts.size());
-                Debt debt = new Debt(personAmountMap.get(personAmount.getName()), whoPaid,
-                    Double.parseDouble(personAmount.getTextField().getText()));
-                debtList.add(debt);
+                System.out.println(event);
+                System.out.println(expense);
+                Debt debt = new Debt(event, expense, personAmountMap.get(personAmount.getName()),
+                        whoPaid, Double.parseDouble(personAmount.getTextField().getText()));
+                server.createDebt(debt);
             }
+
         } else {
             for (PersonAmount personAmount : tableView.getItems()) {
                 if (personAmount.getCheckBox().isSelected()) {
                     Debt debt = new Debt(personAmountMap.get(personAmount.getName()), whoPaid,
                         Double.parseDouble(personAmount.getTextField().getText()));
-
-                    debt=server.createDebt(debt);
-                    debtList.add(debt);
+                    server.createDebt(debt);
                 }
             }
         }
-        //check if the debt already exists between these 2 participants
-        //if it exists, update it
-        //if it doesn't exist, create it
-        List<Debt> debtsDB=server.getDebtsByInvitationId(event.getInvitationID());
-        for(Debt debt : debtList){
-            Participant from=debt.getHasToPay();
-            Participant to=debt.getWhoPaid();
-            boolean exists=false;
-            for(Debt debtDB : debtsDB){
-                if(debtDB.getHasToPay().equals(from) && debtDB.getWhoPaid().equals(to)){
-                    exists=true;
-                    Double amountDB=debtDB.getAmount();
-                    Double newAmount=debt.getAmount();
-                    debtDB.setAmount(amountDB+newAmount);
-                    server.updateDebt(debtDB, debtDB.getId());
-                }
-            }
-            if(!exists){
-                debt.setEvent(event);
-                server.createDebt(debt);
-            }
-        }
+//        List<Debt> debtsDB=server.getDebtsByInvitationId(event.getInvitationID());
+//        for(Debt debt : debtList){
+//            Participant from=debt.getFrom();
+//            Participant to=debt.getTo();
+//            boolean exists=false;
+//            for(Debt debtDB : debtsDB){
+//                if(debtDB.getFrom().equals(from) && debtDB.getTo().equals(to)){
+//                    exists=true;
+//                    Double amountDB=debtDB.getAmount();
+//                    Double newAmount=debt.getAmount();
+//                    debtDB.setAmount(amountDB+newAmount);
+//                    server.updateDebt(debtDB, debtDB.getId());
+//                }
+//            }
+//            if(!exists){
+//                debt.setEvent(event);
+//                server.createDebt(debt);
+//            }
+//        }
     }
 
     /**
      * method to auto divide money between selected payers
      */
     public void autoDivideMethod(){
-        Double total= Double.parseDouble(howMuchField.getText());
-        int peopleCounter=0;
+        Double total = Double.parseDouble(howMuchField.getText());
+        int peopleCounter = 0;
         List<PersonAmount> selectedPeople=tableView.getItems();
         for(PersonAmount pa : selectedPeople)
             if(pa.getCheckBox().isSelected()) {
@@ -366,14 +348,12 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
      */
     private void dividePerPerson(PersonAmount pa, Double total, int peopleCounter) {
         if (!pa.getCheckBox().isSelected()) return;
-        if(pa.getCheckBox().isSelected()){
-            if(pa.getTextField().getText().isEmpty()){
-                Double price= total / peopleCounter;
+        if (pa.getTextField().getText().isEmpty()){
+            Double price = total / peopleCounter;
 //                if( (double) price== (int) price)
 //                    pa.getTextField().setText(String.valueOf((int) price));
 //                else
-                pa.getTextField().setText(String.valueOf(price));
-            }
+            pa.getTextField().setText(String.valueOf(price));
         }
     }
 

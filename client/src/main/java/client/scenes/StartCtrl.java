@@ -132,24 +132,6 @@ public class StartCtrl implements  Main.LanguageSwitch {
             });
             return row;
         });
-
-        createEventField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(event.getCode().equals(KeyCode.ENTER)) {
-                    onCreateClick();
-                }
-            }
-        });
-
-        joinEventField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(event.getCode().equals(KeyCode.ENTER)) {
-                    onJoinClick();
-                }
-            }
-        });
     }
 
     /**

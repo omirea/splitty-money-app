@@ -90,8 +90,9 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
 
         //set button color
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        getReopenAllDebts()
-                .setStyle("-fx-background-color: linear-gradient(to top right, #c7dde7, #32c2fd)");
+        //getReopenAllDebts()
+                //.setStyle("-fx-background-color:
+        // linear-gradient(to top right, #c7dde7, #32c2fd)");
 
         //set button to go home page
         homeView.setFitHeight(25);
@@ -106,7 +107,9 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         event = server.getEventByInvitationId(id);
     }
 
-    public Button getReopenAllDebts() {return reopenAllDebts;}
+    public Button getReopenAllDebts() {
+        return reopenAllDebts;
+    }
 
     public void setAllDebts(ObservableList<Debt> newDebts){
         this.allDebts.clear();
@@ -131,10 +134,42 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
      */
     private void calculateAllDebts(String id) {
         allDebts.clear();
-        List<Debt> debts=server.getDebtsByInvitationId(event.getInvitationID());
-        for(Debt debt : debts)
-            if (debt.isSettled())
-                allDebts.add(debt);
+
+        List<Debt> debts = server.getDebtsByInvitationId(event.getInvitationID());
+        for (int i = 0; i < debts.size(); i++) {
+
+            Debt debt1 = debts.get(i);
+            if (!debt1.isSettled()) {
+                debts.remove(debt1);
+                i--;
+            }
+
+            Long fromID = debt1.getFrom().getId();
+            Long toID = debt1.getTo().getId();
+
+            for (int j = i + 1; j < debts.size(); j++) {
+
+                Debt debt2 = debts.get(j);
+                if (!debt2.isSettled()) {
+                    debts.remove(debt2);
+                    j--;
+                }
+
+                if (Objects.equals(debt2.getFrom().getId(), fromID)
+                        && Objects.equals(debt2.getTo().getId(), toID)) {
+                    debt1.setAmount(debt1.getAmount() + debt2.getAmount());
+                    debts.remove(debt2);
+                    j--;
+                } else if (Objects.equals(debt2.getFrom().getId(), toID)
+                        && Objects.equals(debt2.getTo().getId(), fromID)) {
+                    debt1.setAmount(debt1.getAmount() - debt2.getAmount());
+                    debts.remove(debt2);
+                    j--;
+                }
+            }
+        }
+
+        allDebts.addAll(debts);
     }
 
     /**
@@ -155,10 +190,10 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             });
             //set text flow
             TextFlow textFlow=new TextFlow();
-            Text from=new Text(debt.getHasToPay().getName());
+            Text from=new Text(debt.getFrom().getName());
             Text howMuch=new Text(String.valueOf(debt.getAmount()));
             Text currency=new Text("EUR");
-            Text to=new Text(debt.getWhoPaid().getName());
+            Text to=new Text(debt.getTo().getName());
 
             makeTextBold(from, howMuch, currency, to);
             textFlow.getChildren().addAll(from, new Text(" needs to pay "),
@@ -176,8 +211,8 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             viewEmailButton.setAlignment(Pos.CENTER);
             Button viewIBANButton=new Button();
             viewIBANButton.setAlignment(Pos.CENTER);
-            setupEmailPicture(debt.getWhoPaid(), viewEmailButton);
-            setupIBANPicture(debt.getWhoPaid(), viewIBANButton);
+            setupEmailPicture(debt.getTo(), viewEmailButton);
+            setupIBANPicture(debt.getTo(), viewIBANButton);
 
             //set open debts button
             Button openDebtButton=new Button("Open Debt");
@@ -200,7 +235,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
      * @return text with the details
      */
     private Text getExtraDetails(Debt debt) {
-        Participant participant=debt.getWhoPaid();
+        Participant participant=debt.getTo();
         if(participant.getIBAN().isEmpty())
             return new Text("No bank information is available for");
         String info="Bank information available: Transfer money to:\n" +
@@ -376,9 +411,9 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         for(Debt debt : newDebts){
             Participant p;
             if(method==1)
-                p=debt.getHasToPay();
+                p=debt.getFrom();
             else
-                p=debt.getWhoPaid();
+                p=debt.getTo();
             if(p.equals(participant))
                 tempDebts.add(debt);
         }

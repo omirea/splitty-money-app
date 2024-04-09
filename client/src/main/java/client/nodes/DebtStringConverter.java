@@ -7,7 +7,7 @@ public class DebtStringConverter extends StringConverter<Debt> {
     @Override
     public String toString(Debt object) {
         if(object!=null)
-            return object.getHasToPay().getName();
+            return object.getFrom().getName();
         else
             return null;
     }

@@ -16,7 +16,7 @@ public class ExpenseTest {
                 2.09,"This is a type",
                 LocalDate.of(2005, 12, 1),
                 Currency.getInstance("BAM"));
-        assertEquals("This is a description", expense.getName());
+        assertEquals("This is a description", expense.getDescription());
     }
     @Test
     public void getValueTest() {
@@ -61,8 +61,8 @@ public class ExpenseTest {
                 2.09,"This is a type",
                 LocalDate.of(2005, 12, 1),
                 Currency.getInstance("BAM"));
-        expense.setName("abcdefg");
-        assertEquals("abcdefg", expense.getName());
+        expense.setDescription("abcdefg");
+        assertEquals("abcdefg", expense.getDescription());
     }
 
     @Test

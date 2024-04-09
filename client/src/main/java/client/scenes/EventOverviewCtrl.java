@@ -89,21 +89,21 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     private void setupColumns() {
         // The system won't let me use arrays for some damned reason so here is the result:
         nameColAll.setCellValueFactory(
-            new PropertyValueFactory<Expense, String>("name"));
+            new PropertyValueFactory<Expense, String>("description"));
         amountColAll.setCellValueFactory(
             new PropertyValueFactory<Expense, Double>("amount"));
         editColAll.setCellValueFactory(this::createEditButton);
         deleteColAll.setCellValueFactory(this::createDeleteButton);
 
         nameColTo.setCellValueFactory(
-            new PropertyValueFactory<Expense, String>("name"));
+            new PropertyValueFactory<Expense, String>("description"));
         amountColTo.setCellValueFactory(
             new PropertyValueFactory<Expense, Double>("amount"));
         editColTo.setCellValueFactory(this::createEditButton);
         deleteColTo.setCellValueFactory(this::createDeleteButton);
 
         nameColFrom.setCellValueFactory(
-            new PropertyValueFactory<Expense, String>("name"));
+            new PropertyValueFactory<Expense, String>("description"));
         amountColFrom.setCellValueFactory(
             new PropertyValueFactory<Expense, Double>("amount"));
         editColFrom.setCellValueFactory(this::createEditButton);
@@ -166,6 +166,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
 
     public void setDebts() {
         debts = server.getDebtsByInvitationId(event.getInvitationID());
+        System.out.println(debts);
     }
 
     /**
@@ -213,12 +214,12 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
             return;
         }
         List<Expense> paidForList = debts.stream()
-            .filter(debt -> debt.getWhoPaid().equals(p))
+            .filter(debt -> debt.getTo().equals(p))
             .map(Debt::getExpense)
             .distinct()
             .toList();
         List<Expense> hasToPayList = debts.stream()
-            .filter(debt -> debt.getHasToPay().equals(p))
+            .filter(debt -> debt.getFrom().equals(p))
             .map(Debt::getExpense)
             .toList();
         expenseTableViewPaidFor.getItems().addAll(paidForList);
