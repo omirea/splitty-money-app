@@ -21,9 +21,9 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Label>
-            <HBox prefHeight="54.0" prefWidth="601.0">
+            <HBox prefHeight="54.0" prefWidth="438.0">
                <children>
-                  <Label fx:id="giveInviteCodeLabel" prefHeight="46.0" prefWidth="347.0" text="Give people the following Invite Code:">
+                  <Label fx:id="giveInviteCodeLabel" prefHeight="28.0" prefWidth="251.0" text="Give people the following Invite Code:">
                      <font>
                         <Font name="Calibri" size="16.0" />
                      </font>
@@ -31,17 +31,17 @@
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <Label fx:id="codeLabel">
+                  <Label fx:id="codeLabel" prefHeight="23.0" prefWidth="81.0">
                      <font>
-                        <Font name="Calibri Bold" size="20.0" />
+                        <Font name="Calibri Bold" size="18.0" />
                      </font>
                      <HBox.margin>
-                        <Insets left="-86.0" />
+                        <Insets left="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Button fx:id="copyButton" mnemonicParsing="false" onAction="#copy" text="Copy The Code">
+                  <Button fx:id="copyButton" mnemonicParsing="false" onAction="#copy" text="Copy ">
                      <HBox.margin>
-                        <Insets left="20.0" top="10.0" />
+                        <Insets left="15.0" />
                      </HBox.margin>
                   </Button>
                </children>

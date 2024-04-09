@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.Main;
+import client.nodes.SendEmailApplication;
 import client.utils.ServerUtils;
 import commons.Event;
 import javafx.animation.PauseTransition;
@@ -14,6 +15,7 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.util.Duration;
 
+
 import javax.inject.Inject;
 
 import static client.Main.locale;
@@ -23,8 +25,9 @@ public class InvitationCtrl implements Main.LanguageSwitch{
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
-    Event event;
+    private SendEmailApplication sendEmail;
 
+    Event event;
 
     @FXML
     private TextArea emailTextField;
@@ -56,6 +59,7 @@ public class InvitationCtrl implements Main.LanguageSwitch{
     public InvitationCtrl(ServerUtils server, MainCtrl mainCtrl){
         this.server=server;
         this.mainCtrl=mainCtrl;
+        this.sendEmail=new SendEmailApplication();
     }
 
     public ServerUtils getServer() {return server;}
@@ -84,11 +88,30 @@ public class InvitationCtrl implements Main.LanguageSwitch{
      * method to send invite
      * @param event to send invite to
      */
-    public void sendInvites(ActionEvent event) {
+    public void sendInvites(ActionEvent event) throws Exception {
         String[] email =emailTextField.getText().split("\n");
+        int counter=0;
         for(String e: email){
-            System.out.println(e);
+            counter++;
+            String[] args=new String[2];
+            args[0]=e;
+            args[1]=codeLabel.getText();
+            sendEmail.main(args);
         }
+        Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+        if(counter==0){
+            alert.setTitle("No emails");
+            alert.setContentText("Please input a valid email address!");
+            alert.showAndWait();
+            return;
+        }
+        alert.setTitle("Email sent");
+        if(counter==1)
+            alert.setContentText("Email sent successfully!");
+        else
+            alert.setContentText("Emails sent successfully!");
+        alert.showAndWait();
+        emailTextField.clear();
     }
 
     public void setEvent(String id) {
