@@ -6,7 +6,6 @@ import client.nodes.ParticipantStringConverter;
 import client.utils.ServerUtils;
 import commons.Debt;
 import commons.Event;
-import commons.Expense;
 import commons.Participant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -132,14 +131,10 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
      */
     private void calculateAllDebts(String id) {
         allDebts.clear();
-        List<Expense> expenses=server.getExpensesByInvitationId(id);
-        for(Expense expense : expenses){
-            List<Debt> debts=server.getDebtsByExpenseId(expense.getId());
-            for(Debt debt : debts) {
-                if (debt.isSettled())
-                    allDebts.add(debt);
-            }
-        }
+        List<Debt> debts=server.getDebtsByInvitationId(event.getInvitationID());
+        for(Debt debt : debts)
+            if (debt.isSettled())
+                allDebts.add(debt);
     }
 
     /**
@@ -162,7 +157,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             TextFlow textFlow=new TextFlow();
             Text from=new Text(debt.getHasToPay().getName());
             Text howMuch=new Text(String.valueOf(debt.getAmount()));
-            Text currency=new Text(String.valueOf(debt.getExpense().getCurrency()));
+            Text currency=new Text("EUR");
             Text to=new Text(debt.getWhoPaid().getName());
 
             makeTextBold(from, howMuch, currency, to);

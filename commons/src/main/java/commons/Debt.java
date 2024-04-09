@@ -13,8 +13,8 @@ public class Debt {
 
     private Boolean settled;
     @ManyToOne
-    @JoinColumn(name = "ex_id")
-    private Expense expense;
+    @JoinColumn(name = "event_id")
+    private Event event;
 
     @ManyToOne
     @JoinColumn(name = "from_id", nullable = false)
@@ -39,9 +39,8 @@ public class Debt {
         settled = false;
     }
 
-    public Debt(Long id, Expense expense, Participant hasToPay, Participant whoPaid, Double amount){
-        this.id = id;
-        this.expense = expense;
+    public Debt(Event event, Participant hasToPay, Participant whoPaid, Double amount) {
+        this.event = event;
         this.hasToPay = hasToPay;
         this.whoPaid = whoPaid;
         this.amount = amount;
@@ -58,12 +57,12 @@ public class Debt {
         this.id = id;
     }
 
-    public Expense getExpense() {
-        return expense;
+    public Event getEvent() {
+        return event;
     }
 
-    public void setExpense(Expense expense) {
-        this.expense = expense;
+    public void setEvent(Event event) {
+        this.event = event;
     }
 
     /**

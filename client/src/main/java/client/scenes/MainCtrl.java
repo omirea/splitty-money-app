@@ -116,6 +116,7 @@ public class MainCtrl {
         openDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Splitty: Open Debts");
         primaryStage.setScene(openDebts);
+        openDebts.getStylesheets().add("/stylesheets/openDebts.css");
         openDebtsCtrl.addDebtsToList(id);
         openDebtsCtrl.addParticipantsToChoiceBox(id);
     }
@@ -135,6 +136,8 @@ public class MainCtrl {
     public void showStartScreen() {
         primaryStage.setTitle("Splitty: Start");
         primaryStage.setScene(start);
+        startCtrl.setUpConnection();
+        startCtrl.setUpLanguage();
     }
 
     /**
@@ -204,6 +207,7 @@ public class MainCtrl {
         manageEventsAdminCtrl.refresh();
         primaryStage.setTitle("Splitty: Admin events overview");
         primaryStage.setScene(eventsAdmin);
+        eventsAdmin.setOnKeyPressed(e -> manageEventsAdminCtrl.enterKeyPressed(e));
     }
 
     /**
@@ -246,4 +250,51 @@ public class MainCtrl {
         addEditExpenseCtrl.getTableView().getItems().add(pa);
     }
 
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public Scene getAddEditParticipant() {
+        return addEditParticipant;
+    }
+
+    public Scene getOpenDebts() {
+        return openDebts;
+    }
+
+    public Scene getInvitation() {
+        return invitation;
+    }
+
+    public Scene getExpense() {
+        return expense;
+    }
+
+    public Scene getOverview() {
+        return overview;
+    }
+
+    public Scene getManageParticipants() {
+        return manageParticipants;
+    }
+
+    public Scene getStart() {
+        return start;
+    }
+
+    public Scene getLogInAdmin() {
+        return logInAdmin;
+    }
+
+    public Scene getClosedDebts() {
+        return closedDebts;
+    }
+
+    public Scene getEventsAdmin() {
+        return eventsAdmin;
+    }
+
+    public Scene getSettingsPage() {
+        return settingsPage;
+    }
 }

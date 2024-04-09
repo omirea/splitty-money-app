@@ -14,17 +14,17 @@
    <children>
       <VBox layoutX="106.0" layoutY="80.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <HBox prefHeight="38.0" prefWidth="280.0">
+            <HBox prefHeight="38.0">
                <children>
                   <ToolBar prefHeight="35.0" prefWidth="404.0">
                     <items>
                         <Button fx:id="logOutButton" mnemonicParsing="false" onAction="#onLogOutClick" text="Log Out" />
                     </items>
                   </ToolBar>
-                  <ToolBar prefHeight="35.0" prefWidth="127.0" HBox.hgrow="NEVER">
+                  <ToolBar prefHeight="35.0" prefWidth="209.0">
                     <items>
-                        <Button fx:id="importButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#onImportClick" text="Import" />
-                      <Button fx:id="refreshButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
+                        <Button fx:id="importButton" alignment="TOP_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onImportClick" text="Importeren" />
+                      <Button fx:id="refreshButton" alignment="TOP_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#refresh" text="Herladen" />
                     </items>
                   </ToolBar>
                </children>

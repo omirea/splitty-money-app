@@ -4,13 +4,17 @@ import client.Main;
 import client.utils.ServerUtils;
 import commons.Event;
 import commons.Participant;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,6 +54,50 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
     Event event;
     Participant participant;
 
+    @FXML
+    public void initialize(){
+        nameTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.ENTER)) {
+                    emailTextField.requestFocus();
+                }
+            }
+        });
+        emailTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.ENTER)) {
+                    accHolderTextField.requestFocus();
+                }
+            }
+        });
+        accHolderTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.ENTER)) {
+                    ibanTextField.requestFocus();
+                }
+            }
+        });
+        ibanTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.ENTER)) {
+                    bicTextField.requestFocus();
+                }
+            }
+        });
+        bicTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.ENTER)) {
+                    onClickOk();
+                }
+            }
+        });
+    }
+
     @Inject
     public AddEditParticipantCtrl(ServerUtils server, MainCtrl mainCtrl){
         this.server=server;
@@ -69,47 +117,77 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
     @FXML
     void onClickOk() {
         if(checkEmpty() && validateEmail(emailTextField.getText())
-            && isIbanValid(ibanTextField.getText())){
+                && isIbanValid(ibanTextField.getText())) {
             String name = nameTextField.getText();
             String email = emailTextField.getText();
-            String accHolder=accHolderTextField.getText();
+            String accHolder = accHolderTextField.getText();
             String iban = ibanTextField.getText();
             String bic = bicTextField.getText();
 
-            if (participant == null) {
-                participant = new Participant(name, email, accHolder, iban, bic, event);
+            if (!hasUniqueName(name)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                switch (locale.getLanguage()) {
+                    case "nl":
+                        alert.setTitle("Naam is al bezet");
+                        alert.setContentText("Deze naam is al bezet, kies een andere naam.");
+                        break;
+                    case "en":
+                        alert.setTitle("Name is already chose");
+                        alert.setContentText("This name is already chosen, fill in another name");
+                        break;
+                    default:
+                        break;
+                }
+                alert.setHeaderText(null);
+                alert.showAndWait();
             } else {
-                participant.setName(name);
-                participant.setEmail(email);
-                participant.setAccountHolder(accHolder);
-                participant.setIBAN(iban);
-                participant.setBIC(bic);
-            }
+                if (participant == null) {
+                    participant = new Participant(name, email, accHolder, iban, bic, event);
+                } else {
+                    participant.setName(name);
+                    participant.setEmail(email);
+                    participant.setAccountHolder(accHolder);
+                    participant.setIBAN(iban);
+                    participant.setBIC(bic);
+                }
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            switch(locale.getLanguage()) {
-                case "nl":
-                    alert.setTitle("Succesvol toevoegen");
-                    alert.setContentText("Deelnemer succesvol toegevoegd");
-                    break;
-                case "en":
-                    alert.setTitle("Adding Successful");
-                    alert.setContentText("Participant Added Successfully");
-                    break;
-                default:
-                    break;
-            }
-            alert.setHeaderText(null);
-            alert.showAndWait();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                switch (locale.getLanguage()) {
+                    case "nl":
+                        alert.setTitle("Succesvol toevoegen");
+                        alert.setContentText("Deelnemer succesvol toegevoegd");
+                        break;
+                    case "en":
+                        alert.setTitle("Adding Successful");
+                        alert.setContentText("Participant Added Successfully");
+                        break;
+                    default:
+                        break;
+                }
+                alert.setHeaderText(null);
+                alert.showAndWait();
 
-            mainCtrl.showManageParticipants(this.event.getInvitationID(), participant);
-            participant = null;
-            nameTextField.clear();
-            emailTextField.clear();
-            accHolderTextField.clear();
-            ibanTextField.clear();
-            bicTextField.clear();
+                mainCtrl.showManageParticipants(this.event.getInvitationID(), participant);
+                participant = null;
+                nameTextField.clear();
+                emailTextField.clear();
+                accHolderTextField.clear();
+                ibanTextField.clear();
+                bicTextField.clear();
+            }
         }
+    }
+
+    private boolean hasUniqueName(String name) {
+        List<Participant> allP = server.getParticipantsByInvitationId(event.getInvitationID());
+        boolean bool = true;
+        for(Participant p : allP){
+            if(p.getName().equals(name)){
+                bool = false;
+                return bool;
+            }
+        }
+        return bool;
     }
 
     public ServerUtils getServer() {
@@ -139,13 +217,13 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         if (o == null || getClass() != o.getClass()) return false;
         AddEditParticipantCtrl that = (AddEditParticipantCtrl) o;
         return Objects.equals(server, that.server) && Objects.equals(mainCtrl, that.mainCtrl)
-            && Objects.equals(bicTextField, that.bicTextField)
-            && Objects.equals(emailTextField, that.emailTextField)
-            && Objects.equals(accHolderTextField, that.accHolderTextField)
-            && Objects.equals(ibanTextField, that.ibanTextField)
-            && Objects.equals(nameTextField, that.nameTextField)
-            && Objects.equals(okButton, that.okButton)
-            && Objects.equals(cancelButton, that.cancelButton);
+                && Objects.equals(bicTextField, that.bicTextField)
+                && Objects.equals(emailTextField, that.emailTextField)
+                && Objects.equals(accHolderTextField, that.accHolderTextField)
+                && Objects.equals(ibanTextField, that.ibanTextField)
+                && Objects.equals(nameTextField, that.nameTextField)
+                && Objects.equals(okButton, that.okButton)
+                && Objects.equals(cancelButton, that.cancelButton);
     }
 
     @Override
@@ -160,8 +238,8 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
      */
     public boolean validateEmail(String email){
         String regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\." +
-            "[0-9]{1,3}\\.[0-9]{1,3}\\])" +
-            "|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+                "[0-9]{1,3}\\.[0-9]{1,3}\\])" +
+                "|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         Pattern p= Pattern.compile(regex);
         Matcher m= p.matcher(email.trim());
         if(email.equals("")) {

@@ -52,11 +52,14 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     @FXML private TableColumn<Expense, Button> editColAll, editColFrom, editColTo,
                                             deleteColAll, deleteColFrom, deleteColTo;
 
+    private final StartCtrl start;
+
 
     @Inject
-    public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl) {
+    public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl, StartCtrl start) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.start = start;
         expenses = new ArrayList<>();
         this.allParticipants= FXCollections.observableArrayList();
     }
@@ -245,9 +248,11 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         }
         tid.showAndWait();
         String title = tid.getEditor().getText();
+        start.deleteEventFromTable(event);
         event.setName(title);
         event = server.updateEvent(event, event.getID());
         eventTitleText.setText(title);
+        start.addEventToBox(event);
     }
 
     /**
