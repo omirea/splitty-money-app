@@ -247,7 +247,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         fillDebtList(amount, debtList, whoPaid);
         if (expense == null) {
             //expense = new Expense(event, debtList, whatFor, amount, null, date, currency);
-            expense = new Expense(event,whatFor, amount, null, date, currency);
+            expense = new Expense(event, whatFor, amount, null, date, currency);
             expense.setEvent(event);
             expense=server.createExpense(expense);
         } else {
@@ -256,11 +256,11 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             //if it doesn't exist, create it
             List<Debt> debtsDB=server.getDebtsByInvitationId(event.getInvitationID());
             for(Debt debt : debtList){
-                Participant from=debt.getFrom();
-                Participant to=debt.getTo();
+                Participant from=debt.getHasToPay();
+                Participant to=debt.getWhoPaid();
                 boolean exists=false;
                 for(Debt debtDB : debtsDB){
-                    if(debtDB.getFrom().equals(from) && debtDB.getTo().equals(to)){
+                    if(debtDB.getHasToPay().equals(from) && debtDB.getWhoPaid().equals(to)){
                         exists=true;
                         Double amountDB=debtDB.getAmount();
                         Double newAmount=debt.getAmount();
@@ -319,11 +319,11 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         //if it doesn't exist, create it
         List<Debt> debtsDB=server.getDebtsByInvitationId(event.getInvitationID());
         for(Debt debt : debtList){
-            Participant from=debt.getFrom();
-            Participant to=debt.getTo();
+            Participant from=debt.getHasToPay();
+            Participant to=debt.getWhoPaid();
             boolean exists=false;
             for(Debt debtDB : debtsDB){
-                if(debtDB.getFrom().equals(from) && debtDB.getTo().equals(to)){
+                if(debtDB.getHasToPay().equals(from) && debtDB.getWhoPaid().equals(to)){
                     exists=true;
                     Double amountDB=debtDB.getAmount();
                     Double newAmount=debt.getAmount();

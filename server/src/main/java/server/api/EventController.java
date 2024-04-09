@@ -196,26 +196,4 @@ public class EventController {
         return ResponseEntity.ok(expenses);
     }
 
-    @GetMapping("/{invitationID}/debts")
-    @ResponseBody
-    public ResponseEntity<List<Debt>> getDebtsByInvitationId(
-        @PathVariable("invitationID") String invitationID) {
-
-        Event e = new Event();
-        e.setInvitationID(invitationID);
-        Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAll()));
-        if (tempEvent.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        Debt d = new Debt();
-        Expense expense = new Expense();
-        expense.setEvent(tempEvent.get());
-        d.setExpense(expense);
-        List<Debt> debts = debtDB.findAll(
-            Example.of(d, ExampleMatcher.matchingAll()));
-        System.out.println(debts);
-
-        return ResponseEntity.ok(debts);
-    }
-
 }
