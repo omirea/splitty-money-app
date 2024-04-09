@@ -60,12 +60,12 @@
                      <font>
                         <Font name="Calibri" size="15.0" />
                      </font></Text>
-                  <TextField fx:id="whatForField" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <ChoiceBox fx:id="whoPaidField" prefHeight="27.0" prefWidth="160.0" GridPane.columnIndex="1" />
+                  <TextField fx:id="whatForField" prefHeight="26.0" prefWidth="182.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets right="44.0" />
                      </GridPane.margin></TextField>
                   <DatePicker fx:id="whenField" prefHeight="26.0" prefWidth="176.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <ChoiceBox fx:id="whoPaidField" onAction="#onWhoPaidChange" prefHeight="26.0" prefWidth="174.0" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <Text fx:id="howToSplitText" strokeType="OUTSIDE" strokeWidth="0.0" text="How to Split">
