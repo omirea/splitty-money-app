@@ -59,7 +59,8 @@ public class Main extends Application {
             "ManageEventsAdmin.fxml");
         var settingsPage=FXML.load(SettingsPageCtrl.class, "client", "scenes",
                 "SettingsPage.fxml");
-        mainCtrl.initialize(stage, start, overview, invitation, participant, expense, openDebts,
+        mainCtrl.initialize(stage, start, overview,
+                invitation, participant, expense, openDebts,
             manageParticipants, logInAdmin, closedDebts, eventsAdmin, settingsPage);
         stage.setOnCloseRequest(e -> {
             eventsAdmin.getKey().stop();

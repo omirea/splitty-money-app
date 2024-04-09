@@ -90,8 +90,9 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
 
         //set button color
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        getReopenAllDebts()
-                .setStyle("-fx-background-color: linear-gradient(to top right, #c7dde7, #32c2fd)");
+        //getReopenAllDebts()
+                //.setStyle("-fx-background-color:
+        // linear-gradient(to top right, #c7dde7, #32c2fd)");
 
         //set button to go home page
         homeView.setFitHeight(25);
