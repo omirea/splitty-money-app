@@ -106,7 +106,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     /**
      * method to show start screen when admin wants to log out
      */
-    public void  onLogOutClick(){
+    public void  onLogOutClick() throws IOException {
         mainCtrl.showStartScreen();
     }
 

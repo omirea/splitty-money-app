@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -423,5 +424,5 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     /**
      * method to show start page
      */
-    public void showHome(){mainCtrl.showStartScreen();}
+    public void showHome() throws IOException {mainCtrl.showStartScreen();}
 }

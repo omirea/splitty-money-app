@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.util.Objects;
 
 import static client.Main.locale;
@@ -67,7 +68,7 @@ public class AdminLogInCtrl implements Main.LanguageSwitch {
     /**
      * method to display the Start Screen
      */
-    @FXML protected void onClickHome(){
+    @FXML protected void onClickHome() throws IOException {
         mainCtrl.showStartScreen();
     }
 

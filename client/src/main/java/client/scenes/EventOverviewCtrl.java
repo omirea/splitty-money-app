@@ -17,6 +17,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -137,7 +138,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     /**
      * method to go back to the Home page
      */
-    public void goBackHome(){
+    public void goBackHome() throws IOException {
         mainCtrl.showStartScreen();
     }
 
@@ -197,7 +198,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      * maps the keyboard shortcuts to this controller/scene
      * @param e KeyEvent inputted
      */
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e) throws IOException {
         if (Objects.requireNonNull(e.getCode()) == KeyCode.ESCAPE) {
             goBackHome();
         }

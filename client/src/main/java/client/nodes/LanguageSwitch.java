@@ -48,11 +48,13 @@ public class LanguageSwitch {
      * @return true if there is a server, false otherwise.
      */
     public String getLanguage() {
+        //fileName = "src/main/resources/config.properties";
+        //FileInputStream fileInputStream = new FileInputStream(fileName);
+        //prop.load(fileInputStream);
         String language = prop.getProperty("preferredLanguage");
         if (language.isEmpty()) {
-            return null;
+                return null;
         }
         return language;
     }
-
 }

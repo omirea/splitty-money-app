@@ -17,6 +17,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.util.Objects;
 
 import static client.Main.locale;
@@ -76,7 +77,7 @@ public class StartCtrl implements  Main.LanguageSwitch {
         connectionSetup.promptUser();
     }
 
-    public void setUpLanguage(){
+    public void setUpLanguage() throws IOException {
         String[] lg=languageSwitch.getLanguage().split("_");
         Main.switchLocale(lg[0], lg[1]);
     }

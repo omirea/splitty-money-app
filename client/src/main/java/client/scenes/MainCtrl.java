@@ -23,6 +23,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+
+import java.io.IOException;
+
 public class MainCtrl {
 
     private Stage primaryStage;
@@ -174,7 +177,13 @@ public class MainCtrl {
         primaryStage.setTitle("Splitty: Event overview");
         primaryStage.setScene(overview);
         overviewCtrl.addAllParticipants();
-        overview.setOnKeyPressed(e -> overviewCtrl.keyPressed(e));
+        overview.setOnKeyPressed(e -> {
+            try {
+                overviewCtrl.keyPressed(e);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
     }
 
     /**
