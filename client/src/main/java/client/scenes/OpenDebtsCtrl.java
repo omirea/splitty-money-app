@@ -196,13 +196,21 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
                 break;
         }
         alert.setHeaderText(null);
-        Optional<ButtonType> result=alert.showAndWait();
-        if(result.get()==ButtonType.OK) {
-            for(DebtsTable debtRow : debtsTables){
-                if(debtRow.getCheckBox().isSelected()){
-                    Debt debt=debtRow.getDebt();
-                    debt.setSettled(true);
-                    server.updateDebt(debt, debt.getId());
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            for (DebtsTable debtRow : debtsTables){
+                if (debtRow.getCheckBox().isSelected()){
+                    Debt debt = debtRow.getDebt();
+                    List<Debt> unsettledDebts =
+                            server.getDebtsByInvitationId(event.getInvitationID())
+                                    .stream().filter(debt1 -> !debt1.isSettled()).toList();
+                    for (Debt existingDebt : unsettledDebts) {
+                        if (existingDebt.getFrom().equals(debt.getFrom())
+                                && existingDebt.getTo().equals(debt.getTo())) {
+                            existingDebt.setSettled(true);
+                            server.updateDebt(existingDebt, existingDebt.getId());
+                        }
+                    }
                 }
             }
             addDebtsToList(event.getInvitationID());
