@@ -1,7 +1,6 @@
 package client.scenes;
 
 import client.Main;
-import client.nodes.EmailSenderService;
 import client.nodes.SendEmailApplication;
 import client.utils.ServerUtils;
 import commons.Event;
@@ -15,9 +14,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.util.Duration;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.stereotype.Component;
+
 
 import javax.inject.Inject;
 

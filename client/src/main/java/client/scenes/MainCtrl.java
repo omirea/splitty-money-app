@@ -16,7 +16,6 @@
 package client.scenes;
 
 import client.Main;
-import client.nodes.EmailSenderService;
 import client.nodes.PersonAmount;
 import commons.Expense;
 import commons.Participant;
@@ -24,10 +23,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 public class MainCtrl {
 
     private Stage primaryStage;
