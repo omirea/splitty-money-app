@@ -38,8 +38,6 @@ public class MainCtrl {
     private ManageEventsAdminCtrl manageEventsAdminCtrl;
     private SettingsPageCtrl settingsPageCtrl;
 
-    //private EmailSenderService emailSenderService;
-
     private Scene addEditParticipant, openDebts, invitation,
         expense, overview, manageParticipants, start,
         logInAdmin, closedDebts, eventsAdmin, settingsPage;
