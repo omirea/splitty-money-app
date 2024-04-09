@@ -78,7 +78,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
      */
     @FXML
     public void initialize(){
-        payAllDebtsButton.getStyleClass().add("resources/stylesheets/stylesheet.css");
+        //payAllDebtsButton.getStyleClass().add("resources/stylesheets/stylesheet.css");
 
         //init newDebts
         newDebts.addAll(allDebts);
@@ -100,8 +100,9 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         toParticipantCB.setConverter(new ParticipantStringConverter());
 
         //listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        getPayAllDebts()
-                .setStyle("-fx-background-color: linear-gradient(to top right, #f5dce7, #e781c9)");
+        //getPayAllDebts()
+                //.setStyle("-fx-background-color:
+        // linear-gradient(to top right, #f5dce7, #e781c9)");
 
         //set home button
         homeView.setFitHeight(25);

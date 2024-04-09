@@ -1,3 +1,0 @@
-2024-03-29 23:38:27.969821+03:00 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'YRNU0MDO' (EXPENSE: ""EVENT_ID"" BIGINT NOT NULL)"; SQL statement:
-delete from event where id=? [22018-224]

@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="566.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EventOverviewCtrl">
+<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../stylesheets/eventOverview.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EventOverviewCtrl">
    <children>
       <VBox layoutX="11.2" layoutY="3.2" prefHeight="387.0" prefWidth="279.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="3.0">
          <children>
@@ -47,7 +47,7 @@
                <children>
                   <Text fx:id="participantsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Participants">
                      <font>
-                        <Font name="System Bold" size="12.0" />
+                        <Font name="Calibri Bold" size="17.0" />
                      </font>
                   </Text>
                   <Button fx:id="editParticipantsButton" mnemonicParsing="false" onAction="#onParticipantEditClick" text="Manage" />
@@ -59,7 +59,7 @@
             <Text fx:id="participantsListText" strokeType="OUTSIDE" strokeWidth="0.0" />
             <Text fx:id="expensesText" strokeType="OUTSIDE" strokeWidth="0.0" text="Expenses">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="Calibri Bold" size="17.0" />
                </font>
             </Text>
             <GridPane alignment="CENTER">
@@ -75,7 +75,7 @@
                   <ChoiceBox fx:id="participantsMenu" onAction="#onMenuChange" prefWidth="150.0" />
                </children>
             </GridPane>
-            <TabPane fx:id="expensesTabs" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="expensesTabs" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../stylesheets/eventOverview.css" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab fx:id="allTab" onSelectionChanged="#onTabSwitch" text="All">
                   <content>

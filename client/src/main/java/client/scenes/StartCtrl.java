@@ -2,16 +2,21 @@ package client.scenes;
 
 import client.Main;
 import client.nodes.ConnectionSetup;
+import client.nodes.LanguageSwitch;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
+
 import java.util.Objects;
 
 import static client.Main.locale;
@@ -52,11 +57,15 @@ public class StartCtrl implements  Main.LanguageSwitch {
     private TableColumn<Event, Button> openColumn;
     ConnectionSetup connectionSetup;
 
+    private LanguageSwitch languageSwitch;
+
     @Inject
-    public StartCtrl(ServerUtils server, MainCtrl mainCtrl, ConnectionSetup cs) {
+    public StartCtrl(ServerUtils server, MainCtrl mainCtrl, ConnectionSetup cs,
+                     LanguageSwitch languageSwitch) {
         this.server = server;
         this.mainCtrl = mainCtrl;
-        connectionSetup = cs;
+        this.connectionSetup = cs;
+        this.languageSwitch=languageSwitch;
     }
 
     public void setUpConnection() {
@@ -65,6 +74,11 @@ public class StartCtrl implements  Main.LanguageSwitch {
             return;
         }
         connectionSetup.promptUser();
+    }
+
+    public void setUpLanguage(){
+        String[] lg=languageSwitch.getLanguage().split("_");
+        Main.switchLocale(lg[0], lg[1]);
     }
 
     /**
@@ -117,6 +131,24 @@ public class StartCtrl implements  Main.LanguageSwitch {
                 }
             });
             return row;
+        });
+
+        createEventField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.ENTER)) {
+                    onCreateClick();
+                }
+            }
+        });
+
+        joinEventField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.ENTER)) {
+                    onJoinClick();
+                }
+            }
         });
     }
 
@@ -192,18 +224,21 @@ public class StartCtrl implements  Main.LanguageSwitch {
         return alert;
     }
 
+
     /**
      * method to add event to table view
      */
     public void addEventToBox(Event event) {
-        recentEvents.getItems().add(event);
+        if(!recentEvents.getItems().contains(event)){
+            recentEvents.getItems().add(event);
+        }
     }
 
     private void showEvent(String invID) {
         mainCtrl.showEventOverview(invID);
     }
 
-    private void deleteEventFromTable(Event event) {
+    public void deleteEventFromTable(Event event) {
         recentEvents.getItems().remove(event);
         recentEvents.refresh();
     }

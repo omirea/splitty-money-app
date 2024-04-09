@@ -1,20 +1,31 @@
 package client.scenes;
 
 import client.Main;
+import client.nodes.SendEmailApplication;
 import client.utils.ServerUtils;
 import commons.Event;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+import javafx.util.Duration;
+
 
 import javax.inject.Inject;
+
+import static client.Main.locale;
 
 public class InvitationCtrl implements Main.LanguageSwitch{
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+
+    private SendEmailApplication sendEmail;
 
     Event event;
 
@@ -26,6 +37,9 @@ public class InvitationCtrl implements Main.LanguageSwitch{
 
     @FXML
     private Label codeLabel;
+
+    @FXML
+    private Button copyButton;
 
     @FXML
     private Button sendInvitesButton;
@@ -40,10 +54,12 @@ public class InvitationCtrl implements Main.LanguageSwitch{
     private Label inviteEmailLabel;
 
 
+
     @Inject
     public InvitationCtrl(ServerUtils server, MainCtrl mainCtrl){
         this.server=server;
         this.mainCtrl=mainCtrl;
+        this.sendEmail=new SendEmailApplication();
     }
 
     public ServerUtils getServer() {return server;}
@@ -72,11 +88,30 @@ public class InvitationCtrl implements Main.LanguageSwitch{
      * method to send invite
      * @param event to send invite to
      */
-    public void sendInvites(ActionEvent event) {
+    public void sendInvites(ActionEvent event) throws Exception {
         String[] email =emailTextField.getText().split("\n");
+        int counter=0;
         for(String e: email){
-            System.out.println(e);
+            counter++;
+            String[] args=new String[2];
+            args[0]=e;
+            args[1]=codeLabel.getText();
+            sendEmail.main(args);
         }
+        Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+        if(counter==0){
+            alert.setTitle("No emails");
+            alert.setContentText("Please input a valid email address!");
+            alert.showAndWait();
+            return;
+        }
+        alert.setTitle("Email sent");
+        if(counter==1)
+            alert.setContentText("Email sent successfully!");
+        else
+            alert.setContentText("Emails sent successfully!");
+        alert.showAndWait();
+        emailTextField.clear();
     }
 
     public void setEvent(String id) {
@@ -84,6 +119,7 @@ public class InvitationCtrl implements Main.LanguageSwitch{
         codeLabel.setText(event.getInvitationID());
         eventName.setText(event.getName());
     }
+
 
     /**
      * method to go back to event page
@@ -98,5 +134,32 @@ public class InvitationCtrl implements Main.LanguageSwitch{
         inviteEmailLabel.setText(Main.getLocalizedString("inviteFollowingPeopleByEmail"));
         back.setText(Main.getLocalizedString("Back"));
         sendInvitesButton.setText(Main.getLocalizedString("sendInvites"));
+    }
+
+    public void copy(ActionEvent event) {
+        String invitation=codeLabel.getText();
+        Clipboard clipboard = Clipboard.getSystemClipboard();
+        ClipboardContent content = new ClipboardContent();
+        content.putString(invitation);
+        clipboard.setContent(content);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        switch (locale.getLanguage()) {
+            case "nl":
+                alert.setTitle("Kopiëren succesvol");
+                alert.setContentText("Code succesvol gekopieerd");
+                break;
+            case "en":
+                alert.setTitle("Copying Successful");
+                alert.setContentText("Code Copied Successfully");
+                break;
+            default:
+                break;
+        }
+        alert.setHeaderText(null);
+        alert.show();
+        PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+        pause.setOnFinished(e ->
+                alert.hide());
+        pause.play();
     }
 }
