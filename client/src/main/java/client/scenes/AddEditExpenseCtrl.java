@@ -30,7 +30,6 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     // Add expense
     private ObservableList<Participant> participants;
     private ObservableList<PersonAmount> personAmounts;
-    private Map<String, Participant> personAmountMap;
     private MainCtrl mainCtrl;
     private final ServerUtils server;
 
@@ -76,7 +75,6 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         this.mainCtrl=mainCtrl;
         this.participants = FXCollections.observableArrayList();
         this.personAmounts = FXCollections.observableArrayList();
-        this.personAmountMap = new HashMap<>();
     }
 
     public TableView<PersonAmount> getTableView(){
@@ -115,8 +113,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         if (participants == null) return;
         for (Participant participant : participants) {
             if (!Objects.equals(participant.getName(), whoPaidField.getValue().getName())) {
-                personAmounts.add(new PersonAmount(participant.getName()));
-                personAmountMap.put(participant.getName(), participant);
+                personAmounts.add(new PersonAmount(participant));
             }
         }
     }
@@ -125,11 +122,9 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
 
     /**
      * onAddClick method
-     * @param event2 - click event
-     * @throws IOException - IOException
      */
     @FXML
-    public void onAddClick(ActionEvent event2) throws IOException {
+    public void onAddClick() {
 
         if (whatForField.getText() != null && whenField.getValue() != null
             && howMuchField.getText() != null && (allPeopleField.getText() != null
@@ -187,11 +182,10 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
 
     /**
      * onAbortClick method
-     * @param event2 - click event
-     * @throws IOException - if class not found
      */
     @FXML
-    public void onAbortClick(ActionEvent event2) throws IOException {
+    public void onAbortClick() {
+        expense = null;
         mainCtrl.showEventOverview(event.getInvitationID());
     }
 
@@ -209,9 +203,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         LocalDate date = whenField.getValue();
 
         if (expense == null) {
-            //expense = new Expense(event, debtList, whatFor, amount, null, date, currency);
             expense = new Expense(event, whatFor, amount, null, date, currency);
-            expense.setEvent(event);
             expense = server.createExpense(expense);
         } else {
             expense.setDateSent(date);
@@ -219,30 +211,8 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             expense.setDescription(whatFor);
             expense.setCurrency(currency);
             expense.setType(null);
-//            expense.setEvent(event);
+            expense.setEvent(event);
             expense = server.updateExpense(expense, expense.getId());
-            //check if the debt already exists between these 2 participants
-            //if it exists, update it
-            //if it doesn't exist, create it
-//            List<Debt> debtsDB=server.getDebtsByInvitationId(event.getInvitationID());
-//            for(Debt debt : debtList){
-//                Participant from=debt.getFrom();
-//                Participant to=debt.getTo();
-//                boolean exists=false;
-//                for(Debt debtDB : debtsDB){
-//                    if(debtDB.getFrom().equals(from) && debtDB.getTo().equals(to)){
-//                        exists=true;
-//                        Double amountDB=debtDB.getAmount();
-//                        Double newAmount=debt.getAmount();
-//                        debtDB.setAmount(amountDB+newAmount);
-//                        server.updateDebt(debtDB, debtDB.getId());
-//                    }
-//                }
-//                if(!exists){
-//                    debt.setEvent(event);
-//                    server.createDebt(debt);
-//                }
-//            }
         }
         fillDebtList(amount, whoPaid);
         return expense;
@@ -255,49 +225,64 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
      */
     private void fillDebtList(Double amount, Participant whoPaid) {
 
+        List<Debt> existingDebts = server.getDebtsByExpense(expense.getId());
+        for (Debt debt : existingDebts) {
+            if (!debt.getTo().equals(whoPaid)) {
+                existingDebts.remove(debt);
+                server.deleteDebt(debt.getId());
+            }
+        }
+
         if (allPeopleField.isSelected()) {
 
             for (PersonAmount personAmount : personAmounts) {
                 personAmount.getCheckBox().selectedProperty().set(true);
+                personAmount.getTextField().setText("");
+                dividePerPerson(personAmount, amount, personAmounts.size());
             }
 
             for (PersonAmount personAmount : personAmounts) {
-                dividePerPerson(personAmount, amount, personAmounts.size());
-                System.out.println(event);
-                System.out.println(expense);
-                Debt debt = new Debt(event, expense, personAmountMap.get(personAmount.getName()),
+                Debt debt = new Debt(event, expense, personAmount.getParticipant(),
                         whoPaid, Double.parseDouble(personAmount.getTextField().getText()));
-                server.createDebt(debt);
+                List<Debt> sameDebts = existingDebts.stream()
+                        .filter(existingDebt -> existingDebt.getFrom()
+                                .equals(personAmount.getParticipant()))
+                        .toList();
+                if (sameDebts.isEmpty()) {
+                    server.createDebt(debt);
+                } else {
+                    server.updateDebt(debt, sameDebts.get(0).getId());
+                    existingDebts.remove(sameDebts.get(0));
+                }
+            }
+
+            for (Debt debt : existingDebts) {
+                server.deleteDebt(debt.getId());
             }
 
         } else {
+
             for (PersonAmount personAmount : tableView.getItems()) {
                 if (personAmount.getCheckBox().isSelected()) {
-                    Debt debt = new Debt(personAmountMap.get(personAmount.getName()), whoPaid,
+                    Debt debt = new Debt(event, expense, personAmount.getParticipant(), whoPaid,
                         Double.parseDouble(personAmount.getTextField().getText()));
-                    server.createDebt(debt);
+                    List<Debt> sameDebts = existingDebts.stream()
+                            .filter(existingDebt -> existingDebt.getFrom()
+                                    .equals(personAmount.getParticipant()))
+                            .toList();
+                    if (sameDebts.isEmpty()) {
+                        server.createDebt(debt);
+                    } else {
+                        server.updateDebt(debt, sameDebts.get(0).getId());
+                        existingDebts.remove(sameDebts.get(0));
+                    }
                 }
             }
+
+            for (Debt debt : existingDebts) {
+                server.deleteDebt(debt.getId());
+            }
         }
-//        List<Debt> debtsDB=server.getDebtsByInvitationId(event.getInvitationID());
-//        for(Debt debt : debtList){
-//            Participant from=debt.getFrom();
-//            Participant to=debt.getTo();
-//            boolean exists=false;
-//            for(Debt debtDB : debtsDB){
-//                if(debtDB.getFrom().equals(from) && debtDB.getTo().equals(to)){
-//                    exists=true;
-//                    Double amountDB=debtDB.getAmount();
-//                    Double newAmount=debt.getAmount();
-//                    debtDB.setAmount(amountDB+newAmount);
-//                    server.updateDebt(debtDB, debtDB.getId());
-//                }
-//            }
-//            if(!exists){
-//                debt.setEvent(event);
-//                server.createDebt(debt);
-//            }
-//        }
     }
 
     /**
@@ -330,9 +315,6 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         if (!pa.getCheckBox().isSelected()) return;
         if (pa.getTextField().getText().isEmpty()){
             Double price = total / peopleCounter;
-//                if( (double) price== (int) price)
-//                    pa.getTextField().setText(String.valueOf((int) price));
-//                else
             pa.getTextField().setText(String.valueOf(price));
         }
     }

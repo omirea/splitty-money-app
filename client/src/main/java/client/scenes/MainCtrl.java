@@ -240,8 +240,8 @@ public class MainCtrl {
      * for who should pay for an expense
      * @param participant the participant that has been added
      */
-    public void addParticipantToWhoShouldPayOption(String participant) {
-        PersonAmount pa=new PersonAmount(participant);
+    public void addParticipantToWhoShouldPayOption(Participant participant) {
+        PersonAmount pa = new PersonAmount(participant);
         addEditExpenseCtrl.getTableView().getItems().add(pa);
     }
 
