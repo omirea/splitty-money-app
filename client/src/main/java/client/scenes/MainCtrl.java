@@ -212,6 +212,7 @@ public class MainCtrl {
         eventsAdmin.getStylesheets().add("stylesheets/adminOverview.css");
         primaryStage.setTitle("Splitty: Admin events overview");
         primaryStage.setScene(eventsAdmin);
+        manageEventsAdminCtrl.pollUpdates();
         eventsAdmin.setOnKeyPressed(e -> manageEventsAdminCtrl.enterKeyPressed(e));
     }
 
