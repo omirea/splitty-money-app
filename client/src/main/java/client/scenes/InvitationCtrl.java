@@ -25,8 +25,6 @@ public class InvitationCtrl implements Main.LanguageSwitch{
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
-//    @Autowired
-//    private EmailSenderService emailSenderService;
     private SendEmailApplication sendEmail;
 
     Event event;
@@ -92,12 +90,28 @@ public class InvitationCtrl implements Main.LanguageSwitch{
      */
     public void sendInvites(ActionEvent event) throws Exception {
         String[] email =emailTextField.getText().split("\n");
+        int counter=0;
         for(String e: email){
+            counter++;
             String[] args=new String[2];
             args[0]=e;
             args[1]=codeLabel.getText();
             sendEmail.main(args);
         }
+        Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+        if(counter==0){
+            alert.setTitle("No emails");
+            alert.setContentText("Please input a valid email address!");
+            alert.showAndWait();
+            return;
+        }
+        alert.setTitle("Email sent");
+        if(counter==1)
+            alert.setContentText("Email sent successfully!");
+        else
+            alert.setContentText("Emails sent successfully!");
+        alert.showAndWait();
+        emailTextField.clear();
     }
 
     public void setEvent(String id) {
