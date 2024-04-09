@@ -29,7 +29,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-    private List<Participant> addedParticipants, editedParticipants, deletedParticipants;
+    private List<Participant> addedParticipants, editedParticipants, deletedParticipants, preUpdatedParticipants;
 
     private ObservableList<Participant> data;
     private Event event;
@@ -58,11 +58,11 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         addedParticipants = new ArrayList<>();
         editedParticipants = new ArrayList<>();
         deletedParticipants = new ArrayList<>();
+        preUpdatedParticipants = new ArrayList<>();
     }
 
     @FXML
     public void initialize() {
-
         nameColumn.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getName()));
         deleteColumn.setCellValueFactory(q -> {
             Button deleteParticipant = new Button();
@@ -137,6 +137,10 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         });
     }
 
+    public void setPreUpdatedParticipants() {
+        preUpdatedParticipants = server.getParticipantsByInvitationId(event.getInvitationID());
+    }
+
     public void addParticipantToBox(Participant participant) {
         Participant p = server.createParticipant(participant);
         participant.setId(p.getId());
@@ -164,13 +168,21 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         recentParticipants.setItems(data);
     }
 
-
     /**
      * method to cancel action
      */
     public void onCancelClick() {
         System.out.println("Going back to event");
         if (hasConfirmed()) {
+            for(Participant participant : addedParticipants) {
+                server.deleteParticipant(participant.getId());
+            }
+            for(Participant participant : preUpdatedParticipants) {
+                server.createParticipant(participant);
+            }
+            for (Participant participant : deletedParticipants) {
+                server.createParticipant(participant);
+            }
             mainCtrl.showEventOverview(event.getInvitationID());
             addedParticipants = new ArrayList<>();
             editedParticipants = new ArrayList<>();
