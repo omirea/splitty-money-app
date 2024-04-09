@@ -29,7 +29,8 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
-    private List<Participant> addedParticipants, editedParticipants, deletedParticipants, preUpdatedParticipants;
+    private List<Participant> addedParticipants, editedParticipants, deletedParticipants,
+            preUpdatedParticipants;
 
     private ObservableList<Participant> data;
     private Event event;
