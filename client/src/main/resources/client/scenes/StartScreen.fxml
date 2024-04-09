@@ -19,7 +19,7 @@
    <children>
       <VBox layoutY="10.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <HBox prefHeight="21.0" prefWidth="457.0">
+            <HBox fx:id="hbox1" prefHeight="21.0" prefWidth="457.0">
                <children>
                   <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#showSettingsPage" prefHeight="32.0" prefWidth="90.0" text="Settings">
                      <graphic>
@@ -38,7 +38,7 @@
                         <Insets left="120.0" />
                      </HBox.margin>
                   </Label>
-                  <Button fx:id="adminButton" alignment="TOP_RIGHT" mnemonicParsing="false" onAction="#onAdminClick" prefHeight="30.0" prefWidth="80.0" text="Admin">
+                  <Button fx:id="adminButton" alignment="TOP_CENTER" mnemonicParsing="false" onAction="#onAdminClick" prefHeight="30.0" prefWidth="80.0" text="Admin" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets left="150.0" />
                      </HBox.margin>
