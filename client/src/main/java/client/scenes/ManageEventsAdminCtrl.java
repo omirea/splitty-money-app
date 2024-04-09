@@ -42,6 +42,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
+    private final StartCtrl startCtrl;
     @FXML
     private TextField eventNameTextField;
     @FXML
@@ -71,9 +72,10 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
 
 
     @Inject
-    public ManageEventsAdminCtrl (ServerUtils server, MainCtrl mainCtrl) {
+    public ManageEventsAdminCtrl (ServerUtils server, MainCtrl mainCtrl, StartCtrl startCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.startCtrl = startCtrl;
     }
     
     public void onImportClick(){
@@ -195,6 +197,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
                 server.deleteParticipant(p.getId());
             }
             server.deleteEvent(q.getValue().getID());
+            startCtrl.deleteEventFromTable(q.getValue());
             refresh();
         }
     }
