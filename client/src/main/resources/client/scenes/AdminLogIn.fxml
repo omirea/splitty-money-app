@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="150.0" prefWidth="300.0" stylesheets="@../../stylesheets/adminLogin.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AdminLogInCtrl">
+<AnchorPane fx:id="anchorPane" prefHeight="150.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AdminLogInCtrl">
    <children>
       <VBox layoutX="9.0" layoutY="10.0" prefHeight="131.0" prefWidth="282.0" spacing="10.0" AnchorPane.bottomAnchor="9.199999999999989" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="8.600000000000023" AnchorPane.topAnchor="10.0">
          <children>
