@@ -124,23 +124,23 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             String iban = ibanTextField.getText();
             String bic = bicTextField.getText();
 
-            if (!hasUniqueName(name)) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                switch (locale.getLanguage()) {
-                    case "nl":
-                        alert.setTitle("Naam is al bezet");
-                        alert.setContentText("Deze naam is al bezet, kies een andere naam.");
-                        break;
-                    case "en":
-                        alert.setTitle("Name is already chose");
-                        alert.setContentText("This name is already chosen, fill in another name");
-                        break;
-                    default:
-                        break;
-                }
-                alert.setHeaderText(null);
-                alert.showAndWait();
-            } else {
+//            if (!hasUniqueName(name)) {
+//                Alert alert = new Alert(Alert.AlertType.WARNING);
+//                switch (locale.getLanguage()) {
+//                    case "nl":
+//                        alert.setTitle("Naam is al bezet");
+//                        alert.setContentText("Deze naam is al bezet, kies een andere naam.");
+//                        break;
+//                    case "en":
+//                        alert.setTitle("Name is already chose");
+//                        alert.setContentText("This name is already chosen, fill in another name");
+//                        break;
+//                    default:
+//                        break;
+//                }
+//                alert.setHeaderText(null);
+//                alert.showAndWait();
+//            } else {
                 if (participant == null) {
                     participant = new Participant(name, email, accHolder, iban, bic, event);
                 } else {
@@ -174,7 +174,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
                 accHolderTextField.clear();
                 ibanTextField.clear();
                 bicTextField.clear();
-            }
+//            }
         }
     }
 
