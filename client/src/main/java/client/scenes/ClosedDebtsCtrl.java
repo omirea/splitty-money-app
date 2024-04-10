@@ -349,7 +349,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
                 break;
         }
         alert.setHeaderText(null);
-        Optional<ButtonType> result=alert.showAndWait();
+        Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK){
             for (Debt debt : newDebts) {
                 debt.setSettled(false);
