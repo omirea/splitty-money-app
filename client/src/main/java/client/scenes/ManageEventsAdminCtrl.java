@@ -87,39 +87,71 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
         try {
             TypeReference<Event> typeReference = new TypeReference<>() {};
             Event eventJson = om.readValue(selectedFile, typeReference);
-            server.createEvent(eventJson);
-            List<Participant> parts = eventJson.getParticipants();
-            List<Expense> expenses = eventJson.getExpenses();
-            Event between = server.getEventByInvitationId(eventJson.getInvitationID());
-            for (Participant p : parts){
-                p.setEvent(between);
-                server.createParticipant(p);
-            }
-            for (Expense e : expenses){
-                e.setEvent(between);
-                Expense ex = server.createExpense(e);
-                List<Debt> debts = server.getDebtsByExpense(e.getId());
-                for(Debt d : debts){
-                    d.setExpense(ex);
-                    d.setEvent(between);
-                    List<Participant> participantsinEvent =
-                        server.getParticipantsByInvitationId(eventJson.getInvitationID());
-                    for(Participant p : participantsinEvent){
-                        if(p.equals(d.getTo())){
-                            d.setTo(p);
-                        }
-                        if(p.equals(d.getFrom())){
-                            d.setFrom(p);
-                        }
-                    }
+            //TODO: CHECK IF INVITATION ID ALREADY EXISTS. IF THE statement below works
+            List<Event> allEvents = server.getAllEvents();
+            if(!allEvents.contains(eventJson)) {
+                server.createEvent(eventJson);
+                List<Participant> parts = eventJson.getParticipants();
+                List<Expense> expenses = eventJson.getExpenses();
+                List<Debt> debts = eventJson.getDebts();
+                Event eventImported = server.getEventByInvitationId(eventJson.getInvitationID());
+                for (Participant p : parts) {
+                    p.setEvent(eventImported);
+                    server.createParticipant(p);
                 }
-                mainCtrl.addExpenseToEvent(e);
+                for (Expense e : expenses) {
+                    for (Debt d : debts) {
+                        if (d.getExpense().equals(e)) {
+                            e.setEvent(eventImported);
+                            Expense ex = server.createExpense(e);
+                            d.setExpense(ex);
+                            d.setEvent(eventImported);
+                            List<Participant> participantsInEvent =
+                                server.getParticipantsByInvitationId(
+                                    eventImported.getInvitationID());
+                            for (Participant p : participantsInEvent) {
+                                if (p.equals(d.getTo())) {
+                                    d.setTo(p);
+                                }
+                                if (p.equals(d.getFrom())) {
+                                    d.setFrom(p);
+                                }
+                            }
+                            server.createDebt(d);
+                        }
+
+                    }
+                    mainCtrl.addExpenseToEvent(e);
+                }
+                //TODO: CHECK IF WORKS
+                refresh();
+            } else {
+                throwWarning();
             }
-            refresh();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private void throwWarning() {
+        Alert alert=new Alert(Alert.AlertType.WARNING);
+        switch(locale.getLanguage()) {
+            case "nl":
+                alert.setTitle("Evenement Bestaat Al");
+                alert.setContentText("Er bestaat al een evenement met deze naame en " +
+                    "uitnodigings code.");
+                break;
+            case "en":
+                alert.setTitle("Event Already Exists");
+                alert.setContentText("An event with this name and invitation code already " +
+                    "exists.");
+                break;
+            default:
+                break;
+        }
+        alert.setHeaderText(null);
+        alert.showAndWait();
     }
 
     /**
@@ -289,6 +321,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
                 event.getInvitationID() + ".json"));
             System.out.println(server.getParticipantsByInvitationId(event.getInvitationID()));
             System.out.println(server.getExpensesByInvitationId(event.getInvitationID()));
+            System.out.println(server.getDebtsByInvitationId(event.getInvitationID()));
             String string = server.getEventByInvitationIdJSON(event.getInvitationID());
             writer.write(string);
             writer.flush();
