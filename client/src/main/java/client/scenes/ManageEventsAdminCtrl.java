@@ -97,7 +97,22 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
             }
             for (Expense e : expenses){
                 e.setEvent(between);
-                server.createExpense(e);
+                Expense ex = server.createExpense(e);
+                List<Debt> debts = server.getDebtsByExpense(e.getId());
+                for(Debt d : debts){
+                    d.setExpense(ex);
+                    d.setEvent(between);
+                    List<Participant> participantsinEvent =
+                        server.getParticipantsByInvitationId(eventJson.getInvitationID());
+                    for(Participant p : participantsinEvent){
+                        if(p.equals(d.getTo())){
+                            d.setTo(p);
+                        }
+                        if(p.equals(d.getFrom())){
+                            d.setFrom(p);
+                        }
+                    }
+                }
                 mainCtrl.addExpenseToEvent(e);
             }
             refresh();
