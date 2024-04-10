@@ -10,7 +10,6 @@ import commons.Expense;
 import commons.Participant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -18,7 +17,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import javax.inject.Inject;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -226,11 +224,11 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     private void fillDebtList(Double amount, Participant whoPaid) {
 
         List<Debt> existingDebts = server.getDebtsByExpense(expense.getId());
-        for (Debt debt : existingDebts) {
-            if (!debt.getTo().equals(whoPaid)) {
-                existingDebts.remove(debt);
+        if (!existingDebts.isEmpty() && !existingDebts.get(0).getTo().equals(whoPaid)) {
+            for (Debt debt : existingDebts) {
                 server.deleteDebt(debt.getId());
             }
+            existingDebts.clear();
         }
 
         if (allPeopleField.isSelected()) {
@@ -239,21 +237,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                 personAmount.getCheckBox().selectedProperty().set(true);
                 personAmount.getTextField().setText("");
                 dividePerPerson(personAmount, amount, personAmounts.size());
-            }
-
-            for (PersonAmount personAmount : personAmounts) {
-                Debt debt = new Debt(event, expense, personAmount.getParticipant(),
-                        whoPaid, Double.parseDouble(personAmount.getTextField().getText()));
-                List<Debt> sameDebts = existingDebts.stream()
-                        .filter(existingDebt -> existingDebt.getFrom()
-                                .equals(personAmount.getParticipant()))
-                        .toList();
-                if (sameDebts.isEmpty()) {
-                    server.createDebt(debt);
-                } else {
-                    server.updateDebt(debt, sameDebts.get(0).getId());
-                    existingDebts.remove(sameDebts.get(0));
-                }
+                createOrUpdateDebt(whoPaid, existingDebts, personAmount);
             }
 
             for (Debt debt : existingDebts) {
@@ -264,24 +248,29 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
 
             for (PersonAmount personAmount : tableView.getItems()) {
                 if (personAmount.getCheckBox().isSelected()) {
-                    Debt debt = new Debt(event, expense, personAmount.getParticipant(), whoPaid,
-                        Double.parseDouble(personAmount.getTextField().getText()));
-                    List<Debt> sameDebts = existingDebts.stream()
-                            .filter(existingDebt -> existingDebt.getFrom()
-                                    .equals(personAmount.getParticipant()))
-                            .toList();
-                    if (sameDebts.isEmpty()) {
-                        server.createDebt(debt);
-                    } else {
-                        server.updateDebt(debt, sameDebts.get(0).getId());
-                        existingDebts.remove(sameDebts.get(0));
-                    }
+                    createOrUpdateDebt(whoPaid, existingDebts, personAmount);
                 }
             }
 
             for (Debt debt : existingDebts) {
                 server.deleteDebt(debt.getId());
             }
+        }
+    }
+
+    private void createOrUpdateDebt(Participant whoPaid, List<Debt> existingDebts,
+                                    PersonAmount personAmount) {
+        Debt debt = new Debt(event, expense, personAmount.getParticipant(),
+                whoPaid, Double.parseDouble(personAmount.getTextField().getText()));
+        List<Debt> sameDebts = existingDebts.stream()
+                .filter(existingDebt -> existingDebt.getFrom()
+                        .equals(personAmount.getParticipant()))
+                .toList();
+        if (sameDebts.isEmpty()) {
+            server.createDebt(debt);
+        } else {
+            server.updateDebt(debt, sameDebts.get(0).getId());
+            existingDebts.remove(sameDebts.get(0));
         }
     }
 
@@ -312,8 +301,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
      * @param peopleCounter PeopleCounter
      */
     private void dividePerPerson(PersonAmount pa, Double total, int peopleCounter) {
-        if (!pa.getCheckBox().isSelected()) return;
-        if (pa.getTextField().getText().isEmpty()){
+        if (pa.getCheckBox().isSelected() && pa.getTextField().getText().isEmpty()){
             Double price = total / peopleCounter;
             pa.getTextField().setText(String.valueOf(price));
         }
