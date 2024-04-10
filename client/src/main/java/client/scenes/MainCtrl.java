@@ -190,6 +190,7 @@ public class MainCtrl {
     }
     public void showManageParticipants(String invitationId) {
         showManageParticipants(invitationId, null);
+        manageParticipantsCtrl.setPreUpdatedParticipants();
         manageParticipants.getStylesheets().add("stylesheets/manageParticipants.css");
         manageParticipantsCtrl.addAllParticipants();
     }
