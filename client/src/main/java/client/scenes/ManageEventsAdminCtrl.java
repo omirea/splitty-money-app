@@ -74,6 +74,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     public ManageEventsAdminCtrl (ServerUtils server, MainCtrl mainCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
+        this.allEvents = FXCollections.observableArrayList();
     }
     
     public void onImportClick(){
@@ -245,7 +246,11 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
            });
            return row;
         });
-        server.registerForUpdates(q->{
+//        pollUpdates();
+    }
+
+    public void pollUpdates() {
+        server.registerForUpdates(q-> {
             allEvents.add(q);
         });
     }

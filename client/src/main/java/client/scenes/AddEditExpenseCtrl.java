@@ -10,9 +10,12 @@ import commons.Expense;
 import commons.Participant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -102,6 +105,24 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         howMuchField.setText("0");
         currencyField.setValue("EUR");
         currencyField.setItems(currencyList);
+
+        whatForField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.ENTER)) {
+                    howMuchField.requestFocus();
+                }
+            }
+        });
+
+        howMuchField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.ENTER)) {
+                    whenField.requestFocus();
+                }
+            }
+        });
     }
 
     /**

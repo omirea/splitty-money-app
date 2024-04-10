@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -65,6 +66,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         nameColumn.setCellValueFactory(q -> new SimpleStringProperty(q.getValue().getName()));
         deleteColumn.setCellValueFactory(q -> {
             Button deleteParticipant = new Button();
+            deleteParticipant.setAlignment(Pos.CENTER);
             ImageView trashCan = new ImageView();
             trashCan.setFitWidth(20);
             trashCan.setFitHeight(20);
@@ -110,6 +112,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         });
         editColumn.setCellValueFactory(q -> {
             Button toParticipant = new Button("Edit");
+            toParticipant.setAlignment(Pos.CENTER);
             //toParticipant.setOnAction(participant -> showParticipant(q.getValue()));
             toParticipant.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
