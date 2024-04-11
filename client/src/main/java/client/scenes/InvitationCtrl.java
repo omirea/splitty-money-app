@@ -18,8 +18,6 @@ import javafx.util.Duration;
 
 import javax.inject.Inject;
 
-import static client.Main.locale;
-
 public class InvitationCtrl implements Main.LanguageSwitch{
 
     private final ServerUtils server;
@@ -124,7 +122,7 @@ public class InvitationCtrl implements Main.LanguageSwitch{
      * method to go back to event page
      */
     public void goBackToEvent(){
-        mainCtrl.showEventOverview(event.getInvitationID());
+        mainCtrl.getAnotherStage().close();
     }
 
     @Override
@@ -132,6 +130,7 @@ public class InvitationCtrl implements Main.LanguageSwitch{
         giveInviteCodeLabel.setText(Main.getLocalizedString("givePeopleInvCode"));
         inviteEmailLabel.setText(Main.getLocalizedString("inviteFollowingPeopleByEmail"));
         back.setText(Main.getLocalizedString("Back"));
+        copyButton.setText(Main.getLocalizedString("Copy"));
         sendInvitesButton.setText(Main.getLocalizedString("sendInvites"));
     }
 
@@ -144,7 +143,6 @@ public class InvitationCtrl implements Main.LanguageSwitch{
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(Main.getLocalizedString("alertCopyingTitle"));
         alert.setContentText(Main.getLocalizedString("alertCopyingContent"));
-
         alert.setHeaderText(null);
         alert.show();
         PauseTransition pause = new PauseTransition(Duration.seconds(1.5));

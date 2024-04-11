@@ -33,9 +33,6 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 
-import static client.Main.locale;
-
-
 public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch {
 
 

@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static client.Main.locale;
-
 public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;

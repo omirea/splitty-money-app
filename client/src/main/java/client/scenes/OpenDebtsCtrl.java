@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static client.Main.locale;
-
 public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
@@ -309,7 +307,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
             makeTextBold(from, howMuch, currency, to);
             textFlow.getChildren().addAll(from, new Text(Main.getLocalizedString("needsToPay")),
-                    howMuch, new Text(" "), currency, new Text(Main.getLocalizedString("toPerson")), to);
+                    howMuch, new Text(" "), currency,
+                    new Text(Main.getLocalizedString("toPerson")), to);
             TreeItem<TextFlow> treeItemRoot=new TreeItem<>(textFlow);
             TextFlow detailsFlow=new TextFlow();
             Text details=getExtraDetails(debt);
@@ -400,7 +399,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         mailView.setFitHeight(15);
         mailView.setImage(image);
         viewEmailButton.setGraphic(mailView);
-        viewEmailButton.setTooltip(new Tooltip(Main.getLocalizedString("payerEmail") + participant.getEmail()));
+        viewEmailButton.setTooltip(new Tooltip(Main.getLocalizedString("payerEmail") +
+                participant.getEmail()));
     }
 
     /**
@@ -429,7 +429,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         IBANView.setFitWidth(15);
         IBANView.setFitHeight(15);
         viewIBANButton.setGraphic(IBANView);
-        viewIBANButton.setTooltip(new Tooltip(Main.getLocalizedString("payerIBAN") + participant.getIBAN()));
+        viewIBANButton.setTooltip(new Tooltip(Main.getLocalizedString("payerIBAN")
+                + participant.getIBAN()));
     }
 
     /**

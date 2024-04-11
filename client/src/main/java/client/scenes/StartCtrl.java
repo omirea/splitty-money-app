@@ -19,8 +19,6 @@ import javafx.scene.text.Text;
 
 import java.util.Objects;
 
-import static client.Main.locale;
-
 public class StartCtrl implements  Main.LanguageSwitch {
 
     private final ServerUtils server;

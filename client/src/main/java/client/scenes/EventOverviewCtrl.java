@@ -20,8 +20,6 @@ import javafx.scene.text.Text;
 import java.util.List;
 import java.util.Objects;
 
-import static client.Main.locale;
-
 public class EventOverviewCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
