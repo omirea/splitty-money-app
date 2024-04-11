@@ -119,11 +119,11 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     /**
      * add debts to the table view
      */
-    public void addDebtsToList(String id) {
+    public void addDebtsToList() {
         debtsTables.clear();
         newDebts.clear();
         allDebts.clear();
-        calculateAllDebts(id);
+        calculateAllDebts();
         createDebtsTable(allDebts);
         newDebts.addAll(allDebts);
         tableView.setItems(debtsTables);
@@ -132,16 +132,18 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     /**
      * calculates all debts of the event that were closed
      */
-    private void calculateAllDebts(String id) {
+    private void calculateAllDebts() {
         allDebts.clear();
 
         List<Debt> debts = server.getDebtsByInvitationId(event.getInvitationID());
+        System.out.println(debts);
         for (int i = 0; i < debts.size(); i++) {
 
             Debt debt1 = debts.get(i);
             if (!debt1.isSettled()) {
                 debts.remove(debt1);
                 i--;
+                continue;
             }
 
             Long fromID = debt1.getFrom().getId();
@@ -153,6 +155,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
                 if (!debt2.isSettled()) {
                     debts.remove(debt2);
                     j--;
+                    continue;
                 }
 
                 if (Objects.equals(debt2.getFrom().getId(), fromID)
@@ -166,6 +169,16 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
                     debts.remove(debt2);
                     j--;
                 }
+            }
+
+            if (debt1.getAmount() < 0) {
+                Participant newFrom = debt1.getTo();
+                debt1.setTo(debt1.getFrom());
+                debt1.setFrom(newFrom);
+                debt1.setAmount(-debt1.getAmount());
+            } else if (debt1.getAmount() == 0) {
+                debts.remove(debt1);
+                i--;
             }
         }
 
@@ -220,7 +233,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             openDebtButton.setOnAction(x -> {
                 debt.setSettled(false);
                 server.updateDebt(debt, debt.getId());
-                addDebtsToList(event.getInvitationID());
+                addDebtsToList();
             });
             //create debt
             DebtsTable newDebt=new DebtsTable(new CheckBox(), treeView, viewEmailButton,
@@ -336,14 +349,14 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
                 break;
         }
         alert.setHeaderText(null);
-        Optional<ButtonType> result=alert.showAndWait();
-        if(result.get()==ButtonType.OK){
-            for(Debt debt : newDebts) {
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK){
+            for (Debt debt : newDebts) {
                 debt.setSettled(false);
                 server.updateDebt(debt, debt.getId());
             }
             tableView.getItems().clear();
-            calculateAllDebts(event.getInvitationID());
+            calculateAllDebts();
         }
     }
 
@@ -368,15 +381,23 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         }
         alert.setHeaderText(null);
         Optional<ButtonType> result=alert.showAndWait();
-        if(result.get()==ButtonType.OK){
-            for(DebtsTable debtRow : debtsTables){
-                if(debtRow.getCheckBox().isSelected()){
-                    Debt debt=debtRow.getDebt();
-                    debt.setSettled(false);
-                    server.updateDebt(debt, debt.getId());
+        if(result.isPresent() && result.get() == ButtonType.OK){
+            for (DebtsTable debtRow : debtsTables){
+                if (debtRow.getCheckBox().isSelected()){
+                    Debt debt = debtRow.getDebt();
+                    List<Debt> settledDebts =
+                            server.getDebtsByInvitationId(event.getInvitationID())
+                                    .stream().filter(Debt::isSettled).toList();
+                    for (Debt existingDebt : settledDebts) {
+                        if (existingDebt.getFrom().equals(debt.getFrom())
+                                && existingDebt.getTo().equals(debt.getTo())) {
+                            existingDebt.setSettled(false);
+                            server.updateDebt(existingDebt, existingDebt.getId());
+                        }
+                    }
                 }
             }
-            addDebtsToList(event.getInvitationID());
+            addDebtsToList();
         }
     }
 
