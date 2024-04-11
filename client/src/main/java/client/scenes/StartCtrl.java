@@ -164,6 +164,7 @@ public class StartCtrl implements  Main.LanguageSwitch {
             e = server.createEvent(e);
             mainCtrl.showEventOverview(e.getInvitationID());
             createEventField.setText("");
+            joinEventField.setText(" ");
         } else {
             Alert alertNameEmpty = getAlertNameEmpty();
             alertNameEmpty.showAndWait();
@@ -199,6 +200,7 @@ public class StartCtrl implements  Main.LanguageSwitch {
             Event e =  server.getEventByInvitationId(joinEventField.getText());
             addEventToBox(e);
             joinEventField.setText("");
+            createEventField.setText(" ");
         } catch (Exception e) {
             Alert alert = getAlertIncorrectInvitationId();
             alert.show();
