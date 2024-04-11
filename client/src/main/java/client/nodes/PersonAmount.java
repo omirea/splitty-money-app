@@ -1,16 +1,19 @@
 package client.nodes;
 
+import commons.Participant;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
 public class PersonAmount {
 
     private CheckBox checkBox=new CheckBox();
+    private final Participant participant;
     private String name;
-    private TextField textField=new TextField();
+    private TextField textField = new TextField();
 
-    public PersonAmount(String name) {
-        this.name = name;
+    public PersonAmount(Participant participant) {
+        this.participant = participant;
+        this.name = participant.getName();
     }
 
     public String getName() {
@@ -35,6 +38,10 @@ public class PersonAmount {
 
     public void setCheckBox(CheckBox checkBox) {
         this.checkBox = checkBox;
+    }
+
+    public Participant getParticipant() {
+        return participant;
     }
 
     @Override
