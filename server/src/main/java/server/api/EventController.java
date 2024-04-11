@@ -1,5 +1,6 @@
 package server.api;
 
+import commons.Debt;
 import commons.Event;
 import commons.Expense;
 import commons.Participant;
@@ -27,11 +28,14 @@ public class EventController {
     private final ParticipantRepository participantDB;
     private final ExpenseRepository expenseDB;
 
+    private final DebtController debtCtrl;
+
     public EventController(EventRepository db, ParticipantRepository participantDB,
-                           ExpenseRepository expenseDB){
+                           ExpenseRepository expenseDB, DebtController debtCtrl){
         this.db=db;
         this.participantDB = participantDB;
         this.expenseDB=expenseDB;
+        this.debtCtrl = debtCtrl;
     }
 
     /**
@@ -101,7 +105,8 @@ public class EventController {
             String name = event.getName();
             List<Expense> exs = getExpenseByInvitationId(invID).getBody();
             List<Participant> prs = getParticipantsByInvitationId(invID).getBody();
-            Event newE = new Event(name, invID, exs, prs);
+            List<Debt> debts = debtCtrl.getDebtByInvitationId(invID).getBody();
+            Event newE = new Event(name, invID, exs, prs, debts);
             newE.setCreateDate(event.getCreateDate());
             newE.setLastModified(event.getLastModified());
             newE.setID(event.getID());

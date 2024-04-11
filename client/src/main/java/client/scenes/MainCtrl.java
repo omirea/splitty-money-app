@@ -254,7 +254,9 @@ public class MainCtrl {
      * @param expense the expense that has been created
      */
     public void addExpenseToEvent(Expense expense) {
-        overviewCtrl.getListViewAll().getItems().add(expense);
+        if (!overviewCtrl.getListViewAll().getItems().contains(expense)) {
+            overviewCtrl.getListViewAll().getItems().add(expense);
+        }
     }
 
     /**
