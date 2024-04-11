@@ -8,7 +8,7 @@
 }
 
 #createNewEventText, #joinEventText, #recentEventsText{
-    -fx-text-fill: red;
+    -fx-text-fill: #000000;
     -fx-background-color: red;
 }
 

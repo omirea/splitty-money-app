@@ -3,6 +3,7 @@ package client.scenes;
 import client.Main;
 import client.nodes.ConnectionSetup;
 import client.nodes.LanguageSwitch;
+import client.nodes.ThemeService;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
@@ -21,7 +22,7 @@ import java.util.Objects;
 
 import static client.Main.locale;
 
-public class StartCtrl implements  Main.LanguageSwitch {
+public class StartCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -55,17 +56,18 @@ public class StartCtrl implements  Main.LanguageSwitch {
     private TableColumn<Event, Button> deleteColumn;
     @FXML
     private TableColumn<Event, Button> openColumn;
-    ConnectionSetup connectionSetup;
-
+    private ConnectionSetup connectionSetup;
     private LanguageSwitch languageSwitch;
+    private ThemeService themeService;
 
     @Inject
     public StartCtrl(ServerUtils server, MainCtrl mainCtrl, ConnectionSetup cs,
-                     LanguageSwitch languageSwitch) {
+                     LanguageSwitch languageSwitch, ThemeService ts) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.connectionSetup = cs;
         this.languageSwitch=languageSwitch;
+        this.themeService=ts;
     }
 
     public void setUpConnection() {

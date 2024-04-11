@@ -4,6 +4,8 @@ import client.Main;
 import client.nodes.ConnectionSetup;
 import client.nodes.LanguageSwitch;
 import client.nodes.ThemeService;
+import client.utils.ServerUtils;
+import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
@@ -11,7 +13,6 @@ import javafx.scene.control.RadioMenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.Objects;
@@ -22,9 +23,7 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
 
     private ConnectionSetup connectionSetup;
     private final MainCtrl mainCtrl;
-
     private LanguageSwitch languageSwitch;
-
     private ThemeService themeService;
 
     @FXML
@@ -45,9 +44,8 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
     private RadioMenuItem darkModeButton;
 
 
-
     @Inject
-    public SettingsPageCtrl(ConnectionSetup cs, LanguageSwitch ls, ThemeService ts, MainCtrl mainCtrl){
+    public SettingsPageCtrl(MainCtrl mainCtrl, ConnectionSetup cs, LanguageSwitch ls, ThemeService ts){
         connectionSetup = cs;
         languageSwitch = ls;
         this.mainCtrl=mainCtrl;
@@ -100,15 +98,17 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
     }
     public void darkMode()  {
         lightModeButton.setSelected(false);
-        themeService.setTheme("stylesheets/darkMode.css");
+        darkModeButton.setSelected(true);
         themeService.saveToConfig("stylesheets/darkMode.css");
+        mainCtrl.changeTheme("stylesheets/darkMode.css");
     }
 
 
     public void lightMode() {
         darkModeButton.setSelected(false);
-        themeService.setTheme("stylesheets/whiteMode.css");
+        lightModeButton.setSelected(true);
         themeService.saveToConfig("stylesheets/whiteMode.css");
+        mainCtrl.changeTheme("stylesheets/whiteMode.css");
     }
 
 }

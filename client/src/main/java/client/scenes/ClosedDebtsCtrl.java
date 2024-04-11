@@ -56,7 +56,6 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     @FXML
     private TableColumn<DebtsTable, Button> receivedCol;
 
-
     @Inject
     public ClosedDebtsCtrl(ServerUtils server,MainCtrl mainCtrl){
         this.server=server;

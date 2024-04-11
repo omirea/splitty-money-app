@@ -10,13 +10,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class AddedParticipant {
-    HBox hbox;
-    Text name;
-    Participant participant;
-    Button rename;
-    Button save;
-    Button remove;
-    Button edit;
+    private HBox hbox;
+    private Text name;
+    private Participant participant;
+    private Button rename;
+    private Button save;
+    private Button remove;
+    private Button edit;
     ManageParticipantsCtrl manageParticipantsCtrl;
 
     public AddedParticipant(Participant participant,
