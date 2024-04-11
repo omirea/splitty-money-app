@@ -235,7 +235,7 @@ public class MainCtrl {
         closedDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Closed Debts");
         closedDebts.getStylesheets().add("stylesheets/debts.css");
-        closedDebtsCtrl.addDebtsToList(id);
+        closedDebtsCtrl.addDebtsToList();
         closedDebtsCtrl.addParticipantsToChoiceBox(id);
         primaryStage.setScene(closedDebts);
     }
@@ -262,8 +262,8 @@ public class MainCtrl {
      * for who should pay for an expense
      * @param participant the participant that has been added
      */
-    public void addParticipantToWhoShouldPayOption(String participant) {
-        PersonAmount pa=new PersonAmount(participant);
+    public void addParticipantToWhoShouldPayOption(Participant participant) {
+        PersonAmount pa = new PersonAmount(participant);
         addEditExpenseCtrl.getTableView().getItems().add(pa);
     }
 
