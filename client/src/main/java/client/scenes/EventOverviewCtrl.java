@@ -235,7 +235,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     private void setPersonText(List<Debt> paidForDebts, List<Debt> hasToPayDebts) {
         double totalTo = getDebtsSum(paidForDebts);
         double totalFrom = getDebtsSum(hasToPayDebts);
-        allTab.setText(allTabText);
+        allTab.setText(allTabText + ": " + (totalTo - totalFrom));
         toPersonTab.setText(toTabText + ": " + totalTo);
         fromPersonTab.setText(fromTabText + ": " + totalFrom);
     }
