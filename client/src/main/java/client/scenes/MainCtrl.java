@@ -160,8 +160,8 @@ public class MainCtrl {
         addEditExpenseCtrl.setEvent(id);
         expense.getStylesheets().add("stylesheets/addEditExpense.css");
         primaryStage.setScene(expense);
-        addEditExpenseCtrl.addAllRelevantParticipants();
         addEditExpenseCtrl.clearBoxes();
+        addEditExpenseCtrl.addAllRelevantParticipants();
     }
 
     /**
@@ -173,8 +173,8 @@ public class MainCtrl {
         primaryStage.setScene(expense);
         addEditExpenseCtrl.clearBoxes();
         addEditExpenseCtrl.setEvent(id);
-        addEditExpenseCtrl.setExpense(e);
         addEditExpenseCtrl.addAllRelevantParticipants();
+        addEditExpenseCtrl.setExpense(e);
     }
 
     /**

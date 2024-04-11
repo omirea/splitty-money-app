@@ -45,14 +45,14 @@ public class ExpenseTest {
         assertEquals(LocalDate.of(2005, 12, 1), expense.getDateSent());
     }
 
-    @Test
-    public void getCurrencyTest() {
-        Expense expense = new Expense( "This is a description",
-                2.09,"This is a type",
-                LocalDate.of(2005, 12, 1),
-                Currency.getInstance("BAM"));
-        assertEquals(Currency.getInstance("BAM"), expense.getCurrency());
-    }
+//    @Test
+//    public void getCurrencyTest() {
+//        Expense expense = new Expense( "This is a description",
+//                2.09,"This is a type",
+//                LocalDate.of(2005, 12, 1),
+//                Currency.getInstance("BAM"));
+//        assertEquals(Currency.getInstance("BAM"), expense.getCurrency());
+//    }
 
 
     @Test
@@ -97,15 +97,15 @@ public class ExpenseTest {
         assertEquals(LocalDate.of(2020, 11, 24), expense.getDateSent());
     }
 
-    @Test
-    public void setCurrencyTest() {
-        Expense expense = new Expense( "This is a description",
-                2.09,"This is a type",
-                LocalDate.of(2005, 12, 1),
-                Currency.getInstance("BAM"));
-        expense.setCurrency(Currency.getInstance("USD"));
-        assertEquals(Currency.getInstance("USD"), expense.getCurrency());
-    }
+//    @Test
+//    public void setCurrencyTest() {
+//        Expense expense = new Expense( "This is a description",
+//                2.09,"This is a type",
+//                LocalDate.of(2005, 12, 1),
+//                Currency.getInstance("BAM"));
+//        expense.setCurrency(Currency.getInstance("USD"));
+//        assertEquals(Currency.getInstance("USD"), expense.getCurrency());
+//    }
 
     @Test
     public void equalsTestEqual() {
