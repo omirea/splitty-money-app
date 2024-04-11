@@ -73,17 +73,8 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         participantsMenu.setItems(allParticipants);
         participantsMenu.setConverter(new ParticipantStringConverter());
 
-        loadExpenses();
-        setupTableViews();
-        setUpImages();
-    }
-
-    private void setupTableViews() {
         setupColumns();
-        expenseTableViewAll.getItems().clear();
-        expenseTableViewAll.getItems().addAll(expenses);
-        expenseTableViewPaidFor.getItems().clear();
-        expenseTableViewHasToPay.getItems().clear();
+        setUpImages();
     }
 
     private void setupColumns() {
@@ -113,6 +104,8 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     public void loadExpenses() {
         if (event == null) return;
         expenses = server.getExpensesByInvitationId(event.getInvitationID());
+        setDebts();
+        onMenuChange();
     }
 
     private SimpleObjectProperty<Button> createEditButton(
@@ -201,7 +194,8 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
     /**
-     * method to refresh the page
+     * method to change the contents of the expense table view
+     * should probably be encapsulated/abstracted
      */
     public void onMenuChange() {
         Participant p = participantsMenu.getValue();
@@ -211,23 +205,52 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         expenseTableViewHasToPay.getItems().clear();
         if (p == null) {
             expenseTableViewAll.getItems().addAll(expenses);
+            setTotalText();
             return;
         }
-        List<Expense> paidForList = debts.stream()
-            .filter(debt -> debt.getTo().equals(p))
-            .map(Debt::getExpense)
-            .distinct()
-            .toList();
-        List<Expense> hasToPayList = debts.stream()
-            .filter(debt -> debt.getFrom().equals(p))
-            .map(Debt::getExpense)
-            .toList();
-        expenseTableViewPaidFor.getItems().addAll(paidForList);
-        expenseTableViewHasToPay.getItems().addAll(hasToPayList);
-        expenseTableViewAll.getItems().addAll(paidForList);
-        expenseTableViewAll.getItems().addAll(hasToPayList);
+
+        List<Debt> paidForList = debts.stream()
+            .filter(debt -> debt.getTo().equals(p)).toList();
+        List<Debt> hasToPayList = debts.stream()
+            .filter(debt -> debt.getFrom().equals(p)).toList();
+
+        setPersonText(paidForList, hasToPayList);
+
+        List<Expense> paidForExpenses = paidForList.stream()
+                .map(Debt::getExpense).toList();
+        List<Expense> hasToPayExpenses = hasToPayList.stream()
+            .map(Debt::getExpense).toList();
+
+        expenseTableViewPaidFor.getItems().addAll(paidForExpenses);
+        expenseTableViewHasToPay.getItems().addAll(hasToPayExpenses);
+        expenseTableViewAll.getItems().addAll(paidForExpenses);
+        expenseTableViewAll.getItems().addAll(hasToPayExpenses);
 
     }
+
+    private void setTotalText() {
+        double total = getDebtsSum(debts);
+        allTab.setText(allTabText + ": " + total);
+        toPersonTab.setText(toTabText);
+        fromPersonTab.setText(fromTabText);
+    }
+
+    private void setPersonText(List<Debt> paidForDebts, List<Debt> hasToPayDebts) {
+        double totalTo = getDebtsSum(paidForDebts);
+        double totalFrom = getDebtsSum(hasToPayDebts);
+        allTab.setText(allTabText);
+        toPersonTab.setText(toTabText + ": " + totalTo);
+        fromPersonTab.setText(fromTabText + ": " + totalFrom);
+    }
+
+    private double getDebtsSum(List<Debt> debts) {
+        return debts.stream()
+            .filter(d -> !d.isSettled())
+            .map(Debt::getAmount)
+            .mapToDouble(d -> d)
+            .sum();
+    }
+
 
     /**
      * method to edit participant
@@ -288,6 +311,10 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
 
     }
 
+    private String allTabText;
+    private String fromTabText;
+    private String toTabText;
+
     @Override
     public void LanguageSwitch() {
         homeButton.setText(Main.getLocalizedString("Home"));
@@ -297,9 +324,9 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         editParticipantsButton.setText(Main.getLocalizedString("editParticipants"));
         expensesText.setText(Main.getLocalizedString("Expenses"));
         addExpenseButton.setText(Main.getLocalizedString("addExpense"));
-        allTab.setText(Main.getLocalizedString("All"));
-        fromPersonTab.setText(Main.getLocalizedString("fromPerson"));
-        toPersonTab.setText(Main.getLocalizedString("toPerson"));
+        allTabText = Main.getLocalizedString("All");
+        fromTabText = Main.getLocalizedString("fromPerson");
+        toTabText = Main.getLocalizedString("toPerson");
         settleDebtsButton.setText(Main.getLocalizedString("settleDebts"));
 
     }
