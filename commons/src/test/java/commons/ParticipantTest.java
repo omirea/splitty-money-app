@@ -3,8 +3,6 @@ package commons;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-import java.util.Currency;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +14,7 @@ public class ParticipantTest {
     private Participant pDebts;
 
     @BeforeEach
-    void setupExpense() {
+    void setupParticipant() {
         p = new Participant("Bob", "bob@gmail.com", "Bob LastName",
             "12345", "123");
         pEvent = new Participant("Bob", "bob@gmail.com", "Bob LastName",
