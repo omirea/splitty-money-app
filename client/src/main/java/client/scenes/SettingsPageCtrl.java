@@ -41,8 +41,6 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
     @FXML
     private RadioMenuItem darkModeButton;
 
-
-
     @Inject
     public SettingsPageCtrl(ConnectionSetup cs, LanguageSwitch ls, MainCtrl mainCtrl){
         connectionSetup = cs;
