@@ -98,7 +98,6 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
             for (Expense e : expenses){
                 e.setEvent(between);
                 server.createExpense(e);
-                mainCtrl.addExpenseToEvent(e);
             }
             refresh();
         } catch (IOException e) {

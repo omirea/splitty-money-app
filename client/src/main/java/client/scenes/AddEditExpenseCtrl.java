@@ -48,9 +48,6 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     @FXML
     private Button cancelButton, addExpenseButton, autoDivideButton;
 
-    // How to split
-    @FXML
-    private VBox peopleVBoxField;
     @FXML
     private RadioButton onlySomePeopleField, allPeopleField;
 
@@ -382,5 +379,31 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         whenField.setValue(null);
         onlySomePeopleField.selectedProperty().setValue(false);
         allPeopleField.selectedProperty().setValue(false);
+    }
+
+    public void setExpense(Expense e) {
+        expense = e;
+        List<Debt> debts = server.getDebtsByExpense(e.getId());
+        whoPaidField.setValue(debts.getFirst().getTo());
+        whatForField.setText(e.getDescription());
+        howMuchField.setText(e.getAmount().toString());
+        whenField.setValue(e.getDateSent());
+        onlySomePeopleField.selectedProperty().setValue(true);
+        loadDebts(debts);
+
+    }
+
+    private void loadDebts(List<Debt> debts) {
+        List<PersonAmount> pas = debts.stream()
+            .map(d -> new PersonAmount(d.getFrom()))
+            .toList();
+        tableView.getItems().removeAll(pas);
+
+        for (Debt d : debts) {
+            PersonAmount pa = new PersonAmount(d.getFrom());
+            pa.getTextField().setText(d.getAmount().toString());
+            pa.getCheckBox().selectedProperty().setValue(true);
+            tableView.getItems().add(pa);
+        }
     }
 }

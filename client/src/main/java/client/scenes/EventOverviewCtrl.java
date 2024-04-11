@@ -134,7 +134,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
     public void onEditExpenseClick(Expense e) {
-//        mainCtrl.showAddExpense(event.getInvitationID(), e);
+        mainCtrl.showAddExpense(event.getInvitationID(), e);
         System.out.println("Editing: " + e);
     }
 

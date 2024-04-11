@@ -169,9 +169,11 @@ public class MainCtrl {
      */
     public void showAddExpense(String id, Expense e) {
         primaryStage.setTitle("Splitty: Add/Edit Expense");
-//        addEditExpenseCtrl.setExpense(e);
-        addEditExpenseCtrl.setEvent(id);
+        expense.getStylesheets().add("stylesheets/addEditExpense.css");
         primaryStage.setScene(expense);
+        addEditExpenseCtrl.clearBoxes();
+        addEditExpenseCtrl.setEvent(id);
+        addEditExpenseCtrl.setExpense(e);
         addEditExpenseCtrl.addAllRelevantParticipants();
     }
 
