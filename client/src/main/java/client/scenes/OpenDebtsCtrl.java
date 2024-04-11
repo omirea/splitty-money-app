@@ -84,10 +84,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         newDebts.addAll(allDebts);
 
         //initialize table view
-        checkBoxCol.
-                setCellValueFactory(new PropertyValueFactory<>("checkBox"));
-        informationCol.
-                setCellValueFactory(new PropertyValueFactory<>("treeView"));
+        checkBoxCol.setCellValueFactory(new PropertyValueFactory<>("checkBox"));
+        informationCol.setCellValueFactory(new PropertyValueFactory<>("treeView"));
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
         IBANCol.setCellValueFactory(new PropertyValueFactory<>("IBAN"));
         receivedCol.setCellValueFactory(new PropertyValueFactory<>("closeDebt"));
@@ -122,14 +120,6 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         return mainCtrl;
     }
 
-    public Button getSeeClosedDebtsButton(){return seeClosedDebtsButton;}
-
-    public Button getSelectedDebts(){return paySelectedDebtsButton;}
-
-//    public ListView<String> getListView(){return listView;}
-
-    public Button getPayAllDebts(){return payAllDebtsButton;}
-
     /**
      * method to mark all debts as paid
      */
@@ -149,14 +139,12 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         }
         alert.setHeaderText(null);
         Optional<ButtonType> result=alert.showAndWait();
-        if(result.get()==ButtonType.OK) {
-            for(Debt debt : newDebts) {
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            for (Debt debt : allDebts) {
                 debt.setSettled(true);
                 server.updateDebt(debt, debt.getId());
             }
-            //mainCtrl.addDebtsToClosedDebts(newDebts);
             tableView.getItems().clear();
-            calculateAllDebts(event.getInvitationID());
         }
     }
     public void setEvent(String id) {
@@ -202,10 +190,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
             for (DebtsTable debtRow : debtsTables){
                 if (debtRow.getCheckBox().isSelected()){
                     Debt debt = debtRow.getDebt();
-                    List<Debt> unsettledDebts =
-                            server.getDebtsByInvitationId(event.getInvitationID())
-                                    .stream().filter(debt1 -> !debt1.isSettled()).toList();
-                    for (Debt existingDebt : unsettledDebts) {
+                    for (Debt existingDebt : allDebts) {
                         if (existingDebt.getFrom().equals(debt.getFrom())
                                 && existingDebt.getTo().equals(debt.getTo())) {
                             existingDebt.setSettled(true);
@@ -214,7 +199,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
                     }
                 }
             }
-            addDebtsToList(event.getInvitationID());
+            addDebtsToList();
         }
     }
 
@@ -232,45 +217,36 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
     /**
      * add debts to the table view
-     * @param id of the event
      */
-    public void addDebtsToList(String id) {
-        debtsTables.clear();
-        newDebts.clear();
-        allDebts.clear();
-        calculateAllDebts(id);
+    public void addDebtsToList() {
+        calculateAllDebts();
         createDebtsTable();
-        newDebts.addAll(allDebts);
         tableView.setItems(debtsTables);
     }
 
     /**
      * calculates all debts of the event that were not closed
      */
-    private void calculateAllDebts(String id) {
+    private void calculateAllDebts() {
         allDebts.clear();
+        newDebts.clear();
 
         List<Debt> debts = server.getDebtsByInvitationId(event.getInvitationID());
+        debts.removeIf(Debt::isSettled);
+        allDebts.addAll(debts);
+
         for (int i = 0; i < debts.size(); i++) {
 
-            Debt debt1 = debts.get(i);
-            if (debt1.isSettled()) {
-                debts.remove(debt1);
-                i--;
-                continue;
-            }
+            Debt debt1 = new Debt(debts.get(i).getFrom(),
+                    debts.get(i).getTo(), debts.get(i).getAmount());
+            newDebts.add(debt1);
 
-            Long fromID = debt1.getFrom().getId();
-            Long toID = debt1.getTo().getId();
+            Long fromID = debts.get(i).getFrom().getId();
+            Long toID = debts.get(i).getTo().getId();
 
             for (int j = i + 1; j < debts.size(); j++) {
 
                 Debt debt2 = debts.get(j);
-                if (debt2.isSettled()) {
-                    debts.remove(debt2);
-                    j--;
-                    continue;
-                }
 
                 if (Objects.equals(debt2.getFrom().getId(), fromID)
                         && Objects.equals(debt2.getTo().getId(), toID)) {
@@ -293,11 +269,10 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
             } else if (debt1.getAmount() == 0) {
                 debts.remove(debt1);
                 i--;
+                newDebts.remove(debt1);
             }
 
         }
-
-        allDebts.addAll(debts);
     }
 
     /**
@@ -305,7 +280,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
      */
     public void createDebtsTable() {
         debtsTables.clear();
-        for(Debt debt : allDebts){
+        for(Debt debt : newDebts){
             //set tree view-debts info + text flow (bold text)
             TreeView<TextFlow> treeView=new TreeView<>();
             treeView.setMaxHeight(30);
@@ -344,9 +319,14 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
             //set closed debts button
             Button closeDebtButton=new Button("Close Debt");
             closeDebtButton.setOnAction(x -> {
-                debt.setSettled(true);
-                server.updateDebt(debt, debt.getId());
-                addDebtsToList(event.getInvitationID());
+                for (Debt existingDebt : allDebts) {
+                    if (existingDebt.getFrom().equals(debt.getFrom())
+                            && existingDebt.getTo().equals(debt.getTo())) {
+                        existingDebt.setSettled(true);
+                        server.updateDebt(existingDebt, existingDebt.getId());
+                    }
+                }
+                addDebtsToList();
             });
             closeDebtButton.setAlignment(Pos.CENTER);
 
