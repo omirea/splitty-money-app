@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
-import server.database.DebtRepository;
 import server.database.EventRepository;
 import server.database.ExpenseRepository;
 import server.database.ParticipantRepository;
@@ -28,14 +27,15 @@ public class EventController {
     private final EventRepository db;
     private final ParticipantRepository participantDB;
     private final ExpenseRepository expenseDB;
-    private final DebtRepository debtDB;
+
+    private final DebtController debtCtrl;
 
     public EventController(EventRepository db, ParticipantRepository participantDB,
-                           ExpenseRepository expenseDB, DebtRepository debtRepository){
+                           ExpenseRepository expenseDB, DebtController debtCtrl){
         this.db=db;
         this.participantDB = participantDB;
-        this.expenseDB = expenseDB;
-        this.debtDB = debtRepository;
+        this.expenseDB=expenseDB;
+        this.debtCtrl = debtCtrl;
     }
 
     /**
@@ -99,20 +99,21 @@ public class EventController {
         Event e = new Event();
         e.setInvitationID(invitationID);
         Optional<Event> tempEvent = db.findOne(Example.of(e, ExampleMatcher.matchingAll()));
-
-        if(tempEvent.isEmpty()) return ResponseEntity.notFound().build();
-
-        Event event = tempEvent.get();
-        String invID = event.getInvitationID();
-        String name = event.getName();
-        List<Expense> exs = getExpensesByInvitationId(invID).getBody();
-        List<Participant> prs = getParticipantsByInvitationId(invID).getBody();
-        Event newE = new Event(name, invID, exs, prs);
-        newE.setCreateDate(event.getCreateDate());
-        newE.setLastModified(event.getLastModified());
-        newE.setID(event.getID());
-        return ResponseEntity.ok(newE);
-
+        if(tempEvent.isPresent()){
+            Event event = tempEvent.get();
+            String invID = event.getInvitationID();
+            String name = event.getName();
+            List<Expense> exs = getExpenseByInvitationId(invID).getBody();
+            List<Participant> prs = getParticipantsByInvitationId(invID).getBody();
+            List<Debt> debts = debtCtrl.getDebtByInvitationId(invID).getBody();
+            Event newE = new Event(name, invID, exs, prs, debts);
+            newE.setCreateDate(event.getCreateDate());
+            newE.setLastModified(event.getLastModified());
+            newE.setID(event.getID());
+            return ResponseEntity.ok(newE);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 
