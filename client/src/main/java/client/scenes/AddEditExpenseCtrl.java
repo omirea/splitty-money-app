@@ -23,8 +23,6 @@ import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.*;
 
-import static client.Main.locale;
-
 public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     private ObservableList<String> currencyList =
         FXCollections.observableArrayList("EUR", "USD", "GBP");

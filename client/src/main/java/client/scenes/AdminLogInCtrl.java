@@ -13,8 +13,6 @@ import javafx.scene.text.Text;
 import javax.inject.Inject;
 import java.util.Objects;
 
-import static client.Main.locale;
-
 public class AdminLogInCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
