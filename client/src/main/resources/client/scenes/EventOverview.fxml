@@ -16,7 +16,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../stylesheets/eventOverview.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EventOverviewCtrl">
+<AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../stylesheets/eventOverview.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.EventOverviewCtrl">
    <children>
       <VBox layoutX="11.2" layoutY="3.2" prefHeight="387.0" prefWidth="279.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
@@ -72,10 +72,11 @@
                            <children>
                               <TableView fx:id="expenseTableViewAll" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn fx:id="nameColAll" editable="false" prefWidth="350.0" text="Name" />
-                                  <TableColumn fx:id="amountColAll" editable="false" prefWidth="75.0" text="Amount" />
-                                    <TableColumn fx:id="editColAll" editable="false" prefWidth="50.0" sortable="false" text="Edit" />
-                                    <TableColumn fx:id="deleteColAll" editable="false" prefWidth="50.0" sortable="false" text="Delete" />
+                                    <TableColumn fx:id="dateColAll" editable="false" minWidth="100.0" prefWidth="100.0" text="Date" />
+                                  <TableColumn fx:id="nameColAll" editable="false" minWidth="50.0" prefWidth="250.0" text="Name" />
+                                  <TableColumn fx:id="amountColAll" editable="false" minWidth="75.0" prefWidth="75.0" text="Amount" />
+                                    <TableColumn fx:id="editColAll" editable="false" minWidth="75.0" prefWidth="75.0" sortable="false" text="Edit/view" />
+                                    <TableColumn fx:id="deleteColAll" editable="false" minWidth="50.0" prefWidth="50.0" sortable="false" text="Delete" />
                                 </columns>
                               </TableView>
                            </children>
@@ -88,9 +89,10 @@
                            <children>
                               <TableView fx:id="expenseTableViewPaidFor" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <columns>
-                                    <TableColumn fx:id="nameColFrom" editable="false" prefWidth="350.0" text="Name" />
+                                    <TableColumn fx:id="dateColTo" editable="false" minWidth="100.0" prefWidth="100.0" text="Date" />
+                                    <TableColumn fx:id="nameColFrom" editable="false" prefWidth="250.0" text="Name" />
                                     <TableColumn fx:id="amountColFrom" editable="false" prefWidth="75.0" text="Amount" />
-                                    <TableColumn fx:id="editColFrom" editable="false" prefWidth="50.0" sortable="false" text="Edit" />
+                                    <TableColumn fx:id="editColFrom" editable="false" minWidth="75.0" prefWidth="75.0" sortable="false" text="Edit/view" />
                                     <TableColumn fx:id="deleteColFrom" editable="false" prefWidth="50.0" sortable="false" text="Delete" />
                                  </columns>
                               </TableView>
@@ -104,10 +106,11 @@
                            <children>
                               <TableView fx:id="expenseTableViewHasToPay" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <columns>
-                                    <TableColumn fx:id="nameColTo" editable="false" prefWidth="350.0" text="Name" />
-                                    <TableColumn fx:id="amountColTo" editable="false" prefWidth="75.0" text="Amount" />
-                                    <TableColumn fx:id="editColTo" editable="false" prefWidth="50.0" sortable="false" text="Edit" />
-                                    <TableColumn fx:id="deleteColTo" editable="false" prefWidth="50.0" sortable="false" text="Delete" />
+                                    <TableColumn fx:id="dateColFrom" editable="false" minWidth="50.0" prefWidth="100.0" text="Date" />
+                                    <TableColumn fx:id="nameColTo" editable="false" minWidth="50.0" prefWidth="250.0" text="Name" />
+                                    <TableColumn fx:id="amountColTo" editable="false" minWidth="75.0" prefWidth="75.0" text="Amount" />
+                                    <TableColumn fx:id="editColTo" editable="false" minWidth="75.0" prefWidth="75.0" sortable="false" text="Edit/view" />
+                                    <TableColumn fx:id="deleteColTo" editable="false" minWidth="50.0" prefWidth="50.0" sortable="false" text="Delete" />
                                  </columns>
                               </TableView>
                            </children>

@@ -21,6 +21,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -47,6 +48,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     //I'm going to hate myself for doing this...
     @FXML private TableView<Expense> expenseTableViewAll,
         expenseTableViewHasToPay, expenseTableViewPaidFor;
+    @FXML private TableColumn<Expense, Date> dateColAll, dateColFrom, dateColTo;
     @FXML private TableColumn<Expense, String> nameColAll, nameColFrom, nameColTo;
     @FXML private TableColumn<Expense, Double> amountColAll, amountColFrom, amountColTo;
     @FXML private TableColumn<Expense, Button> editColAll, editColFrom, editColTo,
@@ -78,27 +80,22 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
     private void setupColumns() {
-        // The system won't let me use arrays for some damned reason so here is the result:
-        nameColAll.setCellValueFactory(
-            new PropertyValueFactory<Expense, String>("description"));
-        amountColAll.setCellValueFactory(
-            new PropertyValueFactory<Expense, Double>("amount"));
-        editColAll.setCellValueFactory(this::createEditButton);
-        deleteColAll.setCellValueFactory(this::createDeleteButton);
+        setTable(dateColAll, nameColAll, amountColAll, editColAll, deleteColAll);
+        setTable(dateColTo, nameColTo, amountColTo, editColTo, deleteColTo);
+        setTable(dateColFrom, nameColFrom, amountColFrom, editColFrom, deleteColFrom);
+    }
 
-        nameColTo.setCellValueFactory(
-            new PropertyValueFactory<Expense, String>("description"));
-        amountColTo.setCellValueFactory(
-            new PropertyValueFactory<Expense, Double>("amount"));
-        editColTo.setCellValueFactory(this::createEditButton);
-        deleteColTo.setCellValueFactory(this::createDeleteButton);
+    private void setTable(TableColumn<Expense, Date> dateCol,
+                          TableColumn<Expense, String> nameCol,
+                          TableColumn<Expense, Double> amountCol,
+                          TableColumn<Expense, Button> editCol,
+                          TableColumn<Expense, Button> deleteCol) {
 
-        nameColFrom.setCellValueFactory(
-            new PropertyValueFactory<Expense, String>("description"));
-        amountColFrom.setCellValueFactory(
-            new PropertyValueFactory<Expense, Double>("amount"));
-        editColFrom.setCellValueFactory(this::createEditButton);
-        deleteColFrom.setCellValueFactory(this::createDeleteButton);
+        dateCol.setCellValueFactory(new PropertyValueFactory<Expense, Date>("dateSent"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<Expense, String>("description"));
+        amountCol.setCellValueFactory(new PropertyValueFactory<Expense, Double>("amount"));
+        editCol.setCellValueFactory(this::createEditButton);
+        deleteCol.setCellValueFactory(this::createDeleteButton);
     }
 
     public void loadExpenses() {
