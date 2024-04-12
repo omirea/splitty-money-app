@@ -98,6 +98,10 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
                 (getClass().getResourceAsStream("/icons/home.png")));
         homeView.setImage(setting);
         homeButton.setGraphic(homeView);
+
+//        server.registerForMessages("/topic/expenses", e->{
+//            listViewAll.add(e);
+//        });
     }
 
 

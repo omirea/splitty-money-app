@@ -2,6 +2,8 @@ package server.api;
 
 import commons.Expense;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import server.database.DebtRepository;
@@ -31,6 +33,18 @@ public class ExpenseController {
     public List<Expense> getAllExpenses() {
         return db.findAll();
     }
+
+    /**
+     * websocket for exepenses
+     * @param expense
+     */
+    @MessageMapping("/expenses") // /app/expenses
+    @SendTo("/topic/expenses")
+    public Expense addExpense(Expense expense){
+        createExpense(expense);
+        return expense;
+    }
+
 
     /**
      * Get request of the expense
