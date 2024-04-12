@@ -136,6 +136,12 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
             return row;
         });
+
+        server.registerForMessages("/topic/participants", p ->{
+            //addedParticipants.add(p);
+            //addParticipantToBox(p);
+            addAllParticipants();
+        });
     }
 
     public void setPreUpdatedParticipants() {
@@ -143,6 +149,9 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     }
 
     public void addParticipantToBox(Participant participant) {
+        List<Participant> participantsInBox=recentParticipants.getItems();
+        if(participantsInBox.contains(participant))
+            return;
         Participant p = server.createParticipant(participant);
         participant.setId(p.getId());
         recentParticipants.getItems().add(participant);
@@ -254,7 +263,6 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         for (Participant participant : pList) {
             //server.createParticipant(participant);
             addParticipantToBox(participant);
-
         }
     }
 

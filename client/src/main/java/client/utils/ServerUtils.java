@@ -470,16 +470,16 @@ public class ServerUtils {
 		throw new IllegalStateException();
 	}
 
-	public void registerForMessages(String dest, Consumer<Expense> consumer){
+	public void registerForMessages(String dest, Consumer<Participant> consumer){
 		session.subscribe(dest, new StompFrameHandler() {
 			@Override
 			public Type getPayloadType(StompHeaders headers) {
-				return Expense.class;
+				return Participant.class;
 			}
 
 			@Override
 			public void handleFrame(StompHeaders headers, Object payload) {
-				consumer.accept((Expense) payload);
+				consumer.accept((Participant) payload);
 			}
 		});
 	}
