@@ -43,6 +43,8 @@ public class Event {
     @Transient
     private List<Participant> participants = new ArrayList<>();
 
+    @Transient
+    private List<Debt> debts = new ArrayList<>();
     /**
      * Constructor for an Event object
      * @param name String with name of the event
@@ -57,11 +59,13 @@ public class Event {
     public Event(String name,
                  String invitationID,
                  List<Expense> expenses,
-                 List<Participant> participants){
+                 List<Participant> participants,
+                 List<Debt> debts){
         this.name = name;
         this.invitationID = invitationID;
         this.expenses = expenses;
         this.participants = participants;
+        this.debts = debts;
     }
 
     public Event(String name) {
@@ -80,6 +84,10 @@ public class Event {
 
     public List<Participant> getParticipants() {
         return participants;
+    }
+
+    public List<Debt> getDebts() {
+        return debts;
     }
 
     public void setExpenses(List<Expense> expenses) {
