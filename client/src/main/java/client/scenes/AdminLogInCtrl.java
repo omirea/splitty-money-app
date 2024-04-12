@@ -13,8 +13,6 @@ import javafx.scene.text.Text;
 import javax.inject.Inject;
 import java.util.Objects;
 
-import static client.Main.locale;
-
 public class AdminLogInCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
@@ -81,18 +79,8 @@ public class AdminLogInCtrl implements Main.LanguageSwitch {
             return true;
         } else {
             Alert alert=new Alert(Alert.AlertType.WARNING);
-            switch(locale.getLanguage()) {
-                case "nl":
-                    alert.setTitle("Niet ingevulde velden");
-                    alert.setContentText("Velden invullen AUB");
-                    break;
-                case "en":
-                    alert.setTitle("Empty fields");
-                    alert.setContentText("Please fill in all the fields>");
-                    break;
-                default:
-                    break;
-            }
+            alert.setTitle(Main.getLocalizedString("alertEmptyFieldsTitle"));
+            alert.setContentText(Main.getLocalizedString("alertEmptyFieldsContent"));
             alert.setHeaderText(null);
             alert.showAndWait();
             return false;
@@ -109,18 +97,8 @@ public class AdminLogInCtrl implements Main.LanguageSwitch {
             return true;
         } else {
             Alert alertPassword = new Alert(Alert.AlertType.WARNING);
-            switch(locale.getLanguage()) {
-                case "nl":
-                    alertPassword.setTitle("Ongeldig wachtwoord");
-                    alertPassword.setContentText("Wachtwoord is fout, probeer opnieuw");
-                    break;
-                case "en":
-                    alertPassword.setTitle("Password is incorrect");
-                    alertPassword.setContentText("Try Password again");
-                    break;
-                default:
-                    break;
-            }
+            alertPassword.setTitle(Main.getLocalizedString("alertValidatePasswordTitle"));
+            alertPassword.setTitle(Main.getLocalizedString("alertValidatePasswordContent"));
             alertPassword.setHeaderText(null);
             alertPassword.showAndWait();
             return false;
