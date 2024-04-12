@@ -20,10 +20,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static client.Main.locale;
 
@@ -134,12 +131,28 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
     public void onDeleteExpenseClick(Expense e) {
+        Alert a = confirmDeleteAlert();
+        Optional<ButtonType> result = a.showAndWait();
+        if (result.isEmpty() || result.get() != ButtonType.OK) return;
+
         expenses.remove(e);
         expenseTableViewPaidFor.getItems().remove(e);
         expenseTableViewPaidFor.getItems().remove(e);
         expenseTableViewAll.getItems().remove(e);
-        server.deleteExpense(e.getId());
 
+        //could be more efficient if we had path for deleting a list of debts
+        List<Debt> temp = debts.stream()
+            .filter(d -> d.getExpense().equals(e)).toList();
+        temp.forEach(d -> server.deleteDebt(d.getId()));
+        debts.removeAll(temp);
+        server.deleteExpense(e.getId());
+    }
+
+    private Alert confirmDeleteAlert() {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setTitle(deleteAlertTitle);
+        a.setContentText(deleteAlertText);
+        return a;
     }
 
     private void setUpImages() {
@@ -220,7 +233,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         setPersonText(paidForList, hasToPayList);
 
         List<Expense> paidForExpenses = paidForList.stream()
-                .map(Debt::getExpense).toList();
+                .map(Debt::getExpense).distinct().toList();
         List<Expense> hasToPayExpenses = hasToPayList.stream()
             .map(Debt::getExpense).toList();
 
@@ -308,8 +321,8 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
     private String allTabText, fromTabText, toTabText,
-    dateText, amountText, whatForText, editText, deleteText;
-
+    dateText, amountText, whatForText, editText, deleteText,
+    deleteAlertTitle, deleteAlertText;
 
     @Override
     public void LanguageSwitch() {
@@ -324,6 +337,10 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         fromTabText = Main.getLocalizedString("fromPerson");
         toTabText = Main.getLocalizedString("toPerson");
         settleDebtsButton.setText(Main.getLocalizedString("settleDebts"));
+
+        deleteAlertText = Main.getLocalizedString("deleteAlertText");
+        deleteAlertTitle = Main.getLocalizedString("deleteAlertTitle");
+
         dateText = Main.getLocalizedString("expenseDate");
         amountText = Main.getLocalizedString("Amount");
         whatForText = Main.getLocalizedString("whatFor");
