@@ -133,20 +133,8 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
 
     private void throwWarning() {
         Alert alert=new Alert(Alert.AlertType.WARNING);
-        switch(locale.getLanguage()) {
-            case "nl":
-                alert.setTitle("Evenement Bestaat Al");
-                alert.setContentText("Er bestaat al een evenement met deze naame en " +
-                    "uitnodigings code.");
-                break;
-            case "en":
-                alert.setTitle("Event Already Exists");
-                alert.setContentText("An event with this name and invitation code already " +
-                    "exists.");
-                break;
-            default:
-                break;
-        }
+        alert.setTitle(Main.getLocalizedString("alertEventExistsTitle"));
+        alert.setTitle(Main.getLocalizedString("alertEventExistsContent"));
         alert.setHeaderText(null);
         alert.showAndWait();
     }
