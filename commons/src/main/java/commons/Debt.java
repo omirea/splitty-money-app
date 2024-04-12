@@ -21,11 +21,11 @@ public class Debt {
     private Expense expense;
 
     @ManyToOne
-    @JoinColumn(name = "from_id", nullable = false)
+    @JoinColumn(name = "payDebts", nullable = false)
     private Participant from;
 
     @ManyToOne
-    @JoinColumn(name = "to_id", nullable = false)
+    @JoinColumn(name = "receivedDebts", nullable = false)
     private Participant to;
 
     private Double amount;

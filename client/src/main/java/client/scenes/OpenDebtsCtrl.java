@@ -314,7 +314,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
             viewEmailButton.setAlignment(Pos.CENTER);
             Button viewIBANButton=new Button();
             viewIBANButton.setAlignment(Pos.CENTER);
-            setupEmailPicture(debt.getTo(), viewEmailButton);
+            setupEmailPicture(debt.getFrom(), viewEmailButton);
             setupIBANPicture(debt.getTo(), viewIBANButton);
 
             //set closed debts button

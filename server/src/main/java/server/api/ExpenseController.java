@@ -100,7 +100,7 @@ public class ExpenseController {
         existingExpense.setAmount(expense.getAmount());
         existingExpense.setType(expense.getType());
         existingExpense.setDateSent(expense.getDateSent());
-        existingExpense.setCurrency(expense.getCurrency());
+//        existingExpense.setCurrency(expense.getCurrency());
         existingExpense.setEvent(expense.getEvent());
         Expense updatedExpenseEntity = db.save(existingExpense);
         return ResponseEntity.ok(updatedExpenseEntity);
