@@ -36,6 +36,15 @@
                         </ImageView>
                      </graphic>
                   </RadioMenuItem>
+                  <RadioMenuItem fx:id="turkishButton" mnemonicParsing="false" onAction="#onTurkishSwitchClick" text="Turkish">
+                     <graphic>
+                        <ImageView fx:id="turkishView" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/turkish.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </RadioMenuItem>
                </items>
             </MenuButton>
             <MenuButton fx:id="themeButton" alignment="CENTER" mnemonicParsing="false" popupSide="RIGHT" text="Theme" textAlignment="CENTER">

@@ -33,6 +33,10 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
     @FXML
     private ImageView dutchView;
     @FXML
+    private RadioMenuItem turkishButton;
+    @FXML
+    private ImageView turkishView;
+    @FXML
     private MenuButton languageMenuButton;
     @FXML
     private MenuButton themeButton;
@@ -67,15 +71,24 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
                 (getClass().getResourceAsStream("/icons/dutch.png")));
         dutchView.setImage(setting);
         dutchButton.setGraphic(dutchView);
+
+        turkishView.setFitHeight(25);
+        turkishView.setFitWidth(22);
+        setting=new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/turkish.png")));
+        turkishView.setImage(setting);
+        turkishButton.setGraphic(turkishView);
     }
 
     public void onEnglishSwitchClick() {
         dutchButton.setSelected(false);
+        turkishButton.setSelected(false);
         languageSwitch.saveToConfig("translations_en");
         Main.switchLocale("translations", "en");
     }
     public void onDutchSwitchClick() {
         englishButton.setSelected(false);
+        turkishButton.setSelected(false);
         languageSwitch.saveToConfig("translations_nl");
         Main.switchLocale("translations", "nl");
     }
@@ -155,5 +168,10 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
     }
 
 
-
+    public void onTurkishSwitchClick(ActionEvent event) {
+        englishButton.setSelected(false);
+        dutchButton.setSelected(false);
+        languageSwitch.saveToConfig("translations_tr");
+        Main.switchLocale("translations", "tr");
+    }
 }
