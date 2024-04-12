@@ -25,8 +25,6 @@ public class ExpenseTest {
             LocalDate.of(2005, 12, 1),
             Currency.getInstance("BAM"));
         e.setID((long) 1);
-
-        Expense ex = new Expense();
     }
 
     @Test
@@ -134,7 +132,7 @@ public class ExpenseTest {
     @Test
     void toStringTest(){
         String s = "Expense{ex_id=null, event_id=null, description='This is a description', " +
-            "value=2.09, type='This is a type', dateSent=2005-12-01, currency=BAM}";
+            "value=2.09, type='This is a type', dateSent=2005-12-01}";
         assertEquals(s, expense.toString());
     }
 
