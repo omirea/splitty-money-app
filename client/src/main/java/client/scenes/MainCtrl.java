@@ -85,15 +85,7 @@ public class MainCtrl {
         Main.switchLocale("translations","en");
 
 
-
-        //showEventOverview("123");
         showStartScreen();
-        //showSettingsPage();
-        //showEventsAdmin();
-        //showEditParticipants();
-        //showOpenDebts();
-        //showEditParticipants();
-        //showAdminLogIn();
         primaryStage.show();
     }
 
@@ -123,11 +115,11 @@ public class MainCtrl {
      */
     public void showOpenDebts(String id) {
         openDebtsCtrl.setEvent(id);
+        openDebts.getStylesheets().add("stylesheets/debts.css");
+        openDebtsCtrl.addDebtsToList();
+        openDebtsCtrl.addParticipantsToChoiceBox(id);
         primaryStage.setTitle("Splitty: Open Debts");
         primaryStage.setScene(openDebts);
-        openDebts.getStylesheets().add("stylesheets/debts.css");
-        openDebtsCtrl.addDebtsToList(id);
-        openDebtsCtrl.addParticipantsToChoiceBox(id);
     }
 
     /**
