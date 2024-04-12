@@ -66,7 +66,7 @@
             </GridPane>
             <TabPane prefHeight="200.0" prefWidth="200.0" stylesheets="@../../stylesheets/eventOverview.css" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
               <tabs>
-                <Tab fx:id="allTab" onSelectionChanged="#onTabSwitch" text="All">
+                <Tab fx:id="allTab" text="All">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -83,7 +83,7 @@
                         </AnchorPane>
                   </content>
                 </Tab>
-                  <Tab fx:id="fromPersonTab" onSelectionChanged="#onTabSwitch" text="Paid For">
+                  <Tab fx:id="fromPersonTab" text="Paid For">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -100,7 +100,7 @@
                         </AnchorPane>
                      </content>
                   </Tab>
-                <Tab fx:id="toPersonTab" onSelectionChanged="#onTabSwitch" text="Has to Pay">
+                <Tab fx:id="toPersonTab" text="Has to Pay">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>

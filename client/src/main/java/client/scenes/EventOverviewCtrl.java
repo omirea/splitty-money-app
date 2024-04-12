@@ -134,8 +134,12 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
     public void onDeleteExpenseClick(Expense e) {
-        server.deleteExpense(e.getId());
+        expenses.remove(e);
+        expenseTableViewPaidFor.getItems().remove(e);
+        expenseTableViewPaidFor.getItems().remove(e);
         expenseTableViewAll.getItems().remove(e);
+        server.deleteExpense(e.getId());
+
     }
 
     private void setUpImages() {
