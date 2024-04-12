@@ -106,25 +106,12 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         event = server.getEventByInvitationId(id);
     }
 
-    public Button getReopenAllDebts() {
-        return reopenAllDebts;
-    }
-
-    public void setAllDebts(ObservableList<Debt> newDebts){
-        this.allDebts.clear();
-        this.allDebts.addAll(newDebts);
-    }
-
     /**
      * add debts to the table view
      */
     public void addDebtsToList() {
-        debtsTables.clear();
-        newDebts.clear();
-        allDebts.clear();
         calculateAllDebts();
-        createDebtsTable(allDebts);
-        newDebts.addAll(allDebts);
+        createDebtsTable();
         tableView.setItems(debtsTables);
     }
 
@@ -132,30 +119,26 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
      * calculates all debts of the event that were closed
      */
     private void calculateAllDebts() {
+
         allDebts.clear();
+        newDebts.clear();
 
         List<Debt> debts = server.getDebtsByInvitationId(event.getInvitationID());
-        System.out.println(debts);
+        debts.removeIf(debt -> !debt.isSettled());
+        allDebts.addAll(debts);
+
         for (int i = 0; i < debts.size(); i++) {
 
-            Debt debt1 = debts.get(i);
-            if (!debt1.isSettled()) {
-                debts.remove(debt1);
-                i--;
-                continue;
-            }
+            Debt debt1 = new Debt(debts.get(i).getFrom(),
+                    debts.get(i).getTo(), debts.get(i).getAmount());
+            newDebts.add(debt1);
 
-            Long fromID = debt1.getFrom().getId();
-            Long toID = debt1.getTo().getId();
+            Long fromID = debts.get(i).getFrom().getId();
+            Long toID = debts.get(i).getTo().getId();
 
             for (int j = i + 1; j < debts.size(); j++) {
 
                 Debt debt2 = debts.get(j);
-                if (!debt2.isSettled()) {
-                    debts.remove(debt2);
-                    j--;
-                    continue;
-                }
 
                 if (Objects.equals(debt2.getFrom().getId(), fromID)
                         && Objects.equals(debt2.getTo().getId(), toID)) {
@@ -178,21 +161,19 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             } else if (debt1.getAmount() == 0) {
                 debts.remove(debt1);
                 i--;
+                newDebts.remove(debt1);
             }
         }
-
-        allDebts.addAll(debts);
     }
 
     /**
      * create the debts to be added to the Open Debts page
-     * @param allDebts list of debts of the event
      */
-    public void createDebtsTable(ObservableList<Debt> allDebts) {
+    public void createDebtsTable() {
         debtsTables.clear();
-        for(Debt debt : allDebts){
+        for(Debt debt : newDebts){
             //set tree view-debts info + text flow (bold text)
-            TreeView<TextFlow> treeView=new TreeView<>();
+            TreeView<TextFlow> treeView = new TreeView<>();
             treeView.setMaxHeight(30);
             treeView.setOnMouseClicked(event -> {
                 if(treeView.getMaxHeight()==30)
@@ -230,8 +211,13 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             Button openDebtButton=new Button("Open Debt");
             openDebtButton.setAlignment(Pos.CENTER);
             openDebtButton.setOnAction(x -> {
-                debt.setSettled(false);
-                server.updateDebt(debt, debt.getId());
+                for (Debt existingDebt : allDebts) {
+                    if (existingDebt.getFrom().equals(debt.getFrom())
+                            && existingDebt.getTo().equals(debt.getTo())) {
+                        existingDebt.setSettled(false);
+                        server.updateDebt(existingDebt, existingDebt.getId());
+                    }
+                }
                 addDebtsToList();
             });
             //create debt
@@ -350,12 +336,11 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         alert.setHeaderText(null);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK){
-            for (Debt debt : newDebts) {
+            for (Debt debt : allDebts) {
                 debt.setSettled(false);
                 server.updateDebt(debt, debt.getId());
             }
-            tableView.getItems().clear();
-            calculateAllDebts();
+            addDebtsToList();
         }
     }
 
@@ -384,10 +369,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             for (DebtsTable debtRow : debtsTables){
                 if (debtRow.getCheckBox().isSelected()){
                     Debt debt = debtRow.getDebt();
-                    List<Debt> settledDebts =
-                            server.getDebtsByInvitationId(event.getInvitationID())
-                                    .stream().filter(Debt::isSettled).toList();
-                    for (Debt existingDebt : settledDebts) {
+                    for (Debt existingDebt : allDebts) {
                         if (existingDebt.getFrom().equals(debt.getFrom())
                                 && existingDebt.getTo().equals(debt.getTo())) {
                             existingDebt.setSettled(false);
@@ -418,7 +400,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             newDebts.clear();
             newDebts.addAll(tempDebts);
         }
-        createDebtsTable(newDebts);
+        createDebtsTable();
         tableView.setItems(debtsTables);
     }
 

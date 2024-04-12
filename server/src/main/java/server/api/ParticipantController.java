@@ -1,7 +1,10 @@
 package server.api;
 
+import commons.Expense;
 import commons.Participant;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import server.database.ParticipantRepository;
 
@@ -21,6 +24,17 @@ public class ParticipantController {
     @ResponseBody
     public List<Participant> getAllParticipants() {
         return db.findAll();
+    }
+
+    /**
+     * websocket for participants
+     * @param participant
+     */
+    @MessageMapping("/participants") // /app/participants
+    @SendTo("/topic/participants")
+    public Participant addExpense(Participant participant){
+        createParticipant(participant);
+        return participant;
     }
 
     @GetMapping("/{id}")

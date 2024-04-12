@@ -2,6 +2,8 @@ package server.api;
 
 import commons.Expense;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import server.database.DebtRepository;
@@ -31,6 +33,7 @@ public class ExpenseController {
     public List<Expense> getAllExpenses() {
         return db.findAll();
     }
+
 
     /**
      * Get request of the expense
@@ -86,7 +89,7 @@ public class ExpenseController {
         existingExpense.setAmount(expense.getAmount());
         existingExpense.setType(expense.getType());
         existingExpense.setDateSent(expense.getDateSent());
-        existingExpense.setCurrency(expense.getCurrency());
+//        existingExpense.setCurrency(expense.getCurrency());
         existingExpense.setEvent(expense.getEvent());
         Expense updatedExpenseEntity = db.save(existingExpense);
         return ResponseEntity.ok(updatedExpenseEntity);

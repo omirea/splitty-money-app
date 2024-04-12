@@ -31,6 +31,9 @@
         <module name="UnusedImports">
             <property name="severity" value="warning"/>
         </module>
+        <module name="OuterTypeFilename">
+            <property name="severity" value="warning"/>
+        </module>
         <module name="StaticVariableName">
             <property name="severity" value="warning"/>
         </module>
