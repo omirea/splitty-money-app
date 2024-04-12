@@ -56,7 +56,7 @@
                   <Insets />
                </VBox.margin>
             </MenuButton>
-            <Button mnemonicParsing="false" onAction="#onChangeServerClick" text="Change Server" />
+            <Button fx:id="changeServerButton" mnemonicParsing="false" onAction="#onChangeServerClick" text="Change Server" />
          </children>
       </VBox>
    </children>

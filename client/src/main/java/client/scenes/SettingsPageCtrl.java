@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -26,6 +27,10 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
 
     @FXML
     private RadioMenuItem englishButton;
+
+    @FXML
+    private Button changeServerButton;
+
     @FXML
     private ImageView englishView;
     @FXML
@@ -103,8 +108,10 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
         themeButton.setText(Main.getLocalizedString("Theme"));
         englishButton.setText(Main.getLocalizedString("English"));
         dutchButton.setText(Main.getLocalizedString("Dutch"));
+        turkishButton.setText(Main.getLocalizedString("Turkish"));
         lightModeButton.setText(Main.getLocalizedString("lightMode"));
         darkModeButton.setText(Main.getLocalizedString("darkMode"));
+        changeServerButton.setText(Main.getLocalizedString("changeServer"));
 
     }
     public void darkMode(ActionEvent event) throws MalformedURLException {
