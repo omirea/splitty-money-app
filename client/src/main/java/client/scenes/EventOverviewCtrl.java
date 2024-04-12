@@ -96,6 +96,12 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         amountCol.setCellValueFactory(new PropertyValueFactory<Expense, Double>("amount"));
         editCol.setCellValueFactory(this::createEditButton);
         deleteCol.setCellValueFactory(this::createDeleteButton);
+
+        dateCol.setText(dateText);
+        nameCol.setText(whatForText);
+        amountCol.setText(amountText);
+        editCol.setText(editText);
+        deleteCol.setText(deleteText);
     }
 
     public void loadExpenses() {
@@ -233,9 +239,9 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
     private void setPersonText(List<Debt> paidForDebts, List<Debt> hasToPayDebts) {
-        double totalTo = getDebtsSum(paidForDebts);
-        double totalFrom = getDebtsSum(hasToPayDebts);
-        allTab.setText(allTabText + ": " + (totalTo - totalFrom));
+        double totalTo = getDebtsSum(hasToPayDebts);
+        double totalFrom = getDebtsSum(paidForDebts);
+        allTab.setText(allTabText);
         toPersonTab.setText(toTabText + ": " + totalTo);
         fromPersonTab.setText(fromTabText + ": " + totalFrom);
     }
@@ -308,9 +314,9 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
 
     }
 
-    private String allTabText;
-    private String fromTabText;
-    private String toTabText;
+    private String allTabText, fromTabText, toTabText,
+    dateText, amountText, whatForText, editText, deleteText;
+
 
     @Override
     public void LanguageSwitch() {
@@ -325,7 +331,12 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         fromTabText = Main.getLocalizedString("fromPerson");
         toTabText = Main.getLocalizedString("toPerson");
         settleDebtsButton.setText(Main.getLocalizedString("settleDebts"));
-
+        dateText = Main.getLocalizedString("expenseDate");
+        amountText = Main.getLocalizedString("Amount");
+        whatForText = Main.getLocalizedString("whatFor");
+        editText = Main.getLocalizedString("editExpense");
+        deleteText = Main.getLocalizedString("deleteExpense");
+        setupColumns();
     }
 
 }
