@@ -135,17 +135,19 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         Optional<ButtonType> result = a.showAndWait();
         if (result.isEmpty() || result.get() != ButtonType.OK) return;
 
-        expenses.remove(e);
-        expenseTableViewPaidFor.getItems().remove(e);
-        expenseTableViewPaidFor.getItems().remove(e);
-        expenseTableViewAll.getItems().remove(e);
+        removeExpenseFromLists(e);
+        onMenuChange();
 
-        //could be more efficient if we had path for deleting a list of debts
+        server.deleteExpense(e.getId());
+    }
+
+    private void removeExpenseFromLists(Expense e) {
+        expenses.remove(e);
         List<Debt> temp = debts.stream()
             .filter(d -> d.getExpense().equals(e)).toList();
         temp.forEach(d -> server.deleteDebt(d.getId()));
         debts.removeAll(temp);
-        server.deleteExpense(e.getId());
+
     }
 
     private Alert confirmDeleteAlert() {
