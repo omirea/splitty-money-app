@@ -56,7 +56,6 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
 
     private final StartCtrl start;
 
-
     @Inject
     public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl, StartCtrl start) {
         this.server = server;
@@ -169,7 +168,6 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      * method to open send invite page
      */
     public void onSendInvitesClick(){
-        //will do the following code snippet once implemented:
         mainCtrl.showInvitation(event.getInvitationID());
     }
 
@@ -177,8 +175,6 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      * method to add expense
      */
     public void onAddExpenseClick() {
-        //will do the following code snippet once implemented:
-        //mainCtrl.showAddExpense();
         mainCtrl.showAddExpense(event.getInvitationID());
     }
 
@@ -283,13 +279,6 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
     /**
-     * method to change between the list tabs
-     */
-    public void onTabSwitch() {
-//        int tabIndex = expensesTabs.getSelectionModel().getSelectedIndex();
-    }
-
-    /**
      * maps the keyboard shortcuts to this controller/scene
      * @param e KeyEvent inputted
      */
@@ -308,10 +297,10 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         allParticipants.add(null);
         List<Participant> pList = server.getParticipantsByInvitationId(event.getInvitationID());
         allParticipants.addAll(pList);
+
         String pListString = pList.stream().map(Participant::getName).toList().toString();
         pListString = pListString.substring(1, pListString.length()-1);
         participantsListText.setText(pListString);
-
     }
 
     private String allTabText, fromTabText, toTabText,
