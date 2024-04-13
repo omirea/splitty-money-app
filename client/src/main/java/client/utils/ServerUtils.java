@@ -46,12 +46,16 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 public class ServerUtils {
 	private static String server;
 
+	private StompSession session=connect("ws://localhost:8080/websocket");
+
+
 	/**
 	 * sets the URL for the server
 	 * @param server URL of the server
 	 */
 	public void setServer(String server) {
 		ServerUtils.server = server;
+		session=connect("ws://localhost:8080/websocket");
 	}
 
 	/**
@@ -455,9 +459,13 @@ public class ServerUtils {
 		EXEC.shutdownNow();
 	}
 
-	private StompSession session=connect("ws://localhost:8080/websocket");
+	//String wsURL= "ws" + server.substring(4) + "websocket";
+	//private StompSession session=connect();
 
 	private StompSession connect(String url){
+		if(server!=null) {
+			url = "ws" + server.substring(4) + "websocket";
+		}
 		var client= new StandardWebSocketClient();
 		var stomp= new WebSocketStompClient(client);
 		stomp.setMessageConverter(new MappingJackson2MessageConverter());
