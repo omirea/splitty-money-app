@@ -50,7 +50,7 @@
 
 .choice-box .label, .label,
 #lightModeButton .label, #darkModeButton .label,
-#englishButton .label, #dutchButton .label{
+#englishButton .label, #dutchButton .label, #turkishButton .label{
     -fx-text-fill: #c0c0c0;
 }
 
