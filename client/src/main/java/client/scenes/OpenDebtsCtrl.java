@@ -78,8 +78,6 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
      */
     @FXML
     public void initialize(){
-        //payAllDebtsButton.getStyleClass().add("resources/stylesheets/stylesheet.css");
-
         //init newDebts
         newDebts.addAll(allDebts);
 

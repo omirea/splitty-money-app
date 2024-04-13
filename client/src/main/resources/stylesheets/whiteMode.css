@@ -9,7 +9,7 @@
 }
 
 
-.table-view .label, .choice-box .label, .label
+.table-view .label, .choice-box .label, .label,
 #lightModeButton .label, #darkModeButton .label,
 #englishButton .label, #dutchButton .label{
     -fx-text-fill: black;

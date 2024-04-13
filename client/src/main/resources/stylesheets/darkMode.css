@@ -2,15 +2,30 @@
     -fx-background-color: #2f2f2f;
 }
 
-.text-field{
-    -fx-background-color: red;
-    -fx-text-fill: red;
+/*.text-field{*/
+/*    -fx-background-color: red;*/
+/*    -fx-text-fill: red;*/
+/*}*/
+
+
+#languageMenuButton .label, #themeButton .label{
+    -fx-text-fill: white;
 }
 
-#createNewEventText, #joinEventText, #recentEventsText{
-    -fx-text-fill: #000000;
-    -fx-background-color: red;
+.menu-item .label{
+    -fx-text-fill: black;
 }
+
+
+#languageMenuButton, #themeButton{
+    -fx-background-color: #384bde;
+    -fx-border-color: #081469;
+}
+
+/*#createNewEventText, #joinEventText, #recentEventsText{*/
+/*    -fx-text-fill: #000000;*/
+/*    -fx-background-color: red;*/
+/*}*/
 
 #splitty{
     -fx-text-fill: white;
@@ -24,11 +39,6 @@
     -fx-border-image-width: 3;
 }
 
-.menu-button{
-    -fx-text-fill: white;
-    -fx-background-color:  #384bde;
-    -fx-border-color: #081469;
-}
 
 
 .choice-box, #tableView, #table, #expensesTabs,
@@ -37,10 +47,10 @@
     -fx-border-color: #2f2f2f;
 }
 
-.table-view .label, .choice-box .label, .label
+.table-view .label, .choice-box .label, .label,
 #lightModeButton .label, #darkModeButton .label,
 #englishButton .label, #dutchButton .label{
-    -fx-text-fill: #2f2f2f;
+    -fx-text-fill: black;
 }
 
 
@@ -61,10 +71,5 @@
 
 #from, #to {
     -fx-font-weight: bold;
-}
-
-.menu-button .label{
-    -fx-text-fill: white;
-
 }
 
