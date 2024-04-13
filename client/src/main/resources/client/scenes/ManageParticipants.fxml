@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="401.0" prefWidth="492.0" stylesheets="@../../stylesheets/manageParticipants.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ManageParticipantsCtrl">
+<AnchorPane fx:id="anchorPane" prefHeight="401.0" prefWidth="492.0" stylesheets="@../../stylesheets/manageParticipants.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ManageParticipantsCtrl">
    <children>
       <VBox layoutX="9.0" layoutY="9.0" prefHeight="385.0" prefWidth="283.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
@@ -22,21 +22,21 @@
                   <Font name="Calibri Bold" size="23.0" />
                </font>
             </Label>
-            <TableView fx:id="recentParticipants" prefHeight="293.0" prefWidth="461.0">
+            <TableView fx:id="recentParticipants">
               <columns>
-                <TableColumn fx:id="nameColumn" prefWidth="184.80006647109985" text="Name" />
-                <TableColumn fx:id="editColumn" minWidth="7.20001220703125" prefWidth="124.79998779296875" />
-                  <TableColumn fx:id="deleteColumn" minWidth="7.20001220703125" prefWidth="136.79998779296875" />
+                <TableColumn fx:id="nameColumn" minWidth="50.0" prefWidth="200.0" text="Name" />
+                <TableColumn fx:id="editColumn" minWidth="35.0" prefWidth="124.79998779296875" />
+                  <TableColumn fx:id="deleteColumn" minWidth="35.0" prefWidth="120.0" />
               </columns>
             </TableView>
-            <HBox alignment="CENTER" prefHeight="43.0" prefWidth="288.0" spacing="20.0">
+            <HBox alignment="CENTER_RIGHT" spacing="10.0">
                <children>
-                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancelClick" prefHeight="27.0" prefWidth="57.0" text="Cancel">
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancelClick" text="Cancel">
                      <HBox.margin>
-                        <Insets left="258.0" />
+                        <Insets />
                      </HBox.margin></Button>
-                  <Button fx:id="finishButton" mnemonicParsing="false" onAction="#onFinishClick" prefHeight="27.0" prefWidth="50.0" text="Finish" />
-                  <Button fx:id="addButton" mnemonicParsing="false" onAction="#showAddParticipant" prefHeight="27.0" prefWidth="42.0" text="Add" />
+                  <Button fx:id="finishButton" mnemonicParsing="false" onAction="#onFinishClick" text="Finish" />
+                  <Button fx:id="addButton" mnemonicParsing="false" onAction="#showAddParticipant" text="Add" />
                </children>
             </HBox>
          </children>

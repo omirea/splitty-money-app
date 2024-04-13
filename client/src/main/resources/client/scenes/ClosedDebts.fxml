@@ -8,91 +8,89 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../stylesheets/debts.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ClosedDebtsCtrl">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../stylesheets/debts.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.ClosedDebtsCtrl">
     <children>
         <VBox layoutX="11.2" layoutY="72.0" prefHeight="200.0" prefWidth="579.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
             <children>
-                <HBox prefHeight="100.0" prefWidth="200.0">
-                    <children>
+            <GridPane prefWidth="559.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
                         <Button fx:id="homeButton" mnemonicParsing="false" onAction="#showHome" text="Home">
                             <graphic>
                                 <ImageView fx:id="homeView" fitHeight="22.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                             </graphic>
                         </Button>
-                    </children>
-                </HBox>
-                <HBox prefHeight="100.0" prefWidth="200.0">
-                    <children>
-                        <Label fx:id="closedDebtsLabel" prefHeight="39.0" prefWidth="238.0" text="Closed Debts">
-                            <font>
-                                <Font name="System Bold" size="27.0" />
-                            </font>
-                        </Label>
-                        <Button fx:id="seeOpenDebtsButton" mnemonicParsing="false" onAction="#showOpenDebts" text="See open debts">
-                            <HBox.margin>
-                                <Insets left="220.0" top="5.0" />
-                            </HBox.margin>
-                        </Button>
-                    </children>
-                </HBox>
-                <HBox prefHeight="100.0" prefWidth="200.0">
+                        <Button fx:id="seeOpenDebtsButton" mnemonicParsing="false" onAction="#showOpenDebts" text="See open debts" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
+               </children>
+            </GridPane>
+                  <Label fx:id="closedDebtsLabel" text="Closed Debts">
+                      <font>
+                          <Font name="System Bold" size="27.0" />
+                      </font>
+                  </Label>
+                <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="NEVER">
                     <children>
                         <Label fx:id="fromLabel" text="From ">
                      <font>
                         <Font name="Calibri" size="15.0" />
                      </font></Label>
-                        <ChoiceBox fx:id="fromParticipantCB" prefHeight="20.0" prefWidth="146.0">
+                        <ChoiceBox fx:id="fromParticipantCB" HBox.hgrow="ALWAYS">
                             <HBox.margin>
-                                <Insets left="10.0" />
+                                <Insets />
                             </HBox.margin>
                         </ChoiceBox>
                         <Label fx:id="toLabel" text="To">
                             <HBox.margin>
-                                <Insets left="25.0" />
+                                <Insets />
                             </HBox.margin>
                      <font>
                         <Font name="Calibri" size="15.0" />
                      </font>
                         </Label>
-                        <ChoiceBox fx:id="toParticipantCB" prefWidth="150.0">
+                        <ChoiceBox fx:id="toParticipantCB" HBox.hgrow="ALWAYS">
                             <HBox.margin>
-                                <Insets left="10.0" />
+                                <Insets />
                             </HBox.margin>
                         </ChoiceBox>
                         <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchByParticipant" text="Search">
                             <HBox.margin>
-                                <Insets left="15.0" />
+                                <Insets />
                             </HBox.margin>
                         </Button>
                     </children>
                 </HBox>
-                <VBox prefHeight="308.0" prefWidth="558.0">
+                  <TableView fx:id="tableView" prefHeight="198.0" prefWidth="121.0" stylesheets="@../../stylesheets/debts.css">
+                      <columns>
+                          <TableColumn fx:id="checkBoxCol" minWidth="35.0" prefWidth="35.0" sortable="false" />
+                          <TableColumn fx:id="informationCol" prefWidth="360.0" sortable="false" text="Information" />
+                          <TableColumn fx:id="emailCol" editable="false" minWidth="50.0" prefWidth="50.0" sortable="false" text="Email" />
+                          <TableColumn fx:id="IBANCol" editable="false" minWidth="35.0" prefWidth="50.0" sortable="false" text="IBAN" />
+                          <TableColumn fx:id="receivedCol" editable="false" maxWidth="85.0" minWidth="50.0" prefWidth="50.0" resizable="false" sortable="false" />
+                      </columns>
+                  </TableView>
+                <HBox alignment="BOTTOM_RIGHT" spacing="10.0">
                     <children>
-                        <TableView fx:id="tableView" prefHeight="198.0" prefWidth="121.0" stylesheets="@../../stylesheets/debts.css">
-                            <columns>
-                                <TableColumn fx:id="checkBoxCol" prefWidth="27" />
-                                <TableColumn fx:id="informationCol" prefWidth="367.2000255584717" text="Information" />
-                                <TableColumn fx:id="emailCol" prefWidth="36.79998779296875" text="Email" />
-                                <TableColumn fx:id="IBANCol" prefWidth="40.0" text="IBAN" />
-                                <TableColumn fx:id="receivedCol" maxWidth="85.0" prefWidth="88.7999267578125" resizable="false" />
-                            </columns>
-                        </TableView>
-                    </children>
-                </VBox>
-                <HBox prefHeight="42.0" prefWidth="558.0">
-                    <children>
-                        <Button fx:id="reopenSelectedDebtsButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#reopenSelectedDebts" prefHeight="27.0" prefWidth="138.0" text="Reopen selected debts">
+                        <Button fx:id="reopenSelectedDebtsButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#reopenSelectedDebts" text="Reopen selected debts">
                             <HBox.margin>
-                                <Insets left="274.0" />
+                                <Insets />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="reopenAllDebts" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#reopenAllDebts" prefHeight="27.0" prefWidth="130.0" text="Reopen closed debts">
+                        <Button fx:id="reopenAllDebts" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#reopenAllDebts" text="Reopen closed debts">
                             <HBox.margin>
-                                <Insets left="15.0" />
+                                <Insets />
                             </HBox.margin>
                         </Button>
                     </children>
