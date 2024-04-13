@@ -312,31 +312,4 @@ public class MainCtrl {
         return expense;
     }
 
-    public Scene getOverview() {
-        return overview;
-    }
-
-    public Scene getManageParticipants() {
-        return manageParticipants;
-    }
-
-    public Scene getStart() {
-        return start;
-    }
-
-    public Scene getLogInAdmin() {
-        return logInAdmin;
-    }
-
-    public Scene getClosedDebts() {
-        return closedDebts;
-    }
-
-    public Scene getEventsAdmin() {
-        return eventsAdmin;
-    }
-
-    public Scene getSettingsPage() {
-        return settingsPage;
-    }
 }
