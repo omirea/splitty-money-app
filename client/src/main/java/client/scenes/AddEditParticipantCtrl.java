@@ -19,8 +19,6 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static client.Main.locale;
-
 public class AddEditParticipantCtrl implements Main.LanguageSwitch{
 
     private final ServerUtils server;
