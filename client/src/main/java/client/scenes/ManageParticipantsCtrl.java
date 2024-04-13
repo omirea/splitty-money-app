@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static client.Main.locale;
-
 public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
@@ -112,7 +110,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
             return new SimpleObjectProperty<>(deleteParticipant);
         });
         editColumn.setCellValueFactory(q -> {
-            Button toParticipant = new Button("Edit");
+            Button toParticipant = new Button(Main.getLocalizedString("Edit"));
             toParticipant.setAlignment(Pos.CENTER);
             //toParticipant.setOnAction(participant -> showParticipant(q.getValue()));
             toParticipant.setOnAction(new EventHandler<ActionEvent>() {
@@ -202,18 +200,8 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
     private static boolean hasConfirmed() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        switch(locale.getLanguage()) {
-            case "nl":
-                alert.setTitle("Aanpassingen terugdraaien");
-                alert.setContentText("Weet je zeker dat je de aanpassingen wilt terugdraaien?");
-                break;
-            case "en":
-                alert.setTitle("Revert changes");
-                alert.setContentText("Are you sure you want to discard the changes?");
-                break;
-            default:
-                break;
-        }
+        alert.setTitle(Main.getLocalizedString("alertRevertChangesTitle"));
+        alert.setContentText(Main.getLocalizedString("alertRevertChangesContent"));
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
     }

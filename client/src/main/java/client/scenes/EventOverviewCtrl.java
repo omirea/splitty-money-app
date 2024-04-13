@@ -25,8 +25,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import static client.Main.locale;
-
 public class EventOverviewCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
@@ -264,15 +262,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
 
     public void onTitleEditClick() {
         TextInputDialog tid = new TextInputDialog(eventTitleText.getText());
-        switch (locale.getLanguage()) {
-            case "nl":
-                tid.setHeaderText("Vul de naam van het evenement in");
-                break;
-            case "en":
-                tid.setHeaderText("Input the new event title");
-                break;
-            default: break;
-        }
+        tid.setHeaderText(Main.getLocalizedString("tidTitleEditHeader"));
         tid.showAndWait();
         String title = tid.getEditor().getText();
         start.deleteEventFromTable(event);

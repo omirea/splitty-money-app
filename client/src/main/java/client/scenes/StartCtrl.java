@@ -3,23 +3,25 @@ package client.scenes;
 import client.Main;
 import client.nodes.ConnectionSetup;
 import client.nodes.LanguageSwitch;
-import client.nodes.ThemeService;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
 import java.util.Objects;
 
 import static client.Main.locale;
 
-public class StartCtrl implements Main.LanguageSwitch {
+public class StartCtrl implements  Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -53,18 +55,17 @@ public class StartCtrl implements Main.LanguageSwitch {
     private TableColumn<Event, Button> deleteColumn;
     @FXML
     private TableColumn<Event, Button> openColumn;
-    private ConnectionSetup connectionSetup;
+    ConnectionSetup connectionSetup;
+
     private LanguageSwitch languageSwitch;
-    private ThemeService themeService;
 
     @Inject
     public StartCtrl(ServerUtils server, MainCtrl mainCtrl, ConnectionSetup cs,
-                     LanguageSwitch languageSwitch, ThemeService ts) {
+                     LanguageSwitch languageSwitch) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.connectionSetup = cs;
         this.languageSwitch=languageSwitch;
-        this.themeService=ts;
     }
 
     public void setUpConnection() {
@@ -130,6 +131,24 @@ public class StartCtrl implements Main.LanguageSwitch {
                 }
             });
             return row;
+        });
+
+        createEventField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.ENTER)) {
+                    onCreateClick();
+                }
+            }
+        });
+
+        joinEventField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.ENTER)) {
+                    onJoinClick();
+                }
+            }
         });
     }
 

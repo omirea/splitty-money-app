@@ -150,9 +150,8 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
                     participant.setIBAN(iban);
                     participant.setBIC(bic);
                 }
-            server.send("/app/participants",participant);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 switch (locale.getLanguage()) {
                     case "nl":
                         alert.setTitle("Succesvol toevoegen");

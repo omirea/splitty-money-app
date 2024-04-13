@@ -41,7 +41,7 @@
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="From ">
+                  <Label fx:id="fromLabel" text="From ">
                      <font>
                         <Font name="Calibri" size="15.0" />
                      </font></Label>
@@ -50,7 +50,7 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </ChoiceBox>
-                  <Label text="To">
+                  <Label fx:id="toLabel" text="To">
                      <HBox.margin>
                         <Insets left="25.0" />
                      </HBox.margin>
@@ -63,7 +63,7 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </ChoiceBox>
-                  <Button mnemonicParsing="false" onAction="#searchByParticipant" text="Search">
+                  <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchByParticipant" text="Search">
                      <HBox.margin>
                         <Insets left="15.0" />
                      </HBox.margin>

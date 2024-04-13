@@ -27,12 +27,12 @@
                 </HBox>
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <Label fx:id="yourCurrentDebtsLabel" prefHeight="39.0" prefWidth="238.0" text="Closed Debts">
+                        <Label fx:id="closedDebtsLabel" prefHeight="39.0" prefWidth="238.0" text="Closed Debts">
                             <font>
                                 <Font name="System Bold" size="27.0" />
                             </font>
                         </Label>
-                        <Button mnemonicParsing="false" onAction="#showOpenDebts" text="See open debts">
+                        <Button fx:id="seeOpenDebtsButton" mnemonicParsing="false" onAction="#showOpenDebts" text="See open debts">
                             <HBox.margin>
                                 <Insets left="220.0" top="5.0" />
                             </HBox.margin>
@@ -41,7 +41,7 @@
                 </HBox>
                 <HBox prefHeight="100.0" prefWidth="200.0">
                     <children>
-                        <Label text="From ">
+                        <Label fx:id="fromLabel" text="From ">
                      <font>
                         <Font name="Calibri" size="15.0" />
                      </font></Label>
@@ -50,7 +50,7 @@
                                 <Insets left="10.0" />
                             </HBox.margin>
                         </ChoiceBox>
-                        <Label text="To">
+                        <Label fx:id="toLabel" text="To">
                             <HBox.margin>
                                 <Insets left="25.0" />
                             </HBox.margin>
@@ -63,7 +63,7 @@
                                 <Insets left="10.0" />
                             </HBox.margin>
                         </ChoiceBox>
-                        <Button mnemonicParsing="false" onAction="#searchByParticipant" text="Search">
+                        <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchByParticipant" text="Search">
                             <HBox.margin>
                                 <Insets left="15.0" />
                             </HBox.margin>
@@ -85,7 +85,7 @@
                 </VBox>
                 <HBox prefHeight="42.0" prefWidth="558.0">
                     <children>
-                        <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#reopenSelectedDebts" prefHeight="27.0" prefWidth="138.0" text="Reopen selected debts">
+                        <Button fx:id="reopenSelectedDebtsButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#reopenSelectedDebts" prefHeight="27.0" prefWidth="138.0" text="Reopen selected debts">
                             <HBox.margin>
                                 <Insets left="274.0" />
                             </HBox.margin>

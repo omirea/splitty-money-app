@@ -100,6 +100,9 @@ public class MainCtrl {
         primaryStage.show();
     }
 
+    public Stage getAnotherStage() {
+        return anotherStage;
+    }
 
     /**
      * method to show participant page

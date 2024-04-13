@@ -22,8 +22,6 @@ import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.*;
 
-import static client.Main.locale;
-
 public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     private ObservableList<String> currencyList =
         FXCollections.observableArrayList("EUR", "USD", "GBP");
@@ -155,19 +153,8 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             }
         } else {
             Alert alert=new Alert(Alert.AlertType.WARNING);
-            switch(locale.getLanguage()) {
-                case "nl":
-                    alert.setTitle("Niet ingevulde velden");
-                    alert.setContentText("Alle velden moeten ingevuld " +
-                        "worden voor het maken van een uitgave");
-                    break;
-                case "en":
-                    alert.setTitle("Empty fields");
-                    alert.setContentText("You need to fill in all fields to create an expense");
-                    break;
-                default:
-                    break;
-            }
+            alert.setTitle(Main.getLocalizedString("alertEmptyFieldsTitle"));
+            alert.setContentText(Main.getLocalizedString("alertEmptyFieldsContent"));
             alert.setHeaderText(null);
             alert.showAndWait();
         }
@@ -179,9 +166,8 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
      */
     public void sumIsLarger(){
         Alert exceededAmount=new Alert(Alert.AlertType.ERROR);
-        exceededAmount.setTitle("Exceeded amount");
-        exceededAmount.setContentText("The amount of money people are paying back " +
-            "is larger than the value of the expense");
+        exceededAmount.setTitle(Main.getLocalizedString("alertExceededAmountTitle"));
+        exceededAmount.setContentText(Main.getLocalizedString("alertExceededAmountContent"));
         exceededAmount.showAndWait();
     }
 

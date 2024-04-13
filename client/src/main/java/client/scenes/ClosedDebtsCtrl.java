@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static client.Main.locale;
-
 public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -55,6 +53,10 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     private TableColumn<DebtsTable, Button> IBANCol;
     @FXML
     private TableColumn<DebtsTable, Button> receivedCol;
+    @FXML
+    private Label closedDebtsLabel, fromLabel, toLabel;
+    @FXML
+    private Button seeOpenDebtsButton, searchButton, reopenSelectedDebtsButton;
 
     @Inject
     public ClosedDebtsCtrl(ServerUtils server,MainCtrl mainCtrl){
@@ -189,8 +191,9 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             Text to=new Text(debt.getTo().getName());
 
             makeTextBold(from, howMuch, currency, to);
-            textFlow.getChildren().addAll(from, new Text(" needs to pay "),
-                    howMuch, new Text(" "), currency, new Text(" to "), to);
+            textFlow.getChildren().addAll(from, new Text(Main.getLocalizedString("needsToPay")),
+                    howMuch, new Text(" "), currency,
+                    new Text(Main.getLocalizedString("toPerson")), to);
             TreeItem<TextFlow> treeItemRoot=new TreeItem<>(textFlow);
             TextFlow detailsFlow=new TextFlow();
             Text details=getExtraDetails(debt);
@@ -208,7 +211,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             setupIBANPicture(debt.getTo(), viewIBANButton);
 
             //set open debts button
-            Button openDebtButton=new Button("Open Debt");
+            Button openDebtButton=new Button(Main.getLocalizedString("openDebt"));
             openDebtButton.setAlignment(Pos.CENTER);
             openDebtButton.setOnAction(x -> {
                 for (Debt existingDebt : allDebts) {
@@ -235,12 +238,12 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     private Text getExtraDetails(Debt debt) {
         Participant participant=debt.getTo();
         if(participant.getIBAN().isEmpty())
-            return new Text("No bank information is available for");
-        String info="Bank information available: Transfer money to:\n" +
-                "Account Holder: " +  participant.getAccountHolder()  + "\n" +
+            return new Text(Main.getLocalizedString("noBankInformation"));
+        String info=Main.getLocalizedString("bankInformationAvailable") +
+                Main.getLocalizedString("accountHolder") +  participant.getAccountHolder()  + "\n" +
                 "IBAN: " + participant.getIBAN() + "\n";
         if(participant.getBIC().isEmpty())
-            info=info + "BIC: unknown";
+            info=info + Main.getLocalizedString("BICUnknown");
         else
             info=info + "BIC: " + participant.getBIC();
         return new Text(info);
@@ -274,7 +277,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             mailView.setFitHeight(15);
             mailView.setImage(image);
             viewEmailButton.setGraphic(mailView);
-            viewEmailButton.setTooltip(new Tooltip("This participant has no email specified"));
+            viewEmailButton.setTooltip(new Tooltip(Main.getLocalizedString("toolTipEmail")));
             return;
         }
         Image image= new Image(Objects.requireNonNull
@@ -284,7 +287,8 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         mailView.setFitHeight(15);
         mailView.setImage(image);
         viewEmailButton.setGraphic(mailView);
-        viewEmailButton.setTooltip(new Tooltip("Payer's email: " + participant.getEmail()));
+        viewEmailButton.setTooltip(new Tooltip(Main.getLocalizedString("payerEmail") +
+                participant.getEmail()));
     }
 
     /**
@@ -303,7 +307,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             IBANView.setFitWidth(15);
             IBANView.setFitHeight(15);
             viewIBANButton.setGraphic(IBANView);
-            viewIBANButton.setTooltip(new Tooltip("This participant has no IBAN specified"));
+            viewIBANButton.setTooltip(new Tooltip(Main.getLocalizedString("toolTipIBAN")));
             return;
         }
         Image IBAN= new Image(Objects.requireNonNull
@@ -313,7 +317,8 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         IBANView.setFitWidth(15);
         IBANView.setFitHeight(15);
         viewIBANButton.setGraphic(IBANView);
-        viewIBANButton.setTooltip(new Tooltip("Payer's IBAN: " + participant.getIBAN()));
+        viewIBANButton.setTooltip(new Tooltip(Main.getLocalizedString("payerIBAN") +
+                participant.getIBAN()));
     }
 
     /**
@@ -321,18 +326,8 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
      */
     public void reopenAllDebts(){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-        switch(locale.getLanguage()) {
-            case "nl":
-                alert.setTitle("Heropenen alle kosten");
-                alert.setContentText("Weet je zeker dat je alle kosten wilt heropenen?");
-                break;
-            case "en":
-                alert.setTitle("Re-open all debts");
-                alert.setContentText("Are you sure you want to re-open all debts?");
-                break;
-            default:
-                break;
-        }
+        alert.setTitle(Main.getLocalizedString("alertReOpenDebtsTitle"));
+        alert.setContentText(Main.getLocalizedString("alertReOpenDebtsContent"));
         alert.setHeaderText(null);
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK){
@@ -349,20 +344,8 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
      */
     public void reopenSelectedDebts(){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-        switch(locale.getLanguage()) {
-            case "nl":
-                alert.setTitle("Heropen bepaalde kosten");
-                alert.setContentText("Weet je zeker dat je " +
-                        "de geselecteerde kosten wilt heropenen?");
-                break;
-            case "en":
-                alert.setTitle("Re-open selected debts");
-                alert.setContentText("Are you sure that you " +
-                        "want to re-open the selected debts?");
-                break;
-            default:
-                break;
-        }
+        alert.setTitle(Main.getLocalizedString("alertReOpenSelectedDebtsTitle"));
+        alert.setContentText(Main.getLocalizedString("alertReOpenSelectedDebtsContent"));
         alert.setHeaderText(null);
         Optional<ButtonType> result=alert.showAndWait();
         if(result.isPresent() && result.get() == ButtonType.OK){
@@ -425,12 +408,15 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
     @Override
     public void LanguageSwitch() {
         homeButton.setText(Main.getLocalizedString("Home"));
-        //closedDebtsLabel.setText(Main.getLocalizedString("closedDebts"));
-        //seeOpenDebts.setText(Main.getLocalizedString("seeOpenDebts"));
-        //youPaidToLabel.setText(Main.getLocalizedString("youPaidTo"));
-        //eventLabel.setText(Main.getLocalizedString("Event"));
-        //amountLabel.setText(Main.getLocalizedString("Amount"));
-        //reopenSelectedDebts.setText(Main.getLocalizedString("reopenSelectedDebts"));
+        closedDebtsLabel.setText(Main.getLocalizedString("closedDebts"));
+        seeOpenDebtsButton.setText(Main.getLocalizedString("seeOpenDebts"));
+        toLabel.setText(Main.getLocalizedString("toPerson"));
+        fromLabel.setText(Main.getLocalizedString("fromPerson"));
+        searchButton.setText(Main.getLocalizedString("Search"));
+        emailCol.setText(Main.getLocalizedString("Email"));
+        IBANCol.setText(Main.getLocalizedString("IBAN"));
+        informationCol.setText(Main.getLocalizedString("Information"));
+        reopenSelectedDebtsButton.setText(Main.getLocalizedString("reopenSelectedDebts"));
         reopenAllDebts.setText(Main.getLocalizedString("reopenAllDebts"));
     }
 
