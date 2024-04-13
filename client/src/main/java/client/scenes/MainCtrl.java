@@ -16,7 +16,6 @@
 package client.scenes;
 
 import client.Main;
-import client.nodes.PersonAmount;
 import client.nodes.ThemeService;
 import commons.Expense;
 import commons.Participant;

@@ -4,7 +4,6 @@ import client.Main;
 import client.nodes.ConnectionSetup;
 import client.nodes.LanguageSwitch;
 import client.nodes.ThemeService;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.RadioMenuItem;
@@ -12,8 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javax.inject.Inject;
-import java.io.File;
-import java.net.MalformedURLException;
 import java.util.Objects;
 
 
@@ -47,7 +44,8 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
 
 
     @Inject
-    public SettingsPageCtrl(MainCtrl mainCtrl, ConnectionSetup cs, LanguageSwitch ls, ThemeService ts){
+    public SettingsPageCtrl(MainCtrl mainCtrl, ConnectionSetup cs,
+                            LanguageSwitch ls, ThemeService ts){
         connectionSetup = cs;
         languageSwitch = ls;
         this.mainCtrl=mainCtrl;
