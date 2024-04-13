@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.StartCtrl">
    <children>
@@ -29,7 +28,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Label contentDisplay="CENTER" prefHeight="51.0" prefWidth="142.0" text="Splitty">
+                  <Label fx:id="splitty" alignment="CENTER" contentDisplay="CENTER" prefHeight="51.0" prefWidth="142.0" text="Splitty">
                      <font>
                         <Font name="Arial Black" size="34.0" />
                      </font>
@@ -54,13 +53,14 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </HBox>
-            <Text fx:id="createNewEventText" strokeType="OUTSIDE" strokeWidth="0.0" text="Create New Event" wrappingWidth="111.58447265625">
-               <VBox.margin>
-                  <Insets top="20.0" />
-               </VBox.margin>
+            <Label fx:id="createNewEventText" text="Create New Event">
                <font>
                   <Font name="Calibri" size="15.0" />
-               </font></Text>
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
             <VBox prefHeight="110.0" prefWidth="500.0">
                <children>
                   <HBox prefHeight="25.0" prefWidth="200.0" spacing="10.0">
@@ -76,36 +76,36 @@
                         <Insets />
                      </VBox.margin>
                   </HBox>
-                  <Text fx:id="joinEventText" strokeType="OUTSIDE" strokeWidth="0.0" text="Join Event">
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
+                  <Label fx:id="joinEventText" text="Join Event">
                      <font>
                         <Font name="Calibri" size="15.0" />
                      </font>
-                  </Text>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
                   <HBox prefHeight="25.0" prefWidth="200.0" spacing="10.0">
                      <children>
                         <TextField fx:id="joinEventField" onAction="#onJoinClick" promptText="Invite Code" />
                         <Button fx:id="joinButton" mnemonicParsing="false" onAction="#onJoinClick" text="join" />
                      </children>
                   </HBox>
-                  <Text fx:id="recentEventsText" strokeType="OUTSIDE" strokeWidth="0.0" text="Recently Viewed Events:">
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
+                  <Label fx:id="recentEventsText" text="Recently Viewed Events:">
                      <font>
                         <Font name="Calibri" size="15.0" />
                      </font>
-                  </Text>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Label>
                   <VBox fx:id="recentEventsBox" prefHeight="205.0" prefWidth="569.0" />
                </children>
             </VBox>
             <TableView fx:id="recentEvents" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="titleColumn" prefWidth="370.0" text="Title" />
-                  <TableColumn fx:id="openColumn" minWidth="0.0" prefWidth="65.0" />
-                <TableColumn fx:id="deleteColumn" minWidth="0.0" prefWidth="64.0" />
+                  <TableColumn fx:id="openColumn" minWidth="0.0" prefWidth="107.199951171875" />
+                <TableColumn fx:id="deleteColumn" minWidth="0.0" prefWidth="99.19998168945312" />
               </columns>
             </TableView>
          </children></VBox>

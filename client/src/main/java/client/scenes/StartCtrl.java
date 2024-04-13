@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 
 import java.util.Objects;
 
@@ -33,15 +32,15 @@ public class StartCtrl implements  Main.LanguageSwitch {
     @FXML
     private ImageView adminView;
     @FXML
-    private Text createNewEventText;
+    private Label createNewEventText;
     @FXML
     private Button createButton;
     @FXML
-    private Text joinEventText;
+    private Label joinEventText;
     @FXML
     private Button joinButton;
     @FXML
-    private Text recentEventsText;
+    private Label recentEventsText;
     @FXML
     private TableView<Event> recentEvents;
     @FXML
