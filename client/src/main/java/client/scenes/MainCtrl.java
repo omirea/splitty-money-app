@@ -292,18 +292,6 @@ public class MainCtrl {
         }
     }
 
-    public Stage getPrimaryStage() {
-        return primaryStage;
-    }
-
-    public Scene getAddEditParticipant() {
-        return addEditParticipant;
-    }
-
-    public Scene getOpenDebts() {
-        return openDebts;
-    }
-
     public Scene getInvitation() {
         return invitation;
     }
