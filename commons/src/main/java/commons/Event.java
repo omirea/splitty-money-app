@@ -45,6 +45,13 @@ public class Event {
 
     @Transient
     private List<Debt> debts = new ArrayList<>();
+
+    /**
+     * List of tags of an event
+     */
+    @Transient
+    private List<String> tags=new ArrayList<>();
+
     /**
      * Constructor for an Event object
      * @param name String with name of the event
@@ -54,6 +61,9 @@ public class Event {
                  String invitationID) {
         this.name = name;
         this.invitationID = invitationID;
+        this.tags.add("food");
+        this.tags.add("transport");
+        this.tags.add("decorations");
     }
 
     public Event(String name,
@@ -66,6 +76,9 @@ public class Event {
         this.expenses = expenses;
         this.participants = participants;
         this.debts = debts;
+        this.tags.add("food");
+        this.tags.add("transport");
+        this.tags.add("decorations");
     }
 
     public Event(String name) {
@@ -109,10 +122,10 @@ public class Event {
         Random random = new Random();
 
         return random.ints(leftLimit, rightLimit + 1)
-            .filter(i -> (i <= 57 || i >= 65))
-            .limit(targetStringLength)
-            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-            .toString();
+                .filter(i -> (i <= 57 || i >= 65))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
     }
 
     /**
@@ -187,7 +200,7 @@ public class Event {
         if (object == null || getClass() != object.getClass()) return false;
         Event event = (Event) object;
         return Objects.equals(name, event.name) &&
-            Objects.equals(invitationID, event.invitationID);
+                Objects.equals(invitationID, event.invitationID);
     }
 
     @Override
@@ -198,8 +211,16 @@ public class Event {
     @Override
     public String toString() {
         return "Event{" +
-            "name='" + name + '\'' +
-            ", invitationID='" + invitationID + '\'' +
-            '}';
+                "name='" + name + '\'' +
+                ", invitationID='" + invitationID + '\'' +
+                '}';
+    }
+
+    public List<String> getTags(){
+        return tags;
+    }
+
+    public void setTags(List<String> tags){
+        this.tags=tags;
     }
 }

@@ -43,16 +43,16 @@ public class PieChartPage {
                 new PieChart.Data("Samsung Grand", 25),
                 new PieChart.Data("MOTO G", 10),
                 new PieChart.Data("Nokia Lumia", 22));
-        List<Expense> expenses=serverUtils.
-                getExpensesByInvitationId(event.getInvitationID());
-        for(Expense expense : expenses){
-            String tag=expense.getType();
-            if(map.containsKey(tag)){
-                Double weight=map.get(tag);
-                map.put(tag,weight+expense.getAmount());
-            }else
-                map.put(tag, expense.getAmount());
-        }
+//        List<Expense> expenses=serverUtils.
+//                getExpensesByInvitationId(event.getInvitationID());
+//        for(Expense expense : expenses){
+//            String tag=expense.getType();
+//            if(map.containsKey(tag)){
+//                Double weight=map.get(tag);
+//                map.put(tag,weight+expense.getAmount());
+//            }else
+//                map.put(tag, expense.getAmount());
+//        }
 
         pieChartGoofy.setData(pieChartData);
         //Setting the title of the Pie chart
