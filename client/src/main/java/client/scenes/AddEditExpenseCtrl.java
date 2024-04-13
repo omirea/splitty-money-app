@@ -143,7 +143,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                     sum += Double.parseDouble(pa.getTextField().getText());
                 }
             }
-            if (sum > total)
+            if (sum > total && onlySomePeopleField.isSelected())
                 sumIsLarger();
             else {
                 Expense expense1 = createExpense();
