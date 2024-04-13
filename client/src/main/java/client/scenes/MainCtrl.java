@@ -131,7 +131,7 @@ public class MainCtrl {
     public void showOpenDebts(String id) {
         openDebtsCtrl.setEvent(id);
         openDebtsCtrl.addDebtsToList();
-        openDebtsCtrl.addParticipantsToChoiceBox(id);
+        openDebtsCtrl.addParticipantsToChoiceBox();
         primaryStage.setTitle("Splitty: Open Debts");
         primaryStage.setScene(openDebts);
     }
@@ -245,9 +245,9 @@ public class MainCtrl {
      */
     public void showClosedDebts(String id) {
         closedDebtsCtrl.setEvent(id);
-        primaryStage.setTitle("Closed Debts");
         closedDebtsCtrl.addDebtsToList();
-        closedDebtsCtrl.addParticipantsToChoiceBox(id);
+        closedDebtsCtrl.addParticipantsToChoiceBox();
+        primaryStage.setTitle("Closed Debts");
         primaryStage.setScene(closedDebts);
     }
 

@@ -20,9 +20,11 @@ import client.scenes.*;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.*;
 
+@EnableAsync
 public class Main extends Application {
 
     private static final Injector INJECTOR = createInjector(new MyModule());

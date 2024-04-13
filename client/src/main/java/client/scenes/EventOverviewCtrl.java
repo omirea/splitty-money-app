@@ -8,6 +8,7 @@ import commons.Debt;
 import commons.Event;
 import commons.Expense;
 import commons.Participant;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +21,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 import java.util.*;
+
+import static java.time.zone.ZoneRulesProvider.refresh;
 
 public class EventOverviewCtrl implements Main.LanguageSwitch {
 
@@ -70,6 +73,20 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         setupColumns();
         setUpImages();
         setVisibleAdmin(false);
+
+        server.registerForMessages("/topic/participants", p ->{
+            Platform.runLater(() ->{
+                addAllParticipants();
+                refresh();
+            });
+        });
+
+        server.registerForMessages("/topic/remParticipants", p ->{
+            Platform.runLater(() ->{
+                addAllParticipants();
+                refresh();
+            });
+        });
     }
 
     public void setVisibleAdmin(Boolean b){
