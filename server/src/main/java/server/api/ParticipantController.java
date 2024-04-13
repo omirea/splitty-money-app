@@ -5,6 +5,7 @@ import commons.Participant;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 import server.database.ParticipantRepository;
 
@@ -32,6 +33,7 @@ public class ParticipantController {
      */
     @MessageMapping("/participants") // /app/participants
     @SendTo("/topic/participants")
+    @Async("asyncExecutor")
     public Participant addExpense(Participant participant){
         createParticipant(participant);
         return participant;
