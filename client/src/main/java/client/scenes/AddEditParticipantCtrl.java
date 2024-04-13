@@ -21,10 +21,15 @@ import java.util.regex.Pattern;
 
 import static client.Main.locale;
 
-public class AddEditParticipantCtrl implements Main.LanguageSwitch{
+public class AddEditParticipantCtrl implements Main.LanguageSwitch, Runnable{
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+
+    private Thread thread;
+
+    private Participant sentParticipant;
+
     @FXML
     private TextField bicTextField;
     @FXML
@@ -96,6 +101,8 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
                 }
             }
         });
+        sentParticipant=new Participant();
+        thread=new Thread(this);
     }
 
     @Inject
@@ -123,34 +130,20 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             String accHolder = accHolderTextField.getText();
             String iban = ibanTextField.getText();
             String bic = bicTextField.getText();
+            if (participant == null) {
+                participant = new Participant(name, email, accHolder, iban, bic, event);
+            } else {
+                participant.setName(name);
+                participant.setEmail(email);
+                participant.setAccountHolder(accHolder);
+                participant.setIBAN(iban);
+                participant.setBIC(bic);
+            }
 
-//            if (!hasUniqueName(name)) {
-//                Alert alert = new Alert(Alert.AlertType.WARNING);
-//                switch (locale.getLanguage()) {
-//                    case "nl":
-//                        alert.setTitle("Naam is al bezet");
-//                        alert.setContentText("Deze naam is al bezet, kies een andere naam.");
-//                        break;
-//                    case "en":
-//                        alert.setTitle("Name is already chose");
-//                        alert.setContentText("This name is already chosen, fill in another name");
-//                        break;
-//                    default:
-//                        break;
-//                }
-//                alert.setHeaderText(null);
-//                alert.showAndWait();
-//            } else {
-                if (participant == null) {
-                    participant = new Participant(name, email, accHolder, iban, bic, event);
-                } else {
-                    participant.setName(name);
-                    participant.setEmail(email);
-                    participant.setAccountHolder(accHolder);
-                    participant.setIBAN(iban);
-                    participant.setBIC(bic);
-                }
-            server.send("/app/participants",participant);
+            sentParticipant=participant;
+            thread.start();
+            //server.send("/app/participants",participant);
+
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 switch (locale.getLanguage()) {
@@ -175,7 +168,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
                 accHolderTextField.clear();
                 ibanTextField.clear();
                 bicTextField.clear();
-//            }
+
         }
     }
 
@@ -373,5 +366,10 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         bicLabel.setText(Main.getLocalizedString("BIC"));
         cancelButton.setText(Main.getLocalizedString("Cancel"));
         okButton.setText(Main.getLocalizedString("Ok"));
+    }
+
+    @Override
+    public void run() {
+        server.send("/app/participants",sentParticipant);
     }
 }

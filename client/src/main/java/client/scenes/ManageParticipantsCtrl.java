@@ -24,15 +24,19 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class ManageParticipantsCtrl implements Main.LanguageSwitch {
+public class ManageParticipantsCtrl implements Main.LanguageSwitch, Runnable{
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
+
+    private Participant receivedParticipant;
     private List<Participant> addedParticipants, editedParticipants, deletedParticipants,
             preUpdatedParticipants;
 
     private ObservableList<Participant> data;
     private Event event;
+
+    private Thread thread;
 
     @FXML
     private VBox displayParticipants;
@@ -113,20 +117,10 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
             return row;
         });
+        thread=new Thread(this);
+        thread.start();
 
-        server.registerForMessages("/topic/participants", p ->{
-            Platform.runLater(() ->{
-                addAllParticipants();
-                refresh();
-            });
-        });
 
-        server.registerForMessages("/topic/remParticipants", p ->{
-            Platform.runLater(() ->{
-                deleteParticipantFromTable(p);
-                refresh();
-            });
-        });
     }
 
     public void setPreUpdatedParticipants() {
@@ -287,5 +281,24 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
     public ServerUtils getServer() {
         return server;
+    }
+
+    @Override
+    public void run() {
+        System.out.println(22);
+
+        server.registerForMessages("/topic/participants", p ->{
+            Platform.runLater(() ->{
+                addAllParticipants();
+                refresh();
+            });
+        });
+
+        server.registerForMessages("/topic/remParticipants", p ->{
+            Platform.runLater(() ->{
+                deleteParticipantFromTable(p);
+                refresh();
+            });
+        });
     }
 }

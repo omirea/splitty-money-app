@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.Async;
 
 @SpringBootApplication
 
@@ -17,7 +18,8 @@ public class SendEmailApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String[] args) throws Exception {
+    @Async
+    public void run(String[] args) {
         // Sending email
         String to = args[0];
         String subject = "Splitty Invite Code ";
