@@ -186,6 +186,7 @@ public class MainCtrl {
         overviewCtrl.addAllParticipants();
         overviewCtrl.loadExpenses();
         overview.setOnKeyPressed(e -> overviewCtrl.keyPressed(e));
+        overviewCtrl.setVisibleAdmin(false);
     }
 
     /**
@@ -223,6 +224,7 @@ public class MainCtrl {
         manageEventsAdminCtrl.pollUpdates();
         eventsAdmin.setOnKeyPressed(e -> manageEventsAdminCtrl.enterKeyPressed(e));
     }
+
 
     /**
      * method to show the Settings page
