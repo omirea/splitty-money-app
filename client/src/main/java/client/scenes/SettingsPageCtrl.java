@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -26,12 +27,20 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
 
     @FXML
     private RadioMenuItem englishButton;
+
+    @FXML
+    private Button changeServerButton;
+
     @FXML
     private ImageView englishView;
     @FXML
     private RadioMenuItem dutchButton;
     @FXML
     private ImageView dutchView;
+    @FXML
+    private RadioMenuItem turkishButton;
+    @FXML
+    private ImageView turkishView;
     @FXML
     private MenuButton languageMenuButton;
     @FXML
@@ -67,15 +76,24 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
                 (getClass().getResourceAsStream("/icons/dutch.png")));
         dutchView.setImage(setting);
         dutchButton.setGraphic(dutchView);
+
+        turkishView.setFitHeight(25);
+        turkishView.setFitWidth(22);
+        setting=new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/turkish.png")));
+        turkishView.setImage(setting);
+        turkishButton.setGraphic(turkishView);
     }
 
     public void onEnglishSwitchClick() {
         dutchButton.setSelected(false);
+        turkishButton.setSelected(false);
         languageSwitch.saveToConfig("translations_en");
         Main.switchLocale("translations", "en");
     }
     public void onDutchSwitchClick() {
         englishButton.setSelected(false);
+        turkishButton.setSelected(false);
         languageSwitch.saveToConfig("translations_nl");
         Main.switchLocale("translations", "nl");
     }
@@ -90,8 +108,10 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
         themeButton.setText(Main.getLocalizedString("Theme"));
         englishButton.setText(Main.getLocalizedString("English"));
         dutchButton.setText(Main.getLocalizedString("Dutch"));
+        turkishButton.setText(Main.getLocalizedString("Turkish"));
         lightModeButton.setText(Main.getLocalizedString("lightMode"));
         darkModeButton.setText(Main.getLocalizedString("darkMode"));
+        changeServerButton.setText(Main.getLocalizedString("changeServer"));
 
     }
     public void darkMode(ActionEvent event) throws MalformedURLException {
@@ -155,5 +175,10 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
     }
 
 
-
+    public void onTurkishSwitchClick(ActionEvent event) {
+        englishButton.setSelected(false);
+        dutchButton.setSelected(false);
+        languageSwitch.saveToConfig("translations_tr");
+        Main.switchLocale("translations", "tr");
+    }
 }

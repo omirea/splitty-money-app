@@ -40,6 +40,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     private final MainCtrl mainCtrl;
 
     private final StartCtrl startCtrl;
+    private final EventOverviewCtrl eventOverviewCtrl;
     @FXML
     private TextField eventNameTextField;
     @FXML
@@ -69,10 +70,12 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
 
 
     @Inject
-    public ManageEventsAdminCtrl (ServerUtils server, MainCtrl mainCtrl, StartCtrl startCtrl) {
+    public ManageEventsAdminCtrl (ServerUtils server, MainCtrl mainCtrl, StartCtrl startCtrl,
+                                  EventOverviewCtrl eventOverviewCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.startCtrl = startCtrl;
+        this.eventOverviewCtrl = eventOverviewCtrl;
         this.allEvents = FXCollections.observableArrayList();
     }
     
@@ -142,6 +145,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
      * method to show start screen when admin wants to log out
      */
     public void  onLogOutClick(){
+        eventOverviewCtrl.setVisibleAdmin(false);
         mainCtrl.showStartScreen();
     }
 
@@ -181,6 +185,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
      */
     public void showEventDetails(String invitationID){
         mainCtrl.showEventOverview(invitationID);
+        eventOverviewCtrl.setVisibleAdmin(true);
     }
 
 
@@ -268,6 +273,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
                    Event eventRow = row.getItem();
                    String invID = eventRow.getInvitationID();
                    showEventDetails(invID);
+
                }
            });
            return row;

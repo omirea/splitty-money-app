@@ -18,7 +18,7 @@
 }
 
 #lightModeButton .label, #darkModeButton .label,
-#englishButton .label, #dutchButton .label{
+#englishButton .label, #dutchButton .label, #turkishButton .label{
     -fx-text-fill: black;
 }
 
