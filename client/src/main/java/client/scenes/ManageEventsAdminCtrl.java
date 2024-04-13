@@ -118,7 +118,6 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
                         }
 
                     }
-                    mainCtrl.addExpenseToEvent(e);
                 }
                 //TODO: CHECK IF WORKS
                 refresh();

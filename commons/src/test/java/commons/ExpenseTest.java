@@ -25,8 +25,6 @@ public class ExpenseTest {
             LocalDate.of(2005, 12, 1),
             Currency.getInstance("BAM"));
         e.setID((long) 1);
-
-        Expense ex = new Expense();
     }
 
     @Test
@@ -68,12 +66,6 @@ public class ExpenseTest {
     }
 
     @Test
-    public void getCurrencyTest() {
-        assertEquals(Currency.getInstance("BAM"), expense.getCurrency());
-    }
-
-
-    @Test
     public void setDescriptionTest() {
         expense.setDescription("abcdefg");
         assertEquals("abcdefg", expense.getDescription());
@@ -97,12 +89,6 @@ public class ExpenseTest {
     public void setDateSentTest() {
         expense.setDateSent(LocalDate.of(2020,11,24));
         assertEquals(LocalDate.of(2020, 11, 24), expense.getDateSent());
-    }
-
-    @Test
-    public void setCurrencyTest() {
-        expense.setCurrency(Currency.getInstance("USD"));
-        assertEquals(Currency.getInstance("USD"), expense.getCurrency());
     }
 
     @Test
@@ -146,7 +132,7 @@ public class ExpenseTest {
     @Test
     void toStringTest(){
         String s = "Expense{ex_id=null, event_id=null, description='This is a description', " +
-            "value=2.09, type='This is a type', dateSent=2005-12-01, currency=BAM}";
+            "value=2.09, type='This is a type', dateSent=2005-12-01}";
         assertEquals(s, expense.toString());
     }
 
