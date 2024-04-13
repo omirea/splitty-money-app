@@ -3,6 +3,7 @@ package client.scenes;
 import client.Main;
 import client.nodes.ConnectionSetup;
 import client.nodes.LanguageSwitch;
+import client.nodes.ThemeService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
@@ -12,8 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javax.inject.Inject;
-import java.io.File;
-import java.net.MalformedURLException;
 import java.util.Objects;
 
 
@@ -24,6 +23,8 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
     private final MainCtrl mainCtrl;
 
     private LanguageSwitch languageSwitch;
+
+    private ThemeService themeService;
 
     @FXML
     private RadioMenuItem englishButton;
@@ -53,10 +54,12 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
 
 
     @Inject
-    public SettingsPageCtrl(ConnectionSetup cs, LanguageSwitch ls, MainCtrl mainCtrl){
+    public SettingsPageCtrl(ConnectionSetup cs, LanguageSwitch ls,
+                            MainCtrl mainCtrl, ThemeService ts){
         connectionSetup = cs;
         languageSwitch = ls;
         this.mainCtrl=mainCtrl;
+        this.themeService=ts;
     }
 
     @FXML
@@ -114,63 +117,25 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
         changeServerButton.setText(Main.getLocalizedString("changeServer"));
 
     }
-    public void darkMode(ActionEvent event) throws MalformedURLException {
+
+    /**
+     * change to dark mode
+     */
+    public void darkMode() {
         lightModeButton.setSelected(false);
-        File style = new File("./src/main/resources/style.css");
-        mainCtrl.getSettingsPage().getStylesheets().
-                add(style.toURI().toURL().toExternalForm());
-        mainCtrl.getClosedDebts().getStylesheets().
-                add(style.toURI().toURL().toExternalForm());
-        mainCtrl.getExpense().getStylesheets().
-                add(style.toURI().toURL().toExternalForm());
-        mainCtrl.getInvitation().getStylesheets().
-                add(style.toURI().toURL().toExternalForm());
-        mainCtrl.getStart().getStylesheets().
-                add(style.toURI().toURL().toExternalForm());
-        mainCtrl.getOverview().getStylesheets().
-                add(style.toURI().toURL().toExternalForm());
-        mainCtrl.getManageParticipants().getStylesheets().
-                add(style.toURI().toURL().toExternalForm());
-        mainCtrl.getEventsAdmin().getStylesheets().
-                add(style.toURI().toURL().toExternalForm());
-        mainCtrl.getLogInAdmin().getStylesheets().
-                add(style.toURI().toURL().toExternalForm());
-        mainCtrl.getOpenDebts().getStylesheets().
-                add(style.toURI().toURL().toExternalForm());
-        mainCtrl.getAddEditParticipant().getStylesheets().
-                add(style.toURI().toURL().toExternalForm());
-        mainCtrl.getAddEditParticipant().getStylesheets().
-                add(style.toURI().toURL().toExternalForm());
+        darkModeButton.setSelected(true);
+        themeService.saveToConfig("stylesheets/darkMode.css");
+        mainCtrl.changeTheme("stylesheets/darkMode.css");
     }
 
-
-    public void lightMode(ActionEvent actionEvent) throws MalformedURLException {
+    /**
+     * change to white mode
+     */
+    public void lightMode(){
         darkModeButton.setSelected(false);
-        File style = new File("./src/main/resources/style.css");
-        mainCtrl.getSettingsPage().getStylesheets().
-                remove(style.toURI().toURL().toExternalForm());
-        mainCtrl.getClosedDebts().getStylesheets().
-                remove(style.toURI().toURL().toExternalForm());
-        mainCtrl.getExpense().getStylesheets().
-                remove(style.toURI().toURL().toExternalForm());
-        mainCtrl.getInvitation().getStylesheets().
-                remove(style.toURI().toURL().toExternalForm());
-        mainCtrl.getStart().getStylesheets().
-                remove(style.toURI().toURL().toExternalForm());;
-        mainCtrl.getOverview().getStylesheets().
-                remove(style.toURI().toURL().toExternalForm());
-        mainCtrl.getManageParticipants().getStylesheets().
-                remove(style.toURI().toURL().toExternalForm());
-        mainCtrl.getEventsAdmin().getStylesheets().
-                remove(style.toURI().toURL().toExternalForm());
-        mainCtrl.getLogInAdmin().getStylesheets().
-                remove(style.toURI().toURL().toExternalForm());
-        mainCtrl.getOpenDebts().getStylesheets().
-                remove(style.toURI().toURL().toExternalForm());
-        mainCtrl.getAddEditParticipant().getStylesheets().
-                remove(style.toURI().toURL().toExternalForm());
-        mainCtrl.getAddEditParticipant().getStylesheets().
-                remove(style.toURI().toURL().toExternalForm());
+        lightModeButton.setSelected(true);
+        themeService.saveToConfig("stylesheets/whiteMode.css");
+        mainCtrl.changeTheme("stylesheets/whiteMode.css");
 
     }
 
