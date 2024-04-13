@@ -16,7 +16,6 @@
 package client.scenes;
 
 import client.Main;
-import client.nodes.PersonAmount;
 import client.nodes.ThemeService;
 import commons.Expense;
 import commons.Participant;
@@ -256,20 +255,12 @@ public class MainCtrl {
         addEditExpenseCtrl.getWhoPaidField().getItems().add(participant);
     }
 
-    /**
-     * when a participant is added to the event it becomes a possible option
-     * for who should pay for an expense
-     * @param participant the participant that has been added
-     */
-    public void addParticipantToWhoShouldPayOption(Participant participant) {
-        PersonAmount pa = new PersonAmount(participant);
-        addEditExpenseCtrl.getTableView().getItems().add(pa);
-    }
 
     /**
      * method to make a list of all the scenes
      */
     public void initializeScenes(){
+        scenes.add(settingsPage);
         scenes.add(addEditParticipant);
         scenes.add(expense);
         scenes.add(eventsAdmin);
@@ -280,7 +271,6 @@ public class MainCtrl {
         scenes.add(manageParticipants);
         scenes.add(start);
         scenes.add(overview);
-        scenes.add(settingsPage);
     }
 
     /**
@@ -288,7 +278,6 @@ public class MainCtrl {
      * @param theme selected theme
      */
     public void changeTheme(String theme){
-        System.out.println(theme);
         for(Scene scene:scenes) {
             scene.getStylesheets().clear();
             scene.getStylesheets().add(theme);

@@ -420,10 +420,6 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         reopenAllDebts.setText(Main.getLocalizedString("reopenAllDebts"));
     }
 
-    public void goBackToEvent() {
-        mainCtrl.showEventOverview(event.getInvitationID());
-    }
-
     /**
      * add the event participants to the choice box
      * @param id of the event

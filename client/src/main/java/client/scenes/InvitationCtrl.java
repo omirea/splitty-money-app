@@ -5,7 +5,6 @@ import client.nodes.SendEmailApplication;
 import client.utils.ServerUtils;
 import commons.Event;
 import javafx.animation.PauseTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -23,7 +22,7 @@ public class InvitationCtrl implements Main.LanguageSwitch{
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
-    private SendEmailApplication sendEmail;
+    private final SendEmailApplication sendEmail;
 
     Event event;
 
@@ -64,29 +63,10 @@ public class InvitationCtrl implements Main.LanguageSwitch{
 
     public MainCtrl getMainCtrl() {return mainCtrl;}
 
-    public TextArea getEmailTextField() {
-        return emailTextField;
-    }
-
-    public void setEmailTextField(TextArea emailTextField) {
-        this.emailTextField = emailTextField;
-    }
-
-    public Button getSendInvitesButton() {
-        return sendInvitesButton;
-    }
-
-    public void setSendInvitesButton(Button sendInvitesButton) {
-        this.sendInvitesButton = sendInvitesButton;
-    }
-
-    public Button getBack(){return back;}
-
     /**
      * method to send invite
-     * @param event to send invite to
      */
-    public void sendInvites(ActionEvent event) throws Exception {
+    public void sendInvites() {
         String[] email =emailTextField.getText().split("\n");
         int counter=0;
         for(String e: email){
@@ -134,7 +114,10 @@ public class InvitationCtrl implements Main.LanguageSwitch{
         sendInvitesButton.setText(Main.getLocalizedString("sendInvites"));
     }
 
-    public void copy(ActionEvent event) {
+    /**
+     * method to copy the invite code
+     */
+    public void copy() {
         String invitation=codeLabel.getText();
         Clipboard clipboard = Clipboard.getSystemClipboard();
         ClipboardContent content = new ClipboardContent();

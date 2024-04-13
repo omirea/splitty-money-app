@@ -4,17 +4,14 @@ import client.Main;
 import client.utils.ServerUtils;
 import commons.Event;
 import commons.Participant;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
 import javax.inject.Inject;
-import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,44 +53,29 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
 
     @FXML
     public void initialize(){
-        nameTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(event.getCode().equals(KeyCode.ENTER)) {
-                    emailTextField.requestFocus();
-                }
+        nameTextField.setOnKeyPressed(event -> {
+            if(event.getCode().equals(KeyCode.ENTER)) {
+                emailTextField.requestFocus();
             }
         });
-        emailTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(event.getCode().equals(KeyCode.ENTER)) {
-                    accHolderTextField.requestFocus();
-                }
+        emailTextField.setOnKeyPressed(event -> {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+                accHolderTextField.requestFocus();
             }
         });
-        accHolderTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(event.getCode().equals(KeyCode.ENTER)) {
-                    ibanTextField.requestFocus();
-                }
+        accHolderTextField.setOnKeyPressed(event -> {
+            if(event.getCode().equals(KeyCode.ENTER)) {
+                ibanTextField.requestFocus();
             }
         });
-        ibanTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(event.getCode().equals(KeyCode.ENTER)) {
-                    bicTextField.requestFocus();
-                }
+        ibanTextField.setOnKeyPressed(event -> {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+                bicTextField.requestFocus();
             }
         });
-        bicTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(event.getCode().equals(KeyCode.ENTER)) {
-                    onClickOk();
-                }
+        bicTextField.setOnKeyPressed(event -> {
+            if(event.getCode().equals(KeyCode.ENTER)) {
+                onClickOk();
             }
         });
     }
@@ -124,23 +106,6 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             String iban = ibanTextField.getText();
             String bic = bicTextField.getText();
 
-//            if (!hasUniqueName(name)) {
-//                Alert alert = new Alert(Alert.AlertType.WARNING);
-//                switch (locale.getLanguage()) {
-//                    case "nl":
-//                        alert.setTitle("Naam is al bezet");
-//                        alert.setContentText("Deze naam is al bezet, kies een andere naam.");
-//                        break;
-//                    case "en":
-//                        alert.setTitle("Name is already chose");
-//                        alert.setContentText("This name is already chosen, fill in another name");
-//                        break;
-//                    default:
-//                        break;
-//                }
-//                alert.setHeaderText(null);
-//                alert.showAndWait();
-//            } else {
                 if (participant == null) {
                     participant = new Participant(name, email, accHolder, iban, bic, event);
                 } else {
@@ -174,20 +139,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
                 accHolderTextField.clear();
                 ibanTextField.clear();
                 bicTextField.clear();
-//            }
         }
-    }
-
-    private boolean hasUniqueName(String name) {
-        List<Participant> allP = server.getParticipantsByInvitationId(event.getInvitationID());
-        boolean bool = true;
-        for(Participant p : allP){
-            if(p.getName().equals(name)){
-                bool = false;
-                return bool;
-            }
-        }
-        return bool;
     }
 
     public ServerUtils getServer() {
@@ -238,11 +190,11 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
      */
     public boolean validateEmail(String email){
         String regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\." +
-                "[0-9]{1,3}\\.[0-9]{1,3}\\])" +
+                "[0-9]{1,3}\\.[0-9]{1,3}])" +
                 "|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         Pattern p= Pattern.compile(regex);
         Matcher m= p.matcher(email.trim());
-        if(email.equals("")) {
+        if(email.isEmpty()) {
             return true;
         }
         if(m.find() && m.group().equals(email.trim())){
@@ -277,9 +229,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         long IBAN_MAX = 999999999;
         long IBAN_MODULUS = 97;
         String trimmed=IBAN.trim();
-        //String trimmed = ibanTextField.getText().trim();
-        //System.out.println(ibanTextField.getText().trim());
-        if(IBAN.equals("")) {
+        if(IBAN.isEmpty()) {
             return true;
         }
         if (trimmed.length() < IBAN_MIN_SIZE || trimmed.length() > IBAN_MAX_SIZE) {
@@ -336,9 +286,6 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
      */
     public boolean checkEmpty(){
         boolean name= nameTextField.getText().trim().isEmpty();
-//        boolean email= emailTextField.getText().trim().isEmpty();
-//        boolean iban= ibanTextField.getText().trim().isEmpty();
-//        boolean bic= bicTextField.getText().trim().isEmpty();
 
         if(!(name)){
             return true;

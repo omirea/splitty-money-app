@@ -88,9 +88,9 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
                           TableColumn<Expense, Button> editCol,
                           TableColumn<Expense, Button> deleteCol) {
 
-        dateCol.setCellValueFactory(new PropertyValueFactory<Expense, Date>("dateSent"));
-        nameCol.setCellValueFactory(new PropertyValueFactory<Expense, String>("description"));
-        amountCol.setCellValueFactory(new PropertyValueFactory<Expense, Double>("amount"));
+        dateCol.setCellValueFactory(new PropertyValueFactory<>("dateSent"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
         editCol.setCellValueFactory(this::createEditButton);
         deleteCol.setCellValueFactory(this::createDeleteButton);
 

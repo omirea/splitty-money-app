@@ -10,12 +10,10 @@ import commons.Expense;
 import commons.Participant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
 import javax.inject.Inject;
@@ -23,12 +21,12 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class AddEditExpenseCtrl implements Main.LanguageSwitch {
-    private ObservableList<String> currencyList =
+    private final ObservableList<String> currencyList =
         FXCollections.observableArrayList("EUR", "USD", "GBP");
     // Add expense
-    private ObservableList<Participant> participants;
-    private ObservableList<PersonAmount> personAmounts;
-    private MainCtrl mainCtrl;
+    private final ObservableList<Participant> participants;
+    private final ObservableList<PersonAmount> personAmounts;
+    private final MainCtrl mainCtrl;
     private final ServerUtils server;
 
     @FXML
@@ -72,10 +70,6 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         this.personAmounts = FXCollections.observableArrayList();
     }
 
-    public TableView<PersonAmount> getTableView(){
-        return tableView;
-    }
-
     /**
      * initialise method
      */
@@ -89,32 +83,26 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         tableView.visibleProperty().bind(onlySomePeopleField.selectedProperty());
         autoDivideButton.visibleProperty().bind(onlySomePeopleField.selectedProperty());
         checkBoxColumn.
-            setCellValueFactory(new PropertyValueFactory<PersonAmount, CheckBox>("checkBox"));
+            setCellValueFactory(new PropertyValueFactory<>("checkBox"));
         participantColumn.
-            setCellValueFactory(new PropertyValueFactory<PersonAmount, String>("name"));
+            setCellValueFactory(new PropertyValueFactory<>("name"));
         amountColumn.
-            setCellValueFactory(new PropertyValueFactory<PersonAmount, TextField>("textField"));
+            setCellValueFactory(new PropertyValueFactory<>("textField"));
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         // currency initialiser
         howMuchField.setText("0");
         currencyField.setValue("EUR");
         currencyField.setItems(currencyList);
 
-        whatForField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(event.getCode().equals(KeyCode.ENTER)) {
-                    howMuchField.requestFocus();
-                }
+        whatForField.setOnKeyPressed(event -> {
+            if(event.getCode().equals(KeyCode.ENTER)) {
+                howMuchField.requestFocus();
             }
         });
 
-        howMuchField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                if(event.getCode().equals(KeyCode.ENTER)) {
-                    whenField.requestFocus();
-                }
+        howMuchField.setOnKeyPressed(event -> {
+            if(event.getCode().equals(KeyCode.ENTER)) {
+                whenField.requestFocus();
             }
         });
 
@@ -217,7 +205,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     private void updateDebts(Double amount, Participant whoPaid) {
 
         List<Debt> existingDebts = server.getDebtsByExpense(expense.getId());
-        if (!existingDebts.isEmpty() && !existingDebts.get(0).getTo().equals(whoPaid)) {
+        if (!existingDebts.isEmpty() && !existingDebts.getFirst().getTo().equals(whoPaid)) {
             for (Debt debt : existingDebts) {
                 server.deleteDebt(debt.getId());
             }
@@ -262,8 +250,8 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         if (sameDebts.isEmpty()) {
             server.createDebt(debt);
         } else {
-            server.updateDebt(debt, sameDebts.get(0).getId());
-            existingDebts.remove(sameDebts.get(0));
+            server.updateDebt(debt, sameDebts.getFirst().getId());
+            existingDebts.remove(sameDebts.getFirst());
         }
     }
 

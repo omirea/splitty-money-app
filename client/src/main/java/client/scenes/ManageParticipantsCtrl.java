@@ -136,8 +136,6 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         });
 
         server.registerForMessages("/topic/participants", p ->{
-            //addedParticipants.add(p);
-            //addParticipantToBox(p);
             addAllParticipants();
         });
     }
