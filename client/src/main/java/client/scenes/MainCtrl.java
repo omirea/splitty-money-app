@@ -16,13 +16,17 @@
 package client.scenes;
 
 import client.Main;
-import client.nodes.PersonAmount;
+import client.nodes.ThemeService;
 import commons.Expense;
 import commons.Participant;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainCtrl {
 
     private Stage primaryStage;
@@ -39,6 +43,9 @@ public class MainCtrl {
     private ClosedDebtsCtrl closedDebtsCtrl;
     private ManageEventsAdminCtrl manageEventsAdminCtrl;
     private SettingsPageCtrl settingsPageCtrl;
+    private ThemeService themeService;
+
+    private List<Scene> scenes;
 
     private Scene addEditParticipant, openDebts, invitation,
         expense, overview, manageParticipants, start,
@@ -82,27 +89,31 @@ public class MainCtrl {
         this.eventsAdmin = new Scene(eventsAdmin.getValue());
         this.settingsPageCtrl = settingsPage.getKey();
         this.settingsPage=new Scene(settingsPage.getValue());
+        this.themeService=new ThemeService();
         Main.switchLocale("translations","en");
+        initializeScenes();
+        changeTheme(themeService.getTheme());
 
 
         showStartScreen();
         primaryStage.show();
     }
 
+    public Stage getAnotherStage() {
+        return anotherStage;
+    }
 
     /**
      * method to show participant page
      */
     public void showAddParticipant(String id) {
         addEditParticipantCtrl.setEvent(id);
-        addEditParticipant.getStylesheets().add("stylesheets/addEditParticipant.css");
         anotherStage.setTitle("Splitty: Add/Edit Participant");
         anotherStage.setScene(addEditParticipant);
         anotherStage.show();
     }
 
     public void showAddParticipant(String id, Participant participant) {
-        addEditParticipant.getStylesheets().add("stylesheets/addEditParticipant.css");
         addEditParticipantCtrl.setEvent(id);
         addEditParticipantCtrl.setParticipant(participant);
         anotherStage.setTitle("Splitty: Add/Edit Participant");
@@ -115,7 +126,6 @@ public class MainCtrl {
      */
     public void showOpenDebts(String id) {
         openDebtsCtrl.setEvent(id);
-        openDebts.getStylesheets().add("stylesheets/debts.css");
         openDebtsCtrl.addDebtsToList();
         openDebtsCtrl.addParticipantsToChoiceBox(id);
         primaryStage.setTitle("Splitty: Open Debts");
@@ -126,7 +136,6 @@ public class MainCtrl {
      * method to show invitation page
      */
     public void showInvitation(String id) {
-        invitation.getStylesheets().add("stylesheets/invitation.css");
         invitationCtrl.setEvent(id);
         anotherStage.setTitle("Splitty: Send Invites");
         anotherStage.setScene(invitation);
@@ -139,7 +148,6 @@ public class MainCtrl {
     public void showStartScreen() {
         primaryStage.setTitle("Splitty: Start");
         primaryStage.setScene(start);
-        start.getStylesheets().add("stylesheets/startPage.css");
         startCtrl.setUpConnection();
         startCtrl.setUpLanguage();
     }
@@ -150,7 +158,6 @@ public class MainCtrl {
     public void showAddExpense(String id) {
         primaryStage.setTitle("Splitty: Add/Edit Expense");
         addEditExpenseCtrl.setEvent(id);
-        expense.getStylesheets().add("stylesheets/addEditExpense.css");
         primaryStage.setScene(expense);
         addEditExpenseCtrl.clearBoxes();
         addEditExpenseCtrl.addAllRelevantParticipants();
@@ -161,7 +168,6 @@ public class MainCtrl {
      */
     public void showAddExpense(String id, Expense e) {
         primaryStage.setTitle("Splitty: Add/Edit Expense");
-        expense.getStylesheets().add("stylesheets/addEditExpense.css");
         primaryStage.setScene(expense);
         addEditExpenseCtrl.clearBoxes();
         addEditExpenseCtrl.setEvent(id);
@@ -175,12 +181,12 @@ public class MainCtrl {
      */
     public void showEventOverview(String invitationId) {
         overviewCtrl.setEvent(invitationId);
-        overview.getStylesheets().add("stylesheets/eventOverview.css");
         primaryStage.setTitle("Splitty: Event overview");
         primaryStage.setScene(overview);
         overviewCtrl.addAllParticipants();
         overviewCtrl.loadExpenses();
         overview.setOnKeyPressed(e -> overviewCtrl.keyPressed(e));
+        overviewCtrl.setVisibleAdmin(false);
     }
 
     /**
@@ -190,14 +196,12 @@ public class MainCtrl {
         anotherStage.close();
         manageParticipantsCtrl.setEvent(invitationId);
         manageParticipantsCtrl.addNewParticipant(participantToAdd);
-        manageParticipants.getStylesheets().add("stylesheets/manageParticipants.css");
         primaryStage.setTitle("Splitty: Manage Participants");
         primaryStage.setScene(manageParticipants);
     }
     public void showManageParticipants(String invitationId) {
         showManageParticipants(invitationId, null);
         manageParticipantsCtrl.setPreUpdatedParticipants();
-        manageParticipants.getStylesheets().add("stylesheets/manageParticipants.css");
         manageParticipantsCtrl.addAllParticipants();
     }
 
@@ -207,7 +211,6 @@ public class MainCtrl {
     public void showAdminLogIn() {
         primaryStage.setTitle("Splitty: Admin Log In");
         primaryStage.setScene(logInAdmin);
-        logInAdmin.getStylesheets().add("stylesheets/adminLogin.css");
         adminLogInCtrl.generatePassword();
     }
 
@@ -216,19 +219,18 @@ public class MainCtrl {
      */
     public void showEventsAdmin(){
         manageEventsAdminCtrl.refresh();
-        eventsAdmin.getStylesheets().add("stylesheets/adminOverview.css");
         primaryStage.setTitle("Splitty: Admin events overview");
         primaryStage.setScene(eventsAdmin);
         manageEventsAdminCtrl.pollUpdates();
         eventsAdmin.setOnKeyPressed(e -> manageEventsAdminCtrl.enterKeyPressed(e));
     }
 
+
     /**
      * method to show the Settings page
      */
     public void showSettingsPage() {
         Stage anotherStage=new Stage();
-        settingsPage.getStylesheets().add("stylesheets/settingsPage.fxml.css");
         anotherStage.setTitle("Splitty: Settings Page");
         anotherStage.setScene(settingsPage);
         anotherStage.show();
@@ -240,42 +242,40 @@ public class MainCtrl {
     public void showClosedDebts(String id) {
         closedDebtsCtrl.setEvent(id);
         primaryStage.setTitle("Closed Debts");
-        closedDebts.getStylesheets().add("stylesheets/debts.css");
         closedDebtsCtrl.addDebtsToList();
         closedDebtsCtrl.addParticipantsToChoiceBox(id);
         primaryStage.setScene(closedDebts);
     }
 
     /**
-     * when a participant is added to the event it becomes a possible option
-     * for "who paid" for an expense
-     * @param participant the participant that has been added
+     * method to make a list of all the scenes
      */
-    public void addParticipantToExpenseOption(Participant participant) {
-        addEditExpenseCtrl.getWhoPaidField().getItems().add(participant);
+    public void initializeScenes(){
+        scenes=new ArrayList<>();
+        scenes.add(settingsPage);
+        scenes.add(addEditParticipant);
+        scenes.add(expense);
+        scenes.add(eventsAdmin);
+        scenes.add(logInAdmin);
+        scenes.add(closedDebts);
+        scenes.add(openDebts);
+        scenes.add(invitation);
+        scenes.add(manageParticipants);
+        scenes.add(start);
+        scenes.add(overview);
     }
 
     /**
-     * when a participant is added to the event it becomes a possible option
-     * for who should pay for an expense
-     * @param participant the participant that has been added
+     * method to set the scene
+     * @param theme selected theme
      */
-    public void addParticipantToWhoShouldPayOption(Participant participant) {
-        PersonAmount pa = new PersonAmount(participant);
-        addEditExpenseCtrl.getTableView().getItems().add(pa);
+    public void changeTheme(String theme){
+        for(Scene scene:scenes) {
+            scene.getStylesheets().clear();
+            scene.getStylesheets().add(theme);
+        }
     }
 
-    public Stage getPrimaryStage() {
-        return primaryStage;
-    }
-
-    public Scene getAddEditParticipant() {
-        return addEditParticipant;
-    }
-
-    public Scene getOpenDebts() {
-        return openDebts;
-    }
 
     public Scene getInvitation() {
         return invitation;
@@ -285,31 +285,4 @@ public class MainCtrl {
         return expense;
     }
 
-    public Scene getOverview() {
-        return overview;
-    }
-
-    public Scene getManageParticipants() {
-        return manageParticipants;
-    }
-
-    public Scene getStart() {
-        return start;
-    }
-
-    public Scene getLogInAdmin() {
-        return logInAdmin;
-    }
-
-    public Scene getClosedDebts() {
-        return closedDebts;
-    }
-
-    public Scene getEventsAdmin() {
-        return eventsAdmin;
-    }
-
-    public Scene getSettingsPage() {
-        return settingsPage;
-    }
 }

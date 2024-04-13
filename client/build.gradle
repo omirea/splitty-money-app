@@ -35,3 +35,9 @@ dependencies {
 	implementation 'org.openjfx:javafx-fxml:17.0.2'
 	
 }
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+

@@ -18,14 +18,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.text.Text;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-
-import static client.Main.locale;
+import java.util.*;
 
 public class EventOverviewCtrl implements Main.LanguageSwitch {
 
@@ -37,13 +31,13 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     List<Expense> expenses;
     List<Debt> debts;
 
-    @FXML private Text participantsListText, eventTitleText;
+    @FXML private Label participantsListText, eventTitleText;
     @FXML private ChoiceBox<Participant> participantsMenu;
     @FXML private Tab allTab, fromPersonTab, toPersonTab;
 
-    @FXML private Text participantsText, expensesText;
+    @FXML private Label participantsText, expensesText;
     @FXML private Button homeButton, editTitleButton, sendInvitesButton,
-        editParticipantsButton, addExpenseButton, settleDebtsButton;
+        editParticipantsButton, addExpenseButton, settleDebtsButton, adminButton;
 
     //I'm going to hate myself for doing this...
     @FXML private TableView<Expense> expenseTableViewAll,
@@ -73,9 +67,18 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         //set choice box
         participantsMenu.setItems(allParticipants);
         participantsMenu.setConverter(new ParticipantStringConverter());
-
         setupColumns();
         setUpImages();
+        setVisibleAdmin(false);
+    }
+
+    public void setVisibleAdmin(Boolean b){
+        adminButton.setVisible(b);
+    }
+
+    @FXML void onClickAdmin(){
+        mainCtrl.showEventsAdmin();
+        setVisibleAdmin(false);
     }
 
     private void setupColumns() {
@@ -134,16 +137,35 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
     public void onDeleteExpenseClick(Expense e) {
-        expenses.remove(e);
-        expenseTableViewPaidFor.getItems().remove(e);
-        expenseTableViewPaidFor.getItems().remove(e);
-        expenseTableViewAll.getItems().remove(e);
-        server.deleteExpense(e.getId());
+        Alert a = confirmDeleteAlert();
+        Optional<ButtonType> result = a.showAndWait();
+        if (result.isEmpty() || result.get() != ButtonType.OK) return;
 
+        removeExpenseFromLists(e);
+        onMenuChange();
+
+        server.deleteExpense(e.getId());
+    }
+
+    private void removeExpenseFromLists(Expense e) {
+        expenses.remove(e);
+        List<Debt> temp = debts.stream()
+            .filter(d -> d.getExpense().equals(e)).toList();
+        temp.forEach(d -> server.deleteDebt(d.getId()));
+        debts.removeAll(temp);
+
+    }
+
+    private Alert confirmDeleteAlert() {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setTitle(deleteAlertTitle);
+        a.setContentText(deleteAlertText);
+        return a;
     }
 
     private void setUpImages() {
         setImage(homeButton, "/icons/home.png");
+        setImage(adminButton, "/icons/systemadministratormale_1.png");
 //        setImage(editParticipantsButton, "icons/pencil.png");
     }
 
@@ -220,7 +242,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         setPersonText(paidForList, hasToPayList);
 
         List<Expense> paidForExpenses = paidForList.stream()
-                .map(Debt::getExpense).toList();
+                .map(Debt::getExpense).distinct().toList();
         List<Expense> hasToPayExpenses = hasToPayList.stream()
             .map(Debt::getExpense).toList();
 
@@ -264,15 +286,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
 
     public void onTitleEditClick() {
         TextInputDialog tid = new TextInputDialog(eventTitleText.getText());
-        switch (locale.getLanguage()) {
-            case "nl":
-                tid.setHeaderText("Vul de naam van het evenement in");
-                break;
-            case "en":
-                tid.setHeaderText("Input the new event title");
-                break;
-            default: break;
-        }
+        tid.setHeaderText(Main.getLocalizedString("tidTitleEditHeader"));
         tid.showAndWait();
         String title = tid.getEditor().getText();
         start.deleteEventFromTable(event);
@@ -308,8 +322,8 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
     private String allTabText, fromTabText, toTabText,
-    dateText, amountText, whatForText, editText, deleteText;
-
+    dateText, amountText, whatForText, editText, deleteText,
+    deleteAlertTitle, deleteAlertText;
 
     @Override
     public void LanguageSwitch() {
@@ -324,6 +338,10 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         fromTabText = Main.getLocalizedString("fromPerson");
         toTabText = Main.getLocalizedString("toPerson");
         settleDebtsButton.setText(Main.getLocalizedString("settleDebts"));
+        adminButton.setText(Main.getLocalizedString("Admin"));
+        deleteAlertText = Main.getLocalizedString("deleteAlertText");
+        deleteAlertTitle = Main.getLocalizedString("deleteAlertTitle");
+
         dateText = Main.getLocalizedString("expenseDate");
         amountText = Main.getLocalizedString("Amount");
         whatForText = Main.getLocalizedString("whatFor");

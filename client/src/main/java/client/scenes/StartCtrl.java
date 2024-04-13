@@ -12,11 +12,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 
 import java.util.Objects;
-
-import static client.Main.locale;
 
 public class StartCtrl implements  Main.LanguageSwitch {
 
@@ -35,15 +32,15 @@ public class StartCtrl implements  Main.LanguageSwitch {
     @FXML
     private ImageView adminView;
     @FXML
-    private Text createNewEventText;
+    private Label createNewEventText;
     @FXML
     private Button createButton;
     @FXML
-    private Text joinEventText;
+    private Label joinEventText;
     @FXML
     private Button joinButton;
     @FXML
-    private Text recentEventsText;
+    private Label recentEventsText;
     @FXML
     private TableView<Event> recentEvents;
     @FXML
@@ -114,7 +111,7 @@ public class StartCtrl implements  Main.LanguageSwitch {
             return new SimpleObjectProperty<>(deleteEvent);
         });
         openColumn.setCellValueFactory(q -> {
-            Button toEvent = new Button("Open");
+            Button toEvent = new Button(Main.getLocalizedString("Open"));
             toEvent.setOnAction(event -> showEvent(q.getValue().getInvitationID()));
             return new SimpleObjectProperty<>(toEvent);
         });
@@ -152,18 +149,8 @@ public class StartCtrl implements  Main.LanguageSwitch {
 
     private static Alert getAlertNameEmpty() {
         Alert alertNameEmpty = new Alert(Alert.AlertType.WARNING);
-        switch(locale.getLanguage()){
-            case "nl":
-                alertNameEmpty.setTitle("Geen Evenement Naam");
-                alertNameEmpty.setContentText("Vul een naam voor het evenement in AUB");
-                break;
-            case "en":
-                alertNameEmpty.setTitle("Empty Event Title Field");
-                alertNameEmpty.setContentText("Please fill in the event title field");
-                break;
-            default:
-                break;
-        }
+        alertNameEmpty.setTitle(Main.getLocalizedString("alertEmptyEventNameTitle"));
+        alertNameEmpty.setContentText(Main.getLocalizedString("alertEmptyEventNameContent"));
         alertNameEmpty.setHeaderText(null);
         return alertNameEmpty;
     }
@@ -189,18 +176,8 @@ public class StartCtrl implements  Main.LanguageSwitch {
 
     private static Alert getAlertIncorrectInvitationId() {
         Alert alert=new Alert(Alert.AlertType.WARNING);
-        switch(locale.getLanguage()) {
-            case "nl":
-                alert.setTitle("Uitnodigingscode niet gevonden");
-                alert.setContentText("Check je uitnodigingscode opnieuw AUB");
-                break;
-            case "en":
-                alert.setTitle("Invitation code not found");
-                alert.setContentText("Please check your invitation code again");
-                break;
-            default:
-                break;
-        }
+        alert.setTitle(Main.getLocalizedString("alertNoInvitationCodeTitle"));
+        alert.setContentText(Main.getLocalizedString("alertNoInvitationCodeContent"));
         alert.setHeaderText(null);
         return alert;
     }

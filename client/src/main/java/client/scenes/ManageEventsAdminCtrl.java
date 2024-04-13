@@ -33,9 +33,6 @@ import java.io.*;
 import java.net.URL;
 import java.util.*;
 
-import static client.Main.locale;
-
-
 public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch {
 
 
@@ -43,6 +40,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     private final MainCtrl mainCtrl;
 
     private final StartCtrl startCtrl;
+    private final EventOverviewCtrl eventOverviewCtrl;
     @FXML
     private TextField eventNameTextField;
     @FXML
@@ -72,10 +70,12 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
 
 
     @Inject
-    public ManageEventsAdminCtrl (ServerUtils server, MainCtrl mainCtrl, StartCtrl startCtrl) {
+    public ManageEventsAdminCtrl (ServerUtils server, MainCtrl mainCtrl, StartCtrl startCtrl,
+                                  EventOverviewCtrl eventOverviewCtrl) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.startCtrl = startCtrl;
+        this.eventOverviewCtrl = eventOverviewCtrl;
         this.allEvents = FXCollections.observableArrayList();
     }
     
@@ -135,20 +135,8 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
 
     private void throwWarning() {
         Alert alert=new Alert(Alert.AlertType.WARNING);
-        switch(locale.getLanguage()) {
-            case "nl":
-                alert.setTitle("Evenement Bestaat Al");
-                alert.setContentText("Er bestaat al een evenement met deze naame en " +
-                    "uitnodigings code.");
-                break;
-            case "en":
-                alert.setTitle("Event Already Exists");
-                alert.setContentText("An event with this name and invitation code already " +
-                    "exists.");
-                break;
-            default:
-                break;
-        }
+        alert.setTitle(Main.getLocalizedString("alertEventExistsTitle"));
+        alert.setTitle(Main.getLocalizedString("alertEventExistsContent"));
         alert.setHeaderText(null);
         alert.showAndWait();
     }
@@ -157,6 +145,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
      * method to show start screen when admin wants to log out
      */
     public void  onLogOutClick(){
+        eventOverviewCtrl.setVisibleAdmin(false);
         mainCtrl.showStartScreen();
     }
 
@@ -196,6 +185,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
      */
     public void showEventDetails(String invitationID){
         mainCtrl.showEventOverview(invitationID);
+        eventOverviewCtrl.setVisibleAdmin(true);
     }
 
 
@@ -214,19 +204,10 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
      */
     public void onDeleteClick(TableColumn.CellDataFeatures<Event, Button> q){
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-        switch(locale.getLanguage()) {
-            case "nl":
-                alert.setTitle("Evenement Verwijderen");
-                alert.setContentText("Weet je zeker dat je het evenement wilt verwijderen?");
-                break;
-            case "en":
-                alert.setTitle("Delete Event");
-                alert.setContentText("Are you sure you want to delete the event?");
-                break;
-            default:
-                break;
-        }
+        alert.setTitle(Main.getLocalizedString("alertDeleteEventTitle"));
+        alert.setContentText(Main.getLocalizedString("alertDeleteEventContent"));
         alert.setHeaderText(null);
+
         Optional<ButtonType> result=alert.showAndWait();
         if(result.get()==ButtonType.OK){
             List<Expense> expenses =
@@ -292,6 +273,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
                    Event eventRow = row.getItem();
                    String invID = eventRow.getInvitationID();
                    showEventDetails(invID);
+
                }
            });
            return row;
@@ -326,21 +308,13 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
             writer.flush();
             writer.close();
             System.out.println("JSON made with event invitation ID: " + event.getInvitationID());
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            switch(locale.getLanguage()) {
-                case "nl":
-                    alert.setTitle("JSON Download Succesvol");
-                    alert.setContentText("JSON document succesvol toegevoegd");
-                    break;
-                case "en":
-                    alert.setTitle("JSON Download Successful");
-                    alert.setContentText("JSON document added successfully");
-                    break;
-                default:
-                    break;
-            }
+            alert.setTitle(Main.getLocalizedString("alertJSONDownloadTitle"));
+            alert.setContentText(Main.getLocalizedString("alertJSONDownloadContent"));
             alert.setHeaderText(null);
             alert.showAndWait();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

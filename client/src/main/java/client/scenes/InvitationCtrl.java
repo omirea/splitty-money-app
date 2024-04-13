@@ -18,8 +18,6 @@ import javafx.util.Duration;
 
 import javax.inject.Inject;
 
-import static client.Main.locale;
-
 public class InvitationCtrl implements Main.LanguageSwitch{
 
     private final ServerUtils server;
@@ -100,16 +98,15 @@ public class InvitationCtrl implements Main.LanguageSwitch{
         }
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
         if(counter==0){
-            alert.setTitle("No emails");
-            alert.setContentText("Please input a valid email address!");
+            alert.setTitle(Main.getLocalizedString("alertNoEmailsTitle"));
+            alert.setContentText(Main.getLocalizedString("alertNoEmailsContent"));
             alert.showAndWait();
             return;
         }
-        alert.setTitle("Email sent");
+        alert.setTitle(Main.getLocalizedString("alertSentEmailTitle"));
         if(counter==1)
-            alert.setContentText("Email sent successfully!");
-        else
-            alert.setContentText("Emails sent successfully!");
+            alert.setContentText(Main.getLocalizedString("alertSentEmailContent"));
+
         alert.showAndWait();
         emailTextField.clear();
     }
@@ -125,7 +122,7 @@ public class InvitationCtrl implements Main.LanguageSwitch{
      * method to go back to event page
      */
     public void goBackToEvent(){
-        mainCtrl.showEventOverview(event.getInvitationID());
+        mainCtrl.getAnotherStage().close();
     }
 
     @Override
@@ -133,6 +130,7 @@ public class InvitationCtrl implements Main.LanguageSwitch{
         giveInviteCodeLabel.setText(Main.getLocalizedString("givePeopleInvCode"));
         inviteEmailLabel.setText(Main.getLocalizedString("inviteFollowingPeopleByEmail"));
         back.setText(Main.getLocalizedString("Back"));
+        copyButton.setText(Main.getLocalizedString("Copy"));
         sendInvitesButton.setText(Main.getLocalizedString("sendInvites"));
     }
 
@@ -143,18 +141,8 @@ public class InvitationCtrl implements Main.LanguageSwitch{
         content.putString(invitation);
         clipboard.setContent(content);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        switch (locale.getLanguage()) {
-            case "nl":
-                alert.setTitle("Kopiëren succesvol");
-                alert.setContentText("Code succesvol gekopieerd");
-                break;
-            case "en":
-                alert.setTitle("Copying Successful");
-                alert.setContentText("Code Copied Successfully");
-                break;
-            default:
-                break;
-        }
+        alert.setTitle(Main.getLocalizedString("alertCopyingTitle"));
+        alert.setContentText(Main.getLocalizedString("alertCopyingContent"));
         alert.setHeaderText(null);
         alert.show();
         PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
