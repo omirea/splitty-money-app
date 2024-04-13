@@ -33,11 +33,22 @@ public class ParticipantController {
      */
     @MessageMapping("/participants") // /app/participants
     @SendTo("/topic/participants")
-    @Async("asyncExecutor")
-    public Participant addExpense(Participant participant){
+    public Participant addParticipant(Participant participant){
         createParticipant(participant);
         return participant;
     }
+
+    /**
+     * websocket for participants
+     * @param participant
+     */
+    @MessageMapping("/remParticipants") // /app/remParticipants
+    @SendTo("/topic/participants")
+    public Participant deleteParticipant(Participant participant){
+        deleteParticipant(participant.getId());
+        return participant;
+    }
+
 
     @GetMapping("/{id}")
     @ResponseBody
