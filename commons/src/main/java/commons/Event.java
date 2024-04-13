@@ -84,9 +84,15 @@ public class Event {
     public Event(String name) {
         this.name = name;
         invitationID = generateInvitationID();
+        this.tags.add("food");
+        this.tags.add("transport");
+        this.tags.add("decorations");
     }
 
     public Event() {
+        this.tags.add("food");
+        this.tags.add("transport");
+        this.tags.add("decorations");
     }
 
 
@@ -217,10 +223,14 @@ public class Event {
     }
 
     public List<String> getTags(){
+        for(String s:tags)
+            System.out.println(s);
         return tags;
     }
 
-    public void setTags(List<String> tags){
-        this.tags=tags;
+    public void addTags(String tag){
+        this.tags.add(tag);
+        for(String s:tags)
+            System.out.println(s);
     }
 }

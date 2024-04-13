@@ -112,8 +112,6 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         howMuchField.setText("0");
         currencyField.setValue("EUR");
         currencyField.setItems(currencyList);
-        tags.addAll("food", "transport", "decorations");
-
 
         whatForField.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -132,8 +130,11 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                 }
             }
         });
+        tagChoiceBox=new ChoiceBox<>();
 
-        tagChoiceBox.setItems(tags);
+       if(event!=null)
+           tags.setAll(event.getTags());
+       tagChoiceBox.setItems(tags);
 
     }
 
@@ -343,7 +344,11 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
      */
     public void setEvent(String invitationId) {
         this.event = server.getEventByInvitationId(invitationId);
-        tags.addAll(event.getTags());}
+        for(String string: event.getTags())
+            System.out.println(string);
+        tags.clear();
+        tags.addAll(event.getTags());
+    }
 
     /**
      * adds all to the choicebox
@@ -415,11 +420,10 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
 
     public void addTag(){
         if(!tagField.getText().isEmpty()){
-
-            List<String> usedTags=event.getTags();
-            usedTags.add(tagField.getText());
-            event.setTags(usedTags);
+            event.addTags(tagField.getText());
+            tags.clear();
             tags.addAll(event.getTags());
+            //tags.add(tagField.getText());
             tagField.clear();
             Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Tag Created");
@@ -432,7 +436,8 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         if(!deleteTagChoiceBox.getSelectionModel().getSelectedItem().isEmpty()){
             List<String> usedTags=event.getTags();
             usedTags.remove(tagField.getText());
-            event.setTags(usedTags);
+            //event.setTags(usedTags);
+            tags.clear();
             tags.addAll(event.getTags());
             tagField.clear();
             Alert alert=new Alert(Alert.AlertType.CONFIRMATION);

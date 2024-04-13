@@ -369,7 +369,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
 
 
     public void showStatistics(){
-        mainCtrl.showStatisticsPage();
+        mainCtrl.showStatisticsPage(event.getInvitationID());
     }
 
 }

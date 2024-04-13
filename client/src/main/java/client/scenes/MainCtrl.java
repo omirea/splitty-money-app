@@ -289,8 +289,9 @@ public class MainCtrl {
         return expense;
     }
 
-    public void showStatisticsPage() {
+    public void showStatisticsPage(String invitationId) {
         primaryStage.setTitle("Splitty: Statistics Page");
+        pieChartPage.setEvent(invitationId);
         primaryStage.setScene(pieChartScene);
     }
 }
