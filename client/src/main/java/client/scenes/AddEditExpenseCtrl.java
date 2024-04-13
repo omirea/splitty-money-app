@@ -16,14 +16,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.*;
-
-import static client.Main.locale;
 
 public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     private ObservableList<String> currencyList =
@@ -48,9 +45,6 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     @FXML
     private Button cancelButton, addExpenseButton, autoDivideButton;
 
-    // How to split
-    @FXML
-    private VBox peopleVBoxField;
     @FXML
     private RadioButton onlySomePeopleField, allPeopleField;
 
@@ -125,17 +119,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         });
     }
 
-    /**
-     * add all items to the tableView
-     */
-    public void addAllItems() {
-        if (participants == null) return;
-        for (Participant participant : participants) {
-            if (!Objects.equals(participant.getName(), whoPaidField.getValue().getName())) {
-                personAmounts.add(new PersonAmount(participant));
-            }
-        }
-    }
+
 
     public ChoiceBox<Participant> getWhoPaidField(){return whoPaidField;}
 
@@ -164,24 +148,12 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             else {
                 Expense expense1 = createExpense();
                 expense = null;
-                mainCtrl.addExpenseToEvent(expense1);
                 mainCtrl.showEventOverview(event.getInvitationID());
             }
         } else {
             Alert alert=new Alert(Alert.AlertType.WARNING);
-            switch(locale.getLanguage()) {
-                case "nl":
-                    alert.setTitle("Niet ingevulde velden");
-                    alert.setContentText("Alle velden moeten ingevuld " +
-                        "worden voor het maken van een uitgave");
-                    break;
-                case "en":
-                    alert.setTitle("Empty fields");
-                    alert.setContentText("You need to fill in all fields to create an expense");
-                    break;
-                default:
-                    break;
-            }
+            alert.setTitle(Main.getLocalizedString("alertEmptyFieldsTitle"));
+            alert.setContentText(Main.getLocalizedString("alertEmptyFieldsContent"));
             alert.setHeaderText(null);
             alert.showAndWait();
         }
@@ -193,9 +165,8 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
      */
     public void sumIsLarger(){
         Alert exceededAmount=new Alert(Alert.AlertType.ERROR);
-        exceededAmount.setTitle("Exceeded amount");
-        exceededAmount.setContentText("The amount of money people are paying back " +
-            "is larger than the value of the expense");
+        exceededAmount.setTitle(Main.getLocalizedString("alertExceededAmountTitle"));
+        exceededAmount.setContentText(Main.getLocalizedString("alertExceededAmountContent"));
         exceededAmount.showAndWait();
     }
 
@@ -228,21 +199,21 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             expense.setDateSent(date);
             expense.setAmount(amount);
             expense.setDescription(whatFor);
-            expense.setCurrency(currency);
+//            expense.setCurrency(currency);
             expense.setType(null);
             expense.setEvent(event);
             expense = server.updateExpense(expense, expense.getId());
         }
-        fillDebtList(amount, whoPaid);
+        updateDebts(amount, whoPaid);
         return expense;
     }
 
     /**
-     * fills debtList for expense object
+     * adds/updates the debts in the server
      * @param amount amount
      * @param whoPaid whoPaid
      */
-    private void fillDebtList(Double amount, Participant whoPaid) {
+    private void updateDebts(Double amount, Participant whoPaid) {
 
         List<Debt> existingDebts = server.getDebtsByExpense(expense.getId());
         if (!existingDebts.isEmpty() && !existingDebts.get(0).getTo().equals(whoPaid)) {
@@ -370,18 +341,57 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
      */
     public void onWhoPaidChange() {
         tableView.getItems().clear();
-        addAllItems();
+        fillTableView();
     }
 
     /**
      * clear all the boxes on the page
      */
     public void clearBoxes() {
+        whoPaidField.getItems().clear();
         whoPaidField.setValue(null);
         whatForField.setText("");
-        howMuchField.setText("0");
+        howMuchField.setText("");
         whenField.setValue(null);
         onlySomePeopleField.selectedProperty().setValue(false);
         allPeopleField.selectedProperty().setValue(false);
+    }
+
+    /**
+     * add all items to the tableView
+     */
+    public void fillTableView() {
+        if (participants == null || participants.isEmpty()) return;
+
+        for (Participant participant : participants) {
+            if (participant.equals(whoPaidField.getValue())) continue;
+            personAmounts.add(new PersonAmount(participant));
+        }
+    }
+
+    public void setExpense(Expense e) {
+        expense = e;
+        List<Debt> debts = server.getDebtsByExpense(e.getId());
+        whoPaidField.setValue(debts.getFirst().getTo());
+        whatForField.setText(e.getDescription());
+        howMuchField.setText(e.getAmount().toString());
+        whenField.setValue(e.getDateSent());
+        onlySomePeopleField.selectedProperty().setValue(true);
+        loadDebts(debts);
+
+    }
+
+    private void loadDebts(List<Debt> debts) {
+        List<PersonAmount> pas = debts.stream()
+            .map(d -> new PersonAmount(d.getFrom()))
+            .toList();
+        tableView.getItems().removeAll(pas);
+
+        for (Debt d : debts) {
+            PersonAmount pa = new PersonAmount(d.getFrom());
+            pa.getTextField().setText(d.getAmount().toString());
+            pa.getCheckBox().selectedProperty().setValue(true);
+            tableView.getItems().add(pa);
+        }
     }
 }

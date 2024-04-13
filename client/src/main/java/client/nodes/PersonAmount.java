@@ -4,6 +4,8 @@ import commons.Participant;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
+import java.util.Objects;
+
 public class PersonAmount {
 
     private CheckBox checkBox=new CheckBox();
@@ -47,5 +49,19 @@ public class PersonAmount {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PersonAmount that = (PersonAmount) o;
+        return Objects.equals(getParticipant(), that.getParticipant()) &&
+            Objects.equals(getName(), that.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCheckBox(), getParticipant(), getName(), getTextField());
     }
 }

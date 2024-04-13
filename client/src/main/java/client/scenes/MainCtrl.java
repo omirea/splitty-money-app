@@ -89,6 +89,9 @@ public class MainCtrl {
         primaryStage.show();
     }
 
+    public Stage getAnotherStage() {
+        return anotherStage;
+    }
 
     /**
      * method to show participant page
@@ -117,7 +120,7 @@ public class MainCtrl {
         openDebtsCtrl.setEvent(id);
         openDebts.getStylesheets().add("stylesheets/debts.css");
         openDebtsCtrl.addDebtsToList();
-        openDebtsCtrl.addParticipantsToChoiceBox(id);
+        openDebtsCtrl.addParticipantsToChoiceBox();
         primaryStage.setTitle("Splitty: Open Debts");
         primaryStage.setScene(openDebts);
     }
@@ -152,8 +155,21 @@ public class MainCtrl {
         addEditExpenseCtrl.setEvent(id);
         expense.getStylesheets().add("stylesheets/addEditExpense.css");
         primaryStage.setScene(expense);
-        addEditExpenseCtrl.addAllRelevantParticipants();
         addEditExpenseCtrl.clearBoxes();
+        addEditExpenseCtrl.addAllRelevantParticipants();
+    }
+
+    /**
+     * method to show expense page
+     */
+    public void showAddExpense(String id, Expense e) {
+        primaryStage.setTitle("Splitty: Add/Edit Expense");
+        expense.getStylesheets().add("stylesheets/addEditExpense.css");
+        primaryStage.setScene(expense);
+        addEditExpenseCtrl.clearBoxes();
+        addEditExpenseCtrl.setEvent(id);
+        addEditExpenseCtrl.addAllRelevantParticipants();
+        addEditExpenseCtrl.setExpense(e);
     }
 
     /**
@@ -166,6 +182,7 @@ public class MainCtrl {
         primaryStage.setTitle("Splitty: Event overview");
         primaryStage.setScene(overview);
         overviewCtrl.addAllParticipants();
+        overviewCtrl.loadExpenses();
         overview.setOnKeyPressed(e -> overviewCtrl.keyPressed(e));
     }
 
@@ -225,10 +242,10 @@ public class MainCtrl {
      */
     public void showClosedDebts(String id) {
         closedDebtsCtrl.setEvent(id);
-        primaryStage.setTitle("Closed Debts");
         closedDebts.getStylesheets().add("stylesheets/debts.css");
         closedDebtsCtrl.addDebtsToList();
-        closedDebtsCtrl.addParticipantsToChoiceBox(id);
+        closedDebtsCtrl.addParticipantsToChoiceBox();
+        primaryStage.setTitle("Closed Debts");
         primaryStage.setScene(closedDebts);
     }
 
@@ -239,16 +256,6 @@ public class MainCtrl {
      */
     public void addParticipantToExpenseOption(Participant participant) {
         addEditExpenseCtrl.getWhoPaidField().getItems().add(participant);
-    }
-
-    /**
-     * when an expense gets created it is added to the list of all events
-     * @param expense the expense that has been created
-     */
-    public void addExpenseToEvent(Expense expense) {
-        if (!overviewCtrl.getListViewAll().getItems().contains(expense)) {
-            overviewCtrl.getListViewAll().getItems().add(expense);
-        }
     }
 
     /**
