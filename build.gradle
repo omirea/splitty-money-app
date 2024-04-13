@@ -50,4 +50,15 @@ subprojects {
 		testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 		testImplementation 'org.mockito:mockito-core:4.1.0'
 	}
+
+	compileJava.options.encoding = 'UTF-8'
+
+	tasks.withType(JavaCompile) {
+		options.encoding = 'UTF-8'
+	}
+
+	test {
+		systemProperty "file.encoding", "utf-8"
+	}
+
 }
