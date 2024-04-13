@@ -19,9 +19,8 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static client.Main.locale;
 
-public class AddEditParticipantCtrl implements Main.LanguageSwitch, Runnable{
+public class AddEditParticipantCtrl implements Main.LanguageSwitch{
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
@@ -102,7 +101,6 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch, Runnable{
             }
         });
         sentParticipant=new Participant();
-        thread=new Thread(this);
     }
 
     @Inject
@@ -146,20 +144,10 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch, Runnable{
 
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                switch (locale.getLanguage()) {
-                    case "nl":
-                        alert.setTitle("Succesvol toevoegen");
-                        alert.setContentText("Deelnemer succesvol toegevoegd");
-                        break;
-                    case "en":
-                        alert.setTitle("Adding Successful");
-                        alert.setContentText("Participant Added Successfully");
-                        break;
-                    default:
-                        break;
-                }
-                alert.setHeaderText(null);
-                alert.showAndWait();
+            alert.setTitle(Main.getLocalizedString("alertAddParticipantTitle"));
+            alert.setContentText(Main.getLocalizedString("alertAddParticipantContent"));
+            alert.setHeaderText(null);
+            alert.showAndWait();
 
                 mainCtrl.showManageParticipants(this.event.getInvitationID(), participant);
                 participant = null;
@@ -243,18 +231,8 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch, Runnable{
             return true;
         }else{
             Alert alert=new Alert(Alert.AlertType.WARNING);
-            switch(locale.getLanguage()) {
-                case "nl":
-                    alert.setTitle("Ongeldige E-Mail");
-                    alert.setContentText("Vul een geldig E-Mail adres in");
-                    break;
-                case "en":
-                    alert.setTitle("Validate E-Mail");
-                    alert.setContentText("Please enter a valid E-Mail");
-                    break;
-                default:
-                    break;
-            }
+            alert.setTitle(Main.getLocalizedString("alertValidateEmailTitle"));
+            alert.setContentText(Main.getLocalizedString("alertValidateEmailContent"));
             alert.setHeaderText(null);
             alert.showAndWait();
             return false;
@@ -308,18 +286,8 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch, Runnable{
 
     private Alert getAlert() {
         Alert alert=new Alert(Alert.AlertType.WARNING);
-        switch(locale.getLanguage()) {
-            case "nl":
-                alert.setTitle("Ongeldige IBAN");
-                alert.setContentText("Vul een geldige IBAN in");
-                break;
-            case "en":
-                alert.setTitle("Non-Valid IBAN");
-                alert.setContentText("Please enter a valid IBAN");
-                break;
-            default:
-                break;
-        }
+        alert.setTitle(Main.getLocalizedString("alertValidateIBANTitle"));
+        alert.setContentText(Main.getLocalizedString("alertValidateIBANContent"));
         alert.setHeaderText(null);
         return alert;
     }
@@ -339,23 +307,14 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch, Runnable{
         }
         else{
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            switch(locale.getLanguage()) {
-                case "nl":
-                    alert.setTitle("Niet ingevulde velden");
-                    alert.setContentText("Alle velden invullen AUB");
-                    break;
-                case "en":
-                    alert.setTitle("Empty fields");
-                    alert.setContentText("Please fill in all the fields");
-                    break;
-                default:
-                    break;
-            }
+            alert.setTitle(Main.getLocalizedString("alertEmptyFieldsTitle"));
+            alert.setContentText(Main.getLocalizedString("alertEmptyFieldsContent"));
             alert.setHeaderText(null);
             alert.showAndWait();
             return false;
         }
     }
+
 
     @Override
     public void LanguageSwitch() {
@@ -368,8 +327,4 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch, Runnable{
         okButton.setText(Main.getLocalizedString("Ok"));
     }
 
-    @Override
-    public void run() {
-        server.send("/app/participants",sentParticipant);
-    }
 }
