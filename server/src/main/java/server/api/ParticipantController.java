@@ -2,6 +2,8 @@ package server.api;
 
 import commons.Participant;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 import server.database.ParticipantRepository;
 
@@ -22,6 +24,29 @@ public class ParticipantController {
     public List<Participant> getAllParticipants() {
         return db.findAll();
     }
+
+    /**
+     * websocket for participants
+     * @param participant
+     */
+    @MessageMapping("/participants") // /app/participants
+    @SendTo("/topic/participants")
+    public Participant addParticipant(Participant participant){
+        createParticipant(participant);
+        return participant;
+    }
+
+    /**
+     * websocket for participants
+     * @param participant
+     */
+    @MessageMapping("/remParticipants") // /app/remParticipants
+    @SendTo("/topic/participants")
+    public Participant deleteParticipant(Participant participant){
+        deleteParticipant(participant.getId());
+        return participant;
+    }
+
 
     @GetMapping("/{id}")
     @ResponseBody
