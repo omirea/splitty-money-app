@@ -170,10 +170,7 @@ class DebtTest {
 
     @Test
     void toStringTest(){
-        String s = "Debt, from=Participant has name: 'Person1', email: 'abc@xyz.com', " +
-            "account holder name: Bob', IBAN: 'NL123', BIC: '123';, to=Participant has " +
-            "name: 'Person2', email: 'def@xyz.com', account holder name: Bob', IBAN: 'NL456', " +
-            "BIC: '456';, amount=10.04}";
+        String s = "Debt: settled = false, from = Person1, to = Person2, amount = 10.04";
         assertEquals(s, debt.toString());
     }
 }
