@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 import java.util.*;
@@ -38,7 +39,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
 
     @FXML private Text participantsText, expensesText;
     @FXML private Button homeButton, editTitleButton, sendInvitesButton,
-        editParticipantsButton, addExpenseButton, settleDebtsButton;
+        editParticipantsButton, addExpenseButton, settleDebtsButton, adminButton;
 
     //I'm going to hate myself for doing this...
     @FXML private TableView<Expense> expenseTableViewAll,
@@ -48,6 +49,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     @FXML private TableColumn<Expense, Double> amountColAll, amountColFrom, amountColTo;
     @FXML private TableColumn<Expense, Button> editColAll, editColFrom, editColTo,
                                             deleteColAll, deleteColFrom, deleteColTo;
+    @FXML private HBox homeAndAdmin;
 
     private final StartCtrl start;
 
@@ -68,9 +70,18 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         //set choice box
         participantsMenu.setItems(allParticipants);
         participantsMenu.setConverter(new ParticipantStringConverter());
-
         setupColumns();
         setUpImages();
+        setVisibleAdmin(false);
+    }
+
+    public void setVisibleAdmin(Boolean b){
+        adminButton.setVisible(b);
+    }
+
+    @FXML void onClickAdmin(){
+        mainCtrl.showEventsAdmin();
+        setVisibleAdmin(false);
     }
 
     private void setupColumns() {
@@ -157,6 +168,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
 
     private void setUpImages() {
         setImage(homeButton, "/icons/home.png");
+        setImage(adminButton, "/icons/systemadministratormale_1.png");
 //        setImage(editParticipantsButton, "icons/pencil.png");
     }
 
@@ -329,7 +341,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         fromTabText = Main.getLocalizedString("fromPerson");
         toTabText = Main.getLocalizedString("toPerson");
         settleDebtsButton.setText(Main.getLocalizedString("settleDebts"));
-
+        adminButton.setText(Main.getLocalizedString("Admin"));
         deleteAlertText = Main.getLocalizedString("deleteAlertText");
         deleteAlertTitle = Main.getLocalizedString("deleteAlertTitle");
 
