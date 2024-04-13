@@ -16,8 +16,6 @@ public class EmailSenderService{
     private ThreadToSendEmail ts;
 
     public void sendEmail(String to, String subject, String body) {
-       mailSender=new J
-
 //        SimpleMailMessage message = new SimpleMailMessage();
 //        message.setTo(to);
 //        message.setSubject(subject);
