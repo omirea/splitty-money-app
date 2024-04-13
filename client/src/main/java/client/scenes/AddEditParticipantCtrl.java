@@ -148,12 +148,13 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
                     participant.setIBAN(iban);
                     participant.setBIC(bic);
                 }
+            server.send("/app/participants",participant);
 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle(Main.getLocalizedString("alertAddParticipantTitle"));
-                alert.setContentText(Main.getLocalizedString("alertAddParticipantContent"));
-                alert.setHeaderText(null);
-                alert.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(Main.getLocalizedString("alertAddParticipantTitle"));
+            alert.setContentText(Main.getLocalizedString("alertAddParticipantContent"));
+            alert.setHeaderText(null);
+            alert.showAndWait();
 
                 mainCtrl.showManageParticipants(this.event.getInvitationID(), participant);
                 participant = null;
@@ -290,6 +291,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         }
     }
 
+
     private Alert getAlert() {
         Alert alert=new Alert(Alert.AlertType.WARNING);
         alert.setTitle(Main.getLocalizedString("alertValidateIBANTitle"));
@@ -297,6 +299,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         alert.setHeaderText(null);
         return alert;
     }
+
 
     /**
      * method to check if any text box is empty

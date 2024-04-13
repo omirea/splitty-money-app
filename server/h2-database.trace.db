@@ -1,4 +1,4 @@
-2024-04-13 15:51:17.235884+02:00 database: flush
+2024-04-13 20:58:33.195863+02:00 database: flush
 org.h2.message.DbException: General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/mirea/OneDrive/Documents/OOPP/oopp-team-16/server/h2-database.mv.db [2.2.224/7]" [50000-224]
 	at org.h2.message.DbException.get(DbException.java:212)
 	at org.h2.message.DbException.convert(DbException.java:407)
@@ -107,7 +107,7 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/mirea/O
 	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:286)
 	... 90 more
-2024-04-13 15:51:19.107239+02:00 database: flush
+2024-04-13 20:58:34.509260+02:00 database: flush
 org.h2.message.DbException: General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/mirea/OneDrive/Documents/OOPP/oopp-team-16/server/h2-database.mv.db [2.2.224/7]" [50000-224]
 	at org.h2.message.DbException.get(DbException.java:212)
 	at org.h2.message.DbException.convert(DbException.java:407)
@@ -181,7 +181,7 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: C:/Users/mirea/O
 	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:286)
 	... 55 more
-2024-04-13 15:51:21.601082+02:00 database: flush
+2024-04-13 20:58:36.294580+02:00 database: flush
 org.h2.message.DbException: General error: "org.h2.mvstore.MVStoreException: The file is locked: C:/Users/mirea/OneDrive/Documents/OOPP/oopp-team-16/server/h2-database.mv.db [2.2.224/7]" [50000-224]
 	at org.h2.message.DbException.get(DbException.java:212)
 	at org.h2.message.DbException.convert(DbException.java:407)

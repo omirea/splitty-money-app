@@ -5,6 +5,7 @@ import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import commons.Event;
 import commons.Participant;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -77,29 +78,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
             deleteParticipant.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    /*
-                    if(q.getValue().getId()==null) {
-                        deleteParticipant.setDisable(true);
-                        Alert alert=new Alert(Alert.AlertType.WARNING);
-                        switch(locale.getLanguage()) {
-                            case "nl":
-                                alert.setTitle("Niet-opgeslagen deelnemer");
-                                alert.setContentText
-                                        ("Klik eerst op de knop Voltooien " +
-                                                "om de deelnemer op te slaan");
-                                break;
-                            case "en":
-                                alert.setTitle
-                                        ("Unsaved Participant");
-                                alert.setContentText
-                                        ("First Click The Finish Button To Save The Participant");
-                                break;
-                            default:
-                                break;
-                        }
-                        alert.setHeaderText(null);
-                        alert.showAndWait();
-                    }else{*/
+                    server.send("/app/remParticipants",q.getValue());
                     deletedParticipants.add(q.getValue());
                     deleteParticipantFromTable(q.getValue());
 
@@ -134,6 +113,20 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
             return row;
         });
+
+        server.registerForMessages("/topic/participants", p ->{
+            Platform.runLater(() ->{
+                addAllParticipants();
+                refresh();
+            });
+        });
+
+        server.registerForMessages("/topic/remParticipants", p ->{
+            Platform.runLater(() ->{
+                deleteParticipantFromTable(p);
+                refresh();
+            });
+        });
     }
 
     public void setPreUpdatedParticipants() {
@@ -141,6 +134,9 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     }
 
     public void addParticipantToBox(Participant participant) {
+        List<Participant> participantsInBox=recentParticipants.getItems();
+        if(participantsInBox.contains(participant))
+            return;
         Participant p = server.createParticipant(participant);
         participant.setId(p.getId());
         recentParticipants.getItems().add(participant);
@@ -158,6 +154,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
     }
     private void deleteParticipantFromTable(Participant participant) {
+
         recentParticipants.getItems().remove(participant);
     }
 
@@ -242,7 +239,6 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         for (Participant participant : pList) {
             //server.createParticipant(participant);
             addParticipantToBox(participant);
-
         }
     }
 
