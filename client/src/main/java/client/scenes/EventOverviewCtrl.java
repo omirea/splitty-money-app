@@ -32,11 +32,11 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     List<Expense> expenses;
     List<Debt> debts;
 
-    @FXML private Text participantsListText, eventTitleText;
+    @FXML private Label participantsListText, eventTitleText;
     @FXML private ChoiceBox<Participant> participantsMenu;
     @FXML private Tab allTab, fromPersonTab, toPersonTab;
 
-    @FXML private Text participantsText, expensesText;
+    @FXML private Label participantsText, expensesText;
     @FXML private Button homeButton, editTitleButton, sendInvitesButton,
         editParticipantsButton, addExpenseButton, settleDebtsButton;
 

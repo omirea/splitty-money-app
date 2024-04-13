@@ -1,0 +1,53 @@
+#anchorPane{
+    -fx-background-color: #f8f4e5;
+}
+
+.choice-box, #tableView, #table, #expensesTabs,
+#recentParticipants, .text-field, #recentEvents{
+    -fx-background-color:  white;
+    -fx-border-color: #bbb6ac;
+}
+
+
+.table-view .label, .choice-box .label, .label,
+#lightModeButton .label, #darkModeButton .label,
+#englishButton .label, #dutchButton .label{
+    -fx-text-fill: black;
+}
+
+
+.label .text-field{
+    -fx-border-color: #ffffff;
+}
+
+
+.table-view .cell{
+    -fx-background-color: white;
+}
+
+.tool-bar{
+    -fx-background-color: #f8f4e5;
+}
+
+
+#from, #to{
+    -fx-font-weight: bold;
+}
+
+.button{
+    -fx-text-fill: white;
+    -fx-background-color: #354ed5;
+    -fx-border-color: #081469;
+    -fx-border-image-width: 3;
+}
+
+.menu-button{
+    -fx-text-fill: black;
+    -fx-background-color: #354ed5;
+    -fx-border-color: #081469;
+}
+
+.menu-button .label{
+    -fx-text-fill: white;
+
+}

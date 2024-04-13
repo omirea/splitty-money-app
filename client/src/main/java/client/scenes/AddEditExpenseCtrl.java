@@ -41,7 +41,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     private ChoiceBox<String> currencyField;
 
     @FXML
-    private Text addExpenseText, whoPaidText, whatForText, howMuchText, whenText, howToSplitText;
+    private Label addExpenseText, whoPaidText, whatForText, howMuchText, whenText, howToSplitText;
     @FXML
     private Button cancelButton, addExpenseButton, autoDivideButton;
 

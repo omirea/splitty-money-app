@@ -1,0 +1,87 @@
+#anchorPane{
+    -fx-background-color: #2f2f2f;
+}
+
+.text-field{
+    -fx-background-color: #c0c0c0;
+    -fx-text-fill: #c0c0c0;
+}
+
+
+.menu-item {
+    -fx-background-color: #595858;
+    -fx-border-color: #2f2f2f;
+}
+
+.radio-button{
+    -fx-text-fill: #c0c0c0;
+}
+
+.menu-item .tick .label{
+    -fx-text-fill: white;
+    -fx-background-color: white;
+    -fx-border-color: white;
+}
+
+#languageMenuButton, #themeButton{
+    -fx-background-color: #384bde;
+    -fx-border-color: #081469;
+}
+
+#splitty{
+    -fx-text-fill: #c0c0c0;
+}
+
+
+.button{
+    -fx-text-fill: #c0c0c0;
+    -fx-background-color: #384bde;
+    -fx-border-color: #081469;
+    -fx-border-image-width: 3;
+}
+
+
+
+.choice-box, #tableView, #table, #expensesTabs,
+#recentParticipants, .text-field, #recentEvents{
+    -fx-background-color: #595858;
+    -fx-border-color: #2f2f2f;
+}
+
+.choice-box .label, .label,
+#lightModeButton .label, #darkModeButton .label,
+#englishButton .label, #dutchButton .label{
+    -fx-text-fill: #c0c0c0;
+}
+
+.table-column {
+    -fx-background-color: #3f3e3e;
+    -fx-border-color: #2f2f2f;
+}
+
+
+.tab{
+    -fx-background-color: #c0c0c0;
+    -fx-border-color: #3f3e3e;
+}
+
+
+.label .text-field{
+    -fx-text-fill: white;
+    -fx-border-color: #ffffff;
+}
+
+
+.table-view .cell, #expenseTableViewAll, #tableView{
+    -fx-background-color: #595858;
+}
+
+.tool-bar{
+    -fx-background-color: #2f2f2f;
+}
+
+
+#from, #to {
+    -fx-font-weight: bold;
+}
+
