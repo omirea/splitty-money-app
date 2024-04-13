@@ -4,79 +4,59 @@ import client.Main;
 import client.nodes.ParticipantStringConverter;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
+import commons.Debt;
 import commons.Event;
 import commons.Expense;
 import commons.Participant;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class EventOverviewCtrl implements Main.LanguageSwitch {
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
-    private ObservableList<Participant> allParticipants;
+    private final ObservableList<Participant> allParticipants;
     Event event;
-    @FXML
-    private Text participantsListText, eventTitleText;
-    @FXML
-    private ChoiceBox<Participant> participantsMenu;
-    @FXML
-    private TabPane expensesTabs;
-    @FXML
-    private ListView<Expense> listViewAll, listViewFrom, listViewWith;
-    @FXML
-    private Button homeButton;
-    @FXML
-    private ImageView homeView;
+    List<Expense> expenses;
+    List<Debt> debts;
 
-    @FXML
-    private Button editTitleButton;
+    @FXML private Text participantsListText, eventTitleText;
+    @FXML private ChoiceBox<Participant> participantsMenu;
+    @FXML private Tab allTab, fromPersonTab, toPersonTab;
 
-    @FXML
-    private Button sendInvitesButton;
+    @FXML private Text participantsText, expensesText;
+    @FXML private Button homeButton, editTitleButton, sendInvitesButton,
+        editParticipantsButton, addExpenseButton, settleDebtsButton, adminButton;
 
-    @FXML
-    private Text participantsText;
-
-    @FXML
-    private Button editParticipantsButton;
-
-    @FXML
-    private Text expensesText;
-
-    @FXML
-    private Button addExpenseButton;
-
-    @FXML
-    private Tab allTab;
-
-    @FXML
-    private Tab fromPersonTab;
-
-    @FXML
-    private Tab toPersonTab;
-    @FXML
-    private Button settleDebtsButton;
+    //I'm going to hate myself for doing this...
+    @FXML private TableView<Expense> expenseTableViewAll,
+        expenseTableViewHasToPay, expenseTableViewPaidFor;
+    @FXML private TableColumn<Expense, Date> dateColAll, dateColFrom, dateColTo;
+    @FXML private TableColumn<Expense, String> nameColAll, nameColFrom, nameColTo;
+    @FXML private TableColumn<Expense, Double> amountColAll, amountColFrom, amountColTo;
+    @FXML private TableColumn<Expense, Button> editColAll, editColFrom, editColTo,
+                                            deleteColAll, deleteColFrom, deleteColTo;
 
     private final StartCtrl start;
-
 
     @Inject
     public EventOverviewCtrl(ServerUtils server, MainCtrl mainCtrl, StartCtrl start) {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.start = start;
+        expenses = new ArrayList<>();
         this.allParticipants= FXCollections.observableArrayList();
     }
 
@@ -88,14 +68,116 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         //set choice box
         participantsMenu.setItems(allParticipants);
         participantsMenu.setConverter(new ParticipantStringConverter());
+        setupColumns();
+        setUpImages();
+        setVisibleAdmin(false);
+    }
 
-        //set home button
-        homeView.setFitHeight(25);
-        homeView.setFitWidth(22);
-        Image setting=new Image(Objects.requireNonNull
-                (getClass().getResourceAsStream("/icons/home.png")));
-        homeView.setImage(setting);
-        homeButton.setGraphic(homeView);
+    public void setVisibleAdmin(Boolean b){
+        adminButton.setVisible(b);
+    }
+
+    @FXML void onClickAdmin(){
+        mainCtrl.showEventsAdmin();
+        setVisibleAdmin(false);
+    }
+
+    private void setupColumns() {
+        setTable(dateColAll, nameColAll, amountColAll, editColAll, deleteColAll);
+        setTable(dateColTo, nameColTo, amountColTo, editColTo, deleteColTo);
+        setTable(dateColFrom, nameColFrom, amountColFrom, editColFrom, deleteColFrom);
+    }
+
+    private void setTable(TableColumn<Expense, Date> dateCol,
+                          TableColumn<Expense, String> nameCol,
+                          TableColumn<Expense, Double> amountCol,
+                          TableColumn<Expense, Button> editCol,
+                          TableColumn<Expense, Button> deleteCol) {
+
+        dateCol.setCellValueFactory(new PropertyValueFactory<Expense, Date>("dateSent"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<Expense, String>("description"));
+        amountCol.setCellValueFactory(new PropertyValueFactory<Expense, Double>("amount"));
+        editCol.setCellValueFactory(this::createEditButton);
+        deleteCol.setCellValueFactory(this::createDeleteButton);
+
+        dateCol.setText(dateText);
+        nameCol.setText(whatForText);
+        amountCol.setText(amountText);
+        editCol.setText(editText);
+        deleteCol.setText(deleteText);
+    }
+
+    public void loadExpenses() {
+        if (event == null) return;
+        expenses = server.getExpensesByInvitationId(event.getInvitationID());
+        setDebts();
+        onMenuChange();
+    }
+
+    private SimpleObjectProperty<Button> createEditButton(
+        TableColumn.CellDataFeatures<Expense, Button> q) {
+
+        Button editButton = new Button();
+        editButton.setOnAction(event -> onEditExpenseClick(q.getValue()));
+         setImage(editButton, "/icons/pencil.png");
+        return new SimpleObjectProperty<>(editButton);
+    }
+
+    private SimpleObjectProperty<Button> createDeleteButton(
+        TableColumn.CellDataFeatures<Expense, Button> q) {
+
+        Button deleteButton = new Button();
+        deleteButton.setOnAction(event -> onDeleteExpenseClick(q.getValue()));
+        setImage(deleteButton, "/icons/trash.png");
+        return new SimpleObjectProperty<>(deleteButton);
+    }
+
+    public void onEditExpenseClick(Expense e) {
+        mainCtrl.showAddExpense(event.getInvitationID(), e);
+        System.out.println("Editing: " + e);
+    }
+
+    public void onDeleteExpenseClick(Expense e) {
+        Alert a = confirmDeleteAlert();
+        Optional<ButtonType> result = a.showAndWait();
+        if (result.isEmpty() || result.get() != ButtonType.OK) return;
+
+        removeExpenseFromLists(e);
+        onMenuChange();
+
+        server.deleteExpense(e.getId());
+    }
+
+    private void removeExpenseFromLists(Expense e) {
+        expenses.remove(e);
+        List<Debt> temp = debts.stream()
+            .filter(d -> d.getExpense().equals(e)).toList();
+        temp.forEach(d -> server.deleteDebt(d.getId()));
+        debts.removeAll(temp);
+
+    }
+
+    private Alert confirmDeleteAlert() {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setTitle(deleteAlertTitle);
+        a.setContentText(deleteAlertText);
+        return a;
+    }
+
+    private void setUpImages() {
+        setImage(homeButton, "/icons/home.png");
+        setImage(adminButton, "/icons/systemadministratormale_1.png");
+//        setImage(editParticipantsButton, "icons/pencil.png");
+    }
+
+    private void setImage(Button b, String link) {
+        ImageView iv = new ImageView();
+        iv.setFitWidth(20);
+        iv.setFitHeight(20);
+        Image image = new Image(Objects.requireNonNull
+            (getClass().getResourceAsStream(link)));
+        iv.setImage(image);
+        b.setGraphic(iv);
     }
 
 
@@ -104,23 +186,15 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         eventTitleText.setText(event.getName());
     }
 
-    public ListView<Expense> getListViewAll() {
-        return listViewAll;
-    }
-
-    public ListView<Expense> getListViewFrom(){
-        return listViewFrom;
-    }
-
-    public ListView<Expense> getListViewWith(){
-        return  listViewWith;
+    public void setDebts() {
+        debts = server.getDebtsByInvitationId(event.getInvitationID());
+        System.out.println(debts);
     }
 
     /**
      * method to open send invite page
      */
     public void onSendInvitesClick(){
-        //will do the following code snippet once implemented:
         mainCtrl.showInvitation(event.getInvitationID());
     }
 
@@ -128,17 +202,15 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      * method to add expense
      */
     public void onAddExpenseClick() {
-        //will do the following code snippet once implemented:
-        //mainCtrl.showAddExpense();
         mainCtrl.showAddExpense(event.getInvitationID());
     }
+
     /**
      * method to go back to the Home page
      */
     public void goBackHome(){
         mainCtrl.showStartScreen();
     }
-
 
     /**
      * method to open the open debts page
@@ -148,14 +220,63 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
     /**
-     * method to refresh the page
+     * method to change the contents of the expense table view
+     * should probably be encapsulated/abstracted
      */
     public void onMenuChange() {
-        System.out.println(participantsMenu.getValue());
-        listViewAll.getItems().clear();
-        listViewFrom.getItems().clear();
-        listViewWith.getItems().clear();
+        Participant p = participantsMenu.getValue();
+        System.out.println(p);
+        expenseTableViewAll.getItems().clear();
+        expenseTableViewPaidFor.getItems().clear();
+        expenseTableViewHasToPay.getItems().clear();
+        if (p == null) {
+            expenseTableViewAll.getItems().addAll(expenses);
+            setTotalText();
+            return;
+        }
+
+        List<Debt> paidForList = debts.stream()
+            .filter(debt -> debt.getTo().equals(p)).toList();
+        List<Debt> hasToPayList = debts.stream()
+            .filter(debt -> debt.getFrom().equals(p)).toList();
+
+        setPersonText(paidForList, hasToPayList);
+
+        List<Expense> paidForExpenses = paidForList.stream()
+                .map(Debt::getExpense).distinct().toList();
+        List<Expense> hasToPayExpenses = hasToPayList.stream()
+            .map(Debt::getExpense).toList();
+
+        expenseTableViewPaidFor.getItems().addAll(paidForExpenses);
+        expenseTableViewHasToPay.getItems().addAll(hasToPayExpenses);
+        expenseTableViewAll.getItems().addAll(paidForExpenses);
+        expenseTableViewAll.getItems().addAll(hasToPayExpenses);
+
     }
+
+    private void setTotalText() {
+        double total = getDebtsSum(debts);
+        allTab.setText(allTabText + ": " + total);
+        toPersonTab.setText(toTabText);
+        fromPersonTab.setText(fromTabText);
+    }
+
+    private void setPersonText(List<Debt> paidForDebts, List<Debt> hasToPayDebts) {
+        double totalTo = getDebtsSum(hasToPayDebts);
+        double totalFrom = getDebtsSum(paidForDebts);
+        allTab.setText(allTabText);
+        toPersonTab.setText(toTabText + ": " + totalTo);
+        fromPersonTab.setText(fromTabText + ": " + totalFrom);
+    }
+
+    private double getDebtsSum(List<Debt> debts) {
+        return debts.stream()
+            .filter(d -> !d.isSettled())
+            .map(Debt::getAmount)
+            .mapToDouble(d -> d)
+            .sum();
+    }
+
 
     /**
      * method to edit participant
@@ -177,13 +298,6 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
     /**
-     * method to change between the list tabs
-     */
-    public void onTabSwitch() {
-//        int tabIndex = expensesTabs.getSelectionModel().getSelectedIndex();
-    }
-
-    /**
      * maps the keyboard shortcuts to this controller/scene
      * @param e KeyEvent inputted
      */
@@ -199,13 +313,18 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
      */
     public void addAllParticipants() {
         allParticipants.clear();
+        allParticipants.add(null);
         List<Participant> pList = server.getParticipantsByInvitationId(event.getInvitationID());
         allParticipants.addAll(pList);
+
         String pListString = pList.stream().map(Participant::getName).toList().toString();
         pListString = pListString.substring(1, pListString.length()-1);
         participantsListText.setText(pListString);
-        allParticipants.add(new Participant("", null, null, null, null));
     }
+
+    private String allTabText, fromTabText, toTabText,
+    dateText, amountText, whatForText, editText, deleteText,
+    deleteAlertTitle, deleteAlertText;
 
     @Override
     public void LanguageSwitch() {
@@ -216,11 +335,20 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         editParticipantsButton.setText(Main.getLocalizedString("editParticipants"));
         expensesText.setText(Main.getLocalizedString("Expenses"));
         addExpenseButton.setText(Main.getLocalizedString("addExpense"));
-        allTab.setText(Main.getLocalizedString("All"));
-        fromPersonTab.setText(Main.getLocalizedString("fromPerson"));
-        toPersonTab.setText(Main.getLocalizedString("toPerson"));
+        allTabText = Main.getLocalizedString("All");
+        fromTabText = Main.getLocalizedString("fromPerson");
+        toTabText = Main.getLocalizedString("toPerson");
         settleDebtsButton.setText(Main.getLocalizedString("settleDebts"));
+        adminButton.setText(Main.getLocalizedString("Admin"));
+        deleteAlertText = Main.getLocalizedString("deleteAlertText");
+        deleteAlertTitle = Main.getLocalizedString("deleteAlertTitle");
 
+        dateText = Main.getLocalizedString("expenseDate");
+        amountText = Main.getLocalizedString("Amount");
+        whatForText = Main.getLocalizedString("whatFor");
+        editText = Main.getLocalizedString("editExpense");
+        deleteText = Main.getLocalizedString("deleteExpense");
+        setupColumns();
     }
 
 }
