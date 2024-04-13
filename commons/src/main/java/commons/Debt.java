@@ -145,11 +145,10 @@ public class Debt {
 
     @Override
     public String toString() {
-        return "Debt" +
-                ", from=" + from +
-                ", to=" + to +
-                ", amount=" + amount +
-                '}';
+        return "Debt: settled = " + isSettled() +
+                ", from = " + from.getName() +
+                ", to = " + to.getName() +
+                ", amount = " + amount;
     }
 
     /**

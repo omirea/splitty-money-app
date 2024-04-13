@@ -238,6 +238,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
         for (int i = 0; i < debts.size(); i++) {
 
+            System.out.println(debts);
+
             Debt debt1 = new Debt(debts.get(i).getFrom(),
                     debts.get(i).getTo(), debts.get(i).getAmount());
             newDebts.add(debt1);
