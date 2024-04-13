@@ -3,14 +3,17 @@ package client.scenes;
 import client.Main;
 import client.nodes.ConnectionSetup;
 import client.nodes.LanguageSwitch;
-import client.nodes.ThemeService;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.Objects;
 
 
@@ -22,16 +25,22 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
 
     private LanguageSwitch languageSwitch;
 
-    private ThemeService themeService;
-
     @FXML
     private RadioMenuItem englishButton;
+
+    @FXML
+    private Button changeServerButton;
+
     @FXML
     private ImageView englishView;
     @FXML
     private RadioMenuItem dutchButton;
     @FXML
     private ImageView dutchView;
+    @FXML
+    private RadioMenuItem turkishButton;
+    @FXML
+    private ImageView turkishView;
     @FXML
     private MenuButton languageMenuButton;
     @FXML
@@ -44,14 +53,11 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
 
 
     @Inject
-    public SettingsPageCtrl(MainCtrl mainCtrl, ConnectionSetup cs,
-                            LanguageSwitch ls, ThemeService ts){
+    public SettingsPageCtrl(ConnectionSetup cs, LanguageSwitch ls, MainCtrl mainCtrl){
         connectionSetup = cs;
         languageSwitch = ls;
         this.mainCtrl=mainCtrl;
-        this.themeService=ts;
     }
-
 
     @FXML
     public void initialize(){
@@ -70,15 +76,24 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
                 (getClass().getResourceAsStream("/icons/dutch.png")));
         dutchView.setImage(setting);
         dutchButton.setGraphic(dutchView);
+
+        turkishView.setFitHeight(25);
+        turkishView.setFitWidth(22);
+        setting=new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/turkish.png")));
+        turkishView.setImage(setting);
+        turkishButton.setGraphic(turkishView);
     }
 
     public void onEnglishSwitchClick() {
         dutchButton.setSelected(false);
+        turkishButton.setSelected(false);
         languageSwitch.saveToConfig("translations_en");
         Main.switchLocale("translations", "en");
     }
     public void onDutchSwitchClick() {
         englishButton.setSelected(false);
+        turkishButton.setSelected(false);
         languageSwitch.saveToConfig("translations_nl");
         Main.switchLocale("translations", "nl");
     }
@@ -93,23 +108,77 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
         themeButton.setText(Main.getLocalizedString("Theme"));
         englishButton.setText(Main.getLocalizedString("English"));
         dutchButton.setText(Main.getLocalizedString("Dutch"));
+        turkishButton.setText(Main.getLocalizedString("Turkish"));
         lightModeButton.setText(Main.getLocalizedString("lightMode"));
         darkModeButton.setText(Main.getLocalizedString("darkMode"));
+        changeServerButton.setText(Main.getLocalizedString("changeServer"));
 
     }
-    public void darkMode()  {
+    public void darkMode(ActionEvent event) throws MalformedURLException {
         lightModeButton.setSelected(false);
-        darkModeButton.setSelected(true);
-        themeService.saveToConfig("stylesheets/darkMode.css");
-        mainCtrl.changeTheme("stylesheets/darkMode.css");
+        File style = new File("./src/main/resources/style.css");
+        mainCtrl.getSettingsPage().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getClosedDebts().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getExpense().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getInvitation().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getStart().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getOverview().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getManageParticipants().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getEventsAdmin().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getLogInAdmin().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getOpenDebts().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getAddEditParticipant().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
+        mainCtrl.getAddEditParticipant().getStylesheets().
+                add(style.toURI().toURL().toExternalForm());
     }
 
 
-    public void lightMode() {
+    public void lightMode(ActionEvent actionEvent) throws MalformedURLException {
         darkModeButton.setSelected(false);
-        lightModeButton.setSelected(true);
-        themeService.saveToConfig("stylesheets/whiteMode.css");
-        mainCtrl.changeTheme("stylesheets/whiteMode.css");
+        File style = new File("./src/main/resources/style.css");
+        mainCtrl.getSettingsPage().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getClosedDebts().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getExpense().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getInvitation().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getStart().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());;
+        mainCtrl.getOverview().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getManageParticipants().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getEventsAdmin().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getLogInAdmin().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getOpenDebts().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getAddEditParticipant().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+        mainCtrl.getAddEditParticipant().getStylesheets().
+                remove(style.toURI().toURL().toExternalForm());
+
     }
 
+
+    public void onTurkishSwitchClick(ActionEvent event) {
+        englishButton.setSelected(false);
+        dutchButton.setSelected(false);
+        languageSwitch.saveToConfig("translations_tr");
+        Main.switchLocale("translations", "tr");
+    }
 }
