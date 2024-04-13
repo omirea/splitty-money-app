@@ -145,7 +145,8 @@ public class SettingsPageCtrl implements Main.LanguageSwitch {
             }
     }
 
-    private static void fileWriting(File destinationFile, InputStream inputStream) throws IOException {
+    private static void fileWriting(File destinationFile, InputStream inputStream)
+            throws IOException {
         try (inputStream; FileOutputStream outputStream = new FileOutputStream(destinationFile)) {
             byte[] buffer = new byte[1024];
             int bytesRead;
