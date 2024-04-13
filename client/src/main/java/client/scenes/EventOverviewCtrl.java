@@ -18,7 +18,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.text.Text;
 
 import java.util.*;
 
@@ -32,11 +31,11 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     List<Expense> expenses;
     List<Debt> debts;
 
-    @FXML private Text participantsListText, eventTitleText;
+    @FXML private Label participantsListText, eventTitleText;
     @FXML private ChoiceBox<Participant> participantsMenu;
     @FXML private Tab allTab, fromPersonTab, toPersonTab;
 
-    @FXML private Text participantsText, expensesText;
+    @FXML private Label participantsText, expensesText;
     @FXML private Button homeButton, editTitleButton, sendInvitesButton,
         editParticipantsButton, addExpenseButton, settleDebtsButton, adminButton;
 
