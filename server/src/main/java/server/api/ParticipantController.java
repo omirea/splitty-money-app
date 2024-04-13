@@ -41,7 +41,7 @@ public class ParticipantController {
      * @param participant
      */
     @MessageMapping("/remParticipants") // /app/remParticipants
-    @SendTo("/topic/participants")
+    @SendTo("/topic/remParticipants")
     public Participant deleteParticipant(Participant participant){
         deleteParticipant(participant.getId());
         return participant;
