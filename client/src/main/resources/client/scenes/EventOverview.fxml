@@ -20,7 +20,16 @@
    <children>
       <VBox layoutX="11.2" layoutY="3.2" prefHeight="387.0" prefWidth="633.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Button fx:id="homeButton" mnemonicParsing="false" onAction="#goBackHome" text="Home" />
+            <HBox fx:id="homeAndAdmin" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="homeButton" mnemonicParsing="false" onAction="#goBackHome" text="Home" />
+                  <Button fx:id="adminButton" mnemonicParsing="false" onAction="#onClickAdmin" text="Admin">
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="260.0" spacing="10.0">
                <children>
                   <Label fx:id="eventTitleText" text="[Event Title]">
