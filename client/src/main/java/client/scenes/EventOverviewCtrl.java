@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+
 import java.util.*;
 
 import static java.time.zone.ZoneRulesProvider.refresh;
@@ -30,6 +31,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     private final MainCtrl mainCtrl;
 
     private final ObservableList<Participant> allParticipants;
+
     Event event;
     List<Expense> expenses;
     List<Debt> debts;

@@ -13,12 +13,12 @@ public class SendEmailApplication implements CommandLineRunner {
     @Autowired
     private EmailSenderService emailSenderService;
 
-    public static void main(String[] args) {
+    @Async
+    public void main(String[] args) {
         SpringApplication.run(SendEmailApplication.class, args);
     }
 
     @Override
-    @Async
     public void run(String[] args) {
         // Sending email
         String to = args[0];

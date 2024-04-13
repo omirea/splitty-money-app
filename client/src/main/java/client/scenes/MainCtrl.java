@@ -27,11 +27,13 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MainCtrl {
 
     private Stage primaryStage;
 
     private Stage anotherStage;
+
     private AddEditParticipantCtrl addEditParticipantCtrl;
     private OpenDebtsCtrl openDebtsCtrl;
     private InvitationCtrl invitationCtrl;
