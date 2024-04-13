@@ -350,5 +350,10 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         setupColumns();
     }
 
+
+    public void showStatistics(){
+        mainCtrl.showStatisticsPage();
+    }
+
 }
 

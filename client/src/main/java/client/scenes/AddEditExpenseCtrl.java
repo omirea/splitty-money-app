@@ -4,6 +4,7 @@ import client.Main;
 import client.nodes.ParticipantStringConverter;
 import client.nodes.PersonAmount;
 import client.utils.ServerUtils;
+import com.sun.source.tree.LambdaExpressionTree;
 import commons.Debt;
 import commons.Event;
 import commons.Expense;
@@ -13,31 +14,46 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 
 import javax.inject.Inject;
+import java.awt.*;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.List;
 
 public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     private ObservableList<String> currencyList =
         FXCollections.observableArrayList("EUR", "USD", "GBP");
     // Add expense
+
+    private ObservableList<String> tags=
+            FXCollections.observableArrayList();
     private ObservableList<Participant> participants;
     private ObservableList<PersonAmount> personAmounts;
     private MainCtrl mainCtrl;
     private final ServerUtils server;
 
     @FXML
+    private ColorPicker colorPicker;
+
+    @FXML
     private ChoiceBox<Participant> whoPaidField;
     @FXML
-    private TextField whatForField, howMuchField;
+    private TextField whatForField, howMuchField, tagField;
     @FXML
     private DatePicker whenField;
     @FXML
     private ChoiceBox<String> currencyField;
+
+    @FXML
+    private ChoiceBox<String> tagChoiceBox;
 
     @FXML
     private Label addExpenseText, whoPaidText, whatForText, howMuchText, whenText, howToSplitText;
@@ -98,6 +114,17 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         howMuchField.setText("0");
         currencyField.setValue("EUR");
         currencyField.setItems(currencyList);
+        tags.addAll("food", "transport", "decorations");
+//        Label label=new Label("food");
+//        label.setStyle("-fx-background-color: #ec6767");
+//        tags.add(label);
+//        label=new Label("transport");
+//        label.setStyle("-fx-background-color: #7d7dea");
+//        tags.add(label);
+//        label=new Label("decorations");
+//        label.setStyle("-fx-background-color: pink");
+//        tags.add(label);
+        tagChoiceBox.setItems(tags);
 
         whatForField.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -391,6 +418,21 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             pa.getTextField().setText(d.getAmount().toString());
             pa.getCheckBox().selectedProperty().setValue(true);
             tableView.getItems().add(pa);
+        }
+    }
+
+    public void addTag(){
+        if(!tagField.getText().isEmpty()){
+            //Color color=colorPicker.getCustomColors().getFirst();
+            //Label label=new Label(tagField.getText());
+            //label.setStyle("-fx-background-color: #" +
+                    //.toHexString(color.hashCode()).substring(0, 6));
+            tags.add(tagField.getText());
+            tagField.clear();
+            Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Tag Created");
+            alert.setContentText("Tag created successfully!");
+            alert.showAndWait();
         }
     }
 }

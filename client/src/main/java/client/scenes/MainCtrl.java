@@ -44,12 +44,13 @@ public class MainCtrl {
     private ManageEventsAdminCtrl manageEventsAdminCtrl;
     private SettingsPageCtrl settingsPageCtrl;
     private ThemeService themeService;
+    private PieChartPage pieChartPage;
 
     private List<Scene> scenes;
 
     private Scene addEditParticipant, openDebts, invitation,
         expense, overview, manageParticipants, start,
-        logInAdmin, closedDebts, eventsAdmin, settingsPage;
+        logInAdmin, closedDebts, eventsAdmin, settingsPage, pieChartScene;
 
 
 
@@ -64,7 +65,8 @@ public class MainCtrl {
                            Pair<AdminLogInCtrl, Parent> logInAdminA,
                            Pair<ClosedDebtsCtrl, Parent> closedDebts,
                            Pair<ManageEventsAdminCtrl, Parent> eventsAdmin,
-                            Pair<SettingsPageCtrl, Parent> settingsPage) {
+                            Pair<SettingsPageCtrl, Parent> settingsPage,
+                           Pair<PieChartPage, Parent> pieChartScene) {
         this.primaryStage = primaryStage;
         this.anotherStage = new Stage();
         this.startCtrl = start.getKey();
@@ -90,6 +92,8 @@ public class MainCtrl {
         this.settingsPageCtrl = settingsPage.getKey();
         this.settingsPage=new Scene(settingsPage.getValue());
         this.themeService=new ThemeService();
+        this.pieChartPage=pieChartScene.getKey();
+        this.pieChartScene=new Scene(pieChartScene.getValue());
         Main.switchLocale("translations","en");
         initializeScenes();
         changeTheme(themeService.getTheme());
@@ -285,4 +289,8 @@ public class MainCtrl {
         return expense;
     }
 
+    public void showStatisticsPage() {
+        primaryStage.setTitle("Splitty: Statistics Page");
+        primaryStage.setScene(pieChartScene);
+    }
 }
