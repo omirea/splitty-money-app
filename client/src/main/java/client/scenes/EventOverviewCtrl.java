@@ -18,7 +18,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 
 import java.util.*;
@@ -49,7 +48,6 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     @FXML private TableColumn<Expense, Double> amountColAll, amountColFrom, amountColTo;
     @FXML private TableColumn<Expense, Button> editColAll, editColFrom, editColTo,
                                             deleteColAll, deleteColFrom, deleteColTo;
-    @FXML private HBox homeAndAdmin;
 
     private final StartCtrl start;
 
