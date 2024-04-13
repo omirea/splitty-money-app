@@ -120,7 +120,7 @@ public class MainCtrl {
         openDebtsCtrl.setEvent(id);
         openDebts.getStylesheets().add("stylesheets/debts.css");
         openDebtsCtrl.addDebtsToList();
-        openDebtsCtrl.addParticipantsToChoiceBox(id);
+        openDebtsCtrl.addParticipantsToChoiceBox();
         primaryStage.setTitle("Splitty: Open Debts");
         primaryStage.setScene(openDebts);
     }
@@ -242,10 +242,10 @@ public class MainCtrl {
      */
     public void showClosedDebts(String id) {
         closedDebtsCtrl.setEvent(id);
-        primaryStage.setTitle("Closed Debts");
         closedDebts.getStylesheets().add("stylesheets/debts.css");
         closedDebtsCtrl.addDebtsToList();
-        closedDebtsCtrl.addParticipantsToChoiceBox(id);
+        closedDebtsCtrl.addParticipantsToChoiceBox();
+        primaryStage.setTitle("Closed Debts");
         primaryStage.setScene(closedDebts);
     }
 

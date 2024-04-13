@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -70,7 +71,6 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         this.mainCtrl=mainCtrl;
         this.allParticipants = FXCollections.observableArrayList();
         this.allDebts=FXCollections.observableArrayList();
-        ObservableList<String> debtsString = FXCollections.observableArrayList();
         this.debtsTables=FXCollections.observableArrayList();
         this.newDebts=FXCollections.observableArrayList();
     }
@@ -418,50 +418,29 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
      * method to search based on the participant filters chosen
      */
     public void searchByParticipant(){
-       Participant to = toParticipantCB.getSelectionModel().getSelectedItem();
-       Participant from = fromParticipantCB.getSelectionModel().getSelectedItem();
-       newDebts.clear();
-       newDebts.addAll(allDebts);
-        if(from!=null && !from.getName().isEmpty()) {
-            ObservableList<Debt> tempDebts=chosenSelectedParticipants(from, 1);
-            newDebts.clear();
-            newDebts.addAll(tempDebts);
+        Participant to = toParticipantCB.getSelectionModel().getSelectedItem();
+        Participant from = fromParticipantCB.getSelectionModel().getSelectedItem();
+        List<DebtsTable> filteredList = new ArrayList<>(debtsTables);
+        if (from != null && !from.getName().isEmpty()) {
+            filteredList = filteredList.stream()
+                    .filter(debtsTable -> Objects.equals(debtsTable.getDebt().getFrom().getId(),
+                            from.getId())).toList();
         }
-       if(to!=null && !to.getName().isEmpty()) {
-           ObservableList<Debt> tempDebts=chosenSelectedParticipants(to, 2);
-           newDebts.clear();
-           newDebts.addAll(tempDebts);
-       }
-       createDebtsTable();
-       tableView.setItems(debtsTables);
-    }
-
-    /**
-     * show only debts that have the selected From participant
-     * as person who pays
-     */
-    public ObservableList<Debt> chosenSelectedParticipants(Participant participant, int method){
-        ObservableList<Debt> tempDebts= FXCollections.observableArrayList();
-        for(Debt debt : newDebts){
-            Participant p;
-            if(method==1)
-                p=debt.getFrom();
-            else
-                p=debt.getTo();
-            if(p.equals(participant))
-                tempDebts.add(debt);
+        if (to != null && !to.getName().isEmpty()) {
+            filteredList = filteredList.stream()
+                    .filter(debtsTable -> Objects.equals(debtsTable.getDebt().getTo().getId(),
+                            to.getId())).toList();
         }
-        return tempDebts;
+        ObservableList<DebtsTable> filtered = FXCollections.observableArrayList(filteredList);
+        tableView.setItems(filtered);
     }
-
 
     /**
      * add the event participants to the choice box
-     * @param id of the event
      */
-    public void addParticipantsToChoiceBox(String id) {
+    public void addParticipantsToChoiceBox() {
         allParticipants.clear();
-        List<Participant> pList = server.getParticipantsByInvitationId(id);
+        List<Participant> pList = server.getParticipantsByInvitationId(event.getInvitationID());
         allParticipants.addAll(pList);
         allParticipants.add(new Participant("", null, null, null, null));
     }
