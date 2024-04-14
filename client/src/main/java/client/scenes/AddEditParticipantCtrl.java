@@ -122,13 +122,6 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             String iban = ibanTextField.getText();
             String bic = bicTextField.getText();
 
-            if (!hasUniqueName(name)) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle(Main.getLocalizedString("alertNameTakenTitle"));
-                alert.setContentText(Main.getLocalizedString("alertNameTakenContent"));
-                alert.setHeaderText(null);
-                alert.showAndWait();
-            } else {
                 if (participant == null) {
                     participant = new Participant(name, email, accHolder, iban, bic, event);
                 } else {
@@ -138,6 +131,13 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
                     participant.setIBAN(iban);
                     participant.setBIC(bic);
                 }
+            if (!hasUniqueName(participant)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle(Main.getLocalizedString("alertNameTakenTitle"));
+                alert.setContentText(Main.getLocalizedString("alertNameTakenContent"));
+                alert.setHeaderText(null);
+                alert.showAndWait();
+            } else {
                 server.send("/app/participants", participant);
 
                 String oldName = event.getName();
@@ -163,11 +163,11 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
         }
     }
 
-    private boolean hasUniqueName(String name) {
+    private boolean hasUniqueName(Participant name) {
         List<Participant> allP = server.getParticipantsByInvitationId(event.getInvitationID());
         boolean bool = true;
         for(Participant p : allP){
-            if(p.getName().equals(name)){
+            if(p.getName().equals(name.getName()) & !p.equals(name)){
                 bool = false;
                 return bool;
             }
