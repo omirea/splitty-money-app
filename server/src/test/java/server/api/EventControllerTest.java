@@ -1,6 +1,5 @@
 package server.api;
 
-import commons.Debt;
 import commons.Event;
 import commons.Expense;
 import commons.Participant;
@@ -8,21 +7,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.concurrent.SettableListenableFuture;
-import org.springframework.web.context.request.async.DeferredResult;
 import server.database.EventRepository;
 import server.database.ExpenseRepository;
 import server.database.ParticipantRepository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
