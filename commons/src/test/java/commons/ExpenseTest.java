@@ -28,6 +28,12 @@ public class ExpenseTest {
     }
 
     @Test
+    void emptyConstructorTest(){
+        Expense expense=new Expense();
+        assertNull(expense.getAmount());
+    }
+
+    @Test
     void getIdTest(){
         Long id = (long) 1;
         assertEquals(id, e.getId());
