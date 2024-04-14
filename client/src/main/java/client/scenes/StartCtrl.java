@@ -1,7 +1,6 @@
 package client.scenes;
 
 import client.Main;
-import client.nodes.ConnectionSetup;
 import client.nodes.LanguageSwitch;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -49,25 +48,16 @@ public class StartCtrl implements  Main.LanguageSwitch {
     private TableColumn<Event, Button> deleteColumn;
     @FXML
     private TableColumn<Event, Button> openColumn;
-    ConnectionSetup connectionSetup;
 
     private LanguageSwitch languageSwitch;
 
+
+
     @Inject
-    public StartCtrl(ServerUtils server, MainCtrl mainCtrl, ConnectionSetup cs,
-                     LanguageSwitch languageSwitch) {
+    public StartCtrl(ServerUtils server, MainCtrl mainCtrl, LanguageSwitch languageSwitch) {
         this.server = server;
         this.mainCtrl = mainCtrl;
-        this.connectionSetup = cs;
         this.languageSwitch=languageSwitch;
-    }
-
-    public void setUpConnection() {
-        if (connectionSetup.hasConfiguredServer()) {
-            server.setServer(connectionSetup.getConfiguredServer());
-            return;
-        }
-        connectionSetup.promptUser();
     }
 
     public void setUpLanguage(){
@@ -160,7 +150,6 @@ public class StartCtrl implements  Main.LanguageSwitch {
      */
     public void onJoinClick() {
         System.out.println("Join: " + joinEventField.getText());
-        // TODO: connect to database, open new window
         try {
             mainCtrl.showEventOverview(joinEventField.getText());
             Event e =  server.getEventByInvitationId(joinEventField.getText());
@@ -170,7 +159,6 @@ public class StartCtrl implements  Main.LanguageSwitch {
         } catch (Exception e) {
             Alert alert = getAlertIncorrectInvitationId();
             alert.show();
-            throw e;
         }
     }
 

@@ -16,8 +16,10 @@
 package client.scenes;
 
 import client.Main;
+import client.nodes.ConnectionSetup;
 import client.nodes.ThemeService;
 import commons.Event;
+import com.google.inject.Inject;
 import commons.Expense;
 import commons.Participant;
 import javafx.scene.Parent;
@@ -31,7 +33,6 @@ import java.util.List;
 public class MainCtrl {
 
     private Stage primaryStage;
-
     private Stage anotherStage;
     private AddEditParticipantCtrl addEditParticipantCtrl;
     private OpenDebtsCtrl openDebtsCtrl;
@@ -51,8 +52,14 @@ public class MainCtrl {
 
     private Scene addEditParticipant, openDebts, invitation,
         expense, overview, manageParticipants, start,
+
         logInAdmin, closedDebts, eventsAdmin, settingsPage, pieChartScene;
 
+    private ConnectionSetup cs;
+    @Inject
+    public MainCtrl(ConnectionSetup cs) {
+        this.cs = cs;
+    }
 
 
     public void initialize(Stage primaryStage,
@@ -96,9 +103,10 @@ public class MainCtrl {
         this.pieChartPage=pieChartScene.getKey();
         this.pieChartScene=new Scene(pieChartScene.getValue());
         Main.switchLocale("translations","en");
+
         initializeScenes();
         changeTheme(themeService.getTheme());
-
+        cs.setUpConnection();
 
         showStartScreen();
         primaryStage.show();
@@ -116,6 +124,7 @@ public class MainCtrl {
         anotherStage.setTitle("Splitty: Add/Edit Participant");
         anotherStage.setScene(addEditParticipant);
         anotherStage.show();
+
     }
 
     public void showAddParticipant(String id, Participant participant) {
@@ -153,7 +162,6 @@ public class MainCtrl {
     public void showStartScreen() {
         primaryStage.setTitle("Splitty: Start");
         primaryStage.setScene(start);
-        startCtrl.setUpConnection();
         startCtrl.setUpLanguage();
     }
 
@@ -205,11 +213,14 @@ public class MainCtrl {
         manageParticipantsCtrl.addNewParticipant(participantToAdd);
         primaryStage.setTitle("Splitty: Manage Participants");
         primaryStage.setScene(manageParticipants);
+        manageParticipants.setOnKeyPressed(e -> manageParticipantsCtrl.keyPressed(e));
     }
+
     public void showManageParticipants(String invitationId) {
         showManageParticipants(invitationId, null);
         manageParticipantsCtrl.setPreUpdatedParticipants();
         manageParticipantsCtrl.addAllParticipants();
+        manageParticipants.setOnKeyPressed(e -> manageParticipantsCtrl.keyPressed(e));
     }
 
     /**
@@ -219,6 +230,7 @@ public class MainCtrl {
         primaryStage.setTitle("Splitty: Admin Log In");
         primaryStage.setScene(logInAdmin);
         adminLogInCtrl.generatePassword();
+        logInAdmin.setOnKeyPressed(e -> adminLogInCtrl.enterKeyPressed(e));
     }
 
     /**
@@ -237,10 +249,18 @@ public class MainCtrl {
      * method to show the Settings page
      */
     public void showSettingsPage() {
-        Stage anotherStage=new Stage();
-        anotherStage.setTitle("Splitty: Settings Page");
-        anotherStage.setScene(settingsPage);
-        anotherStage.show();
+        if(anotherStage.isShowing() && anotherStage != null){
+            anotherStage.toFront();
+        } else {
+            anotherStage=new Stage();
+            anotherStage.setTitle("Splitty: Settings Page");
+            anotherStage.setScene(settingsPage);
+            anotherStage.initOwner(primaryStage);
+            anotherStage.show();
+        }
+        if(anotherStage.getOwner() == null){
+            anotherStage.close();
+        }
     }
 
     /**

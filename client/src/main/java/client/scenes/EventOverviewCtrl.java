@@ -75,20 +75,6 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         setupColumns();
         setUpImages();
         setVisibleAdmin(false);
-
-        server.registerForMessages("/topic/participants", p ->{
-            Platform.runLater(() ->{
-                addAllParticipants();
-                refresh();
-            });
-        });
-
-        server.registerForMessages("/topic/remParticipants", p ->{
-            Platform.runLater(() ->{
-                addAllParticipants();
-                refresh();
-            });
-        });
     }
 
     public void setVisibleAdmin(Boolean b){
@@ -338,6 +324,20 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         String pListString = pList.stream().map(Participant::getName).toList().toString();
         pListString = pListString.substring(1, pListString.length()-1);
         participantsListText.setText(pListString);
+
+        server.registerForMessages("/topic/participants", p ->{
+            Platform.runLater(() ->{
+                addAllParticipants();
+                refresh();
+            });
+        });
+
+        server.registerForMessages("/topic/remParticipants", p ->{
+            Platform.runLater(() ->{
+                addAllParticipants();
+                refresh();
+            });
+        });
     }
 
     private String allTabText, fromTabText, toTabText,

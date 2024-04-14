@@ -16,7 +16,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.util.Duration;
 
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 
 public class InvitationCtrl implements Main.LanguageSwitch{
 

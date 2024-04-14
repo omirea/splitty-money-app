@@ -1,5 +1,6 @@
 package client.nodes;
 
+import client.Main;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.scene.control.Alert;
@@ -27,14 +28,26 @@ public class ConnectionSetup {
         }
     }
 
+    public void setUpConnection() {
+        if (!hasConfiguredServer()) {
+            promptUser();
+            return;
+        }
+        boolean b = serverUtils.trySetServer(getConfiguredServer());
+        if (!b) {
+            promptUser();
+        }
+        System.out.println(serverUtils);
+    }
+
     /**
      * sets the URL for the server
      * @param server URL of the server
      * @return true if it worked, false otherwise.
      */
-    private void setServer(String server) {
+    private boolean setServer(String server) {
         saveToConfig(server);
-        serverUtils.setServer(prop.getProperty("server"));
+        return serverUtils.trySetServer(prop.getProperty("server"));
     }
 
     private void saveToConfig(String server) {
@@ -52,6 +65,7 @@ public class ConnectionSetup {
      */
     public String getConfiguredServer() {
         String server = prop.getProperty("server");
+        System.out.println("Server: " + server);
         if (server.isEmpty()) {
             return null;
         }
@@ -74,7 +88,8 @@ public class ConnectionSetup {
         boolean done = false;
         while (!done) {
             TextInputDialog tid = new TextInputDialog(prompt);
-            tid.setHeaderText("Enter the server you would like to connect to:");
+
+            tid.setHeaderText(Main.getLocalizedString("serverConnect"));
             Optional<String> result = tid.showAndWait();
             if (result.isPresent()){
                 String res = result.get();

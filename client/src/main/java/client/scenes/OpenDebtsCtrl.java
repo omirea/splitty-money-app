@@ -18,7 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -282,9 +282,10 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
             Text to=new Text(debt.getTo().getName());
 
             makeTextBold(from, howMuch, currency, to);
-            textFlow.getChildren().addAll(from, new Text(Main.getLocalizedString("needsToPay")),
+            textFlow.getChildren().addAll(from, new Text(" " +
+                            Main.getLocalizedString("needsToPay")+ " "),
                     howMuch, new Text(" "), currency,
-                    new Text(Main.getLocalizedString("toPerson")), to);
+                    new Text(" " + Main.getLocalizedString("toPerson") + " "), to);
             TreeItem<TextFlow> treeItemRoot=new TreeItem<>(textFlow);
             TextFlow detailsFlow=new TextFlow();
             Text details=getExtraDetails(debt);
@@ -332,8 +333,9 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         Participant participant=debt.getTo();
         if(participant.getIBAN().isEmpty())
             return new Text(Main.getLocalizedString("noBankInformation"));
-        String info=Main.getLocalizedString("bankInformationAvailable") +
-                Main.getLocalizedString("accountHolder") +  participant.getAccountHolder()  + "\n" +
+        String info=Main.getLocalizedString("bankInformationAvailable") + "\n" +
+                Main.getLocalizedString("accountHolder") + " " + participant.getAccountHolder()
+                + "\n" +
                 "IBAN: " + participant.getIBAN() + "\n";
         if(participant.getBIC().isEmpty())
             info=info + Main.getLocalizedString("BICUnknown");

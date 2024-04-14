@@ -17,7 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.List;
 
 public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     private ObservableList<String> currencyList =
-        FXCollections.observableArrayList("EUR", "USD", "GBP");
+        FXCollections.observableArrayList("EUR");
     // Add expense
 
     private ObservableList<String> tags=
@@ -145,7 +145,6 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
      */
     @FXML
     public void onAddClick() {
-
         if (whatForField.getText() != null && whenField.getValue() != null
             && howMuchField.getText() != null && (allPeopleField.getText() != null
             || onlySomePeopleField.getText() != null)) {
@@ -160,9 +159,10 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                     sum += Double.parseDouble(pa.getTextField().getText());
                 }
             }
-            if (sum > total)
+            if (sum > total && onlySomePeopleField.isSelected())
                 sumIsLarger();
             else {
+                autoDivideMethod();
                 Expense expense1 = createExpense();
                 expense = null;
                 mainCtrl.showEventOverview(event.getInvitationID());
@@ -174,7 +174,6 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             alert.setHeaderText(null);
             alert.showAndWait();
         }
-
     }
 
     /**
@@ -217,8 +216,9 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             expense.setDateSent(date);
             expense.setAmount(amount);
             expense.setDescription(whatFor);
-//            expense.setCurrency(currency);
+            //expense.setCurrency(currency);
             expense.setType(type);
+
             expense.setEvent(event);
             expense = server.updateExpense(expense, expense.getId());
         }
