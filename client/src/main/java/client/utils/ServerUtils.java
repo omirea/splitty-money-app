@@ -519,11 +519,6 @@ public class ServerUtils {
 	}
 
 	private void reconnect() {
-		// Implement reconnect logic here
-		// This method will be called when connection fails
-		// You can set a timer to attempt reconnection after a delay
-		// You can also track the number of reconnection attempts and limit them
-		// Example:
 		int maxReconnectAttempts = 5;
 		int reconnectAttempts = 0;
 		while (reconnectAttempts < maxReconnectAttempts) {
