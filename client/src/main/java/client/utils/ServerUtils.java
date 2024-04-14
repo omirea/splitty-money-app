@@ -507,28 +507,63 @@ public class ServerUtils {
 		converter.setObjectMapper(objectMapper);
 
 		stomp.setMessageConverter(converter);
-		//stomp.setMessageConverter(new MappingJackson2MessageConverter());
 		try{
 			return stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
 
-		}catch (InterruptedException | ExecutionException e){
-			Thread.currentThread().interrupt();
+		}catch (InterruptedException | ExecutionException | IllegalStateException e) {
+			e.printStackTrace();
+			// Implement reconnect logic here
+			reconnect();
 		}
-		throw new IllegalStateException();
+		throw new IllegalStateException("Failed to connect to WebSocket server");
+	}
+
+	private void reconnect() {
+		// Implement reconnect logic here
+		// This method will be called when connection fails
+		// You can set a timer to attempt reconnection after a delay
+		// You can also track the number of reconnection attempts and limit them
+		// Example:
+		int maxReconnectAttempts = 5;
+		int reconnectAttempts = 0;
+		while (reconnectAttempts < maxReconnectAttempts) {
+			try {
+				Thread.sleep(1000); // Wait for 5 seconds before attempting reconnection
+				reconnectAttempts++;
+				session = connect(); // Attempt to reconnect
+				if (session != null) {
+					// Reconnection successful, exit the loop
+					System.out.println("Reconnected to WebSocket server");
+					return;
+				}
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
+		}
+		// If maximum reconnect attempts reached, handle it appropriately
+		System.out.println("Failed to reconnect to WebSocket server after maximum attempts");
 	}
 
 	public void registerForMessages(String dest, Consumer<Participant> consumer){
-		session.subscribe(dest, new StompFrameHandler() {
-			@Override
-			public Type getPayloadType(StompHeaders headers) {
-				return Participant.class;
-			}
+		try {
+			session.subscribe(dest, new StompFrameHandler() {
+				@Override
+				public Type getPayloadType(StompHeaders headers) {
+					return Participant.class;
+				}
 
-			@Override
-			public void handleFrame(StompHeaders headers, Object payload) {
-				consumer.accept((Participant) payload);
-			}
-		});
+				@Override
+				public void handleFrame(StompHeaders headers, Object payload) {
+					consumer.accept((Participant) payload);
+				}
+			});
+		}catch (IllegalAccessError | IllegalStateException e)
+		{
+			reconnect();
+			e.printStackTrace();
+			//Thread.currentThread().interrupt();
+		}
+		//throw new IllegalStateException();
 	}
 
 	public void send(String dest, Object o){
