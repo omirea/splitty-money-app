@@ -1,19 +1,28 @@
 package server.api;
 
+import commons.Debt;
 import commons.Event;
+import commons.Expense;
+import commons.Participant;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.concurrent.SettableListenableFuture;
+import org.springframework.web.context.request.async.DeferredResult;
 import server.database.EventRepository;
+import server.database.ExpenseRepository;
+import server.database.ParticipantRepository;
 
-
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.ConcurrentMap;
+import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -26,8 +35,20 @@ public class EventControllerTest {
 //    private TestExpenseRepository exRepo;
 
     @Mock
+    private ConcurrentMap<Object, EventListener> listeners;
+    @Mock
     private EventRepository eventRepository;
 
+    @Mock
+    private ExpenseRepository expenseRepository;
+
+    @Mock
+    private ParticipantRepository participantRepository;
+    @Mock
+    private ParticipantController participantController;
+
+    @InjectMocks
+    private DebtController debtController;
 
     @InjectMocks
     private EventController eventController;
@@ -109,6 +130,62 @@ public class EventControllerTest {
 //
 //        assertEquals(response, list);
 //    }
+
+    @Test
+    public void getEventByInvitationIdTest() {
+        String invitationId = "yourInvitationId";
+        Event event = new Event();
+        event.setInvitationID(invitationId);
+        Optional<Event> optionalEvent = Optional.of(event);
+        when(eventRepository.findOne(any())).thenReturn(optionalEvent);
+        Expense expense = new Expense();
+        List<Expense> expenses = Arrays.asList(expense);
+        when(expenseRepository.findAll((Example<Expense>) any())).thenReturn(expenses);
+        ResponseEntity<List<Expense>> responseEntity = eventController.getExpensesByInvitationId(invitationId);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expenses, responseEntity.getBody());
+    }
+
+    @Test
+    public void notGetEventByInvitationIdTest() {
+        String invitationID = "nonExistingID";
+
+        when(eventRepository.findOne(any())).thenReturn(Optional.empty());
+
+        ResponseEntity<Event> response = eventController.getEventByInvitationId(invitationID);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void getParticipantsByInvitationIdTest() {
+        String invitationID = "existingID";
+        Event event = new Event();
+        event.setInvitationID(invitationID);
+
+        List<Participant> participants = new ArrayList<>();
+        participants.add(new Participant());
+
+        when(eventRepository.findOne(any())).thenReturn(Optional.of(event));
+        when(participantRepository.findAll((Example<Participant>) any())).thenReturn(participants);
+
+        ResponseEntity<List<Participant>> response = eventController.getParticipantsByInvitationId(invitationID);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(participants, response.getBody());
+    }
+
+    @Test
+    public void notGetParticipantsByInvitationIdTest() {
+        String invitationID = "nonExistingID";
+
+        when(eventRepository.findOne(any())).thenReturn(Optional.empty());
+
+        ResponseEntity<List<Participant>> response = eventController.getParticipantsByInvitationId(invitationID);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
 }
 
 

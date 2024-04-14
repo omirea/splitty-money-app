@@ -40,12 +40,13 @@ public class ExpenseControllerTest {
         assertEquals(expense, responseEntity.getBody());
     }
 
-//    @Test
-//    public void testGetExpenseByIDNegative() {
-//        ResponseEntity<Expense> responseEntity = expenseController.getExpenseByID((Long) -1);
-//        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-//        assertNull(responseEntity.getBody());
-//    }
+    @Test
+    public void testGetExpenseByIDNegative() {
+        long id=-1;
+        ResponseEntity<Expense> responseEntity = expenseController.getExpenseByID(id);
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertNull(responseEntity.getBody());
+    }
 
     @Test
     public void testGetExpenseByIDNotFound() {
