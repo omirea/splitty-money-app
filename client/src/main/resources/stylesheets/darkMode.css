@@ -85,3 +85,10 @@
     -fx-font-weight: bold;
 }
 
+.table-row-cell{
+    -fx-background-color: #1A1A1A;
+    background-color: #1A1A1A;
+    -fx-text-background-color: #e3e3e3;
+    -fx-margin: 1;
+    margin: 1;
+}
