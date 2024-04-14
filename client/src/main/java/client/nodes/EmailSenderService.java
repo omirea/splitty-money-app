@@ -10,6 +10,11 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Properties;
 
 @Service
 @PropertySource("/application.properties")
@@ -33,7 +38,19 @@ public class EmailSenderService {
         message.setText(body);
         mailSender.send(message);
         System.out.println("mail sent!");
-//        mailSender.getSession().getTransport("smtp").close();
-//        mailSender.testConnection();
+        Properties prop=new Properties();
+        String fileName="src/main/resources/application.properties";
+        try(FileInputStream fileInputStream=new FileInputStream(fileName)){
+            prop.load(fileInputStream);
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        prop.setProperty("server.port", String.valueOf(port+1));
+        try(OutputStream outputStream=new FileOutputStream(fileName)){
+            prop.store(outputStream, "Updated port");
+        }catch (IOException e){
+            throw new RuntimeException(e);
+        }
+        mailSender.getSession().getTransport("smtp").close();
     }
 }

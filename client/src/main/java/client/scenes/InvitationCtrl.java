@@ -100,7 +100,7 @@ public class InvitationCtrl implements Main.LanguageSwitch{
             args[0]=e;
             args[1]=codeLabel.getText();
             sendEmailApplication=new SendEmailApplication();
-            sendEmailApplication.sendEmail();
+            sendEmailApplication.main(args);
         }
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
         if(counter==0){
