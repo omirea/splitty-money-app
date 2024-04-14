@@ -17,6 +17,7 @@ package client.scenes;
 
 import client.Main;
 import client.nodes.ThemeService;
+import commons.Event;
 import commons.Expense;
 import commons.Participant;
 import javafx.scene.Parent;
@@ -162,6 +163,7 @@ public class MainCtrl {
     public void showAddExpense(String id) {
         primaryStage.setTitle("Splitty: Add/Edit Expense");
         addEditExpenseCtrl.setEvent(id);
+        addEditExpenseCtrl.setTags();
         primaryStage.setScene(expense);
         addEditExpenseCtrl.clearBoxes();
         addEditExpenseCtrl.addAllRelevantParticipants();
@@ -185,6 +187,7 @@ public class MainCtrl {
      */
     public void showEventOverview(String invitationId) {
         overviewCtrl.setEvent(invitationId);
+        overviewCtrl.addTags();
         primaryStage.setTitle("Splitty: Event overview");
         primaryStage.setScene(overview);
         overviewCtrl.addAllParticipants();
@@ -293,5 +296,14 @@ public class MainCtrl {
         primaryStage.setTitle("Splitty: Statistics Page");
         pieChartPage.setEvent(invitationId);
         primaryStage.setScene(pieChartScene);
+    }
+
+    public void setEventWithTags(Event event){
+        addEditExpenseCtrl.setEventWithTags(event);
+        pieChartPage.setEventWithTags(event);
+    }
+
+    public void setEventWithTagsForEventOverview(Event event){
+        overviewCtrl.updateEventTags(event);
     }
 }

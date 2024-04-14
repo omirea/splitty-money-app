@@ -2,13 +2,16 @@ package commons;
 
 import jakarta.persistence.*;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.core.metrics.StartupStep;
 
 @Entity
-public class Event {
+public class Event{
 
     /**
      * String with the name of the event
@@ -50,7 +53,7 @@ public class Event {
      * List of tags of an event
      */
     @Transient
-    private List<String> tags=new ArrayList<>();
+    private List<TagsClass> tags=new ArrayList<>();
 
     /**
      * Constructor for an Event object
@@ -61,9 +64,6 @@ public class Event {
                  String invitationID) {
         this.name = name;
         this.invitationID = invitationID;
-        this.tags.add("food");
-        this.tags.add("transport");
-        this.tags.add("decorations");
     }
 
     public Event(String name,
@@ -76,25 +76,15 @@ public class Event {
         this.expenses = expenses;
         this.participants = participants;
         this.debts = debts;
-        this.tags.add("food");
-        this.tags.add("transport");
-        this.tags.add("decorations");
     }
 
     public Event(String name) {
         this.name = name;
         invitationID = generateInvitationID();
-        this.tags.add("food");
-        this.tags.add("transport");
-        this.tags.add("decorations");
     }
 
     public Event() {
-        this.tags.add("food");
-        this.tags.add("transport");
-        this.tags.add("decorations");
     }
-
 
 
     public List<Expense> getExpenses() {
@@ -222,15 +212,20 @@ public class Event {
                 '}';
     }
 
-    public List<String> getTags(){
-        for(String s:tags)
-            System.out.println(s);
+    public List<TagsClass> getTags(){
+//        for(String s:tags)
+//            System.out.println(s);
         return tags;
     }
 
-    public void addTags(String tag){
-        this.tags.add(tag);
-        for(String s:tags)
-            System.out.println(s);
+    public void setTags(List<TagsClass> tg){
+        tags=tg;
+        for(TagsClass t : tags)
+            System.out.println(t.getName());
+    }
+
+    public void addTag(String tg, String hexCode){
+        TagsClass tag=new TagsClass(tg, hexCode);
+        tags.add(tag);
     }
 }

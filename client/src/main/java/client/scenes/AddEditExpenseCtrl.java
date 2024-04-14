@@ -4,10 +4,7 @@ import client.Main;
 import client.nodes.ParticipantStringConverter;
 import client.nodes.PersonAmount;
 import client.utils.ServerUtils;
-import commons.Debt;
-import commons.Event;
-import commons.Expense;
-import commons.Participant;
+import commons.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -69,7 +66,9 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     private TableColumn<PersonAmount, TextField> amountColumn;
     @FXML
     private TableView<PersonAmount> tableView;
-    Event event;
+    private Event event;
+
+    private Event eventWithTheTags;
     Expense expense;
 
     /**
@@ -130,11 +129,10 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                 }
             }
         });
-        tagChoiceBox=new ChoiceBox<>();
 
-       if(event!=null)
-           tags.setAll(event.getTags());
-       tagChoiceBox.setItems(tags);
+//       if(event!=null)
+//           tags.setAll(event.getTags());
+//       tagChoiceBox.setItems(tags);
 
     }
 
@@ -210,16 +208,17 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         Currency currency = Currency.getInstance(currencyField.getSelectionModel()
             .getSelectedItem());
         LocalDate date = whenField.getValue();
+        String type=tagChoiceBox.getSelectionModel().getSelectedItem();
 
         if (expense == null) {
-            expense = new Expense(event, whatFor, amount, null, date, currency);
+            expense = new Expense(event, whatFor, amount, type, date, currency);
             expense = server.createExpense(expense);
         } else {
             expense.setDateSent(date);
             expense.setAmount(amount);
             expense.setDescription(whatFor);
 //            expense.setCurrency(currency);
-            expense.setType(null);
+            expense.setType(type);
             expense.setEvent(event);
             expense = server.updateExpense(expense, expense.getId());
         }
@@ -344,10 +343,6 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
      */
     public void setEvent(String invitationId) {
         this.event = server.getEventByInvitationId(invitationId);
-        for(String string: event.getTags())
-            System.out.println(string);
-        tags.clear();
-        tags.addAll(event.getTags());
     }
 
     /**
@@ -399,6 +394,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         whatForField.setText(e.getDescription());
         howMuchField.setText(e.getAmount().toString());
         whenField.setValue(e.getDateSent());
+        tagChoiceBox.setValue(e.getType());
         onlySomePeopleField.selectedProperty().setValue(true);
         loadDebts(debts);
 
@@ -418,12 +414,28 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         }
     }
 
+    public void setTags(){
+        List<TagsClass> tc=eventWithTheTags.getTags();
+        tags.clear();
+        System.out.println("boofy is " + tc.size());
+        for(TagsClass tag : tc){
+            System.out.println(tag.getName());
+            tags.add(tag.getName());
+        }
+        tagChoiceBox.setItems(tags);
+        deleteTagChoiceBox.setItems(tags);
+    }
+
     public void addTag(){
         if(!tagField.getText().isEmpty()){
-            event.addTags(tagField.getText());
+            eventWithTheTags.addTag(tagField.getText(), colorPicker.getId());
+            String color= colorPicker.getId();
             tags.clear();
-            tags.addAll(event.getTags());
+            for(TagsClass tg : eventWithTheTags.getTags()){
+                tags.add(tg.getName());
+            }
             //tags.add(tagField.getText());
+            mainCtrl.setEventWithTagsForEventOverview(eventWithTheTags);
             tagField.clear();
             Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Tag Created");
@@ -434,16 +446,27 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
 
     public void deleteTag(){
         if(!deleteTagChoiceBox.getSelectionModel().getSelectedItem().isEmpty()){
-            List<String> usedTags=event.getTags();
-            usedTags.remove(tagField.getText());
-            //event.setTags(usedTags);
+            List<TagsClass> eventTags=eventWithTheTags.getTags();
+            for(TagsClass tc: eventTags){
+                if(tc.getName().equals(deleteTagChoiceBox.getSelectionModel().getSelectedItem()))
+                    eventTags.remove(tc);
+            }
+            eventWithTheTags.setTags(eventTags);
             tags.clear();
-            tags.addAll(event.getTags());
+            for(TagsClass tg : eventWithTheTags.getTags()){
+                tags.add(tg.getName());
+            }
+            //tags.add(tagField.getText());
+            mainCtrl.setEventWithTagsForEventOverview(eventWithTheTags);
             tagField.clear();
             Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Tag Created");
             alert.setContentText("Tag created successfully!");
             alert.showAndWait();
         }
+    }
+
+    public void setEventWithTags(Event eventWithTheTags) {
+        this.eventWithTheTags=eventWithTheTags;
     }
 }

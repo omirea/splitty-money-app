@@ -4,10 +4,7 @@ import client.Main;
 import client.nodes.ParticipantStringConverter;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import commons.Debt;
-import commons.Event;
-import commons.Expense;
-import commons.Participant;
+import commons.*;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -19,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import org.w3c.dom.events.EventTarget;
 
 import java.util.*;
 
@@ -33,6 +31,10 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     Event event;
     List<Expense> expenses;
     List<Debt> debts;
+
+    List<Event> eventsWithTags;
+
+    List<TagsClass> tags;
 
     @FXML private Label participantsListText, eventTitleText;
     @FXML private ChoiceBox<Participant> participantsMenu;
@@ -60,6 +62,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         this.start = start;
         expenses = new ArrayList<>();
         this.allParticipants= FXCollections.observableArrayList();
+        this.eventsWithTags=new ArrayList<>();
     }
 
     /**
@@ -372,5 +375,41 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         mainCtrl.showStatisticsPage(event.getInvitationID());
     }
 
+    public void addTags() {
+        Event evTags=hasTagsForEvent();
+        if(evTags==null) {
+            System.out.println("ev with tags is " + evTags);
+            List<TagsClass> tc = event.getTags();
+            TagsClass tag = new TagsClass("food", "8DFF33");
+            tc.add(tag);
+            tag = new TagsClass("entrance fees", "33D7FF");
+            tc.add(tag);
+            tag = new TagsClass("travel", "33D7FF");
+            tc.add(tag);
+            event.setTags(tc);
+            eventsWithTags.add(event);
+            mainCtrl.setEventWithTags(event);
+            return;
+        }
+        mainCtrl.setEventWithTags(evTags);
+    }
+
+    public Event hasTagsForEvent(){
+        System.out.println("event id is " + event.getID());
+        for(Event event1 : eventsWithTags){
+            System.out.println("event1 id + " + event1.getID());
+            if(Objects.equals(event1.getID(), event.getID())) {
+                System.out.println("yes queen");
+                return event1;
+            }
+        }
+        return null;
+    }
+
+    public void updateEventTags(Event eventWithTags){
+        Event event1=hasTagsForEvent();
+        event1.setTags(eventWithTags.getTags());
+        mainCtrl.setEventWithTags(event1);
+    }
 }
 

@@ -3,6 +3,7 @@ package client.scenes;
 import client.utils.ServerUtils;
 import commons.Event;
 import commons.Expense;
+import commons.TagsClass;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -24,9 +25,13 @@ public class PieChartPage {
     HashMap<String, Double> map;
     private Event event;
 
+    private Event eventWithTheTags;
+
     private List<Expense> expenses=new ArrayList<>();
 
-    private List<String> tags=new ArrayList<>();
+    private List<TagsClass> tags=new ArrayList<>();
+
+    private List<String> tagsInPieChart=new ArrayList<>();
 
     @FXML
     private PieChart pieChartGoofy;
@@ -74,40 +79,37 @@ public class PieChartPage {
     }
 
     public void createPieChart(){
+        pieChartData.clear();
+        map.clear();
 
-//        for(Expense expense : expenses){
-//            String tag=expense.getType();
-//            Double weight=map.get(tag);
-//            map.put(tag,weight+expense.getAmount());
-//        }
+        for (TagsClass tag : tags) {
+            map.put(tag.getName(), 0.00);
+            System.out.println("tag in setEvent: " + tag.getName());
+        }
 
-        for(String s : tags) {
-            System.out.println("Tag in pieChartAdd" + s);
-            PieChart.Data pd = new PieChart.Data(s, map.get(s));
-            // pd.getNode().setStyle("-fx-background-color: pink");
+        tags=eventWithTheTags.getTags();
+
+        for(Expense expense : expenses){
+            String tag=expense.getType();
+            if(tag!=null) {
+                Double weight = map.get(tag);
+                System.out.println(weight + " " + tag);
+                map.put(tag, weight + expense.getAmount());
+            }
+        }
+
+        for(TagsClass s : tags) {
+            tagsInPieChart.add(s.getName());
+            System.out.println("Tag in pieChartAdd" + s.getName());
+            PieChart.Data pd = new PieChart.Data(s.getName(), map.get(s.getName()));
             pieChartData.add(pd);
-            //pieChartData.add(new PieChart.Data("food", 20));
+
         }
 
 
 
         pieChartGoofy.setData(pieChartData);
 
-        //Setting the title of the Pie chart
-        pieChartGoofy.setTitle("Event statistics");
-
-        //setting the direction to arrange the data
-        pieChartGoofy.setClockwise(true);
-
-        //Setting the length of the label line
-        pieChartGoofy.setLabelLineLength(50);
-
-
-        //Setting the labels of the pie chart visible
-        pieChartGoofy.setLabelsVisible(true);
-
-        //Setting the start angle of the pie chart
-        pieChartGoofy.setStartAngle(180);
     }
 
 
@@ -116,12 +118,17 @@ public class PieChartPage {
      */
     public void setEvent(String id) {
         event = serverUtils.getEventByInvitationId(id);
-        tags=event.getTags();
-        for(String tag:tags) {
-            map.put(tag, 20.00);
-            System.out.println("tag in setEvent: " + tag);
-        }
-        expenses=serverUtils.getAllExpenses();
+        expenses=serverUtils.getExpensesByInvitationId(event.getInvitationID());
         createPieChart();
+    }
+
+    public void setEventWithTags(Event eventWithTheTags) {
+        this.eventWithTheTags = eventWithTheTags;
+        tags=eventWithTheTags.getTags();
+    }
+
+
+    public void goBackToEvent(){
+        mainCtrl.showEventOverview(event.getInvitationID());
     }
 }
