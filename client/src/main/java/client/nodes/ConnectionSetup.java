@@ -32,10 +32,11 @@ public class ConnectionSetup {
             promptUser();
             return;
         }
-        serverUtils.setServer(getConfiguredServer());
-        if (!serverUtils.testConnection()) {
+        boolean b = serverUtils.trySetServer(getConfiguredServer());
+        if (!b) {
             promptUser();
         }
+        System.out.println(serverUtils);
     }
 
     /**
@@ -43,9 +44,9 @@ public class ConnectionSetup {
      * @param server URL of the server
      * @return true if it worked, false otherwise.
      */
-    private void setServer(String server) {
+    private boolean setServer(String server) {
         saveToConfig(server);
-        serverUtils.setServer(prop.getProperty("server"));
+        return serverUtils.trySetServer(prop.getProperty("server"));
     }
 
     private void saveToConfig(String server) {

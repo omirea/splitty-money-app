@@ -16,11 +16,6 @@
 package client;
 
 import client.scenes.*;
-import client.scenes.AddEditExpenseCtrl;
-import client.scenes.EventOverviewCtrl;
-import client.scenes.MainCtrl;
-import client.scenes.StartCtrl;
-import client.scenes.AddEditParticipantCtrl;
 
 
 import com.google.inject.Binder;

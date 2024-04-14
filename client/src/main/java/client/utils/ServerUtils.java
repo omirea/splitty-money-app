@@ -47,20 +47,21 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 public class ServerUtils {
 	private String server;
 
-	private StompSession session=connect("ws://localhost:8080/websocket");
-
-	@Inject
-	public ServerUtils (String server) {
-		this.server = server;
-	}
+	private StompSession session;
 
 	/**
 	 * sets the URL for the server
 	 * @param server URL of the server
 	 */
-	public void setServer(String server) {
-		this.server = server;
-		session=connect("ws://localhost:8080/websocket");
+	@Inject
+	public boolean trySetServer(String server) {
+		boolean b = testConnection(server);
+		System.out.println("connection: " + b);
+		if (b) {
+			this.server = server;
+			session = connect("ws://localhost:8080/websocket");
+		}
+		return b;
 	}
 
 	/**
@@ -214,6 +215,8 @@ public class ServerUtils {
 	 * @return the requested Event
 	 */
 	public Event getEventByInvitationId(String invitationID){
+		System.out.println("Current serverUtils: " + this);
+		System.out.println("get Connection: " + this.server);
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(server).path("event/" + invitationID)
 				.request(APPLICATION_JSON)
@@ -240,6 +243,7 @@ public class ServerUtils {
 	 * @return the created Event
 	 */
 	public Event createEvent(Event event){
+		System.out.println("Create event connection: " + server);
 		return ClientBuilder.newClient(new ClientConfig())
 				.target(server).path("event")
 				.request(APPLICATION_JSON)
@@ -483,9 +487,15 @@ public class ServerUtils {
 	//private StompSession session=connect();
 
 	private StompSession connect(String url){
+		boolean hasSlash = server.substring(server.length()-1).equals("/");
 		if(server!=null) {
-			url = "ws" + server.substring(4) + "websocket";
+			url = "ws" + server.substring(4);
+			if (!hasSlash) {
+				url += "/";
+			}
+			url += "websocket";
 		}
+		System.out.println("ws connection: " + url);
 		var client= new StandardWebSocketClient();
 		var stomp= new WebSocketStompClient(client);
 		stomp.setMessageConverter(new MappingJackson2MessageConverter());
