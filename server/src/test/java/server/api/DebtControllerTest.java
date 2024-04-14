@@ -8,13 +8,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.mockito.junit.jupiter.MockitoExtension;
 import server.database.DebtRepository;
+import server.database.EventRepository;
+import server.database.ExpenseRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -26,8 +30,15 @@ public class DebtControllerTest {
     @Mock
     private DebtRepository debtRepository;
 
+    @Mock
+    private EventRepository eventRepository;
+
+    @Mock
+    private ExpenseRepository expenseRepository;
+
     @InjectMocks
     private DebtController debtController;
+
 
     @Test
     public void testGetDebtByID() {
@@ -171,5 +182,62 @@ public class DebtControllerTest {
         ResponseEntity<Debt> responseEntity = debtController.deleteDebt(id);
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertNull(responseEntity.getBody());
+    }
+
+    @Test
+    public void testGetDebtByExistingInvitationId() {
+        String invitationID = "inviteId";
+        Event event = new Event();
+        event.setInvitationID(invitationID);
+        List<Debt> debts = new ArrayList<>();
+        debts.add(new Debt());
+
+        when(eventRepository.findOne(any())).thenReturn(java.util.Optional.of(event));
+        when(debtRepository.findAll((Example<Debt>) any())).thenReturn(debts);
+
+        ResponseEntity<List<Debt>> response = debtController.getDebtByInvitationId(invitationID);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(debts, response.getBody());
+    }
+
+    @Test
+    public void testNotGetDebtByExistingInvitationId() {
+        String invitationID = "inviteID";
+
+        when(eventRepository.findOne(any())).thenReturn(Optional.empty());
+
+        ResponseEntity<List<Debt>> response = debtController.getDebtByInvitationId(invitationID);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void notGetDebtByExistingExpenseTest() {
+        long expenseId = 1;
+        Expense expense = new Expense();
+        expense.setID(expenseId);
+
+        List<Debt> debts = new ArrayList<>();
+        debts.add(new Debt());
+
+        when(expenseRepository.findById(expenseId)).thenReturn(Optional.of(expense));
+        when(debtRepository.findAll((Example<Debt>) any())).thenReturn(debts);
+
+        ResponseEntity<List<Debt>> response = debtController.getDebtByExpense(expenseId);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(debts, response.getBody());
+    }
+
+    @Test
+    public void notGetDebtByExpenseTest() {
+        Long expenseId = 1L;
+
+        when(expenseRepository.findById(expenseId)).thenReturn(Optional.empty());
+
+        ResponseEntity<List<Debt>> response = debtController.getDebtByExpense(expenseId);
+
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 }

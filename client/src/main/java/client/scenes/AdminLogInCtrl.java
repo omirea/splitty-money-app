@@ -12,7 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 import java.util.Objects;
 
 public class AdminLogInCtrl implements Main.LanguageSwitch {

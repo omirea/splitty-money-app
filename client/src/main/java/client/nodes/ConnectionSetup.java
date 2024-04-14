@@ -28,14 +28,26 @@ public class ConnectionSetup {
         }
     }
 
+    public void setUpConnection() {
+        if (!hasConfiguredServer()) {
+            promptUser();
+            return;
+        }
+        boolean b = serverUtils.trySetServer(getConfiguredServer());
+        if (!b) {
+            promptUser();
+        }
+        System.out.println(serverUtils);
+    }
+
     /**
      * sets the URL for the server
      * @param server URL of the server
      * @return true if it worked, false otherwise.
      */
-    private void setServer(String server) {
+    private boolean setServer(String server) {
         saveToConfig(server);
-        serverUtils.setServer(prop.getProperty("server"));
+        return serverUtils.trySetServer(prop.getProperty("server"));
     }
 
     private void saveToConfig(String server) {
@@ -53,6 +65,7 @@ public class ConnectionSetup {
      */
     public String getConfiguredServer() {
         String server = prop.getProperty("server");
+        System.out.println("Server: " + server);
         if (server.isEmpty()) {
             return null;
         }

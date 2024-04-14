@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.*;
 
-
 @Entity
 @Table(name = "expense")
  public class Expense {
@@ -56,8 +55,6 @@ import java.util.*;
     }
 
     public Expense() {}
-
-
 
     /**
      * Getter for description
