@@ -9,21 +9,21 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="290.0" prefWidth="458.0" stylesheets="@../../stylesheets/invitation.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.InvitationCtrl">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../stylesheets/invitation.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.InvitationCtrl">
    <children>
-      <VBox layoutX="10.0" prefHeight="200.0" prefWidth="100.0" spacing="10.0" AnchorPane.bottomAnchor="20.799999999999955" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.799999999999955" AnchorPane.topAnchor="0.0">
+      <VBox layoutX="10.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
             <Label fx:id="eventName" alignment="CENTER" contentDisplay="CENTER" text="New Year Party">
                <font>
                   <Font name="Calibri Bold" size="37.0" />
                </font>
                <VBox.margin>
-                  <Insets top="10.0" />
+                  <Insets />
                </VBox.margin>
             </Label>
-            <HBox prefHeight="54.0" prefWidth="438.0">
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
-                  <Label fx:id="giveInviteCodeLabel" prefHeight="28.0" prefWidth="251.0" text="Give people the following Invite Code:">
+                  <Label fx:id="giveInviteCodeLabel" text="Give people the following Invite Code:" wrapText="true">
                      <font>
                         <Font name="Calibri" size="16.0" />
                      </font>
@@ -31,17 +31,17 @@
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <Label fx:id="codeLabel" prefHeight="23.0" prefWidth="81.0">
+                  <Label fx:id="codeLabel" text="WWWWWW" wrapText="true" HBox.hgrow="ALWAYS">
                      <font>
                         <Font name="Calibri Bold" size="18.0" />
                      </font>
                      <HBox.margin>
-                        <Insets left="5.0" />
+                        <Insets />
                      </HBox.margin>
                   </Label>
                   <Button fx:id="copyButton" mnemonicParsing="false" onAction="#copy" text="Copy ">
                      <HBox.margin>
-                        <Insets left="15.0" />
+                        <Insets />
                      </HBox.margin>
                   </Button>
                </children>
@@ -51,22 +51,24 @@
                   <Font name="Calibri" size="16.0" />
                </font>
             </Label>
-            <TextArea fx:id="emailTextField" maxHeight="-Infinity" prefHeight="150.0" prefWidth="450.0" />
-            <HBox alignment="TOP_RIGHT" prefHeight="62.0" prefWidth="601.0">
+            <TextArea fx:id="emailTextField" VBox.vgrow="ALWAYS" />
+            <HBox alignment="CENTER_RIGHT" spacing="10.0">
                <children>
-                  <Button fx:id="back" mnemonicParsing="false" onAction="#goBackToEvent" prefHeight="30.0" prefWidth="42.0" text="Back">
+                  <Button fx:id="back" mnemonicParsing="false" onAction="#goBackToEvent" text="Back">
                      <HBox.margin>
-                        <Insets right="10.0" top="10.0" />
+                        <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="sendInvitesButton" mnemonicParsing="false" onAction="#sendInvites" prefHeight="30.0" prefWidth="84.0" text="Send Invites" textOverrun="CENTER_ELLIPSIS">
+                  <Button fx:id="sendInvitesButton" mnemonicParsing="false" onAction="#sendInvites" text="Send Invites" textOverrun="CENTER_ELLIPSIS">
                      <HBox.margin>
-                        <Insets top="10.0" />
+                        <Insets />
                      </HBox.margin></Button>
                </children>
             </HBox>
-            <HBox prefHeight="0.0" prefWidth="586.0" />
          </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
       </VBox>
    </children>
 </AnchorPane>
