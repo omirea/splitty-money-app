@@ -1,3 +1,10 @@
 # OOPP Template Project
 
-This repository contains the template for the OOPP project. Please extend this README.md with instructions on how to run your project.
+Hey! Welcome to Splitty. This is how to run our project: 
+- Delete any existing databases (h2-database.mv.db files)
+- Run the project from gradle. First gradle.bootrun and then gradle.run
+
+Some extra information about this app: 
+- Shortcuts for the key 'Enter' are available on most pages
+- To log into the Admin area, when opening the 'Log In' page, a password will be shown in the gradle.bootrun terminal.
+- Websockets and long polling are used at various palaces in our app. In the admin area, long polling is used to keep the event overview updated and websockets are used for participants of events.

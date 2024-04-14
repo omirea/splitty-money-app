@@ -193,7 +193,8 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             Text to=new Text(debt.getTo().getName());
 
             makeTextBold(from, howMuch, currency, to);
-            textFlow.getChildren().addAll(from, new Text(Main.getLocalizedString("needsToPay")),
+            textFlow.getChildren().addAll(from, new Text(" " +
+                            Main.getLocalizedString("needsToPay") + " "),
                     howMuch, new Text(" "), currency,
                     new Text(Main.getLocalizedString("toPerson")), to);
             TreeItem<TextFlow> treeItemRoot=new TreeItem<>(textFlow);

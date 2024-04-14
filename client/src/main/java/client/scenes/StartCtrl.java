@@ -160,7 +160,6 @@ public class StartCtrl implements  Main.LanguageSwitch {
      */
     public void onJoinClick() {
         System.out.println("Join: " + joinEventField.getText());
-        // TODO: connect to database, open new window
         try {
             mainCtrl.showEventOverview(joinEventField.getText());
             Event e =  server.getEventByInvitationId(joinEventField.getText());
@@ -170,7 +169,6 @@ public class StartCtrl implements  Main.LanguageSwitch {
         } catch (Exception e) {
             Alert alert = getAlertIncorrectInvitationId();
             alert.show();
-            throw e;
         }
     }
 

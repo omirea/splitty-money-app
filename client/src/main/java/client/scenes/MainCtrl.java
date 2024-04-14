@@ -111,6 +111,7 @@ public class MainCtrl {
         anotherStage.setTitle("Splitty: Add/Edit Participant");
         anotherStage.setScene(addEditParticipant);
         anotherStage.show();
+
     }
 
     public void showAddParticipant(String id, Participant participant) {
@@ -198,11 +199,14 @@ public class MainCtrl {
         manageParticipantsCtrl.addNewParticipant(participantToAdd);
         primaryStage.setTitle("Splitty: Manage Participants");
         primaryStage.setScene(manageParticipants);
+        manageParticipants.setOnKeyPressed(e -> manageParticipantsCtrl.keyPressed(e));
     }
+
     public void showManageParticipants(String invitationId) {
         showManageParticipants(invitationId, null);
         manageParticipantsCtrl.setPreUpdatedParticipants();
         manageParticipantsCtrl.addAllParticipants();
+        manageParticipants.setOnKeyPressed(e -> manageParticipantsCtrl.keyPressed(e));
     }
 
     /**
@@ -212,6 +216,7 @@ public class MainCtrl {
         primaryStage.setTitle("Splitty: Admin Log In");
         primaryStage.setScene(logInAdmin);
         adminLogInCtrl.generatePassword();
+        logInAdmin.setOnKeyPressed(e -> adminLogInCtrl.enterKeyPressed(e));
     }
 
     /**
@@ -230,10 +235,18 @@ public class MainCtrl {
      * method to show the Settings page
      */
     public void showSettingsPage() {
-        Stage anotherStage=new Stage();
-        anotherStage.setTitle("Splitty: Settings Page");
-        anotherStage.setScene(settingsPage);
-        anotherStage.show();
+        if(anotherStage.isShowing() && anotherStage != null){
+            anotherStage.toFront();
+        } else {
+            anotherStage=new Stage();
+            anotherStage.setTitle("Splitty: Settings Page");
+            anotherStage.setScene(settingsPage);
+            anotherStage.initOwner(primaryStage);
+            anotherStage.show();
+        }
+        if(anotherStage.getOwner() == null){
+            anotherStage.close();
+        }
     }
 
     /**
