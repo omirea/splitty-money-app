@@ -378,13 +378,12 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     public void addTags() {
         Event evTags=hasTagsForEvent();
         if(evTags==null) {
-            System.out.println("ev with tags is " + evTags);
             List<TagsClass> tc = event.getTags();
             TagsClass tag = new TagsClass("food", "8DFF33");
             tc.add(tag);
             tag = new TagsClass("entrance fees", "33D7FF");
             tc.add(tag);
-            tag = new TagsClass("travel", "33D7FF");
+            tag = new TagsClass("travel", "FF6527");
             tc.add(tag);
             event.setTags(tc);
             eventsWithTags.add(event);
@@ -395,11 +394,8 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     }
 
     public Event hasTagsForEvent(){
-        System.out.println("event id is " + event.getID());
         for(Event event1 : eventsWithTags){
-            System.out.println("event1 id + " + event1.getID());
             if(Objects.equals(event1.getID(), event.getID())) {
-                System.out.println("yes queen");
                 return event1;
             }
         }

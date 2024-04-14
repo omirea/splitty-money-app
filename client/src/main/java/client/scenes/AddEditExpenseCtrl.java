@@ -428,8 +428,9 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
 
     public void addTag(){
         if(!tagField.getText().isEmpty()){
-            eventWithTheTags.addTag(tagField.getText(), colorPicker.getId());
-            String color= colorPicker.getId();
+            eventWithTheTags.addTag(tagField.getText(), colorPicker.getValue().toString().substring(2));
+            String color= colorPicker.getValue().toString().substring(2);
+            System.out.println(color);
             tags.clear();
             for(TagsClass tg : eventWithTheTags.getTags()){
                 tags.add(tg.getName());
@@ -458,10 +459,10 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             }
             //tags.add(tagField.getText());
             mainCtrl.setEventWithTagsForEventOverview(eventWithTheTags);
-            tagField.clear();
+            deleteTagChoiceBox.getSelectionModel().clearSelection();
             Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Tag Created");
-            alert.setContentText("Tag created successfully!");
+            alert.setTitle("Tag Deleted");
+            alert.setContentText("Tag deleted successfully!");
             alert.showAndWait();
         }
     }

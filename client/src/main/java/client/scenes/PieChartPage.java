@@ -1,19 +1,23 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
+import com.sun.javafx.charts.Legend;
 import commons.Event;
 import commons.Expense;
 import commons.TagsClass;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Label;
 import org.springframework.scheduling.config.ExecutorBeanDefinitionParser;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class PieChartPage {
 
@@ -33,6 +37,8 @@ public class PieChartPage {
 
     private List<String> tagsInPieChart=new ArrayList<>();
 
+    private List<TagsClass> allTags=new ArrayList<>();
+
     @FXML
     private PieChart pieChartGoofy;
 
@@ -49,9 +55,10 @@ public class PieChartPage {
     @FXML
     public void initialize(){
 
+        pieChartGoofy.getData().clear();
+        pieChartGoofy.setData(pieChartData);
         pieChartGoofy.applyCss();
         pieChartGoofy.layout();
-        pieChartGoofy.setData(pieChartData);
 
         //Setting the title of the Pie chart
         pieChartGoofy.setTitle("Event statistics");
@@ -72,6 +79,7 @@ public class PieChartPage {
 
     public void createPieChart(){
         pieChartData.clear();
+        pieChartGoofy.getData().clear();
         map.clear();
 
         for (TagsClass tag : tags) {
@@ -83,9 +91,8 @@ public class PieChartPage {
 
         for(Expense expense : expenses){
             String tag=expense.getType();
-            if(tag!=null) {
+            if(tag!=null && map.containsKey(tag)) {
                 Double weight = map.get(tag);
-                System.out.println(weight + " " + tag);
                 map.put(tag, weight + expense.getAmount());
             }
         }
@@ -95,11 +102,26 @@ public class PieChartPage {
             System.out.println("Tag in pieChartAdd" + s.getName());
             PieChart.Data pd = new PieChart.Data(s.getName(), map.get(s.getName()));
             pieChartData.add(pd);
-
         }
+        for(PieChart.Data pd : pieChartData){
+            for(TagsClass tg : tags){
+                if(tg.getName().equals(pd.getName()))
+                    pd.getNode().setStyle("-fx-background-color: #" + tg.getHexCode());
+            }
+        }
+
         pieChartGoofy.setData(pieChartData);
         pieChartGoofy.applyCss();
         pieChartGoofy.layout();
+        Set<Node> items = pieChartGoofy.lookupAll("Label.chart-legend-item");
+        for(Node node : items){
+            Label label=(Label) node;
+            for(TagsClass tg : tags){
+                System.out.println(tg.getName() + tg.getHexCode());
+                if(tg.getName().equals(label.getText()))
+                    label.getGraphic().setStyle("-fx-background-color: #" + tg.getHexCode());
+            }
+        }
     }
 
 
