@@ -10,3 +10,4 @@ Some extra information about this app:
 - To log into the Admin area, when opening the 'Log In' page, a password will be shown in the gradle.bootrun terminal.
 - Websockets and long polling are used at various palaces in our app. In the admin area, long polling is used to keep the event overview updated and websockets are used for participants of events.
 - Email service works for sending a single email per session
+- important: option for expense that says "split equally between everybody" does not include the person who paid.
