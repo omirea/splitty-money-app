@@ -16,7 +16,9 @@
 package client.scenes;
 
 import client.Main;
+import client.nodes.ConnectionSetup;
 import client.nodes.ThemeService;
+import com.google.inject.Inject;
 import commons.Expense;
 import commons.Participant;
 import javafx.scene.Parent;
@@ -30,7 +32,7 @@ import java.util.List;
 public class MainCtrl {
 
     private Stage primaryStage;
-
+    private ConnectionSetup cs;
     private Stage anotherStage;
     private AddEditParticipantCtrl addEditParticipantCtrl;
     private OpenDebtsCtrl openDebtsCtrl;
@@ -51,7 +53,10 @@ public class MainCtrl {
         expense, overview, manageParticipants, start,
         logInAdmin, closedDebts, eventsAdmin, settingsPage;
 
-
+    @Inject
+    public MainCtrl(ConnectionSetup cs) {
+        this.cs = cs;
+    }
 
     public void initialize(Stage primaryStage,
                            Pair<StartCtrl, Parent> start,
@@ -94,6 +99,7 @@ public class MainCtrl {
         initializeScenes();
         changeTheme(themeService.getTheme());
 
+        cs.setUpConnection();
 
         showStartScreen();
         primaryStage.show();
@@ -148,7 +154,6 @@ public class MainCtrl {
     public void showStartScreen() {
         primaryStage.setTitle("Splitty: Start");
         primaryStage.setScene(start);
-        startCtrl.setUpConnection();
         startCtrl.setUpLanguage();
     }
 

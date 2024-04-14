@@ -27,6 +27,17 @@ public class ConnectionSetup {
         }
     }
 
+    public void setUpConnection() {
+        if (!hasConfiguredServer()) {
+            promptUser();
+            return;
+        }
+        serverUtils.setServer(getConfiguredServer());
+        if (!serverUtils.testConnection()) {
+            promptUser();
+        }
+    }
+
     /**
      * sets the URL for the server
      * @param server URL of the server
@@ -52,6 +63,7 @@ public class ConnectionSetup {
      */
     public String getConfiguredServer() {
         String server = prop.getProperty("server");
+        System.out.println("Server: " + server);
         if (server.isEmpty()) {
             return null;
         }

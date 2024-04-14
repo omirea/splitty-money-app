@@ -16,6 +16,7 @@
 package client.utils;
 
 
+import com.google.inject.Inject;
 import commons.Debt;
 import commons.Event;
 import commons.Expense;
@@ -44,17 +45,21 @@ import java.util.function.Consumer;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
-	private static String server;
+	private String server;
 
 	private StompSession session=connect("ws://localhost:8080/websocket");
 
+	@Inject
+	public ServerUtils (String server) {
+		this.server = server;
+	}
 
 	/**
 	 * sets the URL for the server
 	 * @param server URL of the server
 	 */
 	public void setServer(String server) {
-		ServerUtils.server = server;
+		this.server = server;
 		session=connect("ws://localhost:8080/websocket");
 	}
 
@@ -66,6 +71,21 @@ public class ServerUtils {
 	public boolean testConnection(String server) {
 		try {
             return ClientBuilder.newClient(new ClientConfig())
+				.target(server).path("test/")
+				.request(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.get().readEntity(Boolean.class);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	/**
+	 * tests the connection using the inputted URL
+	 * @return true if connected properly, false otherwise.
+	 */
+	public boolean testConnection() {
+		try {
+			return ClientBuilder.newClient(new ClientConfig())
 				.target(server).path("test/")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
