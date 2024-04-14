@@ -165,6 +165,13 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                 autoDivideMethod();
                 Expense expense1 = createExpense();
                 expense = null;
+
+                String oldName = event.getName();
+                event.setName("A");
+                event = server.updateEvent(event, event.getID());
+                event.setName(oldName);
+                event = server.updateEvent(event, event.getID());
+
                 mainCtrl.showEventOverview(event.getInvitationID());
             }
         } else {

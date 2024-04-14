@@ -16,27 +16,27 @@
 package client;
 
 import static com.google.inject.Guice.createInjector;
+
 import client.scenes.*;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.boot.SpringApplication;
 
 import java.util.*;
 
-@EnableAsync
-public class Main extends Application {
 
+public class Main extends Application {
     private static final Injector INJECTOR = createInjector(new MyModule());
     private static final MyFXML FXML = new MyFXML(INJECTOR);
     public static Locale locale;
     private static ResourceBundle resourceBundle;
     public static void main(String[] args) {
         launch(args);
+        SpringApplication.run(Main.class, args);
     }
 
     @Override
-
     public void start(Stage stage) {
         var participant = FXML.load(AddEditParticipantCtrl.class, "client", "scenes",
             "AddEditParticipant.fxml");
@@ -111,4 +111,5 @@ public class Main extends Application {
         }
         LanguageSwitching();
     }
+
 }

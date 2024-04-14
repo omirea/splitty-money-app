@@ -122,23 +122,13 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
             String iban = ibanTextField.getText();
             String bic = bicTextField.getText();
 
-//            if (!hasUniqueName(name)) {
-//                Alert alert = new Alert(Alert.AlertType.WARNING);
-//                switch (locale.getLanguage()) {
-//                    case "nl":
-//                        alert.setTitle("Naam is al bezet");
-//                        alert.setContentText("Deze naam is al bezet, kies een andere naam.");
-//                        break;
-//                    case "en":
-//                        alert.setTitle("Name is already chose");
-//                        alert.setContentText("This name is already chosen, fill in another name");
-//                        break;
-//                    default:
-//                        break;
-//                }
-//                alert.setHeaderText(null);
-//                alert.showAndWait();
-//            } else {
+            if (!hasUniqueName(name)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle(Main.getLocalizedString("alertNameTakenTitle"));
+                alert.setContentText(Main.getLocalizedString("alertNameTakenContent"));
+                alert.setHeaderText(null);
+                alert.showAndWait();
+            } else {
                 if (participant == null) {
                     participant = new Participant(name, email, accHolder, iban, bic, event);
                 } else {
@@ -148,13 +138,19 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
                     participant.setIBAN(iban);
                     participant.setBIC(bic);
                 }
-            server.send("/app/participants",participant);
+                server.send("/app/participants", participant);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle(Main.getLocalizedString("alertAddParticipantTitle"));
-            alert.setContentText(Main.getLocalizedString("alertAddParticipantContent"));
-            alert.setHeaderText(null);
-            alert.showAndWait();
+                String oldName = event.getName();
+                event.setName("A");
+                event = server.updateEvent(event, event.getID());
+                event.setName(oldName);
+                event = server.updateEvent(event, event.getID());
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle(Main.getLocalizedString("alertAddParticipantTitle"));
+                alert.setContentText(Main.getLocalizedString("alertAddParticipantContent"));
+                alert.setHeaderText(null);
+                alert.showAndWait();
 
                 mainCtrl.showManageParticipants(this.event.getInvitationID(), participant);
                 participant = null;
@@ -163,7 +159,7 @@ public class AddEditParticipantCtrl implements Main.LanguageSwitch{
                 accHolderTextField.clear();
                 ibanTextField.clear();
                 bicTextField.clear();
-//            }
+            }
         }
     }
 

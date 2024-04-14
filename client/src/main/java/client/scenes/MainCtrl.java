@@ -200,6 +200,7 @@ public class MainCtrl {
         primaryStage.setScene(overview);
         overviewCtrl.addAllParticipants();
         overviewCtrl.loadExpenses();
+        overviewCtrl.startWebsockets();
         overview.setOnKeyPressed(e -> overviewCtrl.keyPressed(e));
         overviewCtrl.setVisibleAdmin(false);
     }

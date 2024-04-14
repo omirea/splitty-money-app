@@ -324,7 +324,9 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         String pListString = pList.stream().map(Participant::getName).toList().toString();
         pListString = pListString.substring(1, pListString.length()-1);
         participantsListText.setText(pListString);
+    }
 
+    public void startWebsockets(){
         server.registerForMessages("/topic/participants", p ->{
             Platform.runLater(() ->{
                 addAllParticipants();
