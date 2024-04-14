@@ -11,7 +11,6 @@ import server.database.DebtRepository;
 import server.database.ExpenseRepository;
 import server.database.ParticipantRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
