@@ -1,7 +1,6 @@
 package client.scenes;
 
 import client.Main;
-import client.nodes.ConnectionSetup;
 import client.nodes.LanguageSwitch;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
@@ -51,7 +50,7 @@ public class StartCtrl implements  Main.LanguageSwitch {
     private TableColumn<Event, Button> openColumn;
 
     private LanguageSwitch languageSwitch;
-    private ConnectionSetup cs;
+
 
 
     @Inject
@@ -59,12 +58,6 @@ public class StartCtrl implements  Main.LanguageSwitch {
         this.server = server;
         this.mainCtrl = mainCtrl;
         this.languageSwitch=languageSwitch;
-        this.cs = new ConnectionSetup(server);
-    }
-
-    public void setServer(){
-        cs.setUpConnection();
-        System.out.println(server);
     }
 
     public void setUpLanguage(){
