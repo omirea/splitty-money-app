@@ -1,14 +1,10 @@
 package commons;
 
 import jakarta.persistence.*;
-
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.core.metrics.StartupStep;
 
 @Entity
 public class Event{

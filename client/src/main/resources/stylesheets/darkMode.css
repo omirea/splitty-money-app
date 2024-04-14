@@ -92,3 +92,7 @@
     -fx-margin: 1;
     margin: 1;
 }
+
+#pieChartGoofy .label{
+    -fx-background-color: black;
+}

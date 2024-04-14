@@ -428,7 +428,8 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
 
     public void addTag(){
         if(!tagField.getText().isEmpty()){
-            eventWithTheTags.addTag(tagField.getText(), colorPicker.getValue().toString().substring(2));
+            eventWithTheTags.addTag(tagField.getText(),
+                    colorPicker.getValue().toString().substring(2));
             String color= colorPicker.getValue().toString().substring(2);
             System.out.println(color);
             tags.clear();

@@ -1,7 +1,6 @@
 package client.scenes;
 
 import client.utils.ServerUtils;
-import com.sun.javafx.charts.Legend;
 import commons.Event;
 import commons.Expense;
 import commons.TagsClass;
@@ -11,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
-import org.springframework.scheduling.config.ExecutorBeanDefinitionParser;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -41,6 +39,8 @@ public class PieChartPage {
 
     @FXML
     private PieChart pieChartGoofy;
+    @FXML
+    private Label amountLabel;
 
 
 
@@ -67,7 +67,7 @@ public class PieChartPage {
         pieChartGoofy.setClockwise(true);
 
         //Setting the length of the label line
-        pieChartGoofy.setLabelLineLength(100);
+        pieChartGoofy.setLabelLineLength(0);
 
         //Setting the labels of the pie chart visible
         pieChartGoofy.setLabelsVisible(true);
@@ -78,6 +78,8 @@ public class PieChartPage {
     }
 
     public void createPieChart(){
+        Double sum=0.00;
+
         pieChartData.clear();
         pieChartGoofy.getData().clear();
         map.clear();
@@ -90,6 +92,7 @@ public class PieChartPage {
         tags=eventWithTheTags.getTags();
 
         for(Expense expense : expenses){
+            sum+=expense.getAmount();
             String tag=expense.getType();
             if(tag!=null && map.containsKey(tag)) {
                 Double weight = map.get(tag);
@@ -97,12 +100,15 @@ public class PieChartPage {
             }
         }
 
+        amountLabel.setText("");
+        amountLabel.setText(sum + "€");
+
         for(TagsClass s : tags) {
             tagsInPieChart.add(s.getName());
-            System.out.println("Tag in pieChartAdd" + s.getName());
             PieChart.Data pd = new PieChart.Data(s.getName(), map.get(s.getName()));
             pieChartData.add(pd);
         }
+
         for(PieChart.Data pd : pieChartData){
             for(TagsClass tg : tags){
                 if(tg.getName().equals(pd.getName()))
@@ -114,6 +120,7 @@ public class PieChartPage {
         pieChartGoofy.applyCss();
         pieChartGoofy.layout();
         Set<Node> items = pieChartGoofy.lookupAll("Label.chart-legend-item");
+
         for(Node node : items){
             Label label=(Label) node;
             for(TagsClass tg : tags){

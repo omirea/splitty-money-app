@@ -271,6 +271,7 @@ public class MainCtrl {
         scenes.add(start);
         scenes.add(overview);
         scenes.add(settingsPage);
+        scenes.add(pieChartScene);
     }
 
     /**
