@@ -21,12 +21,15 @@ import commons.Expense;
 import commons.Participant;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainCtrl {
 
@@ -112,6 +115,7 @@ public class MainCtrl {
         anotherStage.setTitle("Splitty: Add/Edit Participant");
         anotherStage.setScene(addEditParticipant);
         anotherStage.show();
+
     }
 
     public void showAddParticipant(String id, Participant participant) {
@@ -199,11 +203,14 @@ public class MainCtrl {
         manageParticipantsCtrl.addNewParticipant(participantToAdd);
         primaryStage.setTitle("Splitty: Manage Participants");
         primaryStage.setScene(manageParticipants);
+        manageParticipants.setOnKeyPressed(e -> manageParticipantsCtrl.keyPressed(e));
     }
+
     public void showManageParticipants(String invitationId) {
         showManageParticipants(invitationId, null);
         manageParticipantsCtrl.setPreUpdatedParticipants();
         manageParticipantsCtrl.addAllParticipants();
+        manageParticipants.setOnKeyPressed(e -> manageParticipantsCtrl.keyPressed(e));
     }
 
     /**
@@ -213,6 +220,7 @@ public class MainCtrl {
         primaryStage.setTitle("Splitty: Admin Log In");
         primaryStage.setScene(logInAdmin);
         adminLogInCtrl.generatePassword();
+        logInAdmin.setOnKeyPressed(e -> adminLogInCtrl.enterKeyPressed(e));
     }
 
     /**
