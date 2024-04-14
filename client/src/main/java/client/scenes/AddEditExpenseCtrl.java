@@ -66,6 +66,12 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     private TableColumn<PersonAmount, TextField> amountColumn;
     @FXML
     private TableView<PersonAmount> tableView;
+
+    @FXML
+    private Button addTagButton;
+
+    @FXML
+    private Button deleteTagButton;
     private Event event;
 
     private Event eventWithTheTags;
@@ -342,6 +348,8 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         autoDivideButton.setText(Main.getLocalizedString("Auto-Divide"));
         cancelButton.setText(Main.getLocalizedString("Cancel"));
         addExpenseButton.setText(Main.getLocalizedString("addExpense"));
+        addTagButton.setText(Main.getLocalizedString("addTag"));
+        deleteTagButton.setText(Main.getLocalizedString("deleteTag"));
     }
 
     /**
@@ -447,8 +455,8 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             mainCtrl.setEventWithTagsForEventOverview(eventWithTheTags);
             tagField.clear();
             Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Tag Created");
-            alert.setContentText("Tag created successfully!");
+            alert.setTitle(Main.getLocalizedString("tagCreated"));
+            alert.setContentText(Main.getLocalizedString("tagSucc"));
             alert.showAndWait();
         }
     }
@@ -469,8 +477,8 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             mainCtrl.setEventWithTagsForEventOverview(eventWithTheTags);
             deleteTagChoiceBox.getSelectionModel().clearSelection();
             Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Tag Deleted");
-            alert.setContentText("Tag deleted successfully!");
+            alert.setTitle(Main.getLocalizedString("tagDeleted"));
+            alert.setContentText(Main.getLocalizedString("tagDel"));
             alert.showAndWait();
         }
     }

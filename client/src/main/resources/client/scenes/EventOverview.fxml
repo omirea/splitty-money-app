@@ -39,7 +39,7 @@
                   </Label>
                   <Button fx:id="editTitleButton" mnemonicParsing="false" onAction="#onTitleEditClick" text="Edit" />
                   <Button fx:id="sendInvitesButton" mnemonicParsing="false" onAction="#onSendInvitesClick" text="Send Invites" />
-                  <Button mnemonicParsing="false" onAction="#showStatistics" text="Show Statistics">
+                  <Button fx:id="showStatisticsButton" mnemonicParsing="false" onAction="#showStatistics" text="Show Statistics">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>

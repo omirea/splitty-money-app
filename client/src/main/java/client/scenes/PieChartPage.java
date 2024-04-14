@@ -1,5 +1,6 @@
 package client.scenes;
 
+import client.Main;
 import client.utils.ServerUtils;
 import commons.Event;
 import commons.Expense;
@@ -9,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import javax.inject.Inject;
@@ -17,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-public class PieChartPage {
+public class PieChartPage implements Main.LanguageSwitch {
 
     private MainCtrl mainCtrl;
     private ServerUtils serverUtils;
@@ -41,6 +43,11 @@ public class PieChartPage {
     private PieChart pieChartGoofy;
     @FXML
     private Label amountLabel;
+    @FXML
+    private Label totalSumLabel;
+
+    @FXML
+    private Button backButton;
 
 
 
@@ -61,7 +68,7 @@ public class PieChartPage {
         pieChartGoofy.layout();
 
         //Setting the title of the Pie chart
-        pieChartGoofy.setTitle("Event statistics");
+        //pieChartGoofy.setTitle(Main.getLocalizedString("eventStatistics"));
 
         //setting the direction to arrange the data
         pieChartGoofy.setClockwise(true);
@@ -149,5 +156,12 @@ public class PieChartPage {
 
     public void goBackToEvent(){
         mainCtrl.showEventOverview(event.getInvitationID());
+    }
+
+    @Override
+    public void LanguageSwitch() {
+        pieChartGoofy.setTitle(Main.getLocalizedString("eventStatistics"));
+        backButton.setText(Main.getLocalizedString("Back"));
+        totalSumLabel.setText(Main.getLocalizedString("totalSum"));
     }
 }

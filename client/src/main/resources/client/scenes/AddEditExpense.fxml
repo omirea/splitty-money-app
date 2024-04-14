@@ -47,7 +47,7 @@
                         <Insets right="165.0" />
                      </GridPane.margin>
                   </TextField>
-                  <Button mnemonicParsing="false" onAction="#deleteTag" prefHeight="26.0" prefWidth="78.0" text="Delete tag" GridPane.rowIndex="5">
+                  <Button fx:id="deleteTagButton" mnemonicParsing="false" onAction="#deleteTag" prefHeight="26.0" prefWidth="78.0" text="Delete tag" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
@@ -84,7 +84,7 @@
                         <Insets left="218.0" />
                      </GridPane.margin>
                   </ColorPicker>
-                  <Button mnemonicParsing="false" onAction="#addTag" text="Add tag" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                  <Button fx:id="addTagButton" mnemonicParsing="false" onAction="#addTag" text="Add tag" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <GridPane.margin>
                         <Insets left="170.0" />
                      </GridPane.margin>

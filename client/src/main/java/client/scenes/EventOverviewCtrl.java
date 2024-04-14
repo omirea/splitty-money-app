@@ -51,6 +51,8 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     @FXML private TableColumn<Expense, Double> amountColAll, amountColFrom, amountColTo;
     @FXML private TableColumn<Expense, Button> editColAll, editColFrom, editColTo,
                                             deleteColAll, deleteColFrom, deleteColTo;
+    @FXML
+    private Button showStatisticsButton;
 
     private final StartCtrl start;
 
@@ -368,6 +370,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         whatForText = Main.getLocalizedString("whatFor");
         editText = Main.getLocalizedString("editExpense");
         deleteText = Main.getLocalizedString("deleteExpense");
+        showStatisticsButton.setText(Main.getLocalizedString("showStatistics"));
         setupColumns();
     }
 
@@ -380,11 +383,11 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         Event evTags=hasTagsForEvent();
         if(evTags==null) {
             List<TagsClass> tc = event.getTags();
-            TagsClass tag = new TagsClass("food", "8DFF33");
+            TagsClass tag = new TagsClass(Main.getLocalizedString("foodTag"), "8DFF33");
             tc.add(tag);
-            tag = new TagsClass("entrance fees", "33D7FF");
+            tag = new TagsClass(Main.getLocalizedString("entranceFees"), "33D7FF");
             tc.add(tag);
-            tag = new TagsClass("travel", "FF6527");
+            tag = new TagsClass(Main.getLocalizedString("travelTag"), "FF6527");
             tc.add(tag);
             event.setTags(tc);
             eventsWithTags.add(event);
