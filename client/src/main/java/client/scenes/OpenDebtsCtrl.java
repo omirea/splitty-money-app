@@ -334,7 +334,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         if(participant.getIBAN().isEmpty())
             return new Text(Main.getLocalizedString("noBankInformation"));
         String info=Main.getLocalizedString("bankInformationAvailable") + "\n" +
-                Main.getLocalizedString("accountHolder") + " " + participant.getAccountHolder()  + "\n" +
+                Main.getLocalizedString("accountHolder") + " " + participant.getAccountHolder()
+                + "\n" +
                 "IBAN: " + participant.getIBAN() + "\n";
         if(participant.getBIC().isEmpty())
             info=info + Main.getLocalizedString("BICUnknown");
