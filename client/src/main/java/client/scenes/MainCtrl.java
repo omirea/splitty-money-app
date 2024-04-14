@@ -18,6 +18,7 @@ package client.scenes;
 import client.Main;
 import client.nodes.ConnectionSetup;
 import client.nodes.ThemeService;
+import commons.Event;
 import com.google.inject.Inject;
 import commons.Expense;
 import commons.Participant;
@@ -45,17 +46,21 @@ public class MainCtrl {
     private ManageEventsAdminCtrl manageEventsAdminCtrl;
     private SettingsPageCtrl settingsPageCtrl;
     private ThemeService themeService;
+    private PieChartPage pieChartPage;
 
     private List<Scene> scenes;
 
     private Scene addEditParticipant, openDebts, invitation,
         expense, overview, manageParticipants, start,
-        logInAdmin, closedDebts, eventsAdmin, settingsPage;
+
+        logInAdmin, closedDebts, eventsAdmin, settingsPage, pieChartScene;
+
     private ConnectionSetup cs;
     @Inject
     public MainCtrl(ConnectionSetup cs) {
         this.cs = cs;
     }
+
 
     public void initialize(Stage primaryStage,
                            Pair<StartCtrl, Parent> start,
@@ -68,7 +73,8 @@ public class MainCtrl {
                            Pair<AdminLogInCtrl, Parent> logInAdminA,
                            Pair<ClosedDebtsCtrl, Parent> closedDebts,
                            Pair<ManageEventsAdminCtrl, Parent> eventsAdmin,
-                            Pair<SettingsPageCtrl, Parent> settingsPage) {
+                            Pair<SettingsPageCtrl, Parent> settingsPage,
+                           Pair<PieChartPage, Parent> pieChartScene) {
         this.primaryStage = primaryStage;
         this.anotherStage = new Stage();
         this.startCtrl = start.getKey();
@@ -94,6 +100,8 @@ public class MainCtrl {
         this.settingsPageCtrl = settingsPage.getKey();
         this.settingsPage=new Scene(settingsPage.getValue());
         this.themeService=new ThemeService();
+        this.pieChartPage=pieChartScene.getKey();
+        this.pieChartScene=new Scene(pieChartScene.getValue());
         Main.switchLocale("translations","en");
 
         initializeScenes();
@@ -163,6 +171,7 @@ public class MainCtrl {
     public void showAddExpense(String id) {
         primaryStage.setTitle("Splitty: Add/Edit Expense");
         addEditExpenseCtrl.setEvent(id);
+        addEditExpenseCtrl.setTags();
         primaryStage.setScene(expense);
         addEditExpenseCtrl.clearBoxes();
         addEditExpenseCtrl.addAllRelevantParticipants();
@@ -186,6 +195,7 @@ public class MainCtrl {
      */
     public void showEventOverview(String invitationId) {
         overviewCtrl.setEvent(invitationId);
+        overviewCtrl.addTags();
         primaryStage.setTitle("Splitty: Event overview");
         primaryStage.setScene(overview);
         overviewCtrl.addAllParticipants();
@@ -281,6 +291,8 @@ public class MainCtrl {
         scenes.add(manageParticipants);
         scenes.add(start);
         scenes.add(overview);
+        scenes.add(settingsPage);
+        scenes.add(pieChartScene);
     }
 
     /**
@@ -303,4 +315,18 @@ public class MainCtrl {
         return expense;
     }
 
+    public void showStatisticsPage(String invitationId) {
+        primaryStage.setTitle("Splitty: Statistics Page");
+        pieChartPage.setEvent(invitationId);
+        primaryStage.setScene(pieChartScene);
+    }
+
+    public void setEventWithTags(Event event){
+        addEditExpenseCtrl.setEventWithTags(event);
+        pieChartPage.setEventWithTags(event);
+    }
+
+    public void setEventWithTagsForEventOverview(Event event){
+        overviewCtrl.updateEventTags(event);
+    }
 }

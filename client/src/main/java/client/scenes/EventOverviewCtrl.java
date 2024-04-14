@@ -4,10 +4,7 @@ import client.Main;
 import client.nodes.ParticipantStringConverter;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
-import commons.Debt;
-import commons.Event;
-import commons.Expense;
-import commons.Participant;
+import commons.*;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -34,6 +31,10 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     List<Expense> expenses;
     List<Debt> debts;
 
+    List<Event> eventsWithTags;
+
+    List<TagsClass> tags;
+
     @FXML private Label participantsListText, eventTitleText;
     @FXML private ChoiceBox<Participant> participantsMenu;
     @FXML private Tab allTab, fromPersonTab, toPersonTab;
@@ -50,6 +51,8 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
     @FXML private TableColumn<Expense, Double> amountColAll, amountColFrom, amountColTo;
     @FXML private TableColumn<Expense, Button> editColAll, editColFrom, editColTo,
                                             deleteColAll, deleteColFrom, deleteColTo;
+    @FXML
+    private Button showStatisticsButton;
 
     private final StartCtrl start;
 
@@ -60,6 +63,7 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         this.start = start;
         expenses = new ArrayList<>();
         this.allParticipants= FXCollections.observableArrayList();
+        this.eventsWithTags=new ArrayList<>();
     }
 
     /**
@@ -366,8 +370,46 @@ public class EventOverviewCtrl implements Main.LanguageSwitch {
         whatForText = Main.getLocalizedString("whatFor");
         editText = Main.getLocalizedString("editExpense");
         deleteText = Main.getLocalizedString("deleteExpense");
+        showStatisticsButton.setText(Main.getLocalizedString("showStatistics"));
         setupColumns();
     }
 
+
+    public void showStatistics(){
+        mainCtrl.showStatisticsPage(event.getInvitationID());
+    }
+
+    public void addTags() {
+        Event evTags=hasTagsForEvent();
+        if(evTags==null) {
+            List<TagsClass> tc = event.getTags();
+            TagsClass tag = new TagsClass(Main.getLocalizedString("foodTag"), "8DFF33");
+            tc.add(tag);
+            tag = new TagsClass(Main.getLocalizedString("entranceFees"), "33D7FF");
+            tc.add(tag);
+            tag = new TagsClass(Main.getLocalizedString("travelTag"), "FF6527");
+            tc.add(tag);
+            event.setTags(tc);
+            eventsWithTags.add(event);
+            mainCtrl.setEventWithTags(event);
+            return;
+        }
+        mainCtrl.setEventWithTags(evTags);
+    }
+
+    public Event hasTagsForEvent(){
+        for(Event event1 : eventsWithTags){
+            if(Objects.equals(event1.getID(), event.getID())) {
+                return event1;
+            }
+        }
+        return null;
+    }
+
+    public void updateEventTags(Event eventWithTags){
+        Event event1=hasTagsForEvent();
+        event1.setTags(eventWithTags.getTags());
+        mainCtrl.setEventWithTags(event1);
+    }
 }
 

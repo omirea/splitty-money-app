@@ -1,14 +1,13 @@
 package commons;
 
 import jakarta.persistence.*;
-
 import java.util.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-public class Event {
+public class Event{
 
     /**
      * String with the name of the event
@@ -45,6 +44,13 @@ public class Event {
 
     @Transient
     private List<Debt> debts = new ArrayList<>();
+
+    /**
+     * List of tags of an event
+     */
+    @Transient
+    private List<TagsClass> tags=new ArrayList<>();
+
     /**
      * Constructor for an Event object
      * @param name String with name of the event
@@ -75,7 +81,6 @@ public class Event {
 
     public Event() {
     }
-
 
 
     public List<Expense> getExpenses() {
@@ -109,10 +114,10 @@ public class Event {
         Random random = new Random();
 
         return random.ints(leftLimit, rightLimit + 1)
-            .filter(i -> (i <= 57 || i >= 65))
-            .limit(targetStringLength)
-            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-            .toString();
+                .filter(i -> (i <= 57 || i >= 65))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
     }
 
     /**
@@ -187,7 +192,7 @@ public class Event {
         if (object == null || getClass() != object.getClass()) return false;
         Event event = (Event) object;
         return Objects.equals(name, event.name) &&
-            Objects.equals(invitationID, event.invitationID);
+                Objects.equals(invitationID, event.invitationID);
     }
 
     @Override
@@ -198,8 +203,25 @@ public class Event {
     @Override
     public String toString() {
         return "Event{" +
-            "name='" + name + '\'' +
-            ", invitationID='" + invitationID + '\'' +
-            '}';
+                "name='" + name + '\'' +
+                ", invitationID='" + invitationID + '\'' +
+                '}';
+    }
+
+    public List<TagsClass> getTags(){
+//        for(String s:tags)
+//            System.out.println(s);
+        return tags;
+    }
+
+    public void setTags(List<TagsClass> tg){
+        tags=tg;
+        for(TagsClass t : tags)
+            System.out.println(t.getName());
+    }
+
+    public void addTag(String tg, String hexCode){
+        TagsClass tag=new TagsClass(tg, hexCode);
+        tags.add(tag);
     }
 }

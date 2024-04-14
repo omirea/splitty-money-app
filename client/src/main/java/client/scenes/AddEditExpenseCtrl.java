@@ -4,15 +4,15 @@ import client.Main;
 import client.nodes.ParticipantStringConverter;
 import client.nodes.PersonAmount;
 import client.utils.ServerUtils;
-import commons.Debt;
-import commons.Event;
-import commons.Expense;
-import commons.Participant;
+import commons.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -20,24 +20,35 @@ import javafx.scene.input.KeyEvent;
 import com.google.inject.Inject;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.List;
+
 
 public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     private ObservableList<String> currencyList =
         FXCollections.observableArrayList("EUR");
     // Add expense
+
+    private ObservableList<String> tags=
+            FXCollections.observableArrayList();
     private ObservableList<Participant> participants;
     private ObservableList<PersonAmount> personAmounts;
     private MainCtrl mainCtrl;
     private final ServerUtils server;
 
     @FXML
+    private ColorPicker colorPicker;
+
+    @FXML
     private ChoiceBox<Participant> whoPaidField;
     @FXML
-    private TextField whatForField, howMuchField;
+    private TextField whatForField, howMuchField, tagField;
     @FXML
     private DatePicker whenField;
     @FXML
     private ChoiceBox<String> currencyField;
+
+    @FXML
+    private ChoiceBox<String> tagChoiceBox, deleteTagChoiceBox;
 
     @FXML
     private Label addExpenseText, whoPaidText, whatForText, howMuchText, whenText, howToSplitText;
@@ -55,7 +66,15 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     private TableColumn<PersonAmount, TextField> amountColumn;
     @FXML
     private TableView<PersonAmount> tableView;
-    Event event;
+
+    @FXML
+    private Button addTagButton;
+
+    @FXML
+    private Button deleteTagButton;
+    private Event event;
+
+    private Event eventWithTheTags;
     Expense expense;
 
     /**
@@ -116,6 +135,10 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                 }
             }
         });
+
+//       if(event!=null)
+//           tags.setAll(event.getTags());
+//       tagChoiceBox.setItems(tags);
 
     }
 
@@ -197,15 +220,18 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         Currency currency = Currency.getInstance(currencyField.getSelectionModel()
             .getSelectedItem());
         LocalDate date = whenField.getValue();
+        String type=tagChoiceBox.getSelectionModel().getSelectedItem();
 
         if (expense == null) {
-            expense = new Expense(event, whatFor, amount, null, date, currency);
+            expense = new Expense(event, whatFor, amount, type, date, currency);
             expense = server.createExpense(expense);
         } else {
             expense.setDateSent(date);
             expense.setAmount(amount);
             expense.setDescription(whatFor);
-            expense.setType(null);
+            //expense.setCurrency(currency);
+            expense.setType(type);
+
             expense.setEvent(event);
             expense = server.updateExpense(expense, expense.getId());
         }
@@ -322,6 +348,8 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         autoDivideButton.setText(Main.getLocalizedString("Auto-Divide"));
         cancelButton.setText(Main.getLocalizedString("Cancel"));
         addExpenseButton.setText(Main.getLocalizedString("addExpense"));
+        addTagButton.setText(Main.getLocalizedString("addTag"));
+        deleteTagButton.setText(Main.getLocalizedString("deleteTag"));
     }
 
     /**
@@ -329,7 +357,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
      * @param invitationId invitationid
      */
     public void setEvent(String invitationId) {
-        event = server.getEventByInvitationId(invitationId);
+        this.event = server.getEventByInvitationId(invitationId);
     }
 
     /**
@@ -381,6 +409,7 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
         whatForField.setText(e.getDescription());
         howMuchField.setText(e.getAmount().toString());
         whenField.setValue(e.getDateSent());
+        tagChoiceBox.setValue(e.getType());
         onlySomePeopleField.selectedProperty().setValue(true);
         loadDebts(debts);
 
@@ -398,5 +427,63 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             pa.getCheckBox().selectedProperty().setValue(true);
             tableView.getItems().add(pa);
         }
+    }
+
+    public void setTags(){
+        List<TagsClass> tc=eventWithTheTags.getTags();
+        tags.clear();
+        System.out.println("boofy is " + tc.size());
+        for(TagsClass tag : tc){
+            System.out.println(tag.getName());
+            tags.add(tag.getName());
+        }
+        tagChoiceBox.setItems(tags);
+        deleteTagChoiceBox.setItems(tags);
+    }
+
+    public void addTag(){
+        if(!tagField.getText().isEmpty()){
+            eventWithTheTags.addTag(tagField.getText(),
+                    colorPicker.getValue().toString().substring(2));
+            String color= colorPicker.getValue().toString().substring(2);
+            System.out.println(color);
+            tags.clear();
+            for(TagsClass tg : eventWithTheTags.getTags()){
+                tags.add(tg.getName());
+            }
+            //tags.add(tagField.getText());
+            mainCtrl.setEventWithTagsForEventOverview(eventWithTheTags);
+            tagField.clear();
+            Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle(Main.getLocalizedString("tagCreated"));
+            alert.setContentText(Main.getLocalizedString("tagSucc"));
+            alert.showAndWait();
+        }
+    }
+
+    public void deleteTag(){
+        if(!deleteTagChoiceBox.getSelectionModel().getSelectedItem().isEmpty()){
+            List<TagsClass> eventTags=eventWithTheTags.getTags();
+            for(TagsClass tc: eventTags){
+                if(tc.getName().equals(deleteTagChoiceBox.getSelectionModel().getSelectedItem()))
+                    eventTags.remove(tc);
+            }
+            eventWithTheTags.setTags(eventTags);
+            tags.clear();
+            for(TagsClass tg : eventWithTheTags.getTags()){
+                tags.add(tg.getName());
+            }
+            //tags.add(tagField.getText());
+            mainCtrl.setEventWithTagsForEventOverview(eventWithTheTags);
+            deleteTagChoiceBox.getSelectionModel().clearSelection();
+            Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle(Main.getLocalizedString("tagDeleted"));
+            alert.setContentText(Main.getLocalizedString("tagDel"));
+            alert.showAndWait();
+        }
+    }
+
+    public void setEventWithTags(Event eventWithTheTags) {
+        this.eventWithTheTags=eventWithTheTags;
     }
 }

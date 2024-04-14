@@ -39,6 +39,11 @@
                   </Label>
                   <Button fx:id="editTitleButton" mnemonicParsing="false" onAction="#onTitleEditClick" text="Edit" />
                   <Button fx:id="sendInvitesButton" mnemonicParsing="false" onAction="#onSendInvitesClick" text="Send Invites" />
+                  <Button fx:id="showStatisticsButton" mnemonicParsing="false" onAction="#showStatistics" text="Show Statistics">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="24.0" prefWidth="526.0" spacing="10.0">

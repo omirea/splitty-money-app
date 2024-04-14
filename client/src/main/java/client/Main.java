@@ -42,6 +42,9 @@ public class Main extends Application {
             "AddEditParticipant.fxml");
         var start = FXML.load(StartCtrl.class, "client", "scenes", "StartScreen.fxml");
 
+        var pieChartPage=FXML.load(PieChartPage.class, "client", "scenes",
+                "Statistics.fxml");
+
         var invitation = FXML.load(InvitationCtrl.class, "client", "scenes",
             "Invitation.fxml");
         var openDebts = FXML.load(OpenDebtsCtrl.class, "client", "scenes",
@@ -63,7 +66,7 @@ public class Main extends Application {
                 "SettingsPage.fxml");
         mainCtrl.initialize(stage, start, overview,
                 invitation, participant, expense, openDebts,
-            manageParticipants, logInAdmin, closedDebts, eventsAdmin, settingsPage);
+            manageParticipants, logInAdmin, closedDebts, eventsAdmin, settingsPage, pieChartPage);
         stage.setOnCloseRequest(e -> {
             eventsAdmin.getKey().stop();
         });
@@ -94,7 +97,8 @@ public class Main extends Application {
                 INJECTOR.getInstance(ManageParticipantsCtrl.class),
                 INJECTOR.getInstance(OpenDebtsCtrl.class),
                 INJECTOR.getInstance(StartCtrl.class),
-                INJECTOR.getInstance(SettingsPageCtrl.class));
+                INJECTOR.getInstance(SettingsPageCtrl.class),
+                INJECTOR.getInstance(PieChartPage.class));
         for(LanguageSwitch controller : controllers) {
             controller.LanguageSwitch();
         }

@@ -40,5 +40,6 @@ public class MyModule implements Module {
         binder.bind(ManageEventsAdminCtrl.class).in(Scopes.SINGLETON);
         binder.bind(SettingsPageCtrl.class).in(Scopes.SINGLETON);
         binder.bind(ServerUtils.class).in(Scopes.SINGLETON);
+        binder.bind(PieChartPage.class).in(Scopes.SINGLETON);
     }
 }
