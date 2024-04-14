@@ -1,6 +1,7 @@
 package client.scenes;
 
 import client.Main;
+import client.nodes.EmailSenderService;
 import client.nodes.SendEmailApplication;
 import client.utils.ServerUtils;
 import commons.Event;
@@ -14,16 +15,21 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.util.Duration;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 
 import javax.inject.Inject;
 
+
 public class InvitationCtrl implements Main.LanguageSwitch{
+
 
     private final ServerUtils server;
     private final MainCtrl mainCtrl;
 
-    private SendEmailApplication sendEmail;
+    private SendEmailApplication sendEmailApplication;
 
     Event event;
 
@@ -57,7 +63,6 @@ public class InvitationCtrl implements Main.LanguageSwitch{
     public InvitationCtrl(ServerUtils server, MainCtrl mainCtrl){
         this.server=server;
         this.mainCtrl=mainCtrl;
-        this.sendEmail=new SendEmailApplication();
     }
 
     public ServerUtils getServer() {return server;}
@@ -94,7 +99,8 @@ public class InvitationCtrl implements Main.LanguageSwitch{
             String[] args=new String[2];
             args[0]=e;
             args[1]=codeLabel.getText();
-            sendEmail.main(args);
+            sendEmailApplication=new SendEmailApplication();
+            sendEmailApplication.main(args);
         }
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
         if(counter==0){
