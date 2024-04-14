@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="314.0" prefWidth="511.0" stylesheets="@../../stylesheets/addEditParticipant.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddEditParticipantCtrl">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="314.0" prefWidth="511.0" stylesheets="@../../stylesheets/addEditParticipant.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.AddEditParticipantCtrl">
    <children>
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="10.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -70,8 +70,8 @@
                   <TextField id="bicTextField" fx:id="bicTextField" prefHeight="72.0" prefWidth="493.0" promptText="HBUKGB4B" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <HBox alignment="BOTTOM_RIGHT" prefHeight="39.0" prefWidth="430.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <children>
-                        <Button id="abortButton" fx:id="cancelButton" mnemonicParsing="false" onAction="#onClickDeleteAll" prefHeight="26.0" prefWidth="62.0" text="Cancel" />
-                        <Button id="okButton" fx:id="okButton" mnemonicParsing="false" onAction="#onClickOk" prefHeight="26.0" prefWidth="62.0" text="Ok">
+                        <Button id="abortButton" fx:id="cancelButton" mnemonicParsing="false" onAction="#onClickDeleteAll" prefHeight="26.0" text="Cancel" />
+                        <Button id="okButton" fx:id="okButton" mnemonicParsing="false" onAction="#onClickOk" prefHeight="26.0" text="Ok">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
