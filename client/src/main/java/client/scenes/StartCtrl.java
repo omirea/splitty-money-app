@@ -101,7 +101,14 @@ public class StartCtrl implements  Main.LanguageSwitch {
             return new SimpleObjectProperty<>(deleteEvent);
         });
         openColumn.setCellValueFactory(q -> {
-            Button toEvent = new Button(Main.getLocalizedString("Open"));
+            Button toEvent = new Button();
+            ImageView openPage = new ImageView();
+            openPage.setFitHeight(20);
+            openPage.setFitWidth(20);
+            Image open = new Image(Objects.requireNonNull
+                (getClass().getResourceAsStream("/icons/open.png")));
+            openPage.setImage(open);
+            toEvent.setGraphic(openPage);
             toEvent.setOnAction(event -> showEvent(q.getValue().getInvitationID()));
             return new SimpleObjectProperty<>(toEvent);
         });
