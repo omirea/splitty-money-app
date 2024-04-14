@@ -209,9 +209,9 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         for (Participant participant : editedParticipants) {
             server.updateParticipant(participant, participant.getId());
         }*/
-        for (Participant participant : deletedParticipants) {
-            server.deleteParticipant(participant.getId());
-        }
+//        for (Participant participant : deletedParticipants) {
+//            server.deleteParticipant(participant.getId());
+//        }
         addedParticipants = new ArrayList<>();
         editedParticipants = new ArrayList<>();
         deletedParticipants = new ArrayList<>();

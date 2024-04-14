@@ -1,12 +1,17 @@
 package server.api;
 
+import commons.Debt;
+import commons.Expense;
 import commons.Participant;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
+import server.database.DebtRepository;
+import server.database.ExpenseRepository;
 import server.database.ParticipantRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -14,9 +19,14 @@ import java.util.List;
 public class ParticipantController {
 
     private final ParticipantRepository db;
+    private final DebtRepository debtDB;
+    private final ExpenseRepository expenseDB;
 
-    public ParticipantController(ParticipantRepository db){
+    public ParticipantController(ParticipantRepository db, DebtRepository debtCtrl,
+                                 ExpenseRepository expenseDB){
         this.db=db;
+        this.debtDB = debtCtrl;
+        this.expenseDB = expenseDB;
     }
 
     @GetMapping(path = { "", "/" })
@@ -66,7 +76,31 @@ public class ParticipantController {
         if(!db.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
+
+        //delete the person
         db.deleteById(id);
+
+        //update expenses
+        List<Expense> expenses = expenseDB.findAll();
+        List<Debt> debts = debtDB.findAll();
+        for (Expense e : expenses) {
+            List<Debt> expDebts = debts.stream()
+                .filter(d -> d.getExpense().equals(e))
+                .toList();
+            System.out.println(expDebts);
+            Double total = expDebts.stream()
+                .mapToDouble(Debt::getAmount)
+                .sum();
+            if (e.getAmount() <= total) continue;
+            if (e.getAmount() > total) {
+                e.setAmount(total);
+                expenseDB.save(e);
+            }
+            if (total == 0) {
+                expenseDB.deleteById(e.getId());
+            }
+        }
+
         return ResponseEntity.noContent().build();
     }
 

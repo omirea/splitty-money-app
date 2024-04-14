@@ -19,10 +19,10 @@ public class Participant {
     @JoinColumn(name = "event_id")
     private Event event;
 
-    @OneToMany(mappedBy = "from")
+    @OneToMany(mappedBy = "from", cascade = CascadeType.REMOVE)
     private List<Debt> payDebts;
 
-    @OneToMany(mappedBy = "to")
+    @OneToMany(mappedBy = "to", cascade = CascadeType.REMOVE)
     private List<Debt> receiveDebts;
 
     private String name; // name of participant
@@ -194,7 +194,7 @@ public class Participant {
         return "Participant has " +
                 "name: '" + name + '\'' +
                 ", email: '" + email + '\'' +
-                ", account holder name: " + accountHolder + '\'' +
+                ", account holder name: '" + accountHolder + '\'' +
                 ", IBAN: '" + IBAN + '\'' +
                 ", BIC: '" + BIC + '\'' +
                 ';';
