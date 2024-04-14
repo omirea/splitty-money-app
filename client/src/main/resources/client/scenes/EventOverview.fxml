@@ -41,7 +41,7 @@
                   <Button fx:id="sendInvitesButton" mnemonicParsing="false" onAction="#onSendInvitesClick" text="Send Invites" />
                   <Button mnemonicParsing="false" onAction="#showStatistics" text="Show Statistics">
                      <HBox.margin>
-                        <Insets left="245.0" />
+                        <Insets />
                      </HBox.margin>
                   </Button>
                </children>

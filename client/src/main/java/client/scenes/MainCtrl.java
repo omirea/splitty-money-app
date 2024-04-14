@@ -270,6 +270,7 @@ public class MainCtrl {
         scenes.add(manageParticipants);
         scenes.add(start);
         scenes.add(overview);
+        scenes.add(settingsPage);
     }
 
     /**
