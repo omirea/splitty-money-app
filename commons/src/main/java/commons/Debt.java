@@ -16,7 +16,7 @@ public class Debt {
     @JoinColumn(name = "event_id")
     private Event event;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "expense_id")
     private Expense expense;
 
