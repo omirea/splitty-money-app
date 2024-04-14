@@ -15,7 +15,8 @@
  */
 package client.utils;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.inject.Inject;
 import commons.Debt;
 import commons.Event;
@@ -498,7 +499,15 @@ public class ServerUtils {
 
 		var client= new StandardWebSocketClient();
 		var stomp= new WebSocketStompClient(client);
-		stomp.setMessageConverter(new MappingJackson2MessageConverter());
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new JavaTimeModule());
+
+		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+		converter.setObjectMapper(objectMapper);
+
+		stomp.setMessageConverter(converter);
+		//stomp.setMessageConverter(new MappingJackson2MessageConverter());
 		try{
 			return stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
 
@@ -523,6 +532,6 @@ public class ServerUtils {
 	}
 
 	public void send(String dest, Object o){
-		session.send(dest ,o);
+        session.send(dest ,o);
 	}
 }
