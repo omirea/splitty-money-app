@@ -67,7 +67,7 @@ public class PieChartPage {
         pieChartGoofy.setClockwise(true);
 
         //Setting the length of the label line
-        pieChartGoofy.setLabelLineLength(50);
+        pieChartGoofy.setLabelLineLength(100);
 
         //Setting the labels of the pie chart visible
         pieChartGoofy.setLabelsVisible(true);
