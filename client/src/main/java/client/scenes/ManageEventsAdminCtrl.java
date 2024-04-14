@@ -28,7 +28,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
@@ -136,7 +136,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     private void throwWarning() {
         Alert alert=new Alert(Alert.AlertType.WARNING);
         alert.setTitle(Main.getLocalizedString("alertEventExistsTitle"));
-        alert.setTitle(Main.getLocalizedString("alertEventExistsContent"));
+        alert.setContentText(Main.getLocalizedString("alertEventExistsContent"));
         alert.setHeaderText(null);
         alert.showAndWait();
     }

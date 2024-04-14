@@ -163,6 +163,6 @@ public class ParticipantTest {
         Participant p=new Participant("Bob", "bob@gmail.com", "12345",
                 "Bob LastName","123");
         assertEquals(p.toString(), "Participant has name: 'Bob', email: 'bob@gmail.com', " +
-                "account holder name: 12345', IBAN: 'Bob LastName', BIC: '123';");
+                "account holder name: '12345', IBAN: 'Bob LastName', BIC: '123';");
     }
 }

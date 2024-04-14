@@ -17,6 +17,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -49,7 +51,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
 
     @FXML
-    private Button cancelButton, finishButton, addButton;
+    private Button finishButton, addButton;
 
     @Inject
     public ManageParticipantsCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -79,7 +81,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
                 @Override
                 public void handle(ActionEvent event) {
                     server.send("/app/remParticipants",q.getValue());
-                    deletedParticipants.add(q.getValue());
+                    //deletedParticipants.add(q.getValue());
                     deleteParticipantFromTable(q.getValue());
 
 
@@ -113,6 +115,10 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
             return row;
         });
+    }
+
+    public void setPreUpdatedParticipants() {
+        preUpdatedParticipants = server.getParticipantsByInvitationId(event.getInvitationID());
 
         server.registerForMessages("/topic/participants", p ->{
             Platform.runLater(() ->{
@@ -127,10 +133,6 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
                 refresh();
             });
         });
-    }
-
-    public void setPreUpdatedParticipants() {
-        preUpdatedParticipants = server.getParticipantsByInvitationId(event.getInvitationID());
     }
 
     public void addParticipantToBox(Participant participant) {
@@ -156,6 +158,11 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     private void deleteParticipantFromTable(Participant participant) {
 
         recentParticipants.getItems().remove(participant);
+        String oldName = event.getName();
+        event.setName("A");
+        event = server.updateEvent(event, event.getID());
+        event.setName(oldName);
+        event = server.updateEvent(event, event.getID());
     }
 
     public void refresh() {
@@ -164,27 +171,27 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         recentParticipants.setItems(data);
     }
 
-    /**
-     * method to cancel action
-     */
-    public void onCancelClick() {
-        System.out.println("Going back to event");
-        if (hasConfirmed()) {
-            for(Participant participant : addedParticipants) {
-                server.deleteParticipant(participant.getId());
-            }
-            for(Participant participant : preUpdatedParticipants) {
-                server.createParticipant(participant);
-            }
-            for (Participant participant : deletedParticipants) {
-                server.createParticipant(participant);
-            }
-            mainCtrl.showEventOverview(event.getInvitationID());
-            addedParticipants = new ArrayList<>();
-            editedParticipants = new ArrayList<>();
-            deletedParticipants = new ArrayList<>();
-        }
-    }
+//    /**
+//     * method to cancel action
+//     */
+//    public void onCancelClick() {
+//        System.out.println("Going back to event");
+//        if (hasConfirmed()) {
+//            for(Participant participant : addedParticipants) {
+//                server.deleteParticipant(participant.getId());
+//            }
+//            for(Participant participant : preUpdatedParticipants) {
+//                server.createParticipant(participant);
+//            }
+//            for (Participant participant : deletedParticipants) {
+//                server.createParticipant(participant);
+//            }
+//            mainCtrl.showEventOverview(event.getInvitationID());
+//            addedParticipants = new ArrayList<>();
+//            editedParticipants = new ArrayList<>();
+//            deletedParticipants = new ArrayList<>();
+//        }
+//    }
 
     private static boolean hasConfirmed() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -207,9 +214,9 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         for (Participant participant : editedParticipants) {
             server.updateParticipant(participant, participant.getId());
         }*/
-        for (Participant participant : deletedParticipants) {
-            server.deleteParticipant(participant.getId());
-        }
+//        for (Participant participant : deletedParticipants) {
+//            server.deleteParticipant(participant.getId());
+//        }
         addedParticipants = new ArrayList<>();
         editedParticipants = new ArrayList<>();
         deletedParticipants = new ArrayList<>();
@@ -280,9 +287,14 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     @Override
     public void LanguageSwitch() {
         manageParticipantsLabel.setText(Main.getLocalizedString("manageParticipants"));
-        cancelButton.setText(Main.getLocalizedString("Cancel"));
-        finishButton.setText(Main.getLocalizedString("Finish"));
+//        cancelButton.setText(Main.getLocalizedString("Cancel"));
         addButton.setText(Main.getLocalizedString("Add"));
+    }
+
+    public void keyPressed(KeyEvent e) {
+        if (Objects.requireNonNull(e.getCode()) == KeyCode.ENTER) {
+            onFinishClick();
+        }
     }
 
     public ServerUtils getServer() {

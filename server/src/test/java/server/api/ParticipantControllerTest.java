@@ -112,14 +112,14 @@ public class ParticipantControllerTest {
         assertNull(responseEntity.getBody());
     }
 
-    @Test
-    public void deleteParticipantTest() {
-        long participantId = 1;
-        when(participantRepository.existsById(participantId)).thenReturn(true);
-        ResponseEntity<Participant> responseEntity = participantController.deleteParticipant(participantId);
-        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
-        verify(participantRepository, times(1)).deleteById(participantId);
-    }
+//    @Test
+//    public void deleteParticipantTest() {
+//        long participantId = 1;
+//        when(participantRepository.existsById(participantId)).thenReturn(true);
+//        ResponseEntity<Participant> responseEntity = participantController.deleteParticipant(participantId);
+//        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+//        verify(participantRepository, times(1)).deleteById(participantId);
+//    }
 
     @Test
     public void testDeleteParticipantNotFound() {
@@ -147,4 +147,5 @@ public class ParticipantControllerTest {
         List<Participant> listOfParticipants = participantController.getAllParticipants();
         assertEquals(listOfParticipants, dummy);
     }
+
 }

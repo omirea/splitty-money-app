@@ -31,10 +31,6 @@
             </TableView>
             <HBox alignment="CENTER_RIGHT" spacing="10.0">
                <children>
-                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancelClick" text="Cancel">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin></Button>
                   <Button fx:id="finishButton" mnemonicParsing="false" onAction="#onFinishClick" text="Finish" />
                   <Button fx:id="addButton" mnemonicParsing="false" onAction="#showAddParticipant" text="Add" />
                </children>

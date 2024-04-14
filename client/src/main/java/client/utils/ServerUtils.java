@@ -15,7 +15,9 @@
  */
 package client.utils;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.google.inject.Inject;
 import commons.Debt;
 import commons.Event;
 import commons.Expense;
@@ -44,18 +46,27 @@ import java.util.function.Consumer;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 public class ServerUtils {
-	private static String server;
+	private String server;
 
-	private StompSession session=connect("ws://localhost:8080/websocket");
+	private StompSession session;
 
+
+	@Inject
+	public ServerUtils(String server) {
+		this.server = server;
+	}
 
 	/**
 	 * sets the URL for the server
 	 * @param server URL of the server
 	 */
-	public void setServer(String server) {
-		ServerUtils.server = server;
-		session=connect("ws://localhost:8080/websocket");
+	public boolean trySetServer(String server) {
+		boolean b = testConnection(server);
+		if (b) {
+			this.server = server;
+			session = connect();
+		}
+		return b;
 	}
 
 	/**
@@ -66,6 +77,21 @@ public class ServerUtils {
 	public boolean testConnection(String server) {
 		try {
             return ClientBuilder.newClient(new ClientConfig())
+				.target(server).path("test/")
+				.request(APPLICATION_JSON)
+				.accept(APPLICATION_JSON)
+				.get().readEntity(Boolean.class);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	/**
+	 * tests the connection using the inputted URL
+	 * @return true if connected properly, false otherwise.
+	 */
+	public boolean testConnection() {
+		try {
+			return ClientBuilder.newClient(new ClientConfig())
 				.target(server).path("test/")
 				.request(APPLICATION_JSON)
 				.accept(APPLICATION_JSON)
@@ -462,37 +488,82 @@ public class ServerUtils {
 	//String wsURL= "ws" + server.substring(4) + "websocket";
 	//private StompSession session=connect();
 
-	private StompSession connect(String url){
-		if(server!=null) {
-			url = "ws" + server.substring(4) + "websocket";
+	private StompSession connect(){
+		boolean hasSlash = server.substring(server.length()-1).equals("/");
+
+		String url = "ws" + server.substring(4);
+		if (!hasSlash) {
+			url += "/";
 		}
+		url += "websocket";
+
 		var client= new StandardWebSocketClient();
 		var stomp= new WebSocketStompClient(client);
-		stomp.setMessageConverter(new MappingJackson2MessageConverter());
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.registerModule(new JavaTimeModule());
+
+		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+		converter.setObjectMapper(objectMapper);
+
+		stomp.setMessageConverter(converter);
 		try{
 			return stomp.connect(url, new StompSessionHandlerAdapter() {}).get();
 
-		}catch (InterruptedException | ExecutionException e){
-			Thread.currentThread().interrupt();
+		}catch (InterruptedException | ExecutionException | IllegalStateException e) {
+			e.printStackTrace();
+			// Implement reconnect logic here
+			reconnect();
 		}
-		throw new IllegalStateException();
+		throw new IllegalStateException("Failed to connect to WebSocket server");
+	}
+
+	private void reconnect() {
+		int maxReconnectAttempts = 5;
+		int reconnectAttempts = 0;
+		while (reconnectAttempts < maxReconnectAttempts) {
+			try {
+				Thread.sleep(1000);
+				// Wait for 5 seconds before attempting reconnection
+				reconnectAttempts++;
+				session = connect(); // Attempt to reconnect
+				if (session != null) {
+					// Reconnection successful, exit the loop
+					System.out.println("Reconnected to WebSocket server");
+					return;
+				}
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
+		}
+		// If maximum reconnect attempts reached, handle it appropriately
+		System.out.println("Failed to reconnect to " +
+				"WebSocket server after maximum attempts");
 	}
 
 	public void registerForMessages(String dest, Consumer<Participant> consumer){
-		session.subscribe(dest, new StompFrameHandler() {
-			@Override
-			public Type getPayloadType(StompHeaders headers) {
-				return Participant.class;
-			}
+		try {
+			session.subscribe(dest, new StompFrameHandler() {
+				@Override
+				public Type getPayloadType(StompHeaders headers) {
+					return Participant.class;
+				}
 
-			@Override
-			public void handleFrame(StompHeaders headers, Object payload) {
-				consumer.accept((Participant) payload);
-			}
-		});
+				@Override
+				public void handleFrame(StompHeaders headers, Object payload) {
+					consumer.accept((Participant) payload);
+				}
+			});
+		}catch (IllegalAccessError | IllegalStateException e)
+		{
+			reconnect();
+			e.printStackTrace();
+			//Thread.currentThread().interrupt();
+		}
+		//throw new IllegalStateException();
 	}
 
 	public void send(String dest, Object o){
-		session.send(dest ,o);
+        session.send(dest ,o);
 	}
 }
