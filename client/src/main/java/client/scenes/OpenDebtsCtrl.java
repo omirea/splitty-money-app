@@ -108,7 +108,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
         homeView.setFitHeight(25);
         homeView.setFitWidth(22);
         Image setting=new Image(Objects.requireNonNull
-                (getClass().getResourceAsStream("/icons/home.png")));
+                (getClass().getResourceAsStream("/icons/left-arrow.png")));
         homeView.setImage(setting);
         homeButton.setGraphic(homeView);
     }
@@ -186,7 +186,7 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
 
     @Override
     public void LanguageSwitch() {
-        homeButton.setText(Main.getLocalizedString("Home"));
+        homeButton.setText(Main.getLocalizedString("Back"));
         toLabel.setText(Main.getLocalizedString("toPerson"));
         fromLabel.setText(Main.getLocalizedString("fromPerson"));
         searchButton.setText(Main.getLocalizedString("Search"));
@@ -282,9 +282,10 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
             Text to=new Text(debt.getTo().getName());
 
             makeTextBold(from, howMuch, currency, to);
-            textFlow.getChildren().addAll(from, new Text(Main.getLocalizedString("needsToPay")),
+            textFlow.getChildren().addAll(from, new Text(" " +
+                            Main.getLocalizedString("needsToPay")+ " "),
                     howMuch, new Text(" "), currency,
-                    new Text(Main.getLocalizedString("toPerson")), to);
+                    new Text(" " + Main.getLocalizedString("toPerson") + " "), to);
             TreeItem<TextFlow> treeItemRoot=new TreeItem<>(textFlow);
             TextFlow detailsFlow=new TextFlow();
             Text details=getExtraDetails(debt);

@@ -8,91 +8,89 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../stylesheets/debts.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.OpenDebtsCtrl">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../stylesheets/debts.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.scenes.OpenDebtsCtrl">
    <children>
       <VBox layoutX="11.2" layoutY="72.0" prefHeight="200.0" prefWidth="579.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
                <children>
                   <Button fx:id="homeButton" mnemonicParsing="false" onAction="#goBackToEvent" text="Home">
                      <graphic>
                         <ImageView fx:id="homeView" fitHeight="22.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                      </graphic>
                   </Button>
+                  <Button fx:id="seeClosedDebtsButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#seeClosedDebts" text="See closed debts" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
                </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Label fx:id="yourCurrentDebtsLabel" prefHeight="39.0" prefWidth="167.0" text="Open Debts">
-                     <font>
-                        <Font name="System Bold" size="27.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="seeClosedDebtsButton" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#seeClosedDebts" text="See closed debts">
-                     <HBox.margin>
-                        <Insets left="285.0" top="5.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            </GridPane>
+            <Label fx:id="yourCurrentDebtsLabel" text="Open Debts">
+               <font>
+                  <Font name="System Bold" size="27.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
                   <Label fx:id="fromLabel" text="From ">
                      <font>
                         <Font name="Calibri" size="15.0" />
                      </font></Label>
-                  <ChoiceBox fx:id="fromParticipantCB" prefHeight="20.0" prefWidth="146.0">
+                  <ChoiceBox fx:id="fromParticipantCB">
                      <HBox.margin>
-                        <Insets left="10.0" />
+                        <Insets />
                      </HBox.margin>
                   </ChoiceBox>
                   <Label fx:id="toLabel" text="To">
                      <HBox.margin>
-                        <Insets left="25.0" />
+                        <Insets />
                      </HBox.margin>
                      <font>
                         <Font name="Calibri" size="15.0" />
                      </font>
                   </Label>
-                  <ChoiceBox fx:id="toParticipantCB" prefWidth="150.0">
+                  <ChoiceBox fx:id="toParticipantCB">
                      <HBox.margin>
-                        <Insets left="10.0" />
+                        <Insets />
                      </HBox.margin>
                   </ChoiceBox>
                   <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchByParticipant" text="Search">
                      <HBox.margin>
-                        <Insets left="15.0" />
+                        <Insets />
                      </HBox.margin>
                   </Button>
                </children>
             </HBox>
-            <VBox prefHeight="308.0" prefWidth="558.0">
+            <TableView fx:id="tableView" prefHeight="198.0" prefWidth="250.0">
+              <columns>
+                  <TableColumn fx:id="checkBoxCol" maxWidth="35.0" minWidth="35.0" prefWidth="35.0" sortable="false" />
+                <TableColumn fx:id="informationCol" editable="false" maxWidth="1.7976931348623157E308" prefWidth="325.0" text="Information" />
+                <TableColumn fx:id="emailCol" editable="false" maxWidth="100.0" minWidth="50.0" prefWidth="50.0" sortable="false" text="Email" />
+                  <TableColumn fx:id="IBANCol" editable="false" maxWidth="80.0" minWidth="40.0" prefWidth="40.0" sortable="false" text="IBAN" />
+                  <TableColumn fx:id="receivedCol" editable="false" maxWidth="200.0" minWidth="100.0" prefWidth="115.0" resizable="false" sortable="false" />
+              </columns>
+            </TableView>
+            <HBox alignment="CENTER_RIGHT" spacing="10.0">
                <children>
-                  <TableView fx:id="tableView" prefHeight="198.0" prefWidth="250.0">
-                    <columns>
-                        <TableColumn fx:id="checkBoxCol" prefWidth="27" />
-                      <TableColumn fx:id="informationCol" prefWidth="367.2000255584717" text="Information" />
-                      <TableColumn fx:id="emailCol" prefWidth="36.79998779296875" text="Email" />
-                        <TableColumn fx:id="IBANCol" prefWidth="40.0" text="IBAN" />
-                        <TableColumn fx:id="receivedCol" maxWidth="85.0" prefWidth="88.7999267578125" resizable="false" />
-                    </columns>
-                  </TableView>
-               </children>
-            </VBox>
-            <HBox prefHeight="42.0" prefWidth="558.0">
-               <children>
-                  <Button fx:id="paySelectedDebtsButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#closeSelectedDebts" prefHeight="27.0" prefWidth="119.0" text="Pay selected debts">
+                  <Button fx:id="paySelectedDebtsButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#closeSelectedDebts" text="Pay selected debts">
                      <HBox.margin>
-                        <Insets left="338.0" />
+                        <Insets />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="payAllDebtsButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#closeAllDebts" prefHeight="26.0" prefWidth="87.0" text="Pay all debts">
+                  <Button fx:id="payAllDebtsButton" alignment="BOTTOM_RIGHT" mnemonicParsing="false" onAction="#closeAllDebts" text="Pay all debts">
                      <HBox.margin>
-                        <Insets left="18.0" />
+                        <Insets />
                      </HBox.margin>
                   </Button>
                </children>

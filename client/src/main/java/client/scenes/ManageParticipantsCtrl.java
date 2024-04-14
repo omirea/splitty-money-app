@@ -17,6 +17,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -282,6 +284,15 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         manageParticipantsLabel.setText(Main.getLocalizedString("manageParticipants"));
 //        cancelButton.setText(Main.getLocalizedString("Cancel"));
         addButton.setText(Main.getLocalizedString("Add"));
+    }
+
+    public void keyPressed(KeyEvent e) {
+        if (Objects.requireNonNull(e.getCode()) == KeyCode.ENTER) {
+            onFinishClick();
+        }
+        if(Objects.requireNonNull(e.getCode()) == KeyCode.ESCAPE){
+            onCancelClick();
+        }
     }
 
     public ServerUtils getServer() {

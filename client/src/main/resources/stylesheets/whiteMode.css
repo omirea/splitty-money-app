@@ -11,7 +11,8 @@
 
 .table-view .label, .choice-box .label, .label,
 #lightModeButton .label, #darkModeButton .label,
-#englishButton .label, #dutchButton .label, #turkishButton .label{
+#englishButton .label, #dutchButton .label, #turkishButton .label,
+#downloadButton .label {
     -fx-text-fill: black;
 }
 
@@ -49,5 +50,13 @@
 
 .menu-button .label{
     -fx-text-fill: white;
+
+}
+
+
+.table-row-cell{
+    -fx-background-color: #ffffff;
+    background-color: #f6f6f6;
+    -fx-text-background-color: #000000;
 
 }

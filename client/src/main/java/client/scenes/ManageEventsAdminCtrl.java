@@ -136,7 +136,7 @@ public class ManageEventsAdminCtrl implements Initializable, Main.LanguageSwitch
     private void throwWarning() {
         Alert alert=new Alert(Alert.AlertType.WARNING);
         alert.setTitle(Main.getLocalizedString("alertEventExistsTitle"));
-        alert.setTitle(Main.getLocalizedString("alertEventExistsContent"));
+        alert.setContentText(Main.getLocalizedString("alertEventExistsContent"));
         alert.setHeaderText(null);
         alert.showAndWait();
     }

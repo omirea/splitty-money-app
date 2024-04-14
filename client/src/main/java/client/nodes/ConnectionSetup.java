@@ -1,5 +1,6 @@
 package client.nodes;
 
+import client.Main;
 import client.utils.ServerUtils;
 import com.google.inject.Inject;
 import javafx.scene.control.Alert;
@@ -87,7 +88,8 @@ public class ConnectionSetup {
         boolean done = false;
         while (!done) {
             TextInputDialog tid = new TextInputDialog(prompt);
-            tid.setHeaderText("Enter the server you would like to connect to:");
+
+            tid.setHeaderText(Main.getLocalizedString("serverConnect"));
             Optional<String> result = tid.showAndWait();
             if (result.isPresent()){
                 String res = result.get();

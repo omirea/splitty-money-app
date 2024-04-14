@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import com.google.inject.Inject;
 import java.util.Objects;
@@ -48,6 +50,15 @@ public class AdminLogInCtrl implements Main.LanguageSwitch {
                 (getClass().getResourceAsStream("/icons/home.png")));
         homeView.setImage(setting);
         homeButton.setGraphic(homeView);
+    }
+
+    public void enterKeyPressed(KeyEvent e) {
+        if (Objects.requireNonNull(e.getCode()) == KeyCode.ENTER) {
+            onClickLogIn();
+        }
+        if(Objects.requireNonNull(e.getCode()) == KeyCode.ESCAPE){
+            onClickHome();
+        }
     }
 
     /**
@@ -98,7 +109,7 @@ public class AdminLogInCtrl implements Main.LanguageSwitch {
         } else {
             Alert alertPassword = new Alert(Alert.AlertType.WARNING);
             alertPassword.setTitle(Main.getLocalizedString("alertValidatePasswordTitle"));
-            alertPassword.setTitle(Main.getLocalizedString("alertValidatePasswordContent"));
+            alertPassword.setContentText(Main.getLocalizedString("alertValidatePasswordContent"));
             alertPassword.setHeaderText(null);
             alertPassword.showAndWait();
             return false;
