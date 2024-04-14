@@ -30,7 +30,6 @@ public class SendEmailApplication {
 
     @EventListener(ApplicationReadyEvent.class)
     public void sendEmail() throws MessagingException {
-        //System.out.println(args[0] + args[1]);
         String subject = "Splitty Invite Code ";
         emailSenderService.sendEmail(to, subject, body);
         System.out.println("mail sent");

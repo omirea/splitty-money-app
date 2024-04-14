@@ -21,7 +21,8 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
 import javax.inject.Inject;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class InvitationCtrl implements Main.LanguageSwitch{
 
@@ -95,26 +96,53 @@ public class InvitationCtrl implements Main.LanguageSwitch{
         String[] email =emailTextField.getText().split("\n");
         int counter=0;
         for(String e: email){
-            counter++;
-            String[] args=new String[2];
-            args[0]=e;
-            args[1]=codeLabel.getText();
-            sendEmailApplication=new SendEmailApplication();
-            sendEmailApplication.main(args);
-        }
-        Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-        if(counter==0){
-            alert.setTitle(Main.getLocalizedString("alertNoEmailsTitle"));
-            alert.setContentText(Main.getLocalizedString("alertNoEmailsContent"));
-            alert.showAndWait();
-            return;
-        }
-        alert.setTitle(Main.getLocalizedString("alertSentEmailTitle"));
-        if(counter==1)
-            alert.setContentText(Main.getLocalizedString("alertSentEmailContent"));
+            if(validateEmail(e)) {
+                counter++;
+                String[] args = new String[2];
+                args[0] = e;
+                args[1] = codeLabel.getText();
+                sendEmailApplication = new SendEmailApplication();
+                sendEmailApplication.main(args);
+                Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+                if(counter==0){
+                    alert.setTitle(Main.getLocalizedString("alertNoEmailsTitle"));
+                    alert.setContentText(Main.getLocalizedString("alertNoEmailsContent"));
+                    alert.showAndWait();
+                    return;
+                }
+                alert.setTitle(Main.getLocalizedString("alertSentEmailTitle"));
+                if(counter==1)
+                    alert.setContentText(Main.getLocalizedString("alertSentEmailContent"));
 
-        alert.showAndWait();
-        emailTextField.clear();
+                alert.showAndWait();
+                emailTextField.clear();
+            }
+        }
+    }
+
+    /**
+     * method to check if the email input is valid
+     * @return true or false if the email is valid
+     */
+    public boolean validateEmail(String email){
+        String regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\." +
+                "[0-9]{1,3}\\.[0-9]{1,3}\\])" +
+                "|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        Pattern p= Pattern.compile(regex);
+        Matcher m= p.matcher(email.trim());
+        if(email.equals("")) {
+            return true;
+        }
+        if(m.find() && m.group().equals(email.trim())){
+            return true;
+        }else{
+            Alert alert=new Alert(Alert.AlertType.WARNING);
+            alert.setTitle(Main.getLocalizedString("alertValidateEmailTitle"));
+            alert.setContentText(Main.getLocalizedString("alertValidateEmailContent"));
+            alert.setHeaderText(null);
+            alert.showAndWait();
+            return false;
+        }
     }
 
     public void setEvent(String id) {
