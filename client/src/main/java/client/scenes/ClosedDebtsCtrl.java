@@ -101,7 +101,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
         homeView.setFitHeight(25);
         homeView.setFitWidth(22);
         Image setting = new Image(Objects.requireNonNull
-                (getClass().getResourceAsStream("/icons/home.png")));
+                (getClass().getResourceAsStream("/icons/left-arrow.png")));
         homeView.setImage(setting);
         homeButton.setGraphic(homeView);
     }
@@ -390,7 +390,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
 
     @Override
     public void LanguageSwitch() {
-        homeButton.setText(Main.getLocalizedString("Home"));
+        homeButton.setText(Main.getLocalizedString("Back"));
         closedDebtsLabel.setText(Main.getLocalizedString("closedDebts"));
         seeOpenDebtsButton.setText(Main.getLocalizedString("seeOpenDebts"));
         toLabel.setText(Main.getLocalizedString("toPerson"));
