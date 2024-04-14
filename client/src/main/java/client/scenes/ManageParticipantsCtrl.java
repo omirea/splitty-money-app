@@ -290,9 +290,6 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         if (Objects.requireNonNull(e.getCode()) == KeyCode.ENTER) {
             onFinishClick();
         }
-        if(Objects.requireNonNull(e.getCode()) == KeyCode.ESCAPE){
-            onCancelClick();
-        }
     }
 
     public ServerUtils getServer() {
