@@ -147,4 +147,5 @@ public class ParticipantControllerTest {
         List<Participant> listOfParticipants = participantController.getAllParticipants();
         assertEquals(listOfParticipants, dummy);
     }
+
 }
