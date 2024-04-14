@@ -28,7 +28,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 import java.io.*;
 import java.net.URL;
 import java.util.*;

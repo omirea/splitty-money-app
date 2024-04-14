@@ -15,12 +15,12 @@ import javafx.scene.image.ImageView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
-import javax.inject.Inject;
 import javax.swing.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import com.google.inject.Inject;
 import java.util.Objects;
 
 

@@ -51,7 +51,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
 
     @FXML
-    private Button cancelButton, finishButton, addButton;
+    private Button finishButton, addButton;
 
     @Inject
     public ManageParticipantsCtrl(ServerUtils server, MainCtrl mainCtrl) {
@@ -115,6 +115,10 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
 
             return row;
         });
+    }
+
+    public void setPreUpdatedParticipants() {
+        preUpdatedParticipants = server.getParticipantsByInvitationId(event.getInvitationID());
 
         server.registerForMessages("/topic/participants", p ->{
             Platform.runLater(() ->{
@@ -129,10 +133,6 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
                 refresh();
             });
         });
-    }
-
-    public void setPreUpdatedParticipants() {
-        preUpdatedParticipants = server.getParticipantsByInvitationId(event.getInvitationID());
     }
 
     public void addParticipantToBox(Participant participant) {
@@ -166,27 +166,27 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
         recentParticipants.setItems(data);
     }
 
-    /**
-     * method to cancel action
-     */
-    public void onCancelClick() {
-        System.out.println("Going back to event");
-        if (hasConfirmed()) {
-            for(Participant participant : addedParticipants) {
-                server.deleteParticipant(participant.getId());
-            }
-            for(Participant participant : preUpdatedParticipants) {
-                server.createParticipant(participant);
-            }
-            for (Participant participant : deletedParticipants) {
-                server.createParticipant(participant);
-            }
-            mainCtrl.showEventOverview(event.getInvitationID());
-            addedParticipants = new ArrayList<>();
-            editedParticipants = new ArrayList<>();
-            deletedParticipants = new ArrayList<>();
-        }
-    }
+//    /**
+//     * method to cancel action
+//     */
+//    public void onCancelClick() {
+//        System.out.println("Going back to event");
+//        if (hasConfirmed()) {
+//            for(Participant participant : addedParticipants) {
+//                server.deleteParticipant(participant.getId());
+//            }
+//            for(Participant participant : preUpdatedParticipants) {
+//                server.createParticipant(participant);
+//            }
+//            for (Participant participant : deletedParticipants) {
+//                server.createParticipant(participant);
+//            }
+//            mainCtrl.showEventOverview(event.getInvitationID());
+//            addedParticipants = new ArrayList<>();
+//            editedParticipants = new ArrayList<>();
+//            deletedParticipants = new ArrayList<>();
+//        }
+//    }
 
     private static boolean hasConfirmed() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -282,17 +282,13 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     @Override
     public void LanguageSwitch() {
         manageParticipantsLabel.setText(Main.getLocalizedString("manageParticipants"));
-        cancelButton.setText(Main.getLocalizedString("Cancel"));
-        finishButton.setText(Main.getLocalizedString("Finish"));
+//        cancelButton.setText(Main.getLocalizedString("Cancel"));
         addButton.setText(Main.getLocalizedString("Add"));
     }
 
     public void keyPressed(KeyEvent e) {
         if (Objects.requireNonNull(e.getCode()) == KeyCode.ENTER) {
             onFinishClick();
-        }
-        if(Objects.requireNonNull(e.getCode()) == KeyCode.ESCAPE){
-            onCancelClick();
         }
     }
 
