@@ -3,6 +3,7 @@
 Hey! Welcome to Splitty. This is how to run our project: 
 - Delete any existing databases (h2-database.mv.db files)
 - Run the project from gradle. First gradle.bootrun and then gradle.run
+- The first time you run gradle.run, you will have to fill in a server url. An example is http://localhost:8080/
 
 Some extra information about this app: 
 - Shortcuts for the key 'Enter' are available on most pages

@@ -81,7 +81,7 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
                 @Override
                 public void handle(ActionEvent event) {
                     server.send("/app/remParticipants",q.getValue());
-                    deletedParticipants.add(q.getValue());
+                    //deletedParticipants.add(q.getValue());
                     deleteParticipantFromTable(q.getValue());
 
 
@@ -158,6 +158,11 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     private void deleteParticipantFromTable(Participant participant) {
 
         recentParticipants.getItems().remove(participant);
+        String oldName = event.getName();
+        event.setName("A");
+        event = server.updateEvent(event, event.getID());
+        event.setName(oldName);
+        event = server.updateEvent(event, event.getID());
     }
 
     public void refresh() {
