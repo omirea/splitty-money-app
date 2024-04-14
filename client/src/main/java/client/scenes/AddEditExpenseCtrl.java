@@ -23,7 +23,7 @@ import java.util.*;
 
 public class AddEditExpenseCtrl implements Main.LanguageSwitch {
     private ObservableList<String> currencyList =
-        FXCollections.observableArrayList("EUR", "USD", "GBP");
+        FXCollections.observableArrayList("EUR");
     // Add expense
     private ObservableList<Participant> participants;
     private ObservableList<PersonAmount> personAmounts;
@@ -128,7 +128,6 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
      */
     @FXML
     public void onAddClick() {
-
         if (whatForField.getText() != null && whenField.getValue() != null
             && howMuchField.getText() != null && (allPeopleField.getText() != null
             || onlySomePeopleField.getText() != null)) {
@@ -143,9 +142,10 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
                     sum += Double.parseDouble(pa.getTextField().getText());
                 }
             }
-            if (sum > total)
+            if (sum > total && onlySomePeopleField.isSelected())
                 sumIsLarger();
             else {
+                autoDivideMethod();
                 Expense expense1 = createExpense();
                 expense = null;
                 mainCtrl.showEventOverview(event.getInvitationID());
@@ -157,7 +157,6 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             alert.setHeaderText(null);
             alert.showAndWait();
         }
-
     }
 
     /**
@@ -199,7 +198,6 @@ public class AddEditExpenseCtrl implements Main.LanguageSwitch {
             expense.setDateSent(date);
             expense.setAmount(amount);
             expense.setDescription(whatFor);
-//            expense.setCurrency(currency);
             expense.setType(null);
             expense.setEvent(event);
             expense = server.updateExpense(expense, expense.getId());
