@@ -1,6 +1,6 @@
 package client.nodes;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;

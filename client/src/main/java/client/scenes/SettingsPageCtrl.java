@@ -12,7 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 import java.util.Objects;
 
 

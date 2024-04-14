@@ -10,7 +10,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import javax.inject.Inject;
+import com.google.inject.Inject;
 import java.util.Objects;
 
 public class AdminLogInCtrl implements Main.LanguageSwitch {

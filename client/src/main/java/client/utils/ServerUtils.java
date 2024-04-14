@@ -49,11 +49,16 @@ public class ServerUtils {
 
 	private StompSession session;
 
+
+	@Inject
+	public ServerUtils(String server) {
+		this.server = server;
+	}
+
 	/**
 	 * sets the URL for the server
 	 * @param server URL of the server
 	 */
-	@Inject
 	public boolean trySetServer(String server) {
 		boolean b = testConnection(server);
 		System.out.println("connection: " + b);
