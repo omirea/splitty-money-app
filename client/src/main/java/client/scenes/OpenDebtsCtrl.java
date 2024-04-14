@@ -137,6 +137,11 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
                 server.updateDebt(debt, debt.getId());
             }
             addDebtsToList();
+            String oldName = event.getName();
+            event.setName("A");
+            event = server.updateEvent(event, event.getID());
+            event.setName(oldName);
+            event = server.updateEvent(event, event.getID());
         }
     }
 
@@ -181,6 +186,11 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
                 }
             }
             addDebtsToList();
+            String oldName = event.getName();
+            event.setName("A");
+            event = server.updateEvent(event, event.getID());
+            event.setName(oldName);
+            event = server.updateEvent(event, event.getID());
         }
     }
 
@@ -313,6 +323,11 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
                     }
                 }
                 addDebtsToList();
+                String oldName = event.getName();
+                event.setName("A");
+                event = server.updateEvent(event, event.getID());
+                event.setName(oldName);
+                event = server.updateEvent(event, event.getID());
             });
             closeDebtButton.setAlignment(Pos.CENTER);
 
@@ -332,7 +347,8 @@ public class OpenDebtsCtrl implements Main.LanguageSwitch {
     private Text getExtraDetails(Debt debt) {
         Participant participant=debt.getTo();
         if(participant.getIBAN().isEmpty())
-            return new Text(Main.getLocalizedString("noBankInformation"));
+            return new Text(Main.getLocalizedString("noBankInformation")
+                    + ' ' + participant.getName());
         String info=Main.getLocalizedString("bankInformationAvailable") + "\n" +
                 Main.getLocalizedString("accountHolder") + " " + participant.getAccountHolder()
                 + "\n" +

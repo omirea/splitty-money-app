@@ -158,6 +158,11 @@ public class ManageParticipantsCtrl implements Main.LanguageSwitch {
     private void deleteParticipantFromTable(Participant participant) {
 
         recentParticipants.getItems().remove(participant);
+        String oldName = event.getName();
+        event.setName("A");
+        event = server.updateEvent(event, event.getID());
+        event.setName(oldName);
+        event = server.updateEvent(event, event.getID());
     }
 
     public void refresh() {

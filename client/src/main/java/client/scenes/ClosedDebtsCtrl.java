@@ -196,7 +196,7 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
             textFlow.getChildren().addAll(from, new Text(" " +
                             Main.getLocalizedString("needsToPay") + " "),
                     howMuch, new Text(" "), currency,
-                    new Text(Main.getLocalizedString("toPerson")), to);
+                    new Text(" " + Main.getLocalizedString("toPerson") + " "), to);
             TreeItem<TextFlow> treeItemRoot=new TreeItem<>(textFlow);
             TextFlow detailsFlow=new TextFlow();
             Text details=getExtraDetails(debt);
@@ -225,6 +225,11 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
                     }
                 }
                 addDebtsToList();
+                String oldName = event.getName();
+                event.setName("A");
+                event = server.updateEvent(event, event.getID());
+                event.setName(oldName);
+                event = server.updateEvent(event, event.getID());
             });
             //create debt
             DebtsTable newDebt=new DebtsTable(new CheckBox(), treeView, viewEmailButton,
@@ -339,6 +344,11 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
                 server.updateDebt(debt, debt.getId());
             }
             addDebtsToList();
+            String oldName = event.getName();
+            event.setName("A");
+            event = server.updateEvent(event, event.getID());
+            event.setName(oldName);
+            event = server.updateEvent(event, event.getID());
         }
     }
 
@@ -365,6 +375,11 @@ public class ClosedDebtsCtrl implements Main.LanguageSwitch {
                 }
             }
             addDebtsToList();
+            String oldName = event.getName();
+            event.setName("A");
+            event = server.updateEvent(event, event.getID());
+            event.setName(oldName);
+            event = server.updateEvent(event, event.getID());
         }
     }
 
