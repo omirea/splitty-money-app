@@ -21,6 +21,7 @@ import commons.Expense;
 import commons.Participant;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -230,10 +231,18 @@ public class MainCtrl {
      * method to show the Settings page
      */
     public void showSettingsPage() {
-        Stage anotherStage=new Stage();
-        anotherStage.setTitle("Splitty: Settings Page");
-        anotherStage.setScene(settingsPage);
-        anotherStage.show();
+        if(anotherStage.isShowing() && anotherStage != null){
+            anotherStage.toFront();
+        } else {
+            anotherStage=new Stage();
+            anotherStage.setTitle("Splitty: Settings Page");
+            anotherStage.setScene(settingsPage);
+            anotherStage.initOwner(primaryStage);
+            anotherStage.show();
+        }
+        if(anotherStage.getOwner() == null){
+            anotherStage.close();
+        }
     }
 
     /**
