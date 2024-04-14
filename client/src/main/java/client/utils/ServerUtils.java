@@ -528,7 +528,8 @@ public class ServerUtils {
 		int reconnectAttempts = 0;
 		while (reconnectAttempts < maxReconnectAttempts) {
 			try {
-				Thread.sleep(1000); // Wait for 5 seconds before attempting reconnection
+				Thread.sleep(1000);
+				// Wait for 5 seconds before attempting reconnection
 				reconnectAttempts++;
 				session = connect(); // Attempt to reconnect
 				if (session != null) {
@@ -541,7 +542,8 @@ public class ServerUtils {
 			}
 		}
 		// If maximum reconnect attempts reached, handle it appropriately
-		System.out.println("Failed to reconnect to WebSocket server after maximum attempts");
+		System.out.println("Failed to reconnect to " +
+				"WebSocket server after maximum attempts");
 	}
 
 	public void registerForMessages(String dest, Consumer<Participant> consumer){
