@@ -16,6 +16,8 @@
 package client.utils;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import commons.Debt;
 import commons.Event;
@@ -522,7 +524,15 @@ public class ServerUtils {
 		});
 	}
 
+	private ObjectMapper om = new ObjectMapper();
+
 	public void send(String dest, Object o){
-		session.send(dest ,o);
+		try {
+			String j = om.writeValueAsString(o);
+			session.send(dest ,j);
+		} catch (JsonProcessingException e) {
+			System.out.println("json");
+		}
+//        session.send(dest ,o);
 	}
 }
